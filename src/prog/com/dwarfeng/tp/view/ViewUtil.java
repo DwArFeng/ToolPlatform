@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import javax.swing.JOptionPane;
 
-import com.dwarfeng.tp.model.setting.MutilangObverser;
+import com.dwarfeng.tp.model.cfg.MutilangObverser;
 import com.dwarfeng.tp.view.gui.MutilangAper;
 
 /**

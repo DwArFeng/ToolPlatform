@@ -6,7 +6,7 @@ package com.dwarfeng.tp.model.io;
  * @author  DwArFeng
  * @since 1.8
  */
-public interface ToolPlatformLogger {
+public interface ProgramLogger {
 
 	/**
 	 * 调用记录站点的trace方法。

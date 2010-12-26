@@ -57,4 +57,6 @@ public class ProgramAttributes {
 	
 	public final String LOGGER_FAIL_MESSAGE_5 = "Logger无法正确生成。";
 	
+	public final String MISSING_STRING = "!文本域丢失";
+	
 }

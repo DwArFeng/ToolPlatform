@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.model.setting;
+package com.dwarfeng.tp.model.cfg;
 
 /**
  * 程序启动时需要首先加载的配置。

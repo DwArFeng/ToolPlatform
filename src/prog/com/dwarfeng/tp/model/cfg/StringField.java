@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.model.setting;
+package com.dwarfeng.tp.model.cfg;
 
 /**
  * ³ÌÐòµÄ×Ö·û´®Óò¡£

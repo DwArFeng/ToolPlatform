@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.model.setting;
+package com.dwarfeng.tp.model.cfg;
 
 import com.dwarfeng.dutil.develop.cfg.ConfigChecker;
 

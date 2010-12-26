@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<info key="logger-cfg" path="attributes/logger/logger-cfg.xml" default="/com/dwarfeng/tp/resource/defaultres/logger-cfg.xml"/>
+</root>

@@ -4,8 +4,8 @@ import java.io.File;
 import java.net.URL;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
-import com.dwarfeng.tp.model.init.InitProcessor;
-import com.dwarfeng.tp.model.io.ToolPlatformLogger;
+import com.dwarfeng.tp.model.init.InitFactory;
+import com.dwarfeng.tp.model.io.ProgramLogger;
 import com.dwarfeng.tp.view.ViewUtil;
 
 /**
@@ -59,27 +59,25 @@ public final class ToolPlatform {
 	 * 生成一个默认的工具平台实例。
 	 */
 	public ToolPlatform() {
-		this(ATTRIBUTES.LOGGER_PATH, false);
+		//this(ATTRIBUTES.LOGGER_PATH, false);
+		
 	}
 	
-	/**
-	 * 生成一个具有指定 TODO
-	 * @param loggerPath
-	 * @param forceOverride
-	 */
-	public ToolPlatform(URL loggerPath, boolean forceOverride){
-		InitProcessor initProcessor = new InitProcessor();
-		
-		ToolPlatformLogger logger = null;
-		
-		try {
-			logger = initProcessor.getToolPlatformLoggerGenerator().genToolPlatformLogger(loggerPath, forceOverride);
-		} catch (LoadFailedException e) {
-			ViewUtil.showEmergentMessage(ATTRIBUTES.LOGGER_FAIL_TITLE, e.getMessage());
-			System.exit(1);
-		}
-		
-		logger.fatal("test", new Exception("Fatal"));
-	}
+//	/**
+//	 * 生成一个具有指定 TODO
+//	 * @param loggerPath
+//	 * @param forceOverride
+//	 */
+//	public ToolPlatform(URL loggerPath, boolean forceOverride){
+//		ProgramLogger logger = null;
+//		
+//		try {
+//			logger = InitFactory.newProgramLogger(loggerPath, forceOverride);
+//		} catch (LoadFailedException e) {
+//			ViewUtil.showEmergentMessage(ATTRIBUTES.LOGGER_FAIL_TITLE, e.getMessage());
+//			System.exit(1);
+//		}
+//		
+//	}
 	
 }

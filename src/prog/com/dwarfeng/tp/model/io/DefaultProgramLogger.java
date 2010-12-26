@@ -10,18 +10,18 @@ import org.apache.logging.log4j.Logger;
  * @author  DwArFeng
  * @since 1.8
  */
-public final class DefaultToolPlatformLogger implements ToolPlatformLogger{
+public final class DefaultProgramLogger implements ProgramLogger{
 
 	private final Collection<? extends Logger> loggers;
 	
-	public DefaultToolPlatformLogger(Collection<? extends Logger> loggers) {
+	public DefaultProgramLogger(Collection<? extends Logger> loggers) {
 		Objects.requireNonNull(loggers, "入口参数 loggers 不能为 null。");
 		this.loggers = loggers;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.model.io.ToolPlatformLogger#trace(java.lang.String)
+	 * @see com.dwarfeng.tp.model.io.ProgramLogger#trace(java.lang.String)
 	 */
 	@Override
 	public void trace(String message) {
@@ -32,7 +32,7 @@ public final class DefaultToolPlatformLogger implements ToolPlatformLogger{
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.model.io.ToolPlatformLogger#debug(java.lang.String)
+	 * @see com.dwarfeng.tp.model.io.ProgramLogger#debug(java.lang.String)
 	 */
 	@Override
 	public void debug(String message) {
@@ -43,7 +43,7 @@ public final class DefaultToolPlatformLogger implements ToolPlatformLogger{
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.model.io.ToolPlatformLogger#info(java.lang.String)
+	 * @see com.dwarfeng.tp.model.io.ProgramLogger#info(java.lang.String)
 	 */
 	@Override
 	public void info(String message) {
@@ -54,7 +54,7 @@ public final class DefaultToolPlatformLogger implements ToolPlatformLogger{
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.model.io.ToolPlatformLogger#warn(java.lang.String)
+	 * @see com.dwarfeng.tp.model.io.ProgramLogger#warn(java.lang.String)
 	 */
 	@Override
 	public void warn(String message) {
@@ -65,7 +65,7 @@ public final class DefaultToolPlatformLogger implements ToolPlatformLogger{
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.model.io.ToolPlatformLogger#warn(java.lang.String, java.lang.Throwable)
+	 * @see com.dwarfeng.tp.model.io.ProgramLogger#warn(java.lang.String, java.lang.Throwable)
 	 */
 	@Override
 	public void warn(String message, Throwable t) {
@@ -76,7 +76,7 @@ public final class DefaultToolPlatformLogger implements ToolPlatformLogger{
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.model.io.ToolPlatformLogger#error(java.lang.String, java.lang.Throwable)
+	 * @see com.dwarfeng.tp.model.io.ProgramLogger#error(java.lang.String, java.lang.Throwable)
 	 */
 	@Override
 	public void error(String message, Throwable t) {
@@ -87,7 +87,7 @@ public final class DefaultToolPlatformLogger implements ToolPlatformLogger{
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.model.io.ToolPlatformLogger#fatal(java.lang.String, java.lang.Throwable)
+	 * @see com.dwarfeng.tp.model.io.ProgramLogger#fatal(java.lang.String, java.lang.Throwable)
 	 */
 	@Override
 	public void fatal(String message, Throwable t) {
