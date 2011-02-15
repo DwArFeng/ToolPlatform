@@ -17,8 +17,8 @@ import javax.swing.ListCellRenderer;
 
 import com.dwarfeng.dutil.basic.gui.swing.MuaListModel;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
+import com.dwarfeng.tp.core.model.eum.ImageSize;
 import com.dwarfeng.tp.core.model.obv.ToolInfoAdapter;
 import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;

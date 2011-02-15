@@ -16,11 +16,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import com.dwarfeng.tp.core.model.cfg.ImageKey;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cm.ToolHistoryModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
+import com.dwarfeng.tp.core.model.eum.ImageKey;
+import com.dwarfeng.tp.core.model.eum.ImageSize;
+import com.dwarfeng.tp.core.model.eum.LabelStringKey;
 import com.dwarfeng.tp.core.model.obv.ToolHistoryAdapter;
 import com.dwarfeng.tp.core.model.obv.ToolHistoryObverser;
 import com.dwarfeng.tp.core.model.obv.ToolInfoAdapter;
@@ -29,6 +29,7 @@ import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.model.struct.ToolHistory;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
+import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.DateUtil;
 import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
@@ -201,7 +202,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	 * ÐÂÊµÀý¡£
 	 */
 	public JToolHistoryPanel() {
-		this(ToolPlatformUtil.newDefaultLabelMutilang(), null, null);
+		this(Constants.getDefaultLabelMutilang(), null, null);
 	}
 	
 	/**

@@ -7,8 +7,9 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
-import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
+import com.dwarfeng.tp.core.model.eum.LoggerStringKey;
+import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
@@ -34,7 +35,7 @@ public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public DefaultExitedRunningToolTaker(ToolRuntimeModel toolRuntimeModel) {
-		this(toolRuntimeModel, ToolPlatformUtil.newDefaultLogger(), ToolPlatformUtil.newDefaultLoggerMutilang(), true);
+		this(toolRuntimeModel, ToolPlatformUtil.newDefaultLogger(), Constants.getDefaultLoggerMutilang(), true);
 	}
 
 	/**
@@ -240,7 +241,7 @@ public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
 						try{
 							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
 						}catch (Exception e1) {
-							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
+							Mutilang tempMutilang = Constants.getDefaultLoggerMutilang();
 							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_4.getName());
 							logger.warn(str, e1);
 							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());

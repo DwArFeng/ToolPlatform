@@ -34,15 +34,16 @@ import com.dwarfeng.dutil.basic.gui.swing.JMenuItemAction;
 import com.dwarfeng.dutil.basic.gui.swing.MuaListModel;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
-import com.dwarfeng.tp.core.model.cfg.ImageKey;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
+import com.dwarfeng.tp.core.model.eum.ImageKey;
+import com.dwarfeng.tp.core.model.eum.ImageSize;
+import com.dwarfeng.tp.core.model.eum.LabelStringKey;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeAdapter;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
+import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.DateUtil;
 import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
@@ -218,7 +219,7 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	 * ÐÂÊµÀý¡£
 	 */
 	public JToolRuntimePanel() {
-		this(ToolPlatformUtil.newDefaultLabelMutilang(), null);
+		this(Constants.getDefaultLabelMutilang(), null);
 	}
 	
 	/**

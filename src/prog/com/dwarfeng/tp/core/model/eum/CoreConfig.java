@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.core.model.cfg;
+package com.dwarfeng.tp.core.model.eum;
 
 import com.dwarfeng.dutil.develop.cfg.ConfigChecker;
 import com.dwarfeng.dutil.develop.cfg.ConfigEntry;

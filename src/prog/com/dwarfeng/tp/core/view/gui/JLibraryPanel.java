@@ -12,9 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 
 import com.dwarfeng.dutil.basic.gui.swing.MuaListModel;
-import com.dwarfeng.tp.core.model.cfg.ImageKey;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cm.LibraryModel;
+import com.dwarfeng.tp.core.model.eum.ImageKey;
+import com.dwarfeng.tp.core.model.eum.ImageSize;
 import com.dwarfeng.tp.core.model.obv.LibraryAdapter;
 import com.dwarfeng.tp.core.model.obv.LibraryObverser;
 import com.dwarfeng.tp.core.model.struct.Library;

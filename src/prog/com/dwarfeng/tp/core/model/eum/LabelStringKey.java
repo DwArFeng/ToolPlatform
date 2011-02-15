@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.core.model.cfg;
+package com.dwarfeng.tp.core.model.eum;
 
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.struct.DefaultName;
@@ -32,6 +32,11 @@ public enum LabelStringKey implements Name{
 	JToolHistoryPanel_2(new DefaultName("JToolHistoryPanel.2")),
 	JToolHistoryPanel_3(new DefaultName("JToolHistoryPanel.3")),
 	JToolHistoryPanel_4(new DefaultName("JToolHistoryPanel.4")),
+	
+	IconSizeProcessor_1(new DefaultName("IconSizeProcessor.1")),
+	IconSizeProcessor_2(new DefaultName("IconSizeProcessor.2")),
+	IconSizeProcessor_3(new DefaultName("IconSizeProcessor.3")),
+	IconSizeProcessor_4(new DefaultName("IconSizeProcessor.4")),
 
 	;
 

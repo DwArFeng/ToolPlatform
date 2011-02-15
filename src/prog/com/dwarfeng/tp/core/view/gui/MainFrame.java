@@ -33,22 +33,21 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
-import com.dwarfeng.tp.core.model.cfg.ImageKey;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 import com.dwarfeng.tp.core.model.cm.LibraryModel;
 import com.dwarfeng.tp.core.model.cm.ToolHistoryModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
+import com.dwarfeng.tp.core.model.eum.ImageKey;
+import com.dwarfeng.tp.core.model.eum.ImageSize;
+import com.dwarfeng.tp.core.model.eum.LabelStringKey;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
+import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ImageUtil;
-import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
 import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
 import com.dwarfeng.tp.core.view.obv.ToolRuntimePanelObverser;
@@ -142,7 +141,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 * ÐÂÊµÀý¡£
 	 */
 	public MainFrame() {
-		this(ToolPlatformUtil.newDefaultLabelMutilang(), null, null, null, null, null);
+		this(Constants.getDefaultLabelMutilang(), null, null, null, null, null);
 	}
 	
 	/**

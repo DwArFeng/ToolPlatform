@@ -2,7 +2,7 @@ package com.dwarfeng.tp.core.model.cm;
 
 import java.util.Locale;
 
-import com.dwarfeng.tp.core.model.cfg.CoreConfig;
+import com.dwarfeng.tp.core.model.eum.CoreConfig;
 import com.dwarfeng.tp.core.util.LocaleUtil;
 
 /**

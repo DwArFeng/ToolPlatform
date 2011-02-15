@@ -1,6 +1,6 @@
 package com.dwarfeng.tp.core.model.cm;
 
-import com.dwarfeng.tp.core.model.cfg.ModalConfig;
+import com.dwarfeng.tp.core.model.eum.ModalConfig;
 
 /**
  * 默认模态配置模型。

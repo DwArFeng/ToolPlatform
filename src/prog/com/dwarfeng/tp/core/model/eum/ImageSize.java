@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.core.model.cfg;
+package com.dwarfeng.tp.core.model.eum;
 
 /**
  * 工具的图片类型。

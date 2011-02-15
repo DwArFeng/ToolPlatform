@@ -35,10 +35,10 @@ local.properties
 
 /doc/
 /release/
-/lib-src/
+/lib_src/
 /logs/
 /configuration/
 /attributes/
 /photoshop/
 /tools/
-/tool_libs/
+/tool_lib/

@@ -37,11 +37,6 @@ import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigLoader;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigSaver;
-import com.dwarfeng.tp.core.model.cfg.BlockKey;
-import com.dwarfeng.tp.core.model.cfg.CoreConfig;
-import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
-import com.dwarfeng.tp.core.model.cfg.ModalConfig;
-import com.dwarfeng.tp.core.model.cfg.ResourceKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 import com.dwarfeng.tp.core.model.cm.BlockModel;
 import com.dwarfeng.tp.core.model.cm.CoreConfigModel;
@@ -64,6 +59,11 @@ import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.cm.ToolHistoryModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
+import com.dwarfeng.tp.core.model.eum.BlockKey;
+import com.dwarfeng.tp.core.model.eum.CoreConfig;
+import com.dwarfeng.tp.core.model.eum.LoggerStringKey;
+import com.dwarfeng.tp.core.model.eum.ModalConfig;
+import com.dwarfeng.tp.core.model.eum.ResourceKey;
 import com.dwarfeng.tp.core.model.io.XmlBlockLoader;
 import com.dwarfeng.tp.core.model.io.XmlLibraryLoader;
 import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
@@ -97,13 +97,13 @@ import com.dwarfeng.tp.core.model.struct.UnsafeToolHistory;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolInfo;
 import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
+import com.dwarfeng.tp.core.view.ctrl.AbstractMainFrameController;
+import com.dwarfeng.tp.core.view.ctrl.AbstractSplashScreenController;
+import com.dwarfeng.tp.core.view.ctrl.MainFrameController;
+import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
 import com.dwarfeng.tp.core.view.gui.MainFrame;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
-import com.dwarfeng.tp.core.view.struct.AbstractMainFrameController;
-import com.dwarfeng.tp.core.view.struct.AbstractSplashScreenController;
-import com.dwarfeng.tp.core.view.struct.MainFrameController;
-import com.dwarfeng.tp.core.view.struct.SplashScreenController;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -285,19 +285,19 @@ public final class ToolPlatform {
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.view.struct.AbstractGuiController#subNewInstance()
+			 * @see com.dwarfeng.tp.core.view.ctrl.AbstractGuiController#newInstanceImpl()
 			 */
 			@Override
-			protected SplashScreen subNewInstance() {
+			protected SplashScreen newInstanceImpl() {
 				return new SplashScreen();
 			}
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.view.struct.AbstractGuiController#subDispose(java.awt.Component)
+			 * @see com.dwarfeng.tp.core.view.ctrl.AbstractGuiController#disposeImpl(java.awt.Component)
 			 */
 			@Override
-			protected void subDispose(SplashScreen component) {
+			protected void disposeImpl(SplashScreen component) {
 				component.dispose();
 			}
 			
@@ -306,10 +306,10 @@ public final class ToolPlatform {
 			
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.view.struct.AbstractGuiController#subNewInstance()
+			 * @see com.dwarfeng.tp.core.view.ctrl.AbstractGuiController#newInstanceImpl()
 			 */
 			@Override
-			protected MainFrame subNewInstance() {
+			protected MainFrame newInstanceImpl() {
 				MainFrame mainFrame = new MainFrame(
 						labelMutilangModel.getMutilang(),
 						backgroundModel,
@@ -324,16 +324,15 @@ public final class ToolPlatform {
 			
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.view.struct.AbstractGuiController#subDispose(java.awt.Component)
+			 * @see com.dwarfeng.tp.core.view.ctrl.AbstractGuiController#disposeImpl(java.awt.Component)
 			 */
 			@Override
-			protected void subDispose(MainFrame component) {
+			protected void disposeImpl(MainFrame component) {
 				component.removeObverser(mainFrameObverser);
 				component.dispose();
 			}
 		};
-		
-		
+		//GUI obversers
 		private final MainFrameObverser mainFrameObverser = new MainFrameObverser() {
 			
 			/*
@@ -653,18 +652,18 @@ public final class ToolPlatform {
 			protected void process() {
 				manager.getBlockModel().getBlock().block(blockKey);
 				try{
-					subProcess();
+					processImpl();
 				}finally {
 					manager.getBlockModel().getBlock().unblock(blockKey);
 				}
 			}
 			
 			/**
-			 * 子处理方法。
+			 * 处理方法的实现算法。
 			 * <p> 该方法是主要的处理方法。
 			 * <p> 该方法不允许抛出任何异常。
 			 */
-			protected abstract void subProcess();
+			protected abstract void processImpl();
 			
 			/**
 			 * 返回指定的记录器键所对应的字符串。
@@ -748,10 +747,10 @@ public final class ToolPlatform {
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#processImpl()
 			 */
 			@Override
-			protected void subProcess() {
+			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.NOT_START){
 						throw new IllegalStateException("程序已经启动或已经结束");
@@ -1158,10 +1157,10 @@ public final class ToolPlatform {
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#processImpl()
 			 */
 			@Override
-			protected void subProcess() {
+			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
 						throw new IllegalStateException("程序还未启动或已经结束");
@@ -1207,10 +1206,10 @@ public final class ToolPlatform {
 			
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#processImpl()
 			 */
 			@Override
-			protected void subProcess() {
+			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
 						throw new IllegalStateException("程序还未启动或已经结束");
@@ -1285,10 +1284,10 @@ public final class ToolPlatform {
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#processImpl()
 			 */
 			@Override
-			protected void subProcess() {
+			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
 						throw new IllegalStateException("程序还未启动或已经结束");
@@ -1376,10 +1375,10 @@ public final class ToolPlatform {
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#processImpl()
 			 */
 			@Override
-			protected void subProcess() {
+			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
 						throw new IllegalStateException("程序还未启动或已经结束");
@@ -1474,10 +1473,10 @@ public final class ToolPlatform {
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#processImpl()
 			 */
 			@Override
-			protected void subProcess() {
+			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
 						throw new IllegalStateException("程序还未启动或已经结束");
@@ -1517,10 +1516,10 @@ public final class ToolPlatform {
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#subProcess()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#processImpl()
 			 */
 			@Override
-			protected void subProcess() {
+			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
 						throw new IllegalStateException("程序还未启动或已经结束");
@@ -1558,10 +1557,10 @@ public final class ToolPlatform {
 		
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#subProcess()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#processImpl()
 			 */
 			@Override
-			protected void subProcess() {
+			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
 						throw new IllegalStateException("程序还未启动或已经结束");

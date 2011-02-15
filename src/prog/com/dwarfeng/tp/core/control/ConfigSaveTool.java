@@ -8,8 +8,8 @@ import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
 import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigSaver;
-import com.dwarfeng.tp.core.model.cfg.CoreConfig;
-import com.dwarfeng.tp.core.model.cfg.ModalConfig;
+import com.dwarfeng.tp.core.model.eum.CoreConfig;
+import com.dwarfeng.tp.core.model.eum.ModalConfig;
 
 /**
  * ”√”⁄≤‚ ‘

@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.core.view.struct;
+package com.dwarfeng.tp.core.view.ctrl;
 
 import java.util.Objects;
 

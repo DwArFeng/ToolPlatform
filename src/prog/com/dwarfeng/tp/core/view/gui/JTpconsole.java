@@ -14,13 +14,13 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import com.dwarfeng.dutil.basic.gui.swing.JMenuItemAction;
-import com.dwarfeng.tp.core.model.cfg.ImageKey;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
+import com.dwarfeng.tp.core.model.eum.ImageKey;
+import com.dwarfeng.tp.core.model.eum.ImageSize;
+import com.dwarfeng.tp.core.model.eum.LabelStringKey;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
+import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ImageUtil;
-import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 final class JTpconsole extends JExconsole implements MutilangSupported{
 	
@@ -32,7 +32,7 @@ final class JTpconsole extends JExconsole implements MutilangSupported{
 	private Mutilang mutilang;
 	
 	public JTpconsole() {
-		this(ToolPlatformUtil.newDefaultLabelMutilang());
+		this(Constants.getDefaultLabelMutilang());
 	}
 	
 	public JTpconsole(Mutilang mutilang){

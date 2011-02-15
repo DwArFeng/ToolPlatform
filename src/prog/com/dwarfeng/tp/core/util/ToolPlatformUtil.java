@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
+
 import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +14,6 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.struct.Logger;
-import com.dwarfeng.tp.core.model.struct.Mutilang;
-import com.dwarfeng.tp.core.model.struct.ProcessException;
 
 /**
  * 关于工具平台的工厂类。
@@ -55,24 +54,6 @@ public final class ToolPlatformUtil {
 	}
 	
 	/**
-	 * 获取默认的记录器多语言接口。
-	 * <p> 使用程序中内置的简体中文。
-	 * @return 新的默认记录器多语言接口。
-	 */
-	public final static Mutilang newDefaultLoggerMutilang(){
-		return new DefaultLoggerMutilang();
-	}
-	
-	/**
-	 * 获取默认的标签多语言接口。
-	 * <p> 使用程序中内置的简体中文。
-	 * @return 新的默认标签多语言接口。
-	 */
-	public final static Mutilang newDefaultLabelMutilang(){
-		return new DefaultLabelMutilang();
-	}
-	
-	/**
 	 * 向事件队列中添加一个指定的可运行对象。
 	 * @param runnable 指定的可运行对象。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
@@ -106,64 +87,10 @@ public final class ToolPlatformUtil {
 	}
 	
 	
-	
 
-	/**
-	 * 默认记录器多语言接口。
-	 * <p> 使用程序中内置的简体中文。
-	 * @author  DwArFeng
-	 * @since 0.0.0-alpha
-	 */
-	private static final class DefaultLoggerMutilang implements Mutilang {
-		
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(java.lang.String)
-		 */
-		@Override
-		public String getString(String key) {
-			try {
-				if(! Constants.getDefaultLoggerMutilangInfo().getMutilangMap().containsKey(key)){
-					throw new IllegalArgumentException("此多语言接口不支持该键");
-				}
-				return Constants.getDefaultLoggerMutilangInfo().getMutilangMap().getOrDefault(key, Constants.getDefaultMissingString());
-			} catch (ProcessException ignore) {
-				//不会抛出异常
-				return Constants.getDefaultMissingString();
-			}
-		}
-		
-	}
-	
-	/**
-	 * 默认记录器多语言接口。
-	 * <p> 使用程序中内置的简体中文。
-	 * @author DwArFeng
-	 * @since 0.0.0-alpha
-	 */
-	private static final class DefaultLabelMutilang implements Mutilang{
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(java.lang.String)
-		 */
-		@Override
-		public String getString(String key) {
-			try {
-				if(! Constants.getDefaultLabelMutilangInfo().getMutilangMap().containsKey(key)){
-					throw new IllegalArgumentException("此多语言接口不支持该键");
-				}
-				return Constants.getDefaultLabelMutilangInfo().getMutilangMap().getOrDefault(key, Constants.getDefaultMissingString());
-			} catch (ProcessException ignore) {
-				//不会抛出异常
-				return Constants.getDefaultMissingString();
-			}
-		}
-		
-	}
 	
 	
-
+	
 	/**
 	 * 默认记录器接口。
 	 * <p> 该记录器不进行任何操作。

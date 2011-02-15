@@ -9,8 +9,8 @@ import javax.imageio.ImageIO;
 
 import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.tp.core.control.ToolPlatform;
-import com.dwarfeng.tp.core.model.cfg.ImageKey;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
+import com.dwarfeng.tp.core.model.eum.ImageKey;
+import com.dwarfeng.tp.core.model.eum.ImageSize;
 
 @SuppressWarnings("unused")
 public final class ImageUtil {

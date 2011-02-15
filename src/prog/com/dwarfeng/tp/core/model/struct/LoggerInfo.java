@@ -1,17 +1,12 @@
 package com.dwarfeng.tp.core.model.struct;
 
+import com.dwarfeng.dutil.basic.str.Name;
+
 /**
  * 记录器信息。
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-public interface LoggerInfo {
-
-	/**
-	 * 返回记录器信息中的记录器名称。
-	 * @return 记录器名称。
-	 * @throws ProcessException 过程异常。
-	 */
-	public String getName() throws ProcessException;
+public interface LoggerInfo extends Name{
 	
 }

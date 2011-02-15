@@ -6,8 +6,9 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
-import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
+import com.dwarfeng.tp.core.model.eum.LoggerStringKey;
+import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
@@ -36,7 +37,7 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public DefaultFinishedFlowTaker(BackgroundModel backgroundModel) {
-		this(backgroundModel, ToolPlatformUtil.newDefaultLogger(), ToolPlatformUtil.newDefaultLoggerMutilang());
+		this(backgroundModel, ToolPlatformUtil.newDefaultLogger(), Constants.getDefaultLoggerMutilang());
 	}
 	
 	/**
@@ -207,7 +208,7 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 						try{
 							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
 						}catch (Exception e1) {
-							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
+							Mutilang tempMutilang = Constants.getDefaultLoggerMutilang();
 							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_4.getName());
 							logger.warn(str, e1);
 							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
