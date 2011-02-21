@@ -1192,6 +1192,7 @@ public final class ToolPlatform {
 					message(LoggerStringKey.ToolPlatform_FlowProvider_15);
 					
 				}catch (Exception e) {
+					setThrowable(e);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_16);
 				}
 			}
@@ -1271,6 +1272,7 @@ public final class ToolPlatform {
 					message(LoggerStringKey.ToolPlatform_FlowProvider_19);
 					
 				}catch (Exception e) {
+					setThrowable(e);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_20);
 				}
 			}
@@ -1357,6 +1359,7 @@ public final class ToolPlatform {
 					message(LoggerStringKey.ToolPlatform_FlowProvider_24);
 					
 				}catch (Exception e) {
+					setThrowable(e);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_25);
 				}
 			}
@@ -1459,6 +1462,7 @@ public final class ToolPlatform {
 					message(LoggerStringKey.ToolPlatform_FlowProvider_28);
 					
 				}catch (Exception e) {
+					setThrowable(e);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_29);
 				}
 			}
@@ -1498,6 +1502,7 @@ public final class ToolPlatform {
 					exit();
 					
 				}catch (Exception e) {
+					setThrowable(e);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_43);
 				}
 			}
@@ -1539,6 +1544,7 @@ public final class ToolPlatform {
 					message(LoggerStringKey.ToolPlatform_FlowProvider_36);
 					
 				}catch (Exception e) {
+					setThrowable(e);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_37);
 				}
 			}
@@ -1577,6 +1583,7 @@ public final class ToolPlatform {
 					message(LoggerStringKey.ToolPlatform_FlowProvider_40);
 					
 				}catch (Exception e) {
+					setThrowable(e);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_41);
 				}
 			}
