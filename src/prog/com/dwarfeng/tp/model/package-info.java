@@ -1,7 +1,5 @@
 /**
- * 
- */
-/**
+ * 程序的模型包。
  * @author DwArFeng
  * @since 1.8
  */

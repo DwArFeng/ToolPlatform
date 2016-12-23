@@ -1,7 +1,5 @@
 /**
- * 
- */
-/**
+ * 程序的控制包。
  * @author DwArFeng
  * @since 1.8
  */

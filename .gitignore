@@ -36,3 +36,5 @@ local.properties
 /doc/
 /release/
 /lib-src/
+/logs/
+/configuration/
