@@ -11,12 +11,12 @@ import org.apache.logging.log4j.Logger;
  * @author DwArFeng
  * @since 1.8
  */
-public interface InternationalLoader {
+public interface MutilangLoader {
 	
 	/**
 	 * ∂¡»°
 	 * @return
 	 */
-	public Map<Locale, ResourceBundle> loadInternationalMap(String path, Logger logger);
+	public Map<Locale, ResourceBundle> loadMutilangMap(String path, Logger logger);
 
 }

@@ -1,21 +1,12 @@
 package com.dwarfeng.tp.control;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
-import com.dwarfeng.dutil.basic.io.CT;
-import com.dwarfeng.dutil.basic.prog.DefaultVersion;
-import com.dwarfeng.dutil.basic.prog.Version;
-import com.dwarfeng.dutil.basic.prog.VersionType;
-import com.dwarfeng.tp.model.ModelManager;
+import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.tp.model.init.InitProcessor;
-import com.dwarfeng.tp.plaf.Tool;
-import com.dwarfeng.tp.view.ViewManager;
-
-import sun.applet.Main;
+import com.dwarfeng.tp.model.io.ToolPlatformLogger;
+import com.dwarfeng.tp.view.ViewUtil;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -35,32 +26,22 @@ public final class ToolPlatform {
 	 * -------------------------------------------------------------------------------------------------------------------------------------
 	 */
 	
-	/**程序的版本*/
-	public final static Version VERSION = new DefaultVersion.Builder()
-			.type(VersionType.RELEASE)
-			.firstVersion((byte) 0)
-			.secondVersion((byte) 0)
-			.thirdVersion((byte) 0)
-			.buildDate("20161222")
-			.buildVersion('A')
-			.build();
-	/**程序的作者*/
-	public static final String AUTHOR = "DwArFeng";
 	/**国际化资源的基名称*/
-	public static final String INTERNATIONAL_BASENAME= "com/dwarfeng/tp/resource/international/stringField";
+	public static final String MUTILANG_BASENAME= "com/dwarfeng/tp/resource/mutilang/stringField";
 	/**记录国际化的支持语言的路径*/
-	public static final URL URL_INTERNATIONAL_SUPPORT = 
-			ToolPlatform.class.getResource("/com/dwarfeng/tp/resource/international/supported.xml");
+	public static final URL URL_MUTILANG_SUPPORT = 
+			ToolPlatform.class.getResource("/com/dwarfeng/tp/resource/mutilang/supported.xml");
 	/**外观配置文件*/
 	public static File FILE_CONFIG_APPEARANCE = new File("configuration" + File.separatorChar + "appearance.cfg") ;
 	/**程序配置文件*/
 	public static File FILE_CONFIG_PROGRAM = new File("configuration" + File.separatorChar + "program.cfg");
+	/**程序的固定属性*/
+	public static final ProgramAttributes ATTRIBUTES = new ProgramAttributes();
 	
 	
 	
-	
-	public static void main(String[] args) throws IOException {
-		new ToolPlatform();
+	public static void main(String[] args) {
+		new ToolPlatform(ATTRIBUTES.LOGGER_PATH, true);
 	}
 	
 	/*
@@ -74,9 +55,31 @@ public final class ToolPlatform {
 //	private final ModelManager modelManager;
 //	private final ViewManager viewManager;
 	
-	public ToolPlatform() throws IOException {
-		//InitProcessor initProcessor = new InitProcessor();
+	/**
+	 * 生成一个默认的工具平台实例。
+	 */
+	public ToolPlatform() {
+		this(ATTRIBUTES.LOGGER_PATH, false);
+	}
+	
+	/**
+	 * 生成一个具有指定 TODO
+	 * @param loggerPath
+	 * @param forceOverride
+	 */
+	public ToolPlatform(URL loggerPath, boolean forceOverride){
+		InitProcessor initProcessor = new InitProcessor();
 		
+		ToolPlatformLogger logger = null;
+		
+		try {
+			logger = initProcessor.getToolPlatformLoggerGenerator().genToolPlatformLogger(loggerPath, forceOverride);
+		} catch (LoadFailedException e) {
+			ViewUtil.showEmergentMessage(ATTRIBUTES.LOGGER_FAIL_TITLE, e.getMessage());
+			System.exit(1);
+		}
+		
+		logger.fatal("test", new Exception("Fatal"));
 	}
 	
 }

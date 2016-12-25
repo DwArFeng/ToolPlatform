@@ -7,7 +7,7 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
  * @author DwArFeng
  * @since 1.8
  */
-public interface InternationalObverser extends Obverser {
+public interface MutilangObverser extends Obverser {
 
 	/**
 	 * 通知程序的语言发生改变。

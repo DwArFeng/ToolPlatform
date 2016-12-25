@@ -5,7 +5,7 @@ package com.dwarfeng.tp.view.gui;
  * @author DwArFeng
  * @since 1.8
  */
-public interface InternationalAper {
+public interface MutilangAper {
 	
 	/**
 	 * 更新所有的标签。

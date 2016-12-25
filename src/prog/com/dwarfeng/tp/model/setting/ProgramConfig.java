@@ -13,7 +13,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigKey;
  */
 public enum ProgramConfig implements ConfigEntry{
 	
-	PROGRAM_INTERNATIONAL_LANGUAGE("program.international.language", null, new TrueConfigChecker()),
+	PROGRAM_MUTILANG_LANGUAGE("program.mutilang.language", null, new TrueConfigChecker()),
 	
 	;
 	

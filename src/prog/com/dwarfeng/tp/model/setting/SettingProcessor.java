@@ -52,11 +52,11 @@ public final class SettingProcessor {
 		 */
 		@Override
 		public void fireCurrentValueChanged(ConfigKey configKey, String oldValue, String newValue, String validValue) {
-			//PROGRAM_INTERNATIONAL_LANGUAGE
-			if(configKey.equals(ProgramConfig.PROGRAM_INTERNATIONAL_LANGUAGE.getConfigKey())){
+			//PROGRAM_MUTILANG_LANGUAGE
+			if(configKey.equals(ProgramConfig.PROGRAM_MUTILANG_LANGUAGE.getConfigKey())){
 				if(validValue == null) currentLocale = null;
 				currentLocale = new Locale(validValue);
-				for(InternationalObverser obverser : internationalObversers){
+				for(MutilangObverser obverser : mutilangObversers){
 					obverser.fireLanguageChanged();
 				}
 			}
@@ -64,24 +64,24 @@ public final class SettingProcessor {
 		}
 	};
 	
-	private final Set<InternationalObverser> internationalObversers = Collections.newSetFromMap(new WeakHashMap<>());
-	private final Map<Locale, ResourceBundle> internationalMap;
+	private final Set<MutilangObverser> mutilangObversers = Collections.newSetFromMap(new WeakHashMap<>());
+	private final Map<Locale, ResourceBundle> mutilangMap;
 	private Locale currentLocale = null;
 	
 	/**
 	 * 国际化接口。
 	 */
-	private final International international = new International() {
+	private final Mutilang mutilang = new Mutilang() {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.model.setting.sub.International#getString(com.dwarfeng.tp.model.setting.sub.StringField)
+		 * @see com.dwarfeng.tp.model.setting.Mutilang#getString(com.dwarfeng.tp.model.setting.StringField)
 		 */
 		@Override
 		public String getString(StringField stringField) {
 			Objects.requireNonNull(stringField, "入口参数 stringField 不能为 null。");
 			
-			ResourceBundle rb = internationalMap.getOrDefault(currentLocale, internationalMap.get(null));
+			ResourceBundle rb = mutilangMap.getOrDefault(currentLocale, mutilangMap.get(null));
 			return rb.getString(stringField.toString());
 		}
 
@@ -90,8 +90,8 @@ public final class SettingProcessor {
 		 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#getObversers()
 		 */
 		@Override
-		public Set<InternationalObverser> getObversers() {
-			return Collections.unmodifiableSet(internationalObversers);
+		public Set<MutilangObverser> getObversers() {
+			return Collections.unmodifiableSet(mutilangObversers);
 		}
 
 		/*
@@ -99,8 +99,8 @@ public final class SettingProcessor {
 		 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#addObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 		 */
 		@Override
-		public boolean addObverser(InternationalObverser obverser) {
-			return internationalObversers.add(obverser);
+		public boolean addObverser(MutilangObverser obverser) {
+			return mutilangObversers.add(obverser);
 		}
 
 		/*
@@ -108,8 +108,8 @@ public final class SettingProcessor {
 		 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#removeObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 		 */
 		@Override
-		public boolean removeObverser(InternationalObverser obverser) {
-			return internationalObversers.remove(obverser);
+		public boolean removeObverser(MutilangObverser obverser) {
+			return mutilangObversers.remove(obverser);
 		}
 
 		/*
@@ -118,7 +118,7 @@ public final class SettingProcessor {
 		 */
 		@Override
 		public void clearObverser() {
-			internationalObversers.clear();
+			mutilangObversers.clear();
 		}
 		
 	};
@@ -126,21 +126,23 @@ public final class SettingProcessor {
 	
 	/**
 	 * 新的实例。
-	 * @param internationalMap 国际化映射。
+	 * @param mutilangMap 国际化映射。
 	 */
-	public SettingProcessor(Map<Locale, ResourceBundle> internationalMap) {
-		Objects.requireNonNull(internationalMap, "入口参数 internationalMap 不能为 null");
+	public SettingProcessor(Map<Locale, ResourceBundle> mutilangMap) {
+		Objects.requireNonNull(mutilangMap, "入口参数 mutilangMap 不能为 null");
 		
-		this.internationalMap = internationalMap;
+		this.mutilangMap = mutilangMap;
 		
 		this.programConfigModel.addObverser(programConfigObverser);
 	}
 
+
 	/**
-	 * @return the international
+	 * @return the mutilang
 	 */
-	public International getInternational() {
-		return international;
+	public Mutilang getMutilang() {
+		return mutilang;
 	}
+
 
 }
