@@ -1,14 +1,21 @@
 package com.dwarfeng.tp.control;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
+import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
 import com.dwarfeng.tp.model.ModelManager;
+import com.dwarfeng.tp.model.init.InitProcessor;
+import com.dwarfeng.tp.plaf.Tool;
 import com.dwarfeng.tp.view.ViewManager;
+
+import sun.applet.Main;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -37,23 +44,24 @@ public final class ToolPlatform {
 			.buildDate("20161222")
 			.buildVersion('A')
 			.build();
-	
 	/**程序的作者*/
 	public static final String AUTHOR = "DwArFeng";
-	
-	/**记录*/
-	public static final URL URL_LANG_SUPPORT_INFO = ToolPlatform.class.getResource("/com/dwarfeng/to/resource/lang/supported.xml");
-	
+	/**国际化资源的基名称*/
+	public static final String INTERNATIONAL_BASENAME= "com/dwarfeng/tp/resource/international/stringField";
+	/**记录国际化的支持语言的路径*/
+	public static final URL URL_INTERNATIONAL_SUPPORT = 
+			ToolPlatform.class.getResource("/com/dwarfeng/tp/resource/international/supported.xml");
 	/**外观配置文件*/
 	public static File FILE_CONFIG_APPEARANCE = new File("configuration" + File.separatorChar + "appearance.cfg") ;
-	
 	/**程序配置文件*/
 	public static File FILE_CONFIG_PROGRAM = new File("configuration" + File.separatorChar + "program.cfg");
 	
 	
 	
 	
-	
+	public static void main(String[] args) throws IOException {
+		new ToolPlatform();
+	}
 	
 	/*
 	 * -------------------------------------------------------------------------------------------------------------------------------------
@@ -63,10 +71,11 @@ public final class ToolPlatform {
 	 * -------------------------------------------------------------------------------------------------------------------------------------
 	 */
 	
-	private final ModelManager modelManager;
-	private final ViewManager viewManager;
+//	private final ModelManager modelManager;
+//	private final ViewManager viewManager;
 	
-	public ToolPlatform() {
+	public ToolPlatform() throws IOException {
+		//InitProcessor initProcessor = new InitProcessor();
 		
 	}
 	
