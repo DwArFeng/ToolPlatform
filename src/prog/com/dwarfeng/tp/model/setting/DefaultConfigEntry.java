@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.model.setting.cfg;
+package com.dwarfeng.tp.model.setting;
 
 import java.util.Objects;
 

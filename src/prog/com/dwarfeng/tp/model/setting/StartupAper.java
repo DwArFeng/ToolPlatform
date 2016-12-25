@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.model.setting.sub;
+package com.dwarfeng.tp.model.setting;
 
 /**
  * 程序的启动时外观。

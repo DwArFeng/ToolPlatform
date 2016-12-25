@@ -1,27 +1,35 @@
-package com.dwarfeng.tp.model.setting.cfg;
+package com.dwarfeng.tp.model.setting;
 
 import com.dwarfeng.dutil.develop.cfg.ConfigChecker;
 import com.dwarfeng.dutil.develop.cfg.ConfigEntry;
 import com.dwarfeng.dutil.develop.cfg.ConfigFirmProps;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
+import com.dwarfeng.dutil.develop.cfg.checker.IntegerConfigChecker;
 
 /**
- * 程序配置枚举。
- * <p> 此枚举记录程序运行时所需要的所有的配置。
+ * 程序的外观配置。
  * @author  DwArFeng
  * @since 1.8
  */
-public enum ProgramConfig implements ConfigEntry{
+public enum AppearanceConfig implements ConfigEntry {
 	
+	/**界面在启动时的宽度*/
+	FRAME_STARTUP_WIDTH("frame.startup.width", "800", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
 	
+	/**界面在启动时的高度*/
+	FRAME_STARTUP_HEIGHT("frame.startup.height", "600", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
+	
+	/**界面在启动时候的拓展状态*/
+	FRAME_STARTUP_EXTENDEDSTATE("frame.startup.extendedstate", "0", new IntegerConfigChecker());
 	
 	;
-	
+
 	private final ConfigEntry configEntry;
 	
-	private ProgramConfig(String keyName, String defaultValue, ConfigChecker checker) {
+	private AppearanceConfig(String keyName, String defaultValue, ConfigChecker checker) {
 		this.configEntry = new DefaultConfigEntry(keyName, defaultValue, checker);
 	}
+	
 	
 	/*
 	 * (non-Javadoc)

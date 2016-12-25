@@ -1,11 +1,14 @@
 package com.dwarfeng.tp.control;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Locale;
 
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
+import com.dwarfeng.tp.model.ModelManager;
+import com.dwarfeng.tp.view.ViewManager;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -17,6 +20,14 @@ import com.dwarfeng.dutil.basic.prog.VersionType;
  */
 public final class ToolPlatform {
 
+	/*
+	 * -------------------------------------------------------------------------------------------------------------------------------------
+	 * 
+	 *                                                                                              静态字段
+	 * 
+	 * -------------------------------------------------------------------------------------------------------------------------------------
+	 */
+	
 	/**程序的版本*/
 	public final static Version VERSION = new DefaultVersion.Builder()
 			.type(VersionType.RELEASE)
@@ -30,10 +41,8 @@ public final class ToolPlatform {
 	/**程序的作者*/
 	public static final String AUTHOR = "DwArFeng";
 	
-	/**程序支持的所有语言*/
-	public final static Locale[] SUPPORTED_LOCALES = new Locale[]{
-			Locale.CHINESE,
-	};
+	/**记录*/
+	public static final URL URL_LANG_SUPPORT_INFO = ToolPlatform.class.getResource("/com/dwarfeng/to/resource/lang/supported.xml");
 	
 	/**外观配置文件*/
 	public static File FILE_CONFIG_APPEARANCE = new File("configuration" + File.separatorChar + "appearance.cfg") ;
@@ -42,5 +51,23 @@ public final class ToolPlatform {
 	public static File FILE_CONFIG_PROGRAM = new File("configuration" + File.separatorChar + "program.cfg");
 	
 	
+	
+	
+	
+	
+	/*
+	 * -------------------------------------------------------------------------------------------------------------------------------------
+	 * 
+	 *                                                                                             非静态
+	 * 
+	 * -------------------------------------------------------------------------------------------------------------------------------------
+	 */
+	
+	private final ModelManager modelManager;
+	private final ViewManager viewManager;
+	
+	public ToolPlatform() {
+		
+	}
 	
 }

@@ -12,7 +12,7 @@ public final class MainFrame extends JFrame {
 	/**
 	 * 调试的时候使用。 
 	 */
-	private MainFrame() {
+	public MainFrame() {
 		//setExtendedState(state);
 	}
 
