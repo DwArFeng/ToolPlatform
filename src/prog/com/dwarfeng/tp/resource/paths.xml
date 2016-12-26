@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<info key="logger-cfg" path="attributes/logger/logger-cfg.xml" default="/com/dwarfeng/tp/resource/defaultres/logger-cfg.xml"/>
+	<info key="cfg-program" path="attributes/configuration/program.cfg" default="/com/dwarfeng/tp/resource/defaultres/cfg-program.properties"/>
 </root>

@@ -12,6 +12,11 @@ public enum PathKey implements Name{
 	/**记录器配置键*/
 	LOGGER_CFG("logger-cfg"),
 	
+	/**主程序的配置*/
+	CFG_PROGRAM("cfg-program"),
+	
+	
+	
 	;
 
 	private final String name;
