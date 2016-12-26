@@ -2,10 +2,14 @@ package com.dwarfeng.tp.control;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Map;
 
-import com.dwarfeng.dutil.basic.io.LoadFailedException;
-import com.dwarfeng.tp.model.init.InitFactory;
+import org.dom4j.DocumentException;
+
+import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.tp.model.io.ProgramLogger;
+import com.dwarfeng.tp.model.io.ProgramResource;
+import com.dwarfeng.tp.model.struct.EmergencyException;
 import com.dwarfeng.tp.view.ViewUtil;
 
 /**
@@ -41,7 +45,7 @@ public final class ToolPlatform {
 	
 	
 	public static void main(String[] args) {
-		new ToolPlatform(ATTRIBUTES.LOGGER_PATH, true);
+		new ToolPlatform();
 	}
 	
 	/*
@@ -57,9 +61,31 @@ public final class ToolPlatform {
 	
 	/**
 	 * 生成一个默认的工具平台实例。
+	 * 生成一个具有指定 TODO
 	 */
 	public ToolPlatform() {
 		//this(ATTRIBUTES.LOGGER_PATH, false);
+		Map<String, ProgramResource> resourceMap = null;
+		ProgramLogger logger = null;
+		
+		try {
+			resourceMap = ATTRIBUTES.resourceLoader.loadResources();
+		} catch (EmergencyException e) {
+			ViewUtil.showEmergentMessage(e.getTitle(), e.getMessage());
+			System.exit(100);
+		}
+		
+		try {
+			logger = ATTRIBUTES.loggerGenerator.newInstance(resourceMap);
+		} catch (EmergencyException e) {
+			ViewUtil.showEmergentMessage(e.getTitle(), e.getMessage());
+			System.exit(101);
+		}
+		
+		logger.info("记录器成功生成!");
+		logger.info("正在读取程序配置");
+		
+		
 		
 	}
 	

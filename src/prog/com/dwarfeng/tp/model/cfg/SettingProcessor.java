@@ -78,7 +78,7 @@ public final class SettingProcessor {
 		 * @see com.dwarfeng.tp.model.setting.Mutilang#getString(com.dwarfeng.tp.model.setting.StringField)
 		 */
 		@Override
-		public String getString(StringField stringField) {
+		public String getString(StringKey stringField) {
 			Objects.requireNonNull(stringField, "入口参数 stringField 不能为 null。");
 			
 			ResourceBundle rb = mutilangMap.getOrDefault(currentLocale, mutilangMap.get(null));

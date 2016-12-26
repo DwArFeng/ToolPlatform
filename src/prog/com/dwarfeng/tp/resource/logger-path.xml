@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-	<info key="logger-cfg">
-		<default-path value="/com/dwarfeng/tp/resource/defaultres/logger-cfg.xml" type="RESOURCE"/>
-		<release-path value="attributes/logger/logger-cfg.xml"/>
-	</info>
-</root>

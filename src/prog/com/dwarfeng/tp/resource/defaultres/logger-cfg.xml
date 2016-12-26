@@ -24,7 +24,7 @@
     <Logger name="std.info" level="info" additivity="false">
     	<appender-ref ref="std.info.rollingfile"/>
     </Logger>
-    <Logger name="std.error" level="info" additivity="false">
+    <Logger name="std.error" level="error" additivity="false">
     	<appender-ref ref="std.error.rollingfile"/>
     </Logger>
   </Loggers>

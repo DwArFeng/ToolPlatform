@@ -14,6 +14,6 @@ public interface Mutilang extends ObverserSet<MutilangObverser>{
 	 * @return 在当前语言下指定的字符域所对应的字符串。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public String getString(StringField stringField);
+	public String getString(StringKey stringField);
 	
 }
