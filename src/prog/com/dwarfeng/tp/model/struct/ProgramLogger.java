@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.model.io;
+package com.dwarfeng.tp.model.struct;
 
 /**
  * 工具平台用记录器。
@@ -53,4 +53,8 @@ public interface ProgramLogger {
 	 */
 	public void fatal(String message, Throwable t);
 	
+	/**
+	 * 停用此记录器。
+	 */
+	public void stop();
 }

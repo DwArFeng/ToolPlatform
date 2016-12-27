@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.model.io;
+package com.dwarfeng.tp.model.struct;
 
 import java.io.File;
 import java.io.FileInputStream;

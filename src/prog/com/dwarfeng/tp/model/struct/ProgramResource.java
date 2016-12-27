@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.model.io;
+package com.dwarfeng.tp.model.struct;
 
 import java.io.IOException;
 import java.io.InputStream;

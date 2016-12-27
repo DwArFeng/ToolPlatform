@@ -9,11 +9,14 @@ import com.dwarfeng.dutil.basic.str.Name;
  */
 public enum PathKey implements Name{
 	
-	/**记录器配置键*/
-	LOGGER_CFG("logger-cfg"),
+	/**记录器设置*/
+	LOGGER_SETTING("logger.setting"),
 	
 	/**主程序的配置*/
-	CFG_PROGRAM("cfg-program"),
+	CONFIGURATION_PROGRAM("configuration.program"),
+	
+	/**记录器多语言化的设置*/
+	MUTILANG_LOGGER_SETTING("mutilang.logger.setting")
 	
 	
 	
