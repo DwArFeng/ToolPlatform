@@ -22,13 +22,19 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
+import com.dwarfeng.dutil.develop.cfg.ConfigUtil;
+import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
+import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigLoader;
+import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
 import com.dwarfeng.tp.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.model.cfg.Mutilang;
 import com.dwarfeng.tp.model.cfg.PathKey;
+import com.dwarfeng.tp.model.cfg.ProgramConfig;
 import com.dwarfeng.tp.model.io.ProgramResourceLoader;
 import com.dwarfeng.tp.model.struct.DefaultProgramResource;
 import com.dwarfeng.tp.model.struct.EmergencyException;
@@ -137,6 +143,9 @@ public class ProgramAttributes {
 					in0 = resource.openInputStream();
 					in1 = resource.openInputStream();
 				} catch (IOException e) {
+					
+					logger.warn(mutilang.getString(LoggerStringKey.ProgramAttributes_5));
+					
 					try{
 						resource.reset();
 						in0 = resource.openInputStream();
@@ -255,8 +264,57 @@ public class ProgramAttributes {
 		 */
 		@Override
 		public ConfigModel newInstance(Map<String, ProgramResource> resourceMap, ProgramLogger logger, Mutilang<LoggerStringKey> mutilang) throws EmergencyException {
-			// TODO Auto-generated method stub
-			return null;
+			Objects.requireNonNull(resourceMap, "入口参数 resourceMap 不能为 null。");
+			Objects.requireNonNull(logger, "入口参数 logger 不能为 null。");
+			Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
+			
+			try{
+				logger.info(mutilang.getString(LoggerStringKey.ProgramAttributes_8));
+				
+				ProgramResource resource = resourceMap.get(PathKey.CONFIGURATION_PROGRAM.getName());
+				
+				if(Objects.isNull(resource)){
+					throw new EmergencyException(null, mutilang.getString(LoggerStringKey.ProgramAttributes_0));
+				}
+				
+				InputStream in = null;
+				
+				try {
+					in = resource.openInputStream();
+				} catch (IOException e) {
+					
+					logger.warn(mutilang.getString(LoggerStringKey.ProgramAttributes_5), e);
+					
+					try{
+						resource.reset();
+						in = resource.openInputStream();
+					}catch (IOException e1) {
+						throw e1;
+					}
+				}
+				
+				ConfigModel model = ConfigUtil.unmodifiableConfigModel(new DefaultConfigModel(ProgramConfig.values()));
+				StreamConfigLoader loader = new PropertiesConfigLoader(in);
+				
+				try {
+					logger.info(mutilang.getString(LoggerStringKey.ProgramAttributes_6));
+					loader.loadConfig(model);
+				} catch (LoadFailedException e) {
+					e.printStackTrace();
+				}finally{
+					loader.close();
+				}
+				
+				logger.info(mutilang.getString(LoggerStringKey.ProgramAttributes_9));
+				
+				return model;
+				
+			}catch (IOException e) {
+				logger.fatal(e.getMessage(), e);
+				EmergencyException ee = new EmergencyException(mutilang.getString(LoggerStringKey.ProgramAttributes_7), e.getMessage());
+				ee.setStackTrace(e.getStackTrace());
+				throw ee;
+			}
 		}
 	};
 	
@@ -363,7 +421,6 @@ public class ProgramAttributes {
 		}
 		
 	}
-	
 	
 	
 }

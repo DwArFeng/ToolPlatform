@@ -15,6 +15,11 @@ public enum LoggerStringKey implements Name{
 	ProgramAttributes_2("ProgramAttributes.2"),
 	ProgramAttributes_3("ProgramAttributes.3"),
 	ProgramAttributes_4("ProgramAttributes.4"),
+	ProgramAttributes_5("ProgramAttributes.5"),
+	ProgramAttributes_6("ProgramAttributes.6"),
+	ProgramAttributes_7("ProgramAttributes.7"),
+	ProgramAttributes_8("ProgramAttributes.8"),
+	ProgramAttributes_9("ProgramAttributes.9"),
 	
 	;
 

@@ -3,14 +3,13 @@ package com.dwarfeng.tp.control;
 import java.util.Map;
 import java.util.Objects;
 
+import com.dwarfeng.dutil.develop.cfg.ConfigModel;
 import com.dwarfeng.tp.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.model.cfg.Mutilang;
 import com.dwarfeng.tp.model.struct.EmergencyException;
 import com.dwarfeng.tp.model.struct.ProgramLogger;
 import com.dwarfeng.tp.model.struct.ProgramResource;
 import com.dwarfeng.tp.view.ViewUtil;
-
-import sun.util.logging.resources.logging;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -44,15 +43,16 @@ public final class ToolPlatform {
 	/**
 	 * 
 	 * @param preLogger
-	 * @param preLoggerMutilang
+	 * @param preMutilang
 	 */
-	public ToolPlatform(ProgramLogger preLogger, Mutilang<LoggerStringKey> preLoggerMutilang){
+	public ToolPlatform(ProgramLogger preLogger, Mutilang<LoggerStringKey> preMutilang){
 		Objects.requireNonNull(preLogger, "入口参数 preLogger 不能为 null。");
-		Objects.requireNonNull(preLoggerMutilang, "入口参数 preLoggerMutilang 不能为 null。");
+		Objects.requireNonNull(preMutilang, "入口参数 preLoggerMutilang 不能为 null。");
 
 		try{
 			Map<String, ProgramResource> resourceMap = null;
 			ProgramLogger logger = null;
+			ConfigModel programConfigModel = null;
 			
 			try {
 				resourceMap = ATTRIBUTES.resourceLoader.loadResources();
@@ -62,16 +62,19 @@ public final class ToolPlatform {
 			}
 			
 			try {
-				logger = ATTRIBUTES.loggerGenerator.newInstance(resourceMap, preLogger, preLoggerMutilang);
+				logger = ATTRIBUTES.loggerGenerator.newInstance(resourceMap, preLogger, preMutilang);
 			} catch (EmergencyException e) {
 				ViewUtil.showEmergentMessage(e.getTitle(), e.getMessage());
 				System.exit(101);
 			}
 			
+			try {
+				programConfigModel = ATTRIBUTES.programConfigGenerator.newInstance(resourceMap, logger, preMutilang);
+			} catch (EmergencyException e) {
+				ViewUtil.showEmergentMessage(e.getTitle(), e.getMessage());
+				System.exit(102);
+			}
 			
-			
-			
-			logger.info("正在读取程序配置");
 			
 		}finally {
 			preLogger.stop();
