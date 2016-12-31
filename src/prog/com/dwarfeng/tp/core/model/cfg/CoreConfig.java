@@ -4,6 +4,8 @@ import com.dwarfeng.dutil.develop.cfg.ConfigChecker;
 import com.dwarfeng.dutil.develop.cfg.ConfigEntry;
 import com.dwarfeng.dutil.develop.cfg.ConfigFirmProps;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
+import com.dwarfeng.dutil.develop.cfg.checker.NonNullConfigChecker;
+import com.dwarfeng.tp.core.model.struct.DefaultConfigEntry;
 
 /**
  * 程序配置枚举。
@@ -13,8 +15,11 @@ import com.dwarfeng.dutil.develop.cfg.ConfigKey;
  */
 public enum CoreConfig implements ConfigEntry{
 	
-	/**记录器的输出语言*/
-	MUTILANG_LOGGER("mutilang.logger", "null", new TrueConfigChecker()),
+	/**记录器的使用语言*/
+	MUTILANG_LOGGER("mutilang.logger", "", new NonNullConfigChecker()),
+	
+	/**标签的使用语言*/
+	MUTILANG_LABEL("mutilang.label", "", new NonNullConfigChecker()),
 	
 	;
 	

@@ -5,6 +5,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigEntry;
 import com.dwarfeng.dutil.develop.cfg.ConfigFirmProps;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.checker.IntegerConfigChecker;
+import com.dwarfeng.tp.core.model.struct.DefaultConfigEntry;
 
 /**
  * ≤ªø…º˚≈‰÷√°£

@@ -7,7 +7,7 @@ import com.dwarfeng.dutil.basic.io.CT;
 public class Foo {
 
 	public static void main(String[] args) throws Exception{
-		CT.trace(Locale.SIMPLIFIED_CHINESE);
+		CT.trace(new Locale("zh","",""));
 	}
 
 }

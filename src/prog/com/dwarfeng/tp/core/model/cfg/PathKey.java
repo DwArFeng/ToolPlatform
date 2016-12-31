@@ -15,9 +15,14 @@ public enum PathKey implements Name{
 	/**主程序的配置*/
 	CONFIGURATION_CORE("configuration.core"),
 	
-	/**记录器多语言化的设置*/
-	MUTILANG_LOGGER_SETTING("mutilang.logger.setting")
+	/**不可见配置*/
+	CONFIGURATION_INVISIBLE("configuration.invisible"),
 	
+	/**记录器多语言化的设置*/
+	MUTILANG_LOGGER_SETTING("mutilang.logger.setting"),
+	
+	/**记录器多语言化的设置*/
+	MUTILANG_LABEL_SETTING("mutilang.label.setting")
 	
 	
 	;
