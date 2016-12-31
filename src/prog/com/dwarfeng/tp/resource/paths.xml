@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<info key="logger.setting" path="attributes/logger/setting.xml" default="/com/dwarfeng/tp/resource/defaultres/logger/setting.xml"/>
-	<info key="configuration.program" path="attributes/configuration/program.cfg" default="/com/dwarfeng/tp/resource/defaultres/configuration/program.properties"/>
-	<info key="mutilang.logger.setting" path="attributes/mutilang/logger/config.xml" default="/com/dwarfeng/tp/resource/defaultres/mutilang/logger/setting.xml"/>
+	<info key="configuration.core" path="attributes/configuration/core.cfg" default="/com/dwarfeng/tp/resource/defaultres/configuration/core.properties"/>
+	<info key="mutilang.logger.setting" path="attributes/mutilang/logger/config.xml" default="/com/dwarfeng/tp/resource/defaultres/mutilang/logger/setting.xml"></info>
 </root>
