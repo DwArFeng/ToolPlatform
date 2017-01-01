@@ -44,7 +44,7 @@ public final class XmlLoggerLoader extends StreamLoggerLoader {
 			Configuration cfg = loggerContext.getConfiguration();
 			loggerModel.addAll(cfg.getLoggers().keySet());
 		}catch (IOException e) {
-			throw new LoadFailedException(e.getMessage(), e);
+			throw new LoadFailedException("无法像指定的记录器模型中读取流中的数据", e);
 		}
 
 	}

@@ -1,13 +1,10 @@
-package com.dwarfeng.tp.core.control;
+package com.dwarfeng.tp.core.util;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +14,6 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
@@ -28,8 +24,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.dwarfeng.dutil.basic.io.FileUtil;
-import com.dwarfeng.dutil.basic.io.IoUtil;
+import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
@@ -37,7 +32,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigUtil;
 import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
 import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigLoader;
 import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
-import com.dwarfeng.tp.core.control.proc.CoreProvider;
+import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.control.proc.Initializer;
 import com.dwarfeng.tp.core.model.ModelManager;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
@@ -45,10 +40,13 @@ import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cfg.PathKey;
 import com.dwarfeng.tp.core.model.struct.ConfigChangeFailedException;
-import com.dwarfeng.tp.core.model.struct.InitializeFailedException;
+import com.dwarfeng.tp.core.model.struct.DefaultMutilangProvider;
+import com.dwarfeng.tp.core.model.struct.DefaultResource;
+import com.dwarfeng.tp.core.model.struct.InitializeException;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
-import com.dwarfeng.tp.core.model.struct.PlatformLogger;
+import com.dwarfeng.tp.core.model.struct.MutilangProvider;
 import com.dwarfeng.tp.core.model.struct.Resource;
+import com.dwarfeng.tp.core.model.vim.MutilangModel;
 import com.dwarfeng.tp.core.view.ViewManager;
 
 /**
@@ -56,33 +54,57 @@ import com.dwarfeng.tp.core.view.ViewManager;
  * @author  DwArFeng
  * @since 1.8
  */
-public final class ToolPlatformHelper {
+public final class ToolPlatformUtil {
+	
+	private final static String missingString = "!文本缺失";
+	private final static ResourceBundle loggerMutilangResourceBundle = ResourceBundle.getBundle(
+			"com.dwarfeng.tp.resource.defaultres.mutilang.logger.default");
+
 	
 	/**
-	 * 获取新的程序核心提供器。
-	 * @return 新的程序核心提供器。
+	 * 获取初始化用多语言接口。
+	 * <p> 该多语言接口是程序在初始化阶段，尚未通过配置生成专用的多语言接口提供器之前，
+	 * 用于代替的多语言接口，该方法生成的多语言接口只会在程序在初始化的前期保留一段时间。
+	 * <p> 使用简体中文，并且不响应设置语言方法和将语言设置为默认值方法。
+	 * @return 新的初始化用多语言接口。
 	 */
-	public final static CoreProvider newCoreProvider(){
-		return new DefaultCoreProvider();
+	public final static Mutilang newInitialLoggerMutilang(){
+		return new InitialLoggerMutilang();
 	}
 	
 	/**
-	 * 根据指定的字符串返回与其对应的语言。
-	 * @param string 指定的字符串。
-	 * @return 指定的语言。
+	 * 通过指定的多语言模型生成一个新的记录器多语言提供器。
+	 * @param mutilangModel 指定的多语言模型。
+	 * @return 通过指定的多语言模型生成的记录器多语言提供器。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public final static Locale newLocaleFormString(String string){
-		Objects.requireNonNull(string, "入口参数 string 不能为 null。");
+	public final static MutilangProvider newLoggerMutilangProvider(MutilangModel mutilangModel){
+		Objects.requireNonNull(mutilangModel, "入口参数 mutilangModel 不能为 null。");
 		
-		if(string.equals("")) return null;
-		
-		StringTokenizer tokenizer = new StringTokenizer(string, "_");
-		String language = tokenizer.hasMoreTokens()? tokenizer.nextToken() : "";
-		String country = tokenizer.hasMoreTokens()? tokenizer.nextToken() : "";
-		String variant  = tokenizer.hasMoreTokens()? tokenizer.nextToken() : "";
-		
-		return new Locale(language, country, variant);
+		Map<String, String> map = ResourceBundleUtil.toMap(loggerMutilangResourceBundle);
+		return new DefaultMutilangProvider(
+				mutilangModel, 
+				new HashSet<>(Arrays.asList(LoggerStringKey.values())), 
+				ResourceBundleUtil.toMap(loggerMutilangResourceBundle),
+				missingString);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 */
 	
 	/**
 	 * 生成一个新的初始化器。
@@ -91,114 +113,6 @@ public final class ToolPlatformHelper {
 	public final static Initializer newDefaultInitializer(){
 		return new DefaultInitializer();
 	}
-	
-
-	/**
-	 * 默认的程序记录器。
-	 * @author  DwArFeng
-	 * @since 1.8
-	 */
-	private static class DefaultPlatformLogger implements PlatformLogger{
-	
-		private final Collection<? extends Logger> loggers;
-		private final LoggerContext loggerContext;
-		
-		public DefaultPlatformLogger(Collection<? extends Logger> loggers, LoggerContext loggerContext) {
-			Objects.requireNonNull(loggers, "入口参数 loggers 不能为 null。");
-			Objects.requireNonNull(loggerContext, "入口参数 loggerContext 不能为 null。");
-			
-			this.loggers = loggers;
-			this.loggerContext = loggerContext;
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.PlatformLogger#trace(java.lang.String)
-		 */
-		@Override
-		public void trace(String message) {
-			for(Logger logger : loggers){
-				logger.trace(message);
-			}
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.PlatformLogger#debug(java.lang.String)
-		 */
-		@Override
-		public void debug(String message) {
-			for(Logger logger : loggers){
-				logger.debug(message);
-			}
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.PlatformLogger#info(java.lang.String)
-		 */
-		@Override
-		public void info(String message) {
-			for(Logger logger : loggers){
-				logger.info(message);
-			}
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.PlatformLogger#warn(java.lang.String)
-		 */
-		@Override
-		public void warn(String message) {
-			for(Logger logger : loggers){
-				logger.warn(message);
-			}
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.PlatformLogger#warn(java.lang.String, java.lang.Throwable)
-		 */
-		@Override
-		public void warn(String message, Throwable t) {
-			for(Logger logger : loggers){
-				logger.warn(message, t);
-			}
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.PlatformLogger#error(java.lang.String, java.lang.Throwable)
-		 */
-		@Override
-		public void error(String message, Throwable t) {
-			for(Logger logger : loggers){
-				logger.error(message, t);
-			}
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.PlatformLogger#fatal(java.lang.String, java.lang.Throwable)
-		 */
-		@Override
-		public void fatal(String message, Throwable t) {
-			for(Logger logger : loggers){
-				logger.fatal(message, t);
-			}
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.PlatformLogger#stop()
-		 */
-		@Override
-		public void stop() {
-			this.loggerContext.stop();
-		}
-		
-	}
-
 
 	/**
 	 * 默认的程序初始化器。
@@ -210,7 +124,7 @@ public final class ToolPlatformHelper {
 		
 		private final String missingLabel = "!字段缺失";
 		
-		private PlatformLogger usingLogger = null;
+		private Logger usingLogger = null;
 		private Mutilang<LoggerStringKey> usingMutilang = null;
 		
 		private ModelManager modelManager = null;
@@ -218,10 +132,10 @@ public final class ToolPlatformHelper {
 		
 		
 		public DefaultInitializer(){
-			this(new EmptyPlatformLogger(), new DefaultLoggerMutilang());
+			this(new EmptyPlatformLogger(), new InitialLoggerMutilang());
 		}
 		
-		public DefaultInitializer(PlatformLogger usingLogger, Mutilang<LoggerStringKey> usingMutilang){
+		public DefaultInitializer(Logger usingLogger, Mutilang<LoggerStringKey> usingMutilang){
 			Objects.requireNonNull(usingLogger, "入口参数 usingLogger 不能为 null。");
 			Objects.requireNonNull(usingMutilang, "入口参数 usingMutilang 不能为 null。");
 
@@ -237,7 +151,7 @@ public final class ToolPlatformHelper {
 			 * @see com.dwarfeng.tp.core.control.ToolPlatform.Attributes.InnerInitializer.ResourceLoader#loadResources()
 			 */
 			@Override
-			public Map<String, Resource> loadResources() throws InitializeFailedException {
+			public Map<String, Resource> loadResources() throws InitializeException {
 				try{
 					usingLogger.info(usingMutilang.getString(LoggerStringKey.Initializer_10));
 					
@@ -259,13 +173,13 @@ public final class ToolPlatformHelper {
 						String key = info.attributeValue("key");
 						
 						if(Objects.isNull(defString) || Objects.isNull(resString) || Objects.isNull(key)) {
-							throw new InitializeFailedException(usingMutilang.getString(LoggerStringKey.Initializer_11));
+							throw new InitializeException(usingMutilang.getString(LoggerStringKey.Initializer_11));
 						}
 						
 						URL def = ToolPlatform.class.getResource(defString);
 						
 						if(Objects.isNull(def)){
-							throw new InitializeFailedException(usingMutilang.getString(LoggerStringKey.Initializer_12));
+							throw new InitializeException(usingMutilang.getString(LoggerStringKey.Initializer_12));
 						}
 						
 						File res = new File(resString);
@@ -275,8 +189,8 @@ public final class ToolPlatformHelper {
 					
 					return resourceMap;
 					
-				}catch (DocumentException | InitializeFailedException e) {
-					InitializeFailedException ee = new InitializeFailedException(
+				}catch (DocumentException | InitializeException e) {
+					InitializeException ee = new InitializeException(
 							usingMutilang.getString(LoggerStringKey.Initializer_13), 
 							usingMutilang.getString(LoggerStringKey.Initializer_14),
 							e.getMessage(),
@@ -288,14 +202,14 @@ public final class ToolPlatformHelper {
 		};
 		
 		/**程序中的记录器的生成器*/
-		private final Generator<PlatformLogger> loggerGenerator = new Generator<PlatformLogger>() {
+		private final Generator<Logger> loggerGenerator = new Generator<Logger>() {
 			
 			/*
 			 * (non-Javadoc)
 			 * @see com.dwarfeng.tp.control.ProgramAttributes.InnerInitializer.Generator#newInstance(java.util.Map)
 			 */
 			@Override
-			public PlatformLogger newInstance(Map<String, Resource> resourceMap) throws InitializeFailedException {
+			public Logger newInstance(Map<String, Resource> resourceMap) throws InitializeException {
 				Objects.requireNonNull(resourceMap, "入口参数 resourceMap 不能为 null。");
 				
 				try{
@@ -355,7 +269,7 @@ public final class ToolPlatformHelper {
 					return usingLogger;
 					
 				}catch (IOException | DocumentException e) {
-					InitializeFailedException ee = new InitializeFailedException(
+					InitializeException ee = new InitializeException(
 							usingMutilang.getString(LoggerStringKey.Initializer_4), 
 							usingMutilang.getString(LoggerStringKey.Initializer_15),
 							e.getMessage(),
@@ -376,7 +290,7 @@ public final class ToolPlatformHelper {
 			 * @see com.dwarfeng.tp.control.ProgramAttributes.InnerInitializer.Generator#newInstance(java.util.Map)
 			 */
 			@Override
-			public ConfigModel newInstance(Map<String, Resource> resourceMap) throws InitializeFailedException {
+			public ConfigModel newInstance(Map<String, Resource> resourceMap) throws InitializeException {
 				Objects.requireNonNull(resourceMap, "入口参数 resourceMap 不能为 null。");
 				
 				try{
@@ -401,7 +315,7 @@ public final class ToolPlatformHelper {
 					return model;
 					
 				}catch (IOException e) {
-					InitializeFailedException ee = new InitializeFailedException(
+					InitializeException ee = new InitializeException(
 							usingMutilang.getString(LoggerStringKey.Initializer_26), 
 							usingMutilang.getString(LoggerStringKey.Initializer_16),
 							e.getMessage(),
@@ -421,7 +335,7 @@ public final class ToolPlatformHelper {
 			 * @see com.dwarfeng.tp.control.ProgramAttributes.InnerInitializer.Generator#newInstance(java.util.Map)
 			 */
 			@Override
-			public Mutilang<LoggerStringKey> newInstance(Map<String, Resource> resourceMap)throws InitializeFailedException {
+			public Mutilang<LoggerStringKey> newInstance(Map<String, Resource> resourceMap)throws InitializeException {
 				Objects.requireNonNull(resourceMap, "入口参数 resourceMap 不能为 null。");
 				
 				try{
@@ -441,7 +355,7 @@ public final class ToolPlatformHelper {
 					
 					String rootDirStr = root.attributeValue("dir");
 					if(Objects.isNull(rootDirStr)){
-						throw new InitializeFailedException(usingMutilang.getString(LoggerStringKey.Initializer_19));
+						throw new InitializeException(usingMutilang.getString(LoggerStringKey.Initializer_19));
 					}
 					
 					File rootDir = new File(rootDirStr);
@@ -477,14 +391,14 @@ public final class ToolPlatformHelper {
 					ResourceBundle resourceBundle = ResourceBundle.getBundle(
 							"com.dwarfeng.tp.resource.defaultres.mutilang.logger.default");
 					
-					DefaultMutilang<LoggerStringKey> loggerMutiLang = new DefaultMutilang<>(resourceBundle, urlMap, missingLabel);
+					DefaultMutilang<LoggerStringKey> loggerMutiLang = new DefaultMutilang<>(loggerMutilangResourceBundle, urlMap, missingLabel);
 					usingMutilang = loggerMutiLang;
 					
 					usingLogger.info(usingMutilang.getString(LoggerStringKey.Initializer_21));
 					return loggerMutiLang;
 					
 				}catch (IOException | DocumentException e) {
-					InitializeFailedException ee = new InitializeFailedException(
+					InitializeException ee = new InitializeException(
 							usingMutilang.getString(LoggerStringKey.Initializer_27), 
 							usingMutilang.getString(LoggerStringKey.Initializer_28),
 							e.getMessage(),
@@ -504,7 +418,7 @@ public final class ToolPlatformHelper {
 			 * @see com.dwarfeng.tp.control.ProgramAttributes.InnerInitializer.Generator#newInstance(java.util.Map)
 			 */
 			@Override
-			public Mutilang<LabelStringKey> newInstance(Map<String, Resource> resourceMap)throws InitializeFailedException {
+			public Mutilang<LabelStringKey> newInstance(Map<String, Resource> resourceMap)throws InitializeException {
 				Objects.requireNonNull(resourceMap, "入口参数 resourceMap 不能为 null。");
 				
 				try{
@@ -524,7 +438,7 @@ public final class ToolPlatformHelper {
 					
 					String rootDirStr = root.attributeValue("dir");
 					if(Objects.isNull(rootDirStr)){
-						throw new InitializeFailedException(usingMutilang.getString(LoggerStringKey.Initializer_30));
+						throw new InitializeException(usingMutilang.getString(LoggerStringKey.Initializer_30));
 					}
 					
 					File rootDir = new File(rootDirStr);
@@ -560,14 +474,14 @@ public final class ToolPlatformHelper {
 					ResourceBundle resourceBundle = ResourceBundle.getBundle(
 							"com.dwarfeng.tp.resource.defaultres.mutilang.logger.default");
 					
-					DefaultMutilang<LoggerStringKey> loggerMutiLang = new DefaultMutilang<>(resourceBundle, urlMap, missingLabel);
+					DefaultMutilang<LoggerStringKey> loggerMutiLang = new DefaultMutilang<>(loggerMutilangResourceBundle, urlMap, missingLabel);
 					usingMutilang = loggerMutiLang;
 					
 					usingLogger.info(usingMutilang.getString(LoggerStringKey.Initializer_32));
 					return null;
 					
 				}catch (IOException | DocumentException e) {
-					InitializeFailedException ee = new InitializeFailedException(
+					InitializeException ee = new InitializeException(
 							usingMutilang.getString(LoggerStringKey.Initializer_33), 
 							usingMutilang.getString(LoggerStringKey.Initializer_34),
 							e.getMessage(),
@@ -584,10 +498,10 @@ public final class ToolPlatformHelper {
 		 * @see com.dwarfeng.tp.core.control.proc.Initializer#init()
 		 */
 		@Override
-		public void init() throws InitializeFailedException {
+		public void init() throws InitializeException {
 			
 			Map<String, Resource> resourceMap = null;
-			PlatformLogger logger = null;
+			Logger logger = null;
 			ConfigModel coreConfigModel = null;
 			Mutilang<LoggerStringKey> loggerMutilang = null;
 			Mutilang<LabelStringKey> labelMutilang = null; 
@@ -621,11 +535,11 @@ public final class ToolPlatformHelper {
 		}
 		
 		
-		private InputStream getResourceInput(Map<String, Resource> resourceMap, PathKey key) throws IOException, InitializeFailedException{
+		private InputStream getResourceInput(Map<String, Resource> resourceMap, PathKey key) throws IOException, InitializeException{
 			Resource resource = resourceMap.get(key.getName());
 			
 			if(Objects.isNull(resource)){
-				throw new InitializeFailedException(usingMutilang.getString(LoggerStringKey.Initializer_0));
+				throw new InitializeException(usingMutilang.getString(LoggerStringKey.Initializer_0));
 			}
 			
 			InputStream in = null;
@@ -651,123 +565,40 @@ public final class ToolPlatformHelper {
 		}
 		
 		private static interface Generator<T> {
-			public T newInstance(Map<String, Resource> resourceMap) throws InitializeFailedException;
+			public T newInstance(Map<String, Resource> resourceMap) throws InitializeException;
 		}
 		private interface ResourceLoader {
-			public Map<String, Resource> loadResources() throws InitializeFailedException;
+			public Map<String, Resource> loadResources() throws InitializeException;
 		}
 		
 	}
 
 
 	/**
-	 * 默认的记录器多语言接口。
+	 * 初始化多语言接口。
+	 * <p> 该多语言接口是程序在初始化阶段，尚未通过配置生成专用的多语言接口提供器之前，
+	 * 用于代替的多语言接口，该方法生成的多语言接口只会在程序在初始化的前期保留一段时间。
 	 * <p> 使用简体中文，并且不响应设置语言方法和将语言设置为默认值方法。
 	 * @author  DwArFeng
 	 * @since 1.8
 	 */
-	private static final class DefaultLoggerMutilang implements Mutilang<LoggerStringKey> {
-		
-		ResourceBundle resourceBundle = ResourceBundle.getBundle(
-				"com.dwarfeng.tp.resource.defaultres.mutilang.logger.default");
+	private static final class InitialLoggerMutilang implements Mutilang {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.model.cfg.Mutilang#getString(com.dwarfeng.dutil.basic.str.Name)
+		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(com.dwarfeng.dutil.basic.str.Name)
 		 */
 		@Override
-		public String getString(LoggerStringKey key) {
-			return resourceBundle.getString(key.getName());
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#setLocale(java.util.Locale)
-		 */
-		@Override
-		public void setLocale(Locale locale) {}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#setLocale2Default()
-		 */
-		@Override
-		public void setLocale2Default() {}
-		
-	}
-
-
-	/**
-	 * 默认资源。
-	 * <p> 程序中资源的默认实现。
-	 * @author  DwArFeng
-	 * @since 1.8
-	 */
-	private final static class DefaultResource implements Resource{
-		
-		private final URL def;
-		private final File res;
-		
-		/**
-		 * 生成实例。
-		 * @param def 指定的默认URL。
-		 * @param res 指定的资源文件。
-		 * @throws NullPointerException 入口参数为 null。
-		 */
-		public DefaultResource(URL def, File res) {
-			Objects.requireNonNull(def, "入口参数 def 不能为 null");
-			Objects.requireNonNull(res, "入口参数 res 不能为 null");
-			
-			this.def = def;
-			this.res = res;
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Resource#openInputStream()
-		 */
-		@Override
-		public InputStream openInputStream() throws IOException {
-			return new FileInputStream(res);
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Resource#openOutputStream()
-		 */
-		@Override
-		public OutputStream openOutputStream() throws IOException {
-			return new FileOutputStream(res);
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Resource#reset()
-		 */
-		@Override
-		public void reset() throws IOException {
-			FileUtil.createFileIfNotExists(res);
-			
-			InputStream in = null;
-			OutputStream out = null;
-			
-			try{
-				in = def.openStream();
-				out = new FileOutputStream(res);
-				IoUtil.trans(in, out, 8192);
-			}finally {
-				if(Objects.nonNull(in)){
-					in.close();
-				}
-				if(Objects.nonNull(out)){
-					out.close();
-				}
+		public String getString(Name key) {
+			if(!(key instanceof LoggerStringKey)){
+				throw new IllegalArgumentException("此多语言接口不支持该键");
 			}
+			return loggerMutilangResourceBundle.getString(key.getName());
 		}
 		
 	}
-	
-	
+
+
 	/**
 	 * 默认多语言接口。
 	 * <p> 多语言接口的默认实现。
@@ -849,120 +680,7 @@ public final class ToolPlatformHelper {
 	}
 	
 	
-	/**
-	 * 默认模型管理器。
-	 * <p> 程序中模型管理器接口的默认实现。
-	 * @author  DwArFeng
-	 * @since 1.8
-	 */
-	private static class DefaultModelManager implements ModelManager{
-		
-		private final PlatformLogger logger;
-		private final Mutilang<LoggerStringKey> loggerMutilang;
-		private final Mutilang<LabelStringKey> labelMutilang;
-		private final ConfigModel coreConfigModel;
-		private final ConfigModel invisibleConfigModel;
-		
-		public DefaultModelManager(
-				PlatformLogger logger, 
-				Mutilang<LoggerStringKey> loggerMutilang,
-				Mutilang<LabelStringKey> labelMutilang,
-				ConfigModel coreConfigModel,
-				ConfigModel invisibleConfigModel
-				) {
-			Objects.requireNonNull(logger, "入口参数 logger 不能为 null。");
-			Objects.requireNonNull(loggerMutilang, "入口参数 loggerMutilang 不能为 null。");
-			Objects.requireNonNull(labelMutilang, "入口参数 labelMutilang 不能为 null。");
-			Objects.requireNonNull(coreConfigModel, "入口参数 coreConfigModel 不能为 null。");
-			Objects.requireNonNull(invisibleConfigModel, "入口参数 invisibleConfigModel 不能为 null。");
-
-			this.logger = logger;
-			this.loggerMutilang = loggerMutilang;
-			this.labelMutilang = labelMutilang;
-			this.coreConfigModel = coreConfigModel;
-			this.invisibleConfigModel = invisibleConfigModel;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.ModelManager#getLogger()
-		 */
-		@Override
-		public PlatformLogger getLogger() {
-			return this.logger;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.ModelManager#getLoggerMutilang()
-		 */
-		@Override
-		public Mutilang<LoggerStringKey> getLoggerMutilang() {
-			return this.loggerMutilang;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.ModelManager#getLabelMutilang()
-		 */
-		@Override
-		public Mutilang<LabelStringKey> getLabelMutilang() {
-			return this.labelMutilang;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.ModelManager#getCoreConfigModel()
-		 */
-		@Override
-		public ConfigModel getCoreConfigModel() {
-			return this.coreConfigModel;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.ModelManager#getInvisibleConfigModel()
-		 */
-		@Override
-		public ConfigModel getInvisibleConfigModel() {
-			return this.invisibleConfigModel;
-		}
-		
-	}
-
-
-	/**
-	 * 空的程序记录器。
-	 * <p> 此程序记录器对任何记录方法都不执行任何动作。
-	 * @author  DwArFeng
-	 * @since 1.8
-	 */
-	private static class EmptyPlatformLogger implements PlatformLogger{
-		@Override
-		public void trace(String message) {}
-		@Override
-		public void debug(String message) {}
-		@Override
-		public void info(String message) {}
-		@Override
-		public void warn(String message) {}
-		@Override
-		public void warn(String message, Throwable t) {}
-		@Override
-		public void error(String message, Throwable t) {}
-		@Override
-		public void fatal(String message, Throwable t) {}
-		@Override
-		public void stop() {}
-		
-	}
-	
-	private static class DefaultCoreProvider implements CoreProvider{
-		
-	}
-	
-	
 	//禁止外部实例化
-	private ToolPlatformHelper(){}
+	private ToolPlatformUtil(){}
 
 }

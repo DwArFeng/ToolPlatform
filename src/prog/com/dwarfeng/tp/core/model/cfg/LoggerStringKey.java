@@ -43,6 +43,16 @@ public enum LoggerStringKey implements Name{
 	Initializer_33("Initializer.33"),
 	Initializer_34("Initializer.34"),
 	
+	ActionProcessor_start_1("ActionProcessor.start.1"),
+	ActionProcessor_start_2("ActionProcessor.start.2"),
+	ActionProcessor_start_3("ActionProcessor.start.3"),
+	ActionProcessor_start_4("ActionProcessor.start.4"),
+	ActionProcessor_start_5("ActionProcessor.start.5"),
+	ActionProcessor_start_6("ActionProcessor.start.6"),
+	ActionProcessor_start_7("ActionProcessor.start.7"),
+	ActionProcessor_start_8("ActionProcessor.start.8"),
+	
+	
 	;
 
 	private String name;

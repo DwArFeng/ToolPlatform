@@ -13,7 +13,6 @@ import org.dom4j.io.SAXReader;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.struct.DefaultResource;
-import com.dwarfeng.tp.core.model.struct.InitializeFailedException;
 import com.dwarfeng.tp.core.model.vim.ResourceModel;
 
 /**
@@ -63,7 +62,7 @@ public class XmlResourceLoader extends StreamResourceLoader {
 				URL def = ToolPlatform.class.getResource(defString);
 				
 				if(Objects.isNull(def)){
-					throw new InitializeFailedException("配置中资源的路径不正确");
+					throw new LoadFailedException("配置中资源的路径不正确");
 				}
 				
 				File res = new File(resString);
@@ -71,8 +70,8 @@ public class XmlResourceLoader extends StreamResourceLoader {
 				resourceModel.put(key, new DefaultResource(def, res));
 			}
 			
-		}catch (DocumentException | InitializeFailedException e) {
-			throw new LoadFailedException(e.getMessage(), e);
+		}catch (DocumentException e) {
+			throw new LoadFailedException("无法向资源模型中读取流中的数据", e);
 		}
 		
 	}

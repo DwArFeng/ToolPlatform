@@ -18,4 +18,7 @@ public final class ViewManager {
 		this.mainFrame = mainFrame;
 	}
 	
+	
+	
+	
 }

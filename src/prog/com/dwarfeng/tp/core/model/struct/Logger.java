@@ -7,7 +7,7 @@ package com.dwarfeng.tp.core.model.struct;
  * @author  DwArFeng
  * @since 1.8
  */
-public interface PlatformLogger {
+public interface Logger {
 
 	/**
 	 * 调用记录站点的trace方法。
@@ -53,9 +53,4 @@ public interface PlatformLogger {
 	 * @param t 指定的可抛出对象，一般是线程或异常的跟踪堆栈。
 	 */
 	public void fatal(String message, Throwable t);
-	
-	/**
-	 * 停用此记录器。
-	 */
-	public void stop();
 }

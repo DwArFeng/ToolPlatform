@@ -89,21 +89,26 @@ public final class DefaultMutilangProvider implements MutilangProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.MutilangProvider#refresh2Default()
+	 * @see com.dwarfeng.tp.core.model.struct.MutilangProvider#update2Default()
 	 */
 	@Override
-	public void refresh2Default() {
+	public void update2Default() {
 		mutilang.map = defaultMap;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.MutilangProvider#refresh(java.util.Locale)
+	 * @see com.dwarfeng.tp.core.model.struct.MutilangProvider#update(java.util.Locale)
 	 */
 	@Override
-	public void refresh(Locale locale) throws MutilangException {
+	public void update(Locale locale) throws ProcessException {
+		if(locale == null){
+			update2Default();
+			return;
+		}
+		
 		if(! this.mutilangModel.containsKey(locale)){
-			throw new IllegalArgumentException("该多语言提供器不支持指定的语言");
+			throw new ProcessException("该多语言提供器不支持指定的语言");
 		}
 		
 		File targetFile = new File(this.mutilangModel.getDirFile(), this.mutilangModel.get(locale).getFilePath());
@@ -119,13 +124,13 @@ public final class DefaultMutilangProvider implements MutilangProvider {
 			}
 			this.mutilang.map = map;
 		}catch (IOException e) {
-			throw new MutilangException(e.getMessage(), e);
+			throw new ProcessException(e.getMessage(), e);
 		}finally{
 			if(Objects.nonNull(in)){
 				try {
 					in.close();
 				} catch (IOException e) {
-					throw new MutilangException(e.getMessage(), e);
+					throw new ProcessException(e.getMessage(), e);
 				}
 			}
 		}
@@ -146,7 +151,7 @@ public final class DefaultMutilangProvider implements MutilangProvider {
 			if(! isSupport(key)){
 				throw new IllegalArgumentException("此多语言接口不支持该键");
 			}
-			return map.getOrDefault(key, defaultString);
+			return map.getOrDefault(key.getName(), defaultString);
 		}
 		
 	}

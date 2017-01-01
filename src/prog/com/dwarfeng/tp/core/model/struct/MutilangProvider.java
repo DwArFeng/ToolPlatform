@@ -45,13 +45,13 @@ public interface MutilangProvider {
 	/**
 	 * 将多语言接口更新为默认值。
 	 */
-	public void refresh2Default();
+	public void update2Default();
 	
 	/**
 	 * 刷新多语言接口，使多语言接口符合指定的语言。
 	 * @param locale 指定的语言。
 	 * @throws MutilangException 多语言接口异常。
-	 * @throws IllegalArgumentException 该提供器不支持当前的语言。
+	 * @throws ProcessException 过程异常。
 	 */
-	public void refresh(Locale locale) throws MutilangException;
+	public void update(Locale locale) throws ProcessException;
 }

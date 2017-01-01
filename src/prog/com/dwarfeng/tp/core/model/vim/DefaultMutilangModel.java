@@ -44,7 +44,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean setDirFile(File dirFile) {
-		if(this.dirFile.equals(dirFile)) return false;
+		if(Objects.equals(this.dirFile, dirFile)) return false;
 		File oldOne = this.dirFile;
 		this.dirFile = dirFile;
 		fireDirFileChanged(oldOne, dirFile);

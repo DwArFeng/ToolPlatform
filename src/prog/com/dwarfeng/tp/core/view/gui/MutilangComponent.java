@@ -1,6 +1,5 @@
 package com.dwarfeng.tp.core.view.gui;
 
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 
 /**
@@ -16,6 +15,6 @@ public interface MutilangComponent {
 	 * @param labelMutilang 参与更新的标签多语言接口。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public void refreshLabels(Mutilang<LabelStringKey> labelMutilang);
+	public void refreshLabels(Mutilang mutilang);
 
 }

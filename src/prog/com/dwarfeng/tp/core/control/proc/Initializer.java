@@ -1,7 +1,7 @@
 package com.dwarfeng.tp.core.control.proc;
 
 import com.dwarfeng.tp.core.model.ModelManager;
-import com.dwarfeng.tp.core.model.struct.InitializeFailedException;
+import com.dwarfeng.tp.core.model.struct.InitializeException;
 import com.dwarfeng.tp.core.view.ViewManager;
 
 /**
@@ -17,7 +17,7 @@ public interface Initializer {
 	 * @param preLogger 记录器还未生成之前使用的记录器。
 	 * @throws 因初始化失败而抛出的紧急异常。
 	 */
-	public void init() throws InitializeFailedException;
+	public void init() throws InitializeException;
 	
 	/**
 	 * 获取初始化器中的模型管理器。

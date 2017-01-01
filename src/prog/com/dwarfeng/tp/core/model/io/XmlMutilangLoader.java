@@ -84,7 +84,7 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 			}
 			
 		}catch (DocumentException | IOException e) {
-			throw new LoadFailedException(e.getMessage(), e);
+			throw new LoadFailedException("无法向指定的多语言模型中读取流中的数据", e);
 		}
 
 	}
