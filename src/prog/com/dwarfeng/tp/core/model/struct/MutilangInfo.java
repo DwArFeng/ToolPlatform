@@ -1,7 +1,5 @@
 package com.dwarfeng.tp.core.model.struct;
 
-import java.io.File;
-
 /**
  * 多语言的信息。
  * @author  DwArFeng
@@ -19,6 +17,6 @@ public interface MutilangInfo {
 	 * 获取信息中的文件位置。
 	 * @return 信息中的文件位置。
 	 */
-	public File getFile();
+	public String getFilePath();
 
 }

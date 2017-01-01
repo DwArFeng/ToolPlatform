@@ -16,8 +16,8 @@ import com.dwarfeng.tp.core.model.struct.DefaultMutilangInfo;
 import com.dwarfeng.tp.core.model.vim.MutilangModel;
 
 /**
- * xml多语言接口读取器。
- * <p> 使用xml读取多语言接口。
+ * xml多语言模型读取器。
+ * <p> 使用xml读取多语言模型。
  * @author  DwArFeng
  * @since 1.8
  */
@@ -69,18 +69,17 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 				String country = mutilangInfo.attributeValue("country");
 				String variant = mutilangInfo.attributeValue("variant");
 				String label = mutilangInfo.attributeValue("label");
-				String fileName = mutilangInfo.attributeValue("file");
+				String filePath = mutilangInfo.attributeValue("file");
 				
 				if(
 						Objects.nonNull(language) &&
 						Objects.nonNull(country) &&
 						Objects.nonNull(variant) &&
 						Objects.nonNull(label) &&
-						Objects.nonNull(fileName)
+						Objects.nonNull(filePath)
 						){
 					Locale locale = new Locale(language, country, variant);
-					File file = new File(fileName);
-					mutilangModel.put(locale, new DefaultMutilangInfo(label, file));
+					mutilangModel.put(locale, new DefaultMutilangInfo(label, filePath));
 				}
 			}
 			

@@ -5,7 +5,7 @@ package com.dwarfeng.tp.core.model.struct;
  * @author  DwArFeng
  * @since 1.8
  */
-public class ConfigChangeFailedException extends Exception {
+public final class ConfigChangeFailedException extends Exception {
 
 	public ConfigChangeFailedException() {
 		super();

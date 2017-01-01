@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +28,6 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.basic.io.IoUtil;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
@@ -39,6 +37,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigUtil;
 import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
 import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigLoader;
 import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
+import com.dwarfeng.tp.core.control.proc.CoreProvider;
 import com.dwarfeng.tp.core.control.proc.Initializer;
 import com.dwarfeng.tp.core.model.ModelManager;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
@@ -51,7 +50,6 @@ import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.PlatformLogger;
 import com.dwarfeng.tp.core.model.struct.Resource;
 import com.dwarfeng.tp.core.view.ViewManager;
-import com.sun.xml.internal.ws.org.objectweb.asm.Label;
 
 /**
  * 关于工具平台的工厂类。
@@ -60,6 +58,13 @@ import com.sun.xml.internal.ws.org.objectweb.asm.Label;
  */
 public final class ToolPlatformHelper {
 	
+	/**
+	 * 获取新的程序核心提供器。
+	 * @return 新的程序核心提供器。
+	 */
+	public final static CoreProvider newCoreProvider(){
+		return new DefaultCoreProvider();
+	}
 	
 	/**
 	 * 根据指定的字符串返回与其对应的语言。
@@ -949,6 +954,10 @@ public final class ToolPlatformHelper {
 		public void fatal(String message, Throwable t) {}
 		@Override
 		public void stop() {}
+		
+	}
+	
+	private static class DefaultCoreProvider implements CoreProvider{
 		
 	}
 	

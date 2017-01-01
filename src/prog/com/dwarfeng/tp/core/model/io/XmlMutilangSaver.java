@@ -5,7 +5,13 @@ import java.io.OutputStream;
 import com.dwarfeng.dutil.basic.io.SaveFailedException;
 import com.dwarfeng.tp.core.model.vim.MutilangModel;
 
-public class XmlMutilangSaver extends StreamMutilangSaver {
+/**
+ * xml多语言模型保存器。
+ * <p> 使用xml保存多语言模型。
+ * @author  DwArFeng
+ * @since 1.8
+ */
+public final class XmlMutilangSaver extends StreamMutilangSaver {
 
 	/**
 	 * 新实例。

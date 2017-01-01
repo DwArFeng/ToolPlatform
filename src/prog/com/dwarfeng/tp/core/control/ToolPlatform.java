@@ -5,11 +5,10 @@ import java.util.Objects;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
-import com.dwarfeng.tp.core.control.proc.Initializer;
+import com.dwarfeng.tp.core.control.proc.ActionProcessor;
+import com.dwarfeng.tp.core.control.proc.CoreProvider;
 import com.dwarfeng.tp.core.model.ModelManager;
-import com.dwarfeng.tp.core.model.struct.InitializeFailedException;
 import com.dwarfeng.tp.core.view.ViewManager;
-import com.dwarfeng.tp.core.view.ViewUtil;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -31,7 +30,7 @@ public final class ToolPlatform {
 	 * @author DwArFeng
 	 * @since 1.8
 	 */
-	public static class Attributes{
+	public final static class Attributes{
 		
 		/**程序的版本*/
 		public final static Version VERSION = new DefaultVersion.Builder()
@@ -50,6 +49,18 @@ public final class ToolPlatform {
 	}
 	
 	
+	private final ActionProcessor actionProcessor = new ActionProcessor() {
+		
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.control.proc.ActionProcessor#start()
+		 */
+		@Override
+		public void start() {
+			
+		}
+		
+	};
 	
 	
 	
@@ -62,16 +73,22 @@ public final class ToolPlatform {
 	
 	
 	
-	/**程序中引用的模型管理器。*/
-	private final ModelManager modelManager;
-	private final ViewManager viewManager;
+	/**程序的核心提供器*/
+	private final CoreProvider coreProvider;
+	
+	/**程序中引用的模型管理器*/
+	private ModelManager modelManager;
+	/**程序中引用的视图管理器*/
+	private ViewManager viewManager;
+
+	
 	
 	/**
 	 * 生成一个默认的工具平台实例。
 	 * 生成一个具有指定 TODO
 	 */
 	public ToolPlatform() {
-		this(ToolPlatformHelper.newDefaultInitializer());
+		this(ToolPlatformHelper.newCoreProvider());
 	}
 	
 	/**
@@ -79,20 +96,9 @@ public final class ToolPlatform {
 	 * @param preLogger
 	 * @param preMutilang
 	 */
-	public ToolPlatform(Initializer initializer){
-		Objects.requireNonNull(initializer, "入口参数 initializer 不能为 null。");
-		
-		try {
-			initializer.init();
-		} catch (InitializeFailedException e) {
-			ViewUtil.showEmergentMessage(e.getDialogTitle(), e.getDialogMessage());
-			System.exit(100);
-		}
-		
-		this.modelManager = initializer.getModelManager();
-		this.viewManager = initializer.getViewManager();
-		
-		
+	public ToolPlatform(CoreProvider coreProvider){
+		Objects.requireNonNull(coreProvider, "入口参数 coreProvider 不能为 null。");
+		this.coreProvider = coreProvider;
 	}
 	
 }

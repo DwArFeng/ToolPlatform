@@ -4,6 +4,12 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * 流多语言模型保存器。
+ * <p> 用流实现的多语言模型保存器。
+ * @author  DwArFeng
+ * @since 1.8
+ */
 public abstract class StreamMutilangSaver implements MutilangSaver, Closeable {
 
 	/**保存器中的输出流*/

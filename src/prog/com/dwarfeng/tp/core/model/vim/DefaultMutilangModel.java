@@ -1,17 +1,14 @@
 package com.dwarfeng.tp.core.model.vim;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 
@@ -23,50 +20,14 @@ import com.dwarfeng.tp.core.model.struct.MutilangInfo;
  */
 public final class DefaultMutilangModel extends AbstractMutilangModel {
 	
-	private final Set<Name> nameSet;
-	
 	private final Map<Locale, MutilangInfo> delegate = new HashMap<>();
 	
 	private File dirFile;
-	private String defaultString;
 	
 	/**
 	 * 新实例。
-	 * @param names 指定的键值数组。
-	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public DefaultMutilangModel(Name[] names){
-		Objects.requireNonNull(names, "入口参数 names 不能为 null。");
-		this.nameSet = new HashSet<>(Arrays.asList(names));
-	}
-	
-	/**
-	 * 新实例。
-	 * @param nameSet 指定的键值集合。
-	 * @throws NullPointerException 入口参数为 <code>null</code>。
-	 */
-	public DefaultMutilangModel(Set<Name> nameSet) {
-		Objects.requireNonNull(nameSet, "入口参数 nameSet 不能为 null。");
-		this.nameSet = nameSet;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.vim.MutilangModel#nameSet()
-	 */
-	@Override
-	public Set<Name> nameSet() {
-		return Collections.unmodifiableSet(nameSet);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.vim.MutilangModel#isSupport(com.dwarfeng.dutil.basic.str.Name)
-	 */
-	@Override
-	public boolean isSupport(Name key) {
-		return nameSet.contains(key);
-	}
+	public DefaultMutilangModel(){}
 
 	/*
 	 * (non-Javadoc)
@@ -83,8 +44,6 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean setDirFile(File dirFile) {
-		Objects.requireNonNull(dirFile, "入口参数 dirFile 不能为 null。");
-		
 		if(this.dirFile.equals(dirFile)) return false;
 		File oldOne = this.dirFile;
 		this.dirFile = dirFile;
@@ -95,37 +54,6 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	private void fireDirFileChanged(File oldOne, File newOne){
 		for(MutilangObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireDirFileChanged(oldOne, newOne);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.vim.MutilangModel#getDefaultString()
-	 */
-	@Override
-	public String getDefaultString() {
-		return defaultString;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.vim.MutilangModel#setDefaultString(java.lang.String)
-	 */
-	@Override
-	public boolean setDefaultString(String defaultString) {
-		Objects.requireNonNull(defaultString, "入口参数 defaultString 不能为 null。");
-		
-		if(this.defaultString.equals(defaultString)) return false;
-		String oldOne = this.defaultString;
-		this.defaultString = defaultString;
-		fireDefaultStringChanged(oldOne, defaultString);
-		return true;
-	}
-	
-
-	private void fireDefaultStringChanged(String oldOne, String newOne) {
-		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireDefaultStringChanged(oldOne, newOne);
 		}
 	}
 
@@ -144,7 +72,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return delegate.isEmpty() && defaultString.isEmpty();
+		return delegate.isEmpty();
 	}
 
 	/*
@@ -195,13 +123,13 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 
 	private void fireLocaleAdded(Locale locale, MutilangInfo info) {
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireLocaleAdded(locale, info);
+			if(Objects.nonNull(obverser)) obverser.fireEntryAdded(locale, info);
 		}
 	}
 
 	private void fireInfoChanged(Locale locale, MutilangInfo oldOne, MutilangInfo newOne) {
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireInfoChanged(locale, oldOne, newOne);
+			if(Objects.nonNull(obverser)) obverser.fireEntryChanged(locale, oldOne, newOne);
 		}
 	}
 
@@ -219,7 +147,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 
 	private void fireLocaleRemoved(Locale locale) {
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireLocaleRemoved(locale);
+			if(Objects.nonNull(obverser)) obverser.fireEntryRemoved(locale);
 		}
 	}
 
@@ -242,6 +170,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	@Override
 	public void clear() {
 		fireCleared();
+		this.dirFile = null;
 		delegate.clear();
 	}
 

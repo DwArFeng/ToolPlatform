@@ -2,7 +2,6 @@ package com.dwarfeng.tp.core.model.obv;
 
 import java.io.File;
 import java.util.Locale;
-import java.util.Map;
 
 import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
@@ -19,13 +18,13 @@ public interface MutilangObverser extends Obverser{
 	 * @param locale 指定的语言。
 	 * @param info 与指定语言对应的多语言信息。
 	 */
-	public void fireLocaleAdded(Locale locale, MutilangInfo info);
+	public void fireEntryAdded(Locale locale, MutilangInfo info);
 	
 	/**
 	 * 通知模型中移除了指定的语言。
 	 * @param locale 指定的语言。
 	 */
-	public void fireLocaleRemoved(Locale locale);
+	public void fireEntryRemoved(Locale locale);
 	
 	/**
 	 *  通知模型中指定语言的多语言信息发生了改变。
@@ -33,7 +32,7 @@ public interface MutilangObverser extends Obverser{
 	 * @param oldOne 指定的语言对应的旧语言信息。
 	 * @param newOne 指定的语言对应的新语言信息。
 	 */
-	public void fireInfoChanged(Locale locale, MutilangInfo oldOne, MutilangInfo newOne);
+	public void fireEntryChanged(Locale locale, MutilangInfo oldOne, MutilangInfo newOne);
 	
 	/**
 	 * 通知模型中的数据被清除。
