@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.dwarfeng.tp.core.model.vim.LoggerModel;
+import com.dwarfeng.tp.core.model.cm.LoggerModel;
 
 /**
  * 默认记录器提供器。

@@ -12,8 +12,8 @@ import org.dom4j.io.SAXReader;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.tp.core.control.ToolPlatform;
+import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.struct.DefaultResource;
-import com.dwarfeng.tp.core.model.vim.ResourceModel;
 
 /**
  * xml资源模型读取器。

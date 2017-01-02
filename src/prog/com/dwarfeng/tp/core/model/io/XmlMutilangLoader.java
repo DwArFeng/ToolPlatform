@@ -12,8 +12,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
+import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.struct.DefaultMutilangInfo;
-import com.dwarfeng.tp.core.model.vim.MutilangModel;
 
 /**
  * xml多语言模型读取器。

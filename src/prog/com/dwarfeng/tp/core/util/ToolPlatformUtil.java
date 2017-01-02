@@ -8,10 +8,10 @@ import java.util.ResourceBundle;
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
+import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.struct.DefaultMutilangProvider;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangProvider;
-import com.dwarfeng.tp.core.model.vim.MutilangModel;
 
 /**
  * 关于工具平台的工厂类。

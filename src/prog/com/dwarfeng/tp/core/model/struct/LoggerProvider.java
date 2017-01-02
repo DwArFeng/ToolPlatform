@@ -1,6 +1,6 @@
 package com.dwarfeng.tp.core.model.struct;
 
-import com.dwarfeng.tp.core.model.vim.LoggerModel;
+import com.dwarfeng.tp.core.model.cm.LoggerModel;
 
 /**
  * ¼ÇÂ¼Æ÷Ìá¹©Æ÷¡£

@@ -1,7 +1,7 @@
 package com.dwarfeng.tp.core.model.io;
 
 import com.dwarfeng.dutil.basic.io.SaveFailedException;
-import com.dwarfeng.tp.core.model.vim.MutilangModel;
+import com.dwarfeng.tp.core.model.cm.MutilangModel;
 
 public interface MutilangSaver {
 

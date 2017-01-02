@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.core.model.vim;
+package com.dwarfeng.tp.core.model.cm;
 
 import java.io.File;
 import java.util.Collection;
@@ -15,6 +15,7 @@ import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 /**
  * 默认多语言模型。
  * <p> 多语言模型接口的默认实现。
+ * <p> 该模型中的数据的读写均是线程安全的。
  * @author  DwArFeng
  * @since 1.8
  */
@@ -35,7 +36,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public File getDirFile() {
-		return dirFile;
+		lock.readLock().lock();
+		try{
+			return dirFile;
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -44,11 +50,16 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean setDirFile(File dirFile) {
-		if(Objects.equals(this.dirFile, dirFile)) return false;
-		File oldOne = this.dirFile;
-		this.dirFile = dirFile;
-		fireDirFileChanged(oldOne, dirFile);
-		return true;
+		lock.writeLock().lock();
+		try{
+			if(Objects.equals(this.dirFile, dirFile)) return false;
+			File oldOne = this.dirFile;
+			this.dirFile = dirFile;
+			fireDirFileChanged(oldOne, dirFile);
+			return true;
+		}finally{
+			lock.writeLock().unlock();
+		}
 	}
 	
 	private void fireDirFileChanged(File oldOne, File newOne){
@@ -63,7 +74,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public int size() {
-		return delegate.size();
+		lock.readLock().lock();
+		try{
+			return delegate.size();
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -72,7 +88,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return delegate.isEmpty();
+		lock.readLock().lock();
+		try{
+			return delegate.isEmpty();
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -81,7 +102,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean containsKey(Object key) {
-		return delegate.containsKey(key);
+		lock.readLock().lock();
+		try{
+			return delegate.containsKey(key);
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -90,7 +116,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean containsValue(Object value) {
-		return delegate.containsValue(value);
+		lock.readLock().lock();
+		try{
+			return delegate.containsValue(value);
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -99,7 +130,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public MutilangInfo get(Object key) {
-		return delegate.get(key);
+		lock.readLock().lock();
+		try{
+			return delegate.get(key);
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -111,14 +147,19 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		Objects.requireNonNull(key, "入口参数 key 不能为 null。");
 		Objects.requireNonNull(value, "入口参数 value 不能为 null。");
 		
-		if(containsKey(key)){
-			MutilangInfo oldOne = get(key);
-			fireInfoChanged(key, oldOne, value);
-		}else{
-			fireLocaleAdded(key, value);
+		lock.writeLock().lock();
+		try{
+			if(containsKey(key)){
+				MutilangInfo oldOne = get(key);
+				fireInfoChanged(key, oldOne, value);
+			}else{
+				fireLocaleAdded(key, value);
+			}
+			
+			return delegate.put(key, value);
+		}finally {
+			lock.writeLock().unlock();
 		}
-		
-		return delegate.put(key, value);
 	}
 
 	private void fireLocaleAdded(Locale locale, MutilangInfo info) {
@@ -139,10 +180,15 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public MutilangInfo remove(Object key) {
-		if(containsKey(key)){
-			fireLocaleRemoved((Locale) key);
+		lock.writeLock().lock();
+		try{
+			if(containsKey(key)){
+				fireLocaleRemoved((Locale) key);
+			}
+			return delegate.remove(key);
+		}finally {
+			lock.writeLock().unlock();
 		}
-		return delegate.remove(key);
 	}
 
 	private void fireLocaleRemoved(Locale locale) {
@@ -158,8 +204,14 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	@Override
 	public void putAll(Map<? extends Locale, ? extends MutilangInfo> m) {
 		Objects.requireNonNull(m, "入口参数 m 不能为 null。");
-		for(Map.Entry<? extends Locale, ? extends MutilangInfo> entry : m.entrySet()){
-			put(entry.getKey(), entry.getValue());
+		
+		lock.writeLock().lock();
+		try{
+			for(Map.Entry<? extends Locale, ? extends MutilangInfo> entry : m.entrySet()){
+				put(entry.getKey(), entry.getValue());
+			}
+		}finally {
+			lock.writeLock().unlock();
 		}
 	}
 
@@ -169,9 +221,14 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public void clear() {
-		fireCleared();
-		this.dirFile = null;
-		delegate.clear();
+		lock.writeLock().lock();
+		try{
+			fireCleared();
+			this.dirFile = null;
+			delegate.clear();
+		}finally {
+			lock.writeLock().unlock();
+		}
 	}
 
 	private void fireCleared() {
@@ -180,31 +237,52 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#keySet()
+	/**
+	 * 返回该模型的键集合。
+	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
+	 * {@link #getLock()}进行外部同步。
+	 * @return 模型的键集合。
 	 */
 	@Override
 	public Set<Locale> keySet() {
-		return Collections.unmodifiableSet(delegate.keySet());
+		lock.readLock().lock();
+		try{
+			return Collections.unmodifiableSet(delegate.keySet());
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#values()
+	/**
+	 * 返回该模型的值集合。
+	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
+	 * {@link #getLock()}进行外部同步。
+	 * @return 模型的值集合。
 	 */
 	@Override
 	public Collection<MutilangInfo> values() {
-		return Collections.unmodifiableCollection(delegate.values());
+		lock.readLock().lock();
+		try{
+			return Collections.unmodifiableCollection(delegate.values());
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#entrySet()
+	/**
+	 * 返回该模型的入口集合。
+	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
+	 * {@link #getLock()}进行外部同步。
+	 * @return 模型的入口集合。
 	 */
 	@Override
 	public Set<java.util.Map.Entry<Locale, MutilangInfo>> entrySet() {
-		return Collections.unmodifiableSet(delegate.entrySet());
+		lock.readLock().lock();
+		try{
+			return Collections.unmodifiableSet(delegate.entrySet());
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 }

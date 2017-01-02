@@ -1,7 +1,7 @@
 package com.dwarfeng.tp.core.model.io;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
-import com.dwarfeng.tp.core.model.vim.ResourceModel;
+import com.dwarfeng.tp.core.model.cm.ResourceModel;
 
 /**
  * 资源模型读取器。

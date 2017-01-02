@@ -3,7 +3,7 @@ package com.dwarfeng.tp.core.model.io;
 import java.io.OutputStream;
 
 import com.dwarfeng.dutil.basic.io.SaveFailedException;
-import com.dwarfeng.tp.core.model.vim.MutilangModel;
+import com.dwarfeng.tp.core.model.cm.MutilangModel;
 
 /**
  * xml多语言模型保存器。

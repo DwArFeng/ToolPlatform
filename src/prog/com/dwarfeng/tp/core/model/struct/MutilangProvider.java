@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import com.dwarfeng.dutil.basic.str.Name;
-import com.dwarfeng.tp.core.model.vim.MutilangModel;
+import com.dwarfeng.tp.core.model.cm.MutilangModel;
 
 /**
  * 多语言接口提供器。

@@ -12,7 +12,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import com.dwarfeng.dutil.basic.str.Name;
-import com.dwarfeng.tp.core.model.vim.MutilangModel;
+import com.dwarfeng.tp.core.model.cm.MutilangModel;
 
 /**
  * 默认多语言接口提供器。

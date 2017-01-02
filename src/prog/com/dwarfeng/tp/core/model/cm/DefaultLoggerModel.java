@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.core.model.vim;
+package com.dwarfeng.tp.core.model.cm;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -13,6 +13,7 @@ import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 /**
  * 默认记录器模型。
  * <p> 记录器模型接口的默认实现。
+ * <p> 该模型中的数据的读写均是线程安全的。
  * @author  DwArFeng
  * @since 1.8
  */
@@ -43,7 +44,12 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public LoggerContext getLoggerContext() {
-		return this.loggerContext;
+		getLock().readLock().lock();
+		try{
+			return this.loggerContext;
+		}finally{
+			getLock().readLock().unlock();
+		}
 	}
 
 	/*
@@ -52,11 +58,16 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean setLoggerContext(LoggerContext loggerContext) {
-		if(Objects.equals(this.loggerContext, loggerContext)) return false;
-		LoggerContext oldOne = this.loggerContext;
-		this.loggerContext = loggerContext;
-		fireLoggerContextChanged(oldOne, loggerContext);
-		return true;
+		getLock().writeLock().unlock();
+		try{
+			if(Objects.equals(this.loggerContext, loggerContext)) return false;
+			LoggerContext oldOne = this.loggerContext;
+			this.loggerContext = loggerContext;
+			fireLoggerContextChanged(oldOne, loggerContext);
+			return true;
+		}finally {
+			getLock().writeLock().unlock();
+		}
 	}
 	
 	private void fireLoggerContextChanged(LoggerContext oldOne, LoggerContext newOne) {
@@ -71,7 +82,12 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public int size() {
-		return delegate.size();
+		getLock().readLock().lock();
+		try{
+			return delegate.size();
+		}finally {
+			getLock().readLock().unlock();
+		}
 	}
 
 	/*
@@ -80,7 +96,12 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return delegate.isEmpty();
+		getLock().readLock().lock();
+		try{
+			return delegate.isEmpty();
+		}finally {
+			getLock().readLock().unlock();
+		}
 	}
 
 	/*
@@ -89,16 +110,28 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean contains(Object o) {
-		return delegate.contains(o);
+		getLock().readLock().lock();
+		try{
+			return delegate.contains(o);
+		}finally {
+			getLock().readLock().unlock();
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Set#iterator()
+	/**
+	 * 获取模型的迭代器。
+	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
+	 * {@link #getLock()}进行外部同步。
+	 * @return 模型的迭代器。
 	 */
 	@Override
 	public Iterator<String> iterator() {
-		return delegate.iterator();
+		lock.readLock().lock();
+		try{
+			return delegate.iterator();
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -107,7 +140,12 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public Object[] toArray() {
-		return delegate.toArray();
+		lock.readLock().lock();
+		try{
+			return delegate.toArray();
+		}finally{
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -116,7 +154,12 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public <T> T[] toArray(T[] a) {
-		return delegate.toArray(a);
+		lock.readLock().lock();
+		try{
+			return delegate.toArray(a);
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -127,11 +170,17 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	public boolean add(String e) {
 		Objects.requireNonNull(e, "入口参数 e 不能为 null。");
 		
-		boolean aFlag = delegate.add(e);
-		if(aFlag){
-			fireLoggerNameAdded(e);
+		lock.writeLock().lock();
+		try{
+			boolean aFlag = delegate.add(e);
+			if(aFlag){
+				fireLoggerNameAdded(e);
+			}
+			return aFlag;
+		}finally {
+			lock.writeLock().unlock();
 		}
-		return aFlag;
+		
 	}
 	
 	private void fireLoggerNameAdded(String name) {
@@ -146,11 +195,16 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean remove(Object o) {
-		boolean aFlag = delegate.remove(o);
-		if(aFlag){
-			fireLoggerNameRemoved((String) o);
+		lock.writeLock().lock();
+		try{
+			boolean aFlag = delegate.remove(o);
+			if(aFlag){
+				fireLoggerNameRemoved((String) o);
+			}
+			return aFlag;
+		}finally {
+			lock.writeLock().unlock();
 		}
-		return aFlag;
 	}
 
 	private void fireLoggerNameRemoved(String name) {
@@ -165,7 +219,12 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		return delegate.contains(c);
+		lock.readLock().lock();
+		try{
+			return delegate.contains(c);
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -174,11 +233,18 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean addAll(Collection<? extends String> c) {
-		boolean aFlag = false;
-		for(String name : c){
-			if(delegate.add(name)) aFlag = true;
+		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
+		
+		lock.writeLock().lock();
+		try{
+			boolean aFlag = false;
+			for(String name : c){
+				if(delegate.add(name)) aFlag = true;
+			}
+			return aFlag;
+		}finally{
+			lock.writeLock().unlock();
 		}
-		return aFlag;
 	}
 
 	/*
@@ -196,11 +262,18 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		boolean aFlag = false;
-		for(Object obj : c){
-			if(delegate.remove(obj)) aFlag = true;;
+		Objects.requireNonNull(c, "入口参数 c 不能为 null。"); 
+		
+		lock.writeLock().lock();
+		try{
+			boolean aFlag = false;
+			for(Object obj : c){
+				if(delegate.remove(obj)) aFlag = true;
+			}
+			return aFlag;
+		}finally{
+			lock.writeLock().unlock();
 		}
-		return aFlag;
 	}
 
 	/*
@@ -209,8 +282,13 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public void clear() {
-		delegate.clear();
-		fireLoggerNameCleared();
+		lock.writeLock().lock();
+		try{
+			delegate.clear();
+			fireLoggerNameCleared();
+		}finally {
+			lock.writeLock().unlock();
+		}
 	}
 
 	private void fireLoggerNameCleared() {

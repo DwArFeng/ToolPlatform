@@ -1,7 +1,7 @@
 package com.dwarfeng.tp.core.model.io;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
-import com.dwarfeng.tp.core.model.vim.LoggerModel;
+import com.dwarfeng.tp.core.model.cm.LoggerModel;
 
 /**
  * 记录器模型读取器。

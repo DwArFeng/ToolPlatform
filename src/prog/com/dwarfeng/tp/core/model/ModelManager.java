@@ -3,11 +3,11 @@ package com.dwarfeng.tp.core.model;
 import java.util.Objects;
 
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
+import com.dwarfeng.tp.core.model.cm.LoggerModel;
+import com.dwarfeng.tp.core.model.cm.MutilangModel;
+import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.struct.LoggerProvider;
 import com.dwarfeng.tp.core.model.struct.MutilangProvider;
-import com.dwarfeng.tp.core.model.vim.LoggerModel;
-import com.dwarfeng.tp.core.model.vim.MutilangModel;
-import com.dwarfeng.tp.core.model.vim.ResourceModel;
 
 /**
  * 程序的模型管理器。

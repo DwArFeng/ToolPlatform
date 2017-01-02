@@ -1,21 +1,26 @@
-package com.dwarfeng.tp.core.model.vim;
+package com.dwarfeng.tp.core.model.cm;
 
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 
 /**
  * 抽象记录器模型。
  * <p> 记录器模型的抽象实现。
+ * <p> 模型中数据的读写均应该是线程安全的。
  * @author  DwArFeng
  * @since 1.8
  */
 public abstract class AbstractLoggerModel implements LoggerModel {
 
 	/**模型的侦听器集合。*/
-	protected Set<LoggerObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
+	protected final Set<LoggerObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
+	/**模型的同步读写锁。*/
+	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
 
 	/*
 	 * (non-Javadoc)
@@ -23,7 +28,12 @@ public abstract class AbstractLoggerModel implements LoggerModel {
 	 */
 	@Override
 	public Set<LoggerObverser> getObversers() {
-		return Collections.unmodifiableSet(obversers);
+		lock.readLock().lock();
+		try{
+			return Collections.unmodifiableSet(obversers);
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
 	/*
@@ -32,7 +42,12 @@ public abstract class AbstractLoggerModel implements LoggerModel {
 	 */
 	@Override
 	public boolean addObverser(LoggerObverser obverser) {
-		return obversers.add(obverser);
+		lock.writeLock().lock();
+		try{
+			return obversers.add(obverser);
+		}finally {
+			lock.writeLock().unlock();
+		}
 	}
 
 	/*
@@ -41,7 +56,12 @@ public abstract class AbstractLoggerModel implements LoggerModel {
 	 */
 	@Override
 	public boolean removeObverser(LoggerObverser obverser) {
-		return obversers.remove(obverser);
+		lock.writeLock().lock();
+		try{
+			return obversers.remove(obverser);
+		}finally {
+			lock.writeLock().unlock();
+		}
 	}
 
 	/*
@@ -50,9 +70,20 @@ public abstract class AbstractLoggerModel implements LoggerModel {
 	 */
 	@Override
 	public void clearObverser() {
-		obversers.clear();
+		lock.writeLock().lock();
+		try{
+			obversers.clear();
+		}finally {
+			lock.writeLock().unlock();
+		}
 	}
 	
-	
+	/**
+	 * 获取模型的同步锁。
+	 * @return 模型的同步锁。
+	 */
+	public ReadWriteLock getLock() {
+		return lock;
+	}
 
 }
