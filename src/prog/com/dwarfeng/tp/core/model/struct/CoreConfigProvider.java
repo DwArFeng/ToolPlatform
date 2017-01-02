@@ -28,5 +28,11 @@ public interface CoreConfigProvider {
 	 * @return 标签多语言接口的当前语言。
 	 */
 	public Locale getLabelMutilangLocale();
+	
+	/**
+	 * 获取程序启动时是否需要显示启动画面。
+	 * @return 是否需要在启动时显示启动画面。
+	 */
+	public boolean isShowSplashScreen();
 
 }

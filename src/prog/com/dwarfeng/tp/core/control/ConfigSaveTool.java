@@ -28,6 +28,19 @@ final class ConfigSaveTool {
 		}finally {
 			saver.close();
 		}
+		
+		file = new File("src\\prog\\com\\dwarfeng\\tp\\resource\\defaultres\\configuration\\invisible.properties");
+		FileUtil.createFileIfNotExists(file);
+		saver = null;
+		try{
+			saver = new PropertiesConfigSaver(new FileOutputStream(file));
+			saver.saveConfig(coreConfigModel);
+		}finally {
+			saver.close();
+		}
+		
+		file = new File("Attributes\\");
+		FileUtil.deleteFile(file);
 	}
 
 }

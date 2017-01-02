@@ -48,6 +48,15 @@ public final class DefaultCoreConfigProvider implements CoreConfigProvider{
 	public Locale getLabelMutilangLocale() {
 		return LocaleUtil.parseLocale(configModel.getValidValue(CoreConfig.MUTILANG_LABEL.getConfigKey()));
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.CoreConfigProvider#isShowSplashScreen()
+	 */
+	@Override
+	public boolean isShowSplashScreen() {
+		return Boolean.parseBoolean(configModel.getValidValue(CoreConfig.STARTUP_SPLASH_ISSHOW.getConfigKey()));
+	}
 	
 	
 

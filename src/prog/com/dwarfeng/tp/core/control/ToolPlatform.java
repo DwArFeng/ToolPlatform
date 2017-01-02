@@ -4,16 +4,19 @@ import java.io.IOException;
 import java.util.Objects;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
+import com.dwarfeng.dutil.basic.mea.TimeMeasurer;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
 import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
+import com.dwarfeng.dutil.develop.cfg.io.ConfigLoader;
 import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigLoader;
 import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
 import com.dwarfeng.tp.core.control.proc.ActionProcessor;
 import com.dwarfeng.tp.core.model.ModelManager;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
+import com.dwarfeng.tp.core.model.cfg.InvisibleConfig;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cfg.PathKey;
 import com.dwarfeng.tp.core.model.io.StreamLoggerLoader;
@@ -24,7 +27,9 @@ import com.dwarfeng.tp.core.model.io.XmlMutilangLoader;
 import com.dwarfeng.tp.core.model.io.XmlResourceLoader;
 import com.dwarfeng.tp.core.model.struct.CoreConfigProvider;
 import com.dwarfeng.tp.core.model.struct.DefaultCoreConfigProvider;
+import com.dwarfeng.tp.core.model.struct.DefaultInvisibleConfigProvider;
 import com.dwarfeng.tp.core.model.struct.DefaultLoggerProvider;
+import com.dwarfeng.tp.core.model.struct.InvisibleConfigProvider;
 import com.dwarfeng.tp.core.model.struct.Logger;
 import com.dwarfeng.tp.core.model.struct.LoggerProvider;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
@@ -38,7 +43,9 @@ import com.dwarfeng.tp.core.model.vim.LoggerModel;
 import com.dwarfeng.tp.core.model.vim.MutilangModel;
 import com.dwarfeng.tp.core.model.vim.ResourceModel;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
+import com.dwarfeng.tp.core.util.ViewUtil;
 import com.dwarfeng.tp.core.view.ViewManager;
+import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -96,6 +103,9 @@ public final class ToolPlatform {
 			Resource resource = null;
 			Mutilang usingMutilang = ToolPlatformUtil.newInitialLoggerMutilang();
 			Logger usingLogger = null;
+			SplashScreenController usingSplashScreenController = null;
+			TimeMeasurer usingTimeMeasurer = null;
+			
 			
 			try{
 				
@@ -183,7 +193,6 @@ public final class ToolPlatform {
 				try{
 					loggerMutilangProvider.update(coreConfigProvider.getLoggerMutilangLocale());
 					usingMutilang = loggerMutilangProvider.getMutilang();
-					
 				}catch (ProcessException e) {
 					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_7), e);
 					loggerMutilangProvider.update2Default();
@@ -192,16 +201,104 @@ public final class ToolPlatform {
 				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_8));
 				
 				//判断是否要生成闪现窗体。
+				if(coreConfigProvider.isShowSplashScreen()){
+					usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_9));
+					usingSplashScreenController = ViewUtil.newSplashScreenController();
+					usingTimeMeasurer = new TimeMeasurer();
+					usingTimeMeasurer.start();
+				}
+				
+				//加载标签多语言配置。
+				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_10));
+				if(Objects.nonNull(usingSplashScreenController)){
+					usingSplashScreenController.setText(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_10));
+				}
+				MutilangModel labelMutilangModel = new DefaultMutilangModel();
+				resource = resourceModel.get(PathKey.MUTILANG_LABEL_SETTING);
+				StreamMutilangLoader labelMutilangLoader = null;
+				try{
+					labelMutilangLoader = new XmlMutilangLoader(resource.openInputStream());
+					labelMutilangLoader.load(labelMutilangModel);
+				}catch(IOException e){
+					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_3), e);
+					resource.reset();
+					labelMutilangLoader = new XmlMutilangLoader(resource.openInputStream());
+					labelMutilangLoader.load(labelMutilangModel);
+				}finally{
+					if(Objects.nonNull(labelMutilangLoader)){
+						labelMutilangLoader.close();
+					}
+				}
+				MutilangProvider labelMutilangProvider = ToolPlatformUtil.newLabelMutilangProvider(labelMutilangModel);
+				try{
+					labelMutilangProvider.update(coreConfigProvider.getLabelMutilangLocale());
+				}catch (ProcessException e) {
+					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_11), e);
+					labelMutilangProvider.update2Default();
+				}
+				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_12));
+				
+				//加载不可见模型
+				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_13));
+				if(Objects.nonNull(usingSplashScreenController)){
+					usingSplashScreenController.setText(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_13));
+				}
+				ConfigModel invisibleConfigModel = new DefaultConfigModel(InvisibleConfig.values());
+				resource = resourceModel.get(PathKey.CONFIGURATION_INVISIBLE);
+				StreamConfigLoader invisibleConfigLoader = null;
+				try{
+					invisibleConfigLoader = new PropertiesConfigLoader(resource.openInputStream());
+					invisibleConfigLoader.loadConfig(invisibleConfigModel);
+				}catch (IOException e) {
+					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_3), e);
+					resource.reset();
+					invisibleConfigLoader = new PropertiesConfigLoader(resource.openInputStream());
+					invisibleConfigLoader.loadConfig(invisibleConfigModel);
+				}finally{
+					if(Objects.nonNull(invisibleConfigLoader)){
+						invisibleConfigLoader.close();
+					}
+				}
+				InvisibleConfigProvider invisibleConfigProvider = new DefaultInvisibleConfigProvider(invisibleConfigModel);
+				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_14));
 				
 				
 				
+				
+				
+				
+				
+				
+				//生成模型管理器。
+				ModelManager modelManager = new ModelManager(
+						resourceModel, 
+						coreConfigModel, 
+						invisibleConfigModel, 
+						loggerMutilangModel,
+						labelMutilangModel,
+						loggerMutilangProvider, 
+						labelMutilangProvider, 
+						loggerModel, 
+						loggerProvider);
+				ToolPlatform.this.modelManager = modelManager;
+				
+				
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				/*
 				 * TODO 程序启动方法有待完善。
 				 * 	加载程序的核心配置					√
 				 * 加载记录器多语言配置				√
 				 * 应用记录器多语言配置				√
-				 * 加载闪现窗体
+				 * 加载闪现窗体								√
+				 * 加载标签多语言模型					√
+				 * 加载不可见配置模型					√
+				 * 
 				 */
 				
 			}catch (IOException | LoadFailedException e) {
@@ -209,6 +306,10 @@ public final class ToolPlatform {
 					//TODO 无法完成初始化。
 				}
 				throw new ProcessException("初始化不成功", e.getCause());
+			}finally{
+				if(Objects.nonNull(usingSplashScreenController)){
+					usingSplashScreenController.dispose();
+				}
 			}
 			
 		}

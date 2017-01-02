@@ -4,6 +4,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigChecker;
 import com.dwarfeng.dutil.develop.cfg.ConfigEntry;
 import com.dwarfeng.dutil.develop.cfg.ConfigFirmProps;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
+import com.dwarfeng.dutil.develop.cfg.checker.BooleanConfigChecker;
 import com.dwarfeng.dutil.develop.cfg.checker.NonNullConfigChecker;
 import com.dwarfeng.tp.core.model.struct.DefaultConfigEntry;
 
@@ -20,6 +21,9 @@ public enum CoreConfig implements ConfigEntry{
 	
 	/**标签的使用语言*/
 	MUTILANG_LABEL("mutilang.label", "", new NonNullConfigChecker()),
+	
+	/**在启动的时候是否需要显示闪现窗格*/
+	STARTUP_SPLASH_ISSHOW("startup.splash.isshow", "TRUE", new BooleanConfigChecker()),
 	
 	;
 	
