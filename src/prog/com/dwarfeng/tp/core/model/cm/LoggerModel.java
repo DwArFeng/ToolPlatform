@@ -9,6 +9,7 @@ import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 
 /**
  * 有关记录器的配置模型。
+ * <p> 模型中数据的读写均应该是线程安全的。
  * @author  DwArFeng
  * @since 1.8
  */

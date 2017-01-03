@@ -23,7 +23,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	
 	private final Map<Locale, MutilangInfo> delegate = new HashMap<>();
 	
-	private File dirFile;
+	private File direction;
 	
 	/**
 	 * ÐÂÊµÀý¡£
@@ -35,10 +35,10 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.vim.MutilangModel#getDir()
 	 */
 	@Override
-	public File getDirFile() {
+	public File getDirection() {
 		lock.readLock().lock();
 		try{
-			return dirFile;
+			return direction;
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -49,22 +49,22 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.vim.MutilangModel#setDir(java.io.File)
 	 */
 	@Override
-	public boolean setDirFile(File dirFile) {
+	public boolean setDircetion(File direction) {
 		lock.writeLock().lock();
 		try{
-			if(Objects.equals(this.dirFile, dirFile)) return false;
-			File oldOne = this.dirFile;
-			this.dirFile = dirFile;
-			fireDirFileChanged(oldOne, dirFile);
+			if(Objects.equals(this.direction, direction)) return false;
+			File oldOne = this.direction;
+			this.direction = direction;
+			fireDirectionChanged(oldOne, direction);
 			return true;
 		}finally{
 			lock.writeLock().unlock();
 		}
 	}
 	
-	private void fireDirFileChanged(File oldOne, File newOne){
+	private void fireDirectionChanged(File oldOne, File newOne){
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireDirFileChanged(oldOne, newOne);
+			if(Objects.nonNull(obverser)) obverser.fireDirectionChanged(oldOne, newOne);
 		}
 	}
 
@@ -224,7 +224,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		lock.writeLock().lock();
 		try{
 			fireCleared();
-			this.dirFile = null;
+			this.direction = null;
 			delegate.clear();
 		}finally {
 			lock.writeLock().unlock();

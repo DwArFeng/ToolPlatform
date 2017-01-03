@@ -44,7 +44,7 @@ public interface MutilangObverser extends Obverser{
 	 * @param oldOne 旧的根目录。
 	 * @param newOne 新的根目录。
 	 */
-	public void fireDirFileChanged(File oldOne, File newOne);
+	public void fireDirectionChanged(File oldOne, File newOne);
 	
 	/**
 	 * 通知模型中的默认文本发生改变。

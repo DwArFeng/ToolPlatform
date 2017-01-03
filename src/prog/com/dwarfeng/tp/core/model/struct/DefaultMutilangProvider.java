@@ -111,7 +111,7 @@ public final class DefaultMutilangProvider implements MutilangProvider {
 			throw new ProcessException("该多语言提供器不支持指定的语言");
 		}
 		
-		File targetFile = new File(this.mutilangModel.getDirFile(), this.mutilangModel.get(locale).getFilePath());
+		File targetFile = new File(this.mutilangModel.getDirection(), this.mutilangModel.get(locale).getFile());
 		FileInputStream in = null;
 		
 		try{

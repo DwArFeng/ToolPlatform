@@ -44,11 +44,11 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public LoggerContext getLoggerContext() {
-		getLock().readLock().lock();
+		lock.readLock().lock();
 		try{
 			return this.loggerContext;
 		}finally{
-			getLock().readLock().unlock();
+			lock.readLock().unlock();
 		}
 	}
 
@@ -58,7 +58,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean setLoggerContext(LoggerContext loggerContext) {
-		getLock().writeLock().unlock();
+		lock.writeLock().lock();
 		try{
 			if(Objects.equals(this.loggerContext, loggerContext)) return false;
 			LoggerContext oldOne = this.loggerContext;
@@ -66,7 +66,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 			fireLoggerContextChanged(oldOne, loggerContext);
 			return true;
 		}finally {
-			getLock().writeLock().unlock();
+			lock.writeLock().unlock();
 		}
 	}
 	
@@ -82,11 +82,11 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public int size() {
-		getLock().readLock().lock();
+		lock.readLock().lock();
 		try{
 			return delegate.size();
 		}finally {
-			getLock().readLock().unlock();
+			lock.readLock().unlock();
 		}
 	}
 
@@ -96,11 +96,11 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean isEmpty() {
-		getLock().readLock().lock();
+		lock.readLock().lock();
 		try{
 			return delegate.isEmpty();
 		}finally {
-			getLock().readLock().unlock();
+			lock.readLock().unlock();
 		}
 	}
 
@@ -110,11 +110,11 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean contains(Object o) {
-		getLock().readLock().lock();
+		lock.readLock().lock();
 		try{
 			return delegate.contains(o);
 		}finally {
-			getLock().readLock().unlock();
+			lock.readLock().unlock();
 		}
 	}
 

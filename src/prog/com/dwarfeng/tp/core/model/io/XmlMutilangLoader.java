@@ -55,8 +55,8 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 				throw new LoadFailedException("根元素缺失dir属性");
 			}
 			
-			File dirFile = new File(rootDirStr);
-			mutilangModel.setDirFile(dirFile);
+			File direction = new File(rootDirStr);
+			mutilangModel.setDircetion(direction);
 			
 			/*
 			 * 根据 dom4j 的相关说明，此处转换是安全的。

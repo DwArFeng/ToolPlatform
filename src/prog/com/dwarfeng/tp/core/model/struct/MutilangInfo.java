@@ -17,6 +17,6 @@ public interface MutilangInfo {
 	 * 获取信息中的文件位置。
 	 * @return 信息中的文件位置。
 	 */
-	public String getFilePath();
+	public String getFile();
 
 }

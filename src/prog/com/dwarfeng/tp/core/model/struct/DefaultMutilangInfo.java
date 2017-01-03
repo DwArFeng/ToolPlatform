@@ -38,10 +38,10 @@ public final class DefaultMutilangInfo implements MutilangInfo {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.MutilangInfo#getFilePath()
+	 * @see com.dwarfeng.tp.core.model.struct.MutilangInfo#getFile()
 	 */
 	@Override
-	public String getFilePath() {
+	public String getFile() {
 		return this.filePath;
 	}
 
