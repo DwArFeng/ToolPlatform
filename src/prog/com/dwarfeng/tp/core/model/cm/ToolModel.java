@@ -14,5 +14,4 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
  */
 public interface ToolModel extends Map<String, ToolInfo>, ObverserSet<ToolObverser>{
 	
-
 }

@@ -151,9 +151,9 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		try{
 			if(containsKey(key)){
 				MutilangInfo oldOne = get(key);
-				fireInfoChanged(key, oldOne, value);
+				fireEntryChanged(key, oldOne, value);
 			}else{
-				fireLocaleAdded(key, value);
+				fireEntryAdded(key, value);
 			}
 			
 			return delegate.put(key, value);
@@ -162,13 +162,13 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		}
 	}
 
-	private void fireLocaleAdded(Locale locale, MutilangInfo info) {
+	private void fireEntryAdded(Locale locale, MutilangInfo info) {
 		for(MutilangObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireEntryAdded(locale, info);
 		}
 	}
 
-	private void fireInfoChanged(Locale locale, MutilangInfo oldOne, MutilangInfo newOne) {
+	private void fireEntryChanged(Locale locale, MutilangInfo oldOne, MutilangInfo newOne) {
 		for(MutilangObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireEntryChanged(locale, oldOne, newOne);
 		}
@@ -183,7 +183,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		lock.writeLock().lock();
 		try{
 			if(containsKey(key)){
-				fireLocaleRemoved((Locale) key);
+				fireEntryRemoved((Locale) key);
 			}
 			return delegate.remove(key);
 		}finally {
@@ -191,7 +191,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		}
 	}
 
-	private void fireLocaleRemoved(Locale locale) {
+	private void fireEntryRemoved(Locale locale) {
 		for(MutilangObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireEntryRemoved(locale);
 		}
