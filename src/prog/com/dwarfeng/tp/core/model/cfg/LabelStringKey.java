@@ -14,16 +14,28 @@ public enum LabelStringKey implements Name{
 	
 	;
 
+	private Name name;
+	
+	private LabelStringKey(Name name) {
+		this.name = name;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.dwarfeng.dutil.basic.str.Name#getName()
 	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name.getName();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString() {
+		return name.getName();
 	}
 
-	
-	
 }

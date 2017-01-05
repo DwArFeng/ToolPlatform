@@ -2,8 +2,11 @@ package com.dwarfeng.tp.core.model.obv;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import com.dwarfeng.dutil.basic.prog.Obverser;
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 
 /**
@@ -45,6 +48,27 @@ public interface MutilangObverser extends Obverser{
 	 * @param newOne 新的根目录。
 	 */
 	public void fireDirectionChanged(File oldOne, File newOne);
+	
+	/**
+	 * 通知模型中的受支持的键集合发生改变。
+	 * @param oldOne 旧的受支持键集合。
+	 * @param newOne 新的受支持键集合。
+	 */
+	public void fireSupportedKeysChanged(Set<Name> oldOne, Set<Name> newOne);
+	
+	/**
+	 * 通知模型中的当前语言发生了改变。
+	 * @param oldOne 旧的当前语言。
+	 * @param newOne 新的当前语言。
+	 */
+	public void fireCurrentLocaleChanged(Locale oldOne, Locale newOne);
+	
+	/**
+	 * 通知模型中的默认多语言键值映射发生了改变。
+	 * @param oldOne 旧的多语言键值映射。
+	 * @param newOne 新的多语言键值映射。
+	 */
+	public void fireDefaultMutilangMapChanged(Map<Name, String> oldOne, Map<Name, String> newOne);
 	
 	/**
 	 * 通知模型中的默认文本发生改变。

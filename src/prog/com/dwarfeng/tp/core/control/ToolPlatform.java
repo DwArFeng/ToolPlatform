@@ -2,7 +2,13 @@ package com.dwarfeng.tp.core.control;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
+import javax.swing.SwingUtilities;
+
+import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.mea.TimeMeasurer;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
@@ -56,11 +62,46 @@ import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
  */
 public final class ToolPlatform {
 	
+	static SplashScreenController c = null;
+	static Lock lock = new ReentrantLock();
+	static Condition condition = lock.newCondition();
 	/**
 	 * 调试用的启动方法。
 	 */
 	public static void main(String[] args) throws ProcessException {
-		new ToolPlatform().start();
+		//new ToolPlatform().start();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				lock.lock();
+				try{
+					c = ViewUtil.newSplashScreenController();
+					condition.signalAll();
+				}finally {
+					lock.unlock();
+				}
+			}
+		});
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException ignore) {
+		}
+		lock.lock();
+		try{
+			while(c == null){
+				try {
+					CT.trace(1);
+					condition.await();
+				} catch (InterruptedException ignore) {
+				}
+			}
+			c.dispose();
+		}finally {
+			lock.unlock();
+		}
 	}
 	
 	/**
@@ -85,6 +126,23 @@ public final class ToolPlatform {
 		public final static String author = "DwArFeng";
 		
 		
+	}
+	
+	
+	/**
+	 * 程序的模型结构管理器。
+	 * @author  DwArFeng
+	 * @since 1.8
+	 */
+	private final static class Manager{
+		
+		
+		/**
+		 * 新的实例。
+		 */
+		public Manager() {
+			// TODO Auto-generated constructor stub
+		}
 	}
 	
 	

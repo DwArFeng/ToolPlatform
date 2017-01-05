@@ -1,10 +1,5 @@
 package com.dwarfeng.tp.core.util;
 
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-
-import javax.swing.JOptionPane;
-
 import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
 

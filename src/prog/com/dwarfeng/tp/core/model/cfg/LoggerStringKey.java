@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.model.cfg;
 
 import com.dwarfeng.dutil.basic.str.Name;
+import com.dwarfeng.tp.core.model.struct.DefaultName;
 
 /**
  * ¼ÇÂ¼Æ÷ÎÄ±¾¼ü¡£
@@ -10,27 +11,27 @@ import com.dwarfeng.dutil.basic.str.Name;
  */
 public enum LoggerStringKey implements Name{
 	
-	ActionProcessor_start_1("ActionProcessor.start.1"),
-	ActionProcessor_start_2("ActionProcessor.start.2"),
-	ActionProcessor_start_3("ActionProcessor.start.3"),
-	ActionProcessor_start_4("ActionProcessor.start.4"),
-	ActionProcessor_start_5("ActionProcessor.start.5"),
-	ActionProcessor_start_6("ActionProcessor.start.6"),
-	ActionProcessor_start_7("ActionProcessor.start.7"),
-	ActionProcessor_start_8("ActionProcessor.start.8"),
-	ActionProcessor_start_9("ActionProcessor.start.9"),
-	ActionProcessor_start_10("ActionProcessor.start.10"),
-	ActionProcessor_start_11("ActionProcessor.start.11"),
-	ActionProcessor_start_12("ActionProcessor.start.12"),
-	ActionProcessor_start_13("ActionProcessor.start.13"),
-	ActionProcessor_start_14("ActionProcessor.start.14"),
+	ActionProcessor_start_1(new DefaultName("ActionProcessor.start.1")),
+	ActionProcessor_start_2(new DefaultName("ActionProcessor.start.2")),
+	ActionProcessor_start_3(new DefaultName("ActionProcessor.start.3")),
+	ActionProcessor_start_4(new DefaultName("ActionProcessor.start.4")),
+	ActionProcessor_start_5(new DefaultName("ActionProcessor.start.5")),
+	ActionProcessor_start_6(new DefaultName("ActionProcessor.start.6")),
+	ActionProcessor_start_7(new DefaultName("ActionProcessor.start.7")),
+	ActionProcessor_start_8(new DefaultName("ActionProcessor.start.8")),
+	ActionProcessor_start_9(new DefaultName("ActionProcessor.start.9")),
+	ActionProcessor_start_10(new DefaultName("ActionProcessor.start.10")),
+	ActionProcessor_start_11(new DefaultName("ActionProcessor.start.11")),
+	ActionProcessor_start_12(new DefaultName("ActionProcessor.start.12")),
+	ActionProcessor_start_13(new DefaultName("ActionProcessor.start.13")),
+	ActionProcessor_start_14(new DefaultName("ActionProcessor.start.14")),
 
 	
 	;
 
-	private String name;
+	private Name name;
 	
-	private LoggerStringKey(String name) {
+	private LoggerStringKey(Name name) {
 		this.name = name;
 	}
 	
@@ -40,7 +41,16 @@ public enum LoggerStringKey implements Name{
 	 */
 	@Override
 	public String getName() {
-		return this.name;
+		return name.getName();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString() {
+		return name.getName();
 	}
 
 }

@@ -3,7 +3,6 @@ package com.dwarfeng.tp.core.view.gui;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -15,6 +14,7 @@ import javax.swing.SwingConstants;
 import com.dwarfeng.dutil.basic.gui.swing.JImagePanel;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
+import java.awt.Toolkit;
 
 public class SplashScreen extends JFrame{
 	
@@ -54,6 +54,7 @@ public class SplashScreen extends JFrame{
 		setLocationRelativeTo(null);
 		
 		JImagePanel imagePanel = new JImagePanel();
+		//imagePanel.setImage(Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/com/dwarfeng/tp/resource/image/splash-screen.png")));
 		imagePanel.setAutoResize(true);
 		setContentPane(imagePanel);
 		try {
