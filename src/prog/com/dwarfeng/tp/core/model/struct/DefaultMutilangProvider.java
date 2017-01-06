@@ -1,5 +1,6 @@
 package com.dwarfeng.tp.core.model.struct;
 
+import java.util.Map;
 import java.util.Objects;
 
 import com.dwarfeng.dutil.basic.str.Name;
@@ -23,8 +24,16 @@ public final class DefaultMutilangProvider implements MutilangProvider {
 		 */
 		@Override
 		public String getString(Name key) {
-			// TODO Auto-generated method stub
-			return null;
+			Objects.requireNonNull(key, "入口参数 key 不能为 null。");
+			
+			if(!mutilangModel.getSupportedKeys().contains(key)){
+				throw new IllegalArgumentException("该多语言接口不自持此键");
+			}
+			
+			final Map<Name, String> mutilangMap = mutilangModel.getMutilangMap();
+			final String defaultValue = mutilangModel.getDefaultValue();
+			
+			return mutilangMap.getOrDefault(key, defaultValue);
 		}
 	};
 	

@@ -2,6 +2,7 @@ package com.dwarfeng.tp.core.model.cm;
 
 import java.util.Map;
 
+import com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.struct.Resource;
 
 /**
@@ -10,6 +11,6 @@ import com.dwarfeng.tp.core.model.struct.Resource;
  * @author  DwArFeng
  * @since 1.8
  */
-public interface ResourceModel extends Map<String, Resource>{
+public interface ResourceModel extends Map<String, Resource>, ReadWriteThreadSafe{
 
 }

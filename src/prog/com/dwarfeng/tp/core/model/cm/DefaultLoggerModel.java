@@ -1,11 +1,13 @@
 package com.dwarfeng.tp.core.model.cm;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
+import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
@@ -19,62 +21,8 @@ import com.dwarfeng.tp.core.model.obv.LoggerObverser;
  */
 public final class DefaultLoggerModel extends AbstractLoggerModel {
 
-	private final Set<String> delegate = new HashSet<>();
-	
-	private LoggerContext loggerContext;
-	
-	/**
-	 * 新实例。
-	 */
-	public DefaultLoggerModel() {
-		this(null);
-	}
-	
-	/**
-	 * 生成一个拥有指定记录器上下文的新实例。
-	 * @param loggerContext 指定的记录器上下文。
-	 */
-	public DefaultLoggerModel(LoggerContext loggerContext){
-		this.loggerContext = loggerContext;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.vim.LoggerModel#getLoggerContext()
-	 */
-	@Override
-	public LoggerContext getLoggerContext() {
-		lock.readLock().lock();
-		try{
-			return this.loggerContext;
-		}finally{
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.vim.LoggerModel#setLoggerContext(org.apache.logging.log4j.core.LoggerContext)
-	 */
-	@Override
-	public boolean setLoggerContext(LoggerContext loggerContext) {
-		lock.writeLock().lock();
-		try{
-			if(Objects.equals(this.loggerContext, loggerContext)) return false;
-			LoggerContext oldOne = this.loggerContext;
-			this.loggerContext = loggerContext;
-			fireLoggerContextChanged(oldOne, loggerContext);
-			return true;
-		}finally {
-			lock.writeLock().unlock();
-		}
-	}
-	
-	private void fireLoggerContextChanged(LoggerContext oldOne, LoggerContext newOne) {
-		for(LoggerObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireLoggerContextChanged(oldOne, newOne);
-		}
-	}
+	private final Set<Logger> delegate = new HashSet<>();
+	private final Set<LoggerContext> loggerContexts = new HashSet<>();
 
 	/*
 	 * (non-Javadoc)
@@ -125,7 +73,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 * @return 模型的迭代器。
 	 */
 	@Override
-	public Iterator<String> iterator() {
+	public Iterator<Logger> iterator() {
 		lock.readLock().lock();
 		try{
 			return delegate.iterator();
@@ -167,14 +115,15 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 * @see java.util.Set#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add(String e) {
+	public boolean add(Logger e) {
 		Objects.requireNonNull(e, "入口参数 e 不能为 null。");
 		
 		lock.writeLock().lock();
 		try{
 			boolean aFlag = delegate.add(e);
 			if(aFlag){
-				fireLoggerNameAdded(e);
+				loggerContexts.add(e.getContext());
+				fireLoggerAdded(e);
 			}
 			return aFlag;
 		}finally {
@@ -183,9 +132,9 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 		
 	}
 	
-	private void fireLoggerNameAdded(String name) {
+	private void fireLoggerAdded(Logger logger) {
 		for(LoggerObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireLoggerNameAdded(name);
+			if(Objects.nonNull(obverser)) obverser.fireLoggerAdded(logger);
 		}
 	}
 
@@ -199,7 +148,17 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 		try{
 			boolean aFlag = delegate.remove(o);
 			if(aFlag){
-				fireLoggerNameRemoved((String) o);
+				Logger logger = (Logger) o;
+				fireLoggerRemoved(logger);
+				//检查记录器的上下文中是否已经没有任何记录器在模型中了，如果是，则关闭该记录器。
+				Collection<Logger> cl = logger.getContext().getLoggers();
+				boolean stopFlag = true;
+				for(Logger testLogger : cl){
+					if(contains(testLogger)) stopFlag = false;
+				}
+				if(stopFlag){
+					stopLoggerContext(logger.getContext());
+				}
 			}
 			return aFlag;
 		}finally {
@@ -207,9 +166,9 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 		}
 	}
 
-	private void fireLoggerNameRemoved(String name) {
+	private void fireLoggerRemoved(Logger logger) {
 		for(LoggerObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireLoggerNameRemoved(name);
+			if(Objects.nonNull(obverser)) obverser.fireLoggerRemoved(logger);
 		}
 	}
 
@@ -232,14 +191,14 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 * @see java.util.Set#addAll(java.util.Collection)
 	 */
 	@Override
-	public boolean addAll(Collection<? extends String> c) {
+	public boolean addAll(Collection<? extends Logger> c) {
 		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
 		
 		lock.writeLock().lock();
 		try{
 			boolean aFlag = false;
-			for(String name : c){
-				if(delegate.add(name)) aFlag = true;
+			for(Logger logger : c){
+				if(delegate.add(logger)) aFlag = true;
 			}
 			return aFlag;
 		}finally{
@@ -268,7 +227,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 		try{
 			boolean aFlag = false;
 			for(Object obj : c){
-				if(delegate.remove(obj)) aFlag = true;
+				if(remove(obj)) aFlag = true;
 			}
 			return aFlag;
 		}finally{
@@ -284,16 +243,75 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	public void clear() {
 		lock.writeLock().lock();
 		try{
-			delegate.clear();
-			fireLoggerNameCleared();
+			innerClear();
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+	
+	private void innerClear(){
+		for(LoggerContext loggerContext : loggerContexts){
+			loggerContext.stop();
+		}
+		this.loggerContexts.clear();
+		delegate.clear();
+		fireLoggerCleared();
+	}
+
+	private void fireLoggerCleared() {
+		for(LoggerObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireLoggerCleared();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.LoggerModel#getLoggerContexts()
+	 */
+	@Override
+	public Set<LoggerContext> getLoggerContexts() {
+		lock.readLock().lock();
+		try{
+			return Collections.unmodifiableSet(this.loggerContexts);
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.LoggerModel#stopLoggerContext(org.apache.logging.log4j.core.LoggerContext)
+	 */
+	@Override
+	public boolean stopLoggerContext(LoggerContext context) {
+		Objects.requireNonNull(context, "入口参数 context 不能为 null。");
+		
+		lock.writeLock().lock();
+		try{
+			Collection<Logger> loggers = context.getLoggers();
+			
+			context.close();
+			boolean flag0= removeAll(loggers);
+			boolean flag1 = loggerContexts.remove(context);
+			
+			return flag0 || flag1;
+			
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void fireLoggerNameCleared() {
-		for(LoggerObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireLoggerNameCleared();
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.LoggerModel#stopAllLoggerContexts()
+	 */
+	@Override
+	public void stopAllLoggerContexts() {
+		lock.writeLock().lock();
+		try{
+			innerClear();
+		}finally {
+			lock.writeLock().unlock();
 		}
 	}
 

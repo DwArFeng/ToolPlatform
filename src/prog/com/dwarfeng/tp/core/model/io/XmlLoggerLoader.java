@@ -2,6 +2,7 @@ package com.dwarfeng.tp.core.model.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
@@ -39,12 +40,15 @@ public final class XmlLoggerLoader extends StreamLoggerLoader {
 			ConfigurationSource cs = new ConfigurationSource(in);
 			LoggerContext loggerContext =  Configurator.initialize(null, cs);
 			
-			loggerModel.setLoggerContext(loggerContext);
-			
 			Configuration cfg = loggerContext.getConfiguration();
-			loggerModel.addAll(cfg.getLoggers().keySet());
+			Set<String> loggerNames = cfg.getLoggers().keySet();
+			
+			for(String name : loggerNames){
+				loggerModel.add(loggerContext.getLogger(name));
+			}
+			
 		}catch (IOException e) {
-			throw new LoadFailedException("无法像指定的记录器模型中读取流中的数据", e);
+			throw new LoadFailedException("无法向指定的记录器模型中读取流中的数据", e);
 		}
 
 	}

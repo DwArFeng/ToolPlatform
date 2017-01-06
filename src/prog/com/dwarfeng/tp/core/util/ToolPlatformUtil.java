@@ -1,17 +1,10 @@
 package com.dwarfeng.tp.core.util;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import com.dwarfeng.dutil.basic.str.Name;
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
-import com.dwarfeng.tp.core.model.cm.MutilangModel;
-import com.dwarfeng.tp.core.model.struct.DefaultMutilangProvider;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
-import com.dwarfeng.tp.core.model.struct.MutilangProvider;
 
 /**
  * 关于工具平台的工厂类。
@@ -38,37 +31,37 @@ public final class ToolPlatformUtil {
 		return new InitialLoggerMutilang();
 	}
 	
-	/**
-	 * 通过指定的多语言模型生成一个新的记录器多语言提供器。
-	 * @param mutilangModel 指定的多语言模型。
-	 * @return 通过指定的多语言模型生成的记录器多语言提供器。
-	 * @throws NullPointerException 入口参数为 <code>null</code>。
-	 */
-	public final static MutilangProvider newLoggerMutilangProvider(MutilangModel mutilangModel){
-		Objects.requireNonNull(mutilangModel, "入口参数 mutilangModel 不能为 null。");
-		
-		return new DefaultMutilangProvider(
-				mutilangModel, 
-				new HashSet<>(Arrays.asList(LoggerStringKey.values())), 
-				ResourceBundleUtil.toMap(loggerMutilangResourceBundle),
-				missingString);
-	}
-	
-	/**
-	 * 通过指定的多语言模型生成一个新的标签多语言提供器。
-	 * @param mutilangModel mutilangModel 指定的多语言模型。
-	 * @return 通过指定的多语言模型生成的比起阿多语言提供器。
-	 * @throws NullPointerException 入口参数为 <code>null</code>。
-	 */
-	public final static MutilangProvider newLabelMutilangProvider(MutilangModel mutilangModel){
-		Objects.requireNonNull(mutilangModel, "入口参数 mutilangModel 不能为 null。");
-
-		return new DefaultMutilangProvider(
-				mutilangModel, 
-				new HashSet<>(Arrays.asList(LabelStringKey.values())), 
-				ResourceBundleUtil.toMap(labelMutilangResourceBundle),
-				missingString);
-	}
+//	/**
+//	 * 通过指定的多语言模型生成一个新的记录器多语言提供器。
+//	 * @param mutilangModel 指定的多语言模型。
+//	 * @return 通过指定的多语言模型生成的记录器多语言提供器。
+//	 * @throws NullPointerException 入口参数为 <code>null</code>。
+//	 */
+//	public final static MutilangProvider newLoggerMutilangProvider(MutilangModel mutilangModel){
+//		Objects.requireNonNull(mutilangModel, "入口参数 mutilangModel 不能为 null。");
+//		
+//		return new DefaultMutilangProvider(
+//				mutilangModel, 
+//				new HashSet<>(Arrays.asList(LoggerStringKey.values())), 
+//				ResourceBundleUtil.toMap(loggerMutilangResourceBundle),
+//				missingString);
+//	}
+//	
+//	/**
+//	 * 通过指定的多语言模型生成一个新的标签多语言提供器。
+//	 * @param mutilangModel mutilangModel 指定的多语言模型。
+//	 * @return 通过指定的多语言模型生成的比起阿多语言提供器。
+//	 * @throws NullPointerException 入口参数为 <code>null</code>。
+//	 */
+//	public final static MutilangProvider newLabelMutilangProvider(MutilangModel mutilangModel){
+//		Objects.requireNonNull(mutilangModel, "入口参数 mutilangModel 不能为 null。");
+//
+//		return new DefaultMutilangProvider(
+//				mutilangModel, 
+//				new HashSet<>(Arrays.asList(LabelStringKey.values())), 
+//				ResourceBundleUtil.toMap(labelMutilangResourceBundle),
+//				missingString);
+//	}
 	
 
 	/**

@@ -10,6 +10,7 @@ import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
+import com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe;
 
 /**
  * 多语言模型。
@@ -17,7 +18,7 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
  * @author  DwArFeng
  * @since 1.8
  */
-public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<MutilangObverser>{
+public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<MutilangObverser>, ReadWriteThreadSafe{
 	
 	/**
 	 * 获得此模型中的根目录。

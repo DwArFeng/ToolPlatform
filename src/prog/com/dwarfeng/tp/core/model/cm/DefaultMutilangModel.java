@@ -444,32 +444,97 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public Map<Name, String> getMutilangMap() {
-		// TODO Auto-generated method stub
-		return null;
+		lock.readLock().lock();
+		try{
+			return this.mutilangMap;
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#getDefaultMutilangMap()
+	 */
 	@Override
 	public Map<Name, String> getDefaultMutilangMap() {
-		// TODO Auto-generated method stub
-		return null;
+		lock.readLock().lock();
+		try{
+			return this.defaultMutilangMap;
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#setDefaultMutilangMap(java.util.Map)
+	 */
 	@Override
 	public boolean setDefaultMutilangMap(Map<Name, String> mutilangMap) {
-		// TODO Auto-generated method stub
-		return false;
+		Objects.requireNonNull(mutilangMap, "入口参数 mutilangMap 不能为 null。");
+		
+		lock.writeLock().lock();
+		try{
+			if(Objects.equals(this.defaultMutilangMap, mutilangMap)) return false;
+			Map<Name, String> oldOne = this.defaultMutilangMap;
+			this.defaultMutilangMap = mutilangMap;
+			fireDefaultMutilangMapChanged(Collections.unmodifiableMap(oldOne), Collections.unmodifiableMap(mutilangMap));
+			
+			if(Objects.isNull(currentLocale)){
+				this.mutilangMap = mutilangMap;
+			}
+			
+			return true;
+		}finally {
+			lock.writeLock().unlock();
+		}
 	}
 
+	private void fireDefaultMutilangMapChanged(Map<Name, String> oldOne, Map<Name, String> newOne) {
+		for(MutilangObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireDefaultMutilangMapChanged(oldOne, newOne);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#getDefaultValue()
+	 */
 	@Override
 	public String getDefaultValue() {
-		// TODO Auto-generated method stub
-		return null;
+		lock.readLock().lock();
+		try{
+			return this.defaultValue;
+		}finally {
+			lock.readLock().unlock();
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#setDefaultValue(java.lang.String)
+	 */
 	@Override
 	public boolean setDefaultValue(String value) {
-		// TODO Auto-generated method stub
-		return false;
+		Objects.requireNonNull(value, "入口参数 value 不能为 null。");
+		
+		lock.writeLock().lock();
+		try{
+			if(Objects.equals(this.defaultValue, value)) return false;
+			String oldOne = this.defaultValue;
+			this.defaultValue = value;
+			fireDefaultValueChanged(oldOne, value);
+			return true;
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+
+	private void fireDefaultValueChanged(String oldOne, String newOne) {
+		for(MutilangObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireDefaultVauleChanged(oldOne, newOne);
+		}
 	}
 
 }

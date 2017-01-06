@@ -75,6 +75,6 @@ public interface MutilangObverser extends Obverser{
 	 * @param oldOne 旧的默认文本。
 	 * @param newOne 新的默认文本。
 	 */
-	public void fireDefaultStringChanged(String oldOne, String newOne);
+	public void fireDefaultVauleChanged(String oldOne, String newOne);
 
 }

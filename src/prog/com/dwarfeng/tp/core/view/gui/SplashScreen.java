@@ -14,7 +14,6 @@ import javax.swing.SwingConstants;
 import com.dwarfeng.dutil.basic.gui.swing.JImagePanel;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
-import java.awt.Toolkit;
 
 public class SplashScreen extends JFrame{
 	
