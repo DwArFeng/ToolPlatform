@@ -9,8 +9,8 @@ import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
-import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe;
+import com.dwarfeng.tp.core.model.struct.Updateable;
 
 /**
  * 多语言模型。
@@ -18,7 +18,7 @@ import com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe;
  * @author  DwArFeng
  * @since 1.8
  */
-public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<MutilangObverser>, ReadWriteThreadSafe{
+public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<MutilangObverser>, ReadWriteThreadSafe, Updateable{
 	
 	/**
 	 * 获得此模型中的根目录。
@@ -65,18 +65,18 @@ public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<Mu
 	 */
 	public boolean setCurrentLocale(Locale locale);
 	
-	/**
-	 * 尝试设置模型中的当前语言为指定语言。
-	 * <p> 入口参数只能为 <code>null</code> - 代表默认语言，或者是该模型中包含的语言，即 <code>containsKey(locale) == true</code>。
-	 * 否则，会抛出 {@link IllegalArgumentException}。
-	 * <p> 该方法将会尝试将当前语言设为指定的语言，当设置过程中遇到异常时，将会抛出 {@link ProcessException}，
-	 * 可以通过 {@link ProcessException#getCause()}来查看遭遇到的异常。
-	 * @param locale 指定的语言。
-	 * @return 该操作是否对该模型造成了改变。
-	 * @throws IllegalArgumentException 指定的语言不为 <code>null</code>,且模型中不包含该语言。
-	 * @throws ProcessException 设置过程中遇到异常。
-	 */
-	public boolean trySetCurrentLocale(Locale locale) throws ProcessException;
+//	/**
+//	 * 尝试设置模型中的当前语言为指定语言。
+//	 * <p> 入口参数只能为 <code>null</code> - 代表默认语言，或者是该模型中包含的语言，即 <code>containsKey(locale) == true</code>。
+//	 * 否则，会抛出 {@link IllegalArgumentException}。
+//	 * <p> 该方法将会尝试将当前语言设为指定的语言，当设置过程中遇到异常时，将会抛出 {@link ProcessException}，
+//	 * 可以通过 {@link ProcessException#getCause()}来查看遭遇到的异常。
+//	 * @param locale 指定的语言。
+//	 * @return 该操作是否对该模型造成了改变。
+//	 * @throws IllegalArgumentException 指定的语言不为 <code>null</code>,且模型中不包含该语言。
+//	 * @throws ProcessException 设置过程中遇到异常。
+//	 */
+//	public boolean trySetCurrentLocale(Locale locale) throws ProcessException;
 	
 	/**
 	 * 获取模型中的多语言键值映射。
@@ -116,5 +116,6 @@ public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<Mu
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public boolean setDefaultValue(String value);
+	
 	
 }

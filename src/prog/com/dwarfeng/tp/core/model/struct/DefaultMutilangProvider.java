@@ -1,7 +1,9 @@
 package com.dwarfeng.tp.core.model.struct;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.locks.ReadWriteLock;
 
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.cm.MutilangModel;
@@ -26,12 +28,20 @@ public final class DefaultMutilangProvider implements MutilangProvider {
 		public String getString(Name key) {
 			Objects.requireNonNull(key, "入口参数 key 不能为 null。");
 			
-			if(!mutilangModel.getSupportedKeys().contains(key)){
-				throw new IllegalArgumentException("该多语言接口不自持此键");
-			}
+			Map<Name, String> mutilangMap;
+			String defaultValue;
+			ReadWriteLock lock = mutilangModel.getLock();
 			
-			final Map<Name, String> mutilangMap = mutilangModel.getMutilangMap();
-			final String defaultValue = mutilangModel.getDefaultValue();
+			lock.readLock().lock();
+			try{
+				if(!mutilangModel.getSupportedKeys().contains(key)){
+					throw new IllegalArgumentException("该多语言接口不自持此键");
+				}
+				mutilangMap = new HashMap<>(mutilangModel.getMutilangMap());
+				defaultValue = mutilangModel.getDefaultValue();
+			}finally {
+				lock.readLock().unlock();
+			}
 			
 			return mutilangMap.getOrDefault(key, defaultValue);
 		}

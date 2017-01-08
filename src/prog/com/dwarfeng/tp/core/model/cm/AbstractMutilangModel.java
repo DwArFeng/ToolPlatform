@@ -27,7 +27,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#getObversers()
 	 */
 	@Override
-	public Set<MutilangObverser> getObversers() {
+	public final Set<MutilangObverser> getObversers() {
 		lock.readLock().lock();
 		try{
 			return Collections.unmodifiableSet(obversers);
@@ -41,7 +41,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#addObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean addObverser(MutilangObverser obverser) {
+	public final boolean addObverser(MutilangObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.add(obverser);
@@ -55,7 +55,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#removeObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean removeObverser(MutilangObverser obverser) {
+	public final boolean removeObverser(MutilangObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.remove(obverser);
@@ -69,7 +69,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#clearObverser()
 	 */
 	@Override
-	public void clearObverser() {
+	public final void clearObverser() {
 		lock.writeLock().lock();
 		try{
 			obversers.clear();
@@ -78,11 +78,12 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 		}
 	}
 	
-	/**
-	 * 获取模型的同步锁。
-	 * @return 模型的同步锁。
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe#getLock()
 	 */
-	public ReadWriteLock getLock() {
+	@Override
+	public final ReadWriteLock getLock() {
 		return lock;
 	}
 

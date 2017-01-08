@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.model.obv;
 
-import org.apache.logging.log4j.Logger;
+import java.util.Set;
+
 import org.apache.logging.log4j.core.LoggerContext;
 
 import com.dwarfeng.dutil.basic.prog.Obverser;
@@ -13,20 +14,21 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 public interface LoggerObverser extends Obverser{
 	
 	/**
-	 * 通知记录器的名称增加。
-	 * @param name 增加的新名称。
+	 * 通知模型中的记录器上下文发生了改变。
+	 * @param oldOne 旧的记录器上下文。
+	 * @param newOne  新的记录器上下文。
 	 */
-	public void fireLoggerAdded(Logger logger);
+	public void fireLoggerContextChanged(LoggerContext oldOne, LoggerContext newOne);
 	
 	/**
-	 * 通知记录器的名称被移除。
-	 * @param name 移除的名称。
+	 * 通知模型中的记录器名称集合发生了改变。
+	 * @param oldOne 旧的名称集合。
+	 * @param newOne 新的名称集合。
 	 */
-	public void fireLoggerRemoved(Logger logger);
+	public void fireLoggerNamesChanged(Set<String> oldOne, Set<String> newOne);
 	
 	/**
-	 * 通知记录器被清除。
+	 * 通知模型更新。
 	 */
-	public void fireLoggerCleared();
-
+	public void fireUpdated();
 }

@@ -20,7 +20,7 @@ public abstract class AbstractSyncConfigModel implements SyncConfigModel {
 	 * @see com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe#getLock()
 	 */
 	@Override
-	public ReadWriteLock getLock() {
+	public final ReadWriteLock getLock() {
 		return lock;
 	}
 

@@ -1,9 +1,6 @@
 package com.dwarfeng.tp.core.model.struct;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 
 import com.dwarfeng.tp.core.model.cm.LoggerModel;
@@ -23,7 +20,7 @@ public class DefaultLoggerProvider implements LoggerProvider {
 			ReadWriteLock lock = loggerModel.getLock();
 			lock.readLock().lock();
 			try{
-				return new HashSet<>(loggerModel);
+				return loggerModel.getLoggers();
 			}finally {
 				lock.readLock().unlock();
 			}

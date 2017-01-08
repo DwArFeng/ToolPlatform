@@ -364,71 +364,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		lock.writeLock().lock();
 		try{
 			if(Objects.equals(this.currentLocale, locale)) return false;
-			try{
-				return innerSetCurrentLocale(locale);
-			}catch (ProcessException e) {
-				return false;
-			}
-		}finally {
-			lock.writeLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#trySetCurrentLocale(java.util.Locale)
-	 */
-	@Override
-	public boolean trySetCurrentLocale(Locale locale) throws ProcessException {
-		lock.writeLock().lock();
-		try{
-			return innerSetCurrentLocale(locale);
-		}finally {
-			lock.writeLock().unlock();
-		}
-	}
-	
-	private boolean innerSetCurrentLocale(Locale locale) throws ProcessException{
-		if(Objects.equals(this.currentLocale, locale)) return false;
-		
-		if(Objects.isNull(locale)){
 			Locale oldOne = this.currentLocale;
 			this.currentLocale = locale;
-			this.mutilangMap = this.defaultMutilangMap;
 			fireCurrentLocaleChanged(oldOne, locale);
 			return true;
-			
-		}else{
-			File targetFile = new File(this.getDirection(), this.get(locale).getFile());
-			FileInputStream in = null;
-			
-			try{
-				in = new FileInputStream(targetFile);
-				Properties properties = new Properties();
-				properties.load(in);
-				Map<Name, String> map = new HashMap<>();
-				for(String key : properties.stringPropertyNames()){
-					map.put(new DefaultName(key), properties.getProperty(key));
-				}
-				
-				this.mutilangMap = map;
-				Locale oldOne = this.currentLocale;
-				this.currentLocale = locale;
-				fireCurrentLocaleChanged(oldOne, locale);
-				return true;
-				
-			}catch (IOException e) {
-				throw new ProcessException(e.getMessage(), e);
-			}finally{
-				if(Objects.nonNull(in)){
-					try {
-						in.close();
-					} catch (IOException e) {
-						throw new ProcessException(e.getMessage(), e);
-					}
-				}
-			}
-			
+		}finally {
+			lock.writeLock().unlock();
 		}
 	}
 
@@ -480,11 +421,6 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 			Map<Name, String> oldOne = this.defaultMutilangMap;
 			this.defaultMutilangMap = mutilangMap;
 			fireDefaultMutilangMapChanged(Collections.unmodifiableMap(oldOne), Collections.unmodifiableMap(mutilangMap));
-			
-			if(Objects.isNull(currentLocale)){
-				this.mutilangMap = mutilangMap;
-			}
-			
 			return true;
 		}finally {
 			lock.writeLock().unlock();
@@ -537,4 +473,72 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.Updateable#update()
+	 */
+	@Override
+	public boolean update() {
+		lock.writeLock().lock();
+		try{
+			try{
+				return innerUpdate();
+			}catch (ProcessException e) {
+				return false;
+			}
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.Updateable#tryUpdate()
+	 */
+	@Override
+	public void tryUpdate() throws ProcessException {
+		lock.writeLock().lock();
+		try{
+			innerUpdate();
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+	
+	private boolean innerUpdate() throws ProcessException{
+
+		File targetFile = new File(this.getDirection(), this.get(currentLocale).getFile());
+		FileInputStream in = null;
+		
+		try{
+			in = new FileInputStream(targetFile);
+			Properties properties = new Properties();
+			properties.load(in);
+			Map<Name, String> map = new HashMap<>();
+			for(String key : properties.stringPropertyNames()){
+				map.put(new DefaultName(key), properties.getProperty(key));
+			}
+			
+			this.mutilangMap = map;
+			fireUpdated();
+			return true;
+		}catch (IOException e) {
+			throw new ProcessException(e.getMessage(), e);
+		}finally{
+			if(Objects.nonNull(in)){
+				try {
+					in.close();
+				} catch (IOException e) {
+					throw new ProcessException(e.getMessage(), e);
+				}
+			}
+		}
+	}
+
+	private void fireUpdated() {
+		for(MutilangObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireUpdated();
+		}
+	}
+	
 }

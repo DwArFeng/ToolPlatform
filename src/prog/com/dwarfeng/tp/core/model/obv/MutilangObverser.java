@@ -76,5 +76,10 @@ public interface MutilangObverser extends Obverser{
 	 * @param newOne 新的默认文本。
 	 */
 	public void fireDefaultVauleChanged(String oldOne, String newOne);
-
+	
+	/**
+	 * 通知模型中进行了更新操作。
+	 */
+	public void fireUpdated();
+	
 }

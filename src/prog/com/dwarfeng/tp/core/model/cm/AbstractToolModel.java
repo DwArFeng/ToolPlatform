@@ -27,7 +27,7 @@ public abstract class AbstractToolModel implements ToolModel{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#getObversers()
 	 */
 	@Override
-	public Set<ToolObverser> getObversers() {
+	public final Set<ToolObverser> getObversers() {
 		lock.readLock().lock();
 		try{
 			return Collections.unmodifiableSet(obversers);
@@ -41,7 +41,7 @@ public abstract class AbstractToolModel implements ToolModel{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#addObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean addObverser(ToolObverser obverser) {
+	public final boolean addObverser(ToolObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.add(obverser);
@@ -55,7 +55,7 @@ public abstract class AbstractToolModel implements ToolModel{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#removeObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean removeObverser(ToolObverser obverser) {
+	public final boolean removeObverser(ToolObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.remove(obverser);
@@ -69,7 +69,7 @@ public abstract class AbstractToolModel implements ToolModel{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#clearObverser()
 	 */
 	@Override
-	public void clearObverser() {
+	public final void clearObverser() {
 		lock.writeLock().lock();
 		try{
 			obversers.clear();
@@ -78,11 +78,12 @@ public abstract class AbstractToolModel implements ToolModel{
 		}
 	}
 	
-	/**
-	 * 获取模型的同步锁。
-	 * @return 模型的同步锁。
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe#getLock()
 	 */
-	public ReadWriteLock getLock() {
+	@Override
+	public final ReadWriteLock getLock() {
 		return lock;
 	}
 

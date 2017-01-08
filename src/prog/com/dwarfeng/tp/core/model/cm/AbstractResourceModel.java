@@ -15,11 +15,12 @@ public abstract class AbstractResourceModel implements ResourceModel{
 	/**模型的同步读写锁。*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
 	
-	/**
-	 * 获取模型的同步锁。
-	 * @return 模型的同步锁。
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe#getLock()
 	 */
-	public ReadWriteLock getLock() {
+	@Override
+	public final ReadWriteLock getLock() {
 		return lock;
 	}
 
