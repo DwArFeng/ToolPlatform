@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
+import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.obv.ProcessObverser;
 
 /**
@@ -19,7 +20,7 @@ import com.dwarfeng.tp.core.model.obv.ProcessObverser;
  * @author  DwArFeng
  * @since 1.8
  */
-public abstract class Process implements Callable<ProcessResult>, ObverserSet<ProcessObverser>, ReadWriteThreadSafe{
+public abstract class Process implements Callable<ProcessResult>, ObverserSet<ProcessObverser>, ExternalReadWriteThreadSafe{
 	
 	/**¹Û²ìÆ÷¼¯ºÏ*/
 	protected final Set<ProcessObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());

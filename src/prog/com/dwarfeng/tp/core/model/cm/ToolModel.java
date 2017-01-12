@@ -3,8 +3,8 @@ package com.dwarfeng.tp.core.model.cm;
 import java.util.Map;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
+import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.obv.ToolObverser;
-import com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
@@ -13,6 +13,6 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
  * @author DwArFeng
  * @since 1.8
  */
-public interface ToolModel extends Map<String, ToolInfo>, ObverserSet<ToolObverser>, ReadWriteThreadSafe{
+public interface ToolModel extends Map<String, ToolInfo>, ObverserSet<ToolObverser>, ExternalReadWriteThreadSafe{
 	
 }

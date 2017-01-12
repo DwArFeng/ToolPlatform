@@ -7,9 +7,9 @@ import java.util.Set;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.str.Name;
+import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
-import com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.struct.Updateable;
 
 /**
@@ -18,7 +18,7 @@ import com.dwarfeng.tp.core.model.struct.Updateable;
  * @author  DwArFeng
  * @since 1.8
  */
-public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<MutilangObverser>, ReadWriteThreadSafe, Updateable{
+public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<MutilangObverser>, ExternalReadWriteThreadSafe, Updateable{
 	
 	/**
 	 * 获得此模型中的根目录。

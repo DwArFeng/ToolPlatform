@@ -6,8 +6,8 @@ import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
+import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
-import com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.struct.Updateable;
 
 /**
@@ -16,7 +16,7 @@ import com.dwarfeng.tp.core.model.struct.Updateable;
  * @author  DwArFeng
  * @since 1.8
  */
-public interface LoggerModel extends ObverserSet<LoggerObverser>, ReadWriteThreadSafe, Updateable{
+public interface LoggerModel extends ObverserSet<LoggerObverser>, ExternalReadWriteThreadSafe, Updateable{
 	
 	/**
 	 * 获取记录器上下文。
