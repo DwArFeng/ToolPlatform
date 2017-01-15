@@ -1,21 +1,27 @@
 package com.dwarfeng.tp.core.control;
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Arrays;
 
-import javax.swing.SwingUtilities;
-
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
+import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
 import com.dwarfeng.tp.core.control.proc.ActionProcessor;
-import com.dwarfeng.tp.core.model.ModelManager;
+import com.dwarfeng.tp.core.model.cfg.CoreConfig;
+import com.dwarfeng.tp.core.model.cfg.InvisibleConfig;
+import com.dwarfeng.tp.core.model.cm.BackgroundModel;
+import com.dwarfeng.tp.core.model.cm.DefaultBackgroundModel;
+import com.dwarfeng.tp.core.model.cm.DefaultLoggerModel;
+import com.dwarfeng.tp.core.model.cm.DefaultMutilangModel;
+import com.dwarfeng.tp.core.model.cm.DefaultResourceModel;
+import com.dwarfeng.tp.core.model.cm.DefaultSyncConfigModel;
+import com.dwarfeng.tp.core.model.cm.DefaultToolModel;
+import com.dwarfeng.tp.core.model.cm.LoggerModel;
+import com.dwarfeng.tp.core.model.cm.MutilangModel;
+import com.dwarfeng.tp.core.model.cm.ResourceModel;
+import com.dwarfeng.tp.core.model.cm.SyncConfigModel;
+import com.dwarfeng.tp.core.model.cm.ToolModel;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
-import com.dwarfeng.tp.core.util.ViewUtil;
-import com.dwarfeng.tp.core.view.ViewManager;
-import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -27,89 +33,12 @@ import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
  */
 public final class ToolPlatform {
 	
-	static SplashScreenController c = null;
-	static Lock lock = new ReentrantLock();
-	static Condition condition = lock.newCondition();
 	/**
 	 * 调试用的启动方法。
 	 */
 	public static void main(String[] args) throws ProcessException {
-		//new ToolPlatform().start();
-		
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				lock.lock();
-				try{
-					c = ViewUtil.newSplashScreenController();
-					condition.signalAll();
-				}finally {
-					lock.unlock();
-				}
-			}
-		});
-		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException ignore) {
-		}
-		lock.lock();
-		try{
-			while(c == null){
-				try {
-					CT.trace(1);
-					condition.await();
-				} catch (InterruptedException ignore) {
-				}
-			}
-			c.dispose();
-		}finally {
-			lock.unlock();
-		}
-	}
-	
-	/**
-	 * 程序中的属性集合。
-	 * <p> 该属性集合提供程序中的一些开放属性，比如程序的名称、程序的作者、程序的版本等等。
-	 * @author DwArFeng
-	 * @since 1.8
-	 */
-	public final static class Attributes{
-		
-		/**程序的版本*/
-		public final static Version VERSION = new DefaultVersion.Builder()
-				.type(VersionType.RELEASE)
-				.firstVersion((byte) 0)
-				.secondVersion((byte) 0)
-				.thirdVersion((byte) 0)
-				.buildDate("20161222")
-				.buildVersion('A')
-				.build();
-		
-		/**程序的作者*/
-		public final static String author = "DwArFeng";
-		
 		
 	}
-	
-	
-	/**
-	 * 程序的模型结构管理器。
-	 * @author  DwArFeng
-	 * @since 1.8
-	 */
-	private final static class Manager{
-		
-		
-		/**
-		 * 新的实例。
-		 */
-		public Manager() {
-			// TODO Auto-generated constructor stub
-		}
-	}
-	
 	
 	private final ActionProcessor actionProcessor = new ActionProcessor() {
 		
@@ -349,11 +278,7 @@ public final class ToolPlatform {
 	
 	
 	
-	
-	/**程序中引用的模型管理器*/
-	private ModelManager modelManager;
-	/**程序中引用的视图管理器*/
-	private ViewManager viewManager;
+	private final Manager manager;
 	/**程序的状态*/
 	private Status status;
 
@@ -364,6 +289,7 @@ public final class ToolPlatform {
 	 * 生成一个具有指定 TODO
 	 */
 	public ToolPlatform() {
+		this.manager = new Manager();
 		this.status = Status.NOT_START;
 	}
 	
@@ -381,6 +307,122 @@ public final class ToolPlatform {
 	 */
 	public Status getStatus() {
 		return status;
+	}
+
+	/**
+	 * 程序中的属性集合。
+	 * <p> 该属性集合提供程序中的一些开放属性，比如程序的名称、程序的作者、程序的版本等等。
+	 * @author DwArFeng
+	 * @since 1.8
+	 */
+	public final static class Attributes{
+		
+		/**程序的版本*/
+		public final static Version VERSION = new DefaultVersion.Builder()
+				.type(VersionType.RELEASE)
+				.firstVersion((byte) 0)
+				.secondVersion((byte) 0)
+				.thirdVersion((byte) 0)
+				.buildDate("20161222")
+				.buildVersion('A')
+				.build();
+		
+		/**程序的作者*/
+		public final static String author = "DwArFeng";
+		
+		
+	}
+
+	/**
+	 * 程序的模型结构管理器。
+	 * @author  DwArFeng
+	 * @since 1.8
+	 */
+	private final static class Manager{
+		
+		/**用于初始化的可运行对象*/
+		private final Runnable initializer = new Runnable() {
+			
+			
+			/*
+			 * (non-Javadoc)
+			 * @see java.lang.Runnable#run()
+			 */
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		private ResourceModel resourceModel;
+		private LoggerModel loggerModel;
+		private SyncConfigModel coreConfigModel;
+		private SyncConfigModel invisibleConfigModel;
+		private MutilangModel loggerMutilangModel;
+		private MutilangModel labelMutilangModel;
+		private ToolModel toolModel;
+		private BackgroundModel backgroundModel;
+		
+		
+		/**
+		 * 新的实例。
+		 */
+		public Manager() {
+			initializer.run();
+		}
+		
+		
+		/**
+		 * @return the resourceModel
+		 */
+		public ResourceModel getResourceModel() {
+			return resourceModel;
+		}
+		/**
+		 * @return the loggerModel
+		 */
+		public LoggerModel getLoggerModel() {
+			return loggerModel;
+		}
+		/**
+		 * @return the coreConfigModel
+		 */
+		public SyncConfigModel getCoreConfigModel() {
+			return coreConfigModel;
+		}
+		/**
+		 * @return the invisibleConfigModel
+		 */
+		public SyncConfigModel getInvisibleConfigModel() {
+			return invisibleConfigModel;
+		}
+		/**
+		 * @return the loggerMutilangModel
+		 */
+		public MutilangModel getLoggerMutilangModel() {
+			return loggerMutilangModel;
+		}
+		/**
+		 * @return the labelMutilangModel
+		 */
+		public MutilangModel getLabelMutilangModel() {
+			return labelMutilangModel;
+		}
+		/**
+		 * @return the toolModel
+		 */
+		public ToolModel getToolModel() {
+			return toolModel;
+		}
+		/**
+		 * @return the backgroundModel
+		 */
+		public BackgroundModel getBackgroundModel() {
+			return backgroundModel;
+		}
+		
+		
 	}
 	
 }

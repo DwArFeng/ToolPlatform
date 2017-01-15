@@ -37,6 +37,9 @@ public final class DefaultCoreConfigProvider implements CoreConfigProvider{
 	 */
 	@Override
 	public Locale getLoggerMutilangLocale() {
+		if(configModel.containsKey(CoreConfig.MUTILANG_LOGGER.getConfigKey())){
+			throw new IllegalStateException("与之关联模型中没有找到指定的键");
+		}
 		return LocaleUtil.parseLocale(configModel.getValidValue(CoreConfig.MUTILANG_LOGGER.getConfigKey()));
 	}
 
@@ -46,6 +49,9 @@ public final class DefaultCoreConfigProvider implements CoreConfigProvider{
 	 */
 	@Override
 	public Locale getLabelMutilangLocale() {
+		if(configModel.containsKey(CoreConfig.MUTILANG_LABEL.getConfigKey())){
+			throw new IllegalStateException("与之关联模型中没有找到指定的键");
+		}
 		return LocaleUtil.parseLocale(configModel.getValidValue(CoreConfig.MUTILANG_LABEL.getConfigKey()));
 	}
 
@@ -55,6 +61,9 @@ public final class DefaultCoreConfigProvider implements CoreConfigProvider{
 	 */
 	@Override
 	public boolean isShowSplashScreen() {
+		if(configModel.containsKey(CoreConfig.STARTUP_SPLASH_ISSHOW.getConfigKey())){
+			throw new IllegalStateException("与之关联模型中没有找到指定的键");
+		}
 		return Boolean.parseBoolean(configModel.getValidValue(CoreConfig.STARTUP_SPLASH_ISSHOW.getConfigKey()));
 	}
 	

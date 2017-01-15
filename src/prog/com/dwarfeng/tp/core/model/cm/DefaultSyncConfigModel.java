@@ -25,6 +25,13 @@ public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 	
 	/**
 	 * 新实例。
+	 */
+	public DefaultSyncConfigModel() {
+		this(new ConfigEntry[0]);
+	}
+	
+	/**
+	 * 新实例。
 	 * @param configEntries 指定的配置入口。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 * @throws IllegalArgumentException 配置入口集合中至少一个入口无效。

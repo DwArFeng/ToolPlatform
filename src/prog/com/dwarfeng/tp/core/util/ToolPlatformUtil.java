@@ -2,6 +2,8 @@ package com.dwarfeng.tp.core.util;
 
 import java.util.ResourceBundle;
 
+import javax.swing.SwingUtilities;
+
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
@@ -29,6 +31,18 @@ public final class ToolPlatformUtil {
 	 */
 	public final static Mutilang newInitialLoggerMutilang(){
 		return new InitialLoggerMutilang();
+	}
+	
+	/**
+	 * 
+	 * @param runnable
+	 */
+	public final static void invokeInEventQueue(Runnable runnable){
+		if(SwingUtilities.isEventDispatchThread()){
+			runnable.run();
+		}else{
+			SwingUtilities.invokeLater(runnable);
+		}
 	}
 	
 //	/**

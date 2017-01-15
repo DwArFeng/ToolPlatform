@@ -24,7 +24,7 @@ final class ConfigSaveTool {
 		StreamConfigSaver saver = null;
 		try{
 			saver = new PropertiesConfigSaver(new FileOutputStream(file));
-			saver.saveConfig(coreConfigModel);
+			saver.save(coreConfigModel);
 		}finally {
 			saver.close();
 		}
@@ -34,7 +34,7 @@ final class ConfigSaveTool {
 		saver = null;
 		try{
 			saver = new PropertiesConfigSaver(new FileOutputStream(file));
-			saver.saveConfig(coreConfigModel);
+			saver.save(coreConfigModel);
 		}finally {
 			saver.close();
 		}

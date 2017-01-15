@@ -1,10 +1,11 @@
 package com.dwarfeng.tp.core.model.cm;
 
 import java.util.Collection;
+import java.util.concurrent.ExecutorService;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
-import com.dwarfeng.tp.core.model.obv.BackgrObverser;
+import com.dwarfeng.tp.core.model.obv.BackgroundObverser;
 import com.dwarfeng.tp.core.model.struct.Process;
 
 /**
@@ -12,7 +13,14 @@ import com.dwarfeng.tp.core.model.struct.Process;
  * @author DwArFeng
  * @since 1.8
  */
-public interface BackgroundModel extends ObverserSet<BackgrObverser>, ExternalReadWriteThreadSafe, Iterable<Process>{
+public interface BackgroundModel extends ObverserSet<BackgroundObverser>, ExternalReadWriteThreadSafe, Iterable<Process>{
+	
+	/**
+	 * 返回该后台模型中用于处理过程的执行器服务。
+	 * <p> 注意：返回的执行器服务仅应该用于查询状态，调用其其它方法会抛出 {@link UnsupportedOperationException}。
+	 * @return 后台模型中的执行器服务。
+	 */
+	public ExecutorService getExecutorService();
 	
 	/**
 	 * 向后台模型中提交一个过程。
@@ -32,21 +40,49 @@ public interface BackgroundModel extends ObverserSet<BackgrObverser>, ExternalRe
 	public boolean submitAll(Collection<? extends Process> c);
 	
 	/**
-	 * 返回该后台进程是否包含指定的对象。
-	 * <p> 只有当对象为 {@link Process}类时，才有可能返回 <code>true</code>。
-	 * @param o 指定的对象。
+	 * 返回该后台进程是否包含指定的过程。
+	 * @param process 指定的对象。
 	 * @return 该后台模型中是否包含指定的对象。
 	 */
-	public boolean contains(Object o);
+	public boolean contains(Process process);
 	
 	/**
-	 * 返回后台进程中
-	 * @param c
+	 * 返回后台进程中是否包含全部的指定对象。
+	 * @param c 所有指定对象组成的集合。
+	 * @return 后台模型中是否包含所有的指定对象。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public void containsAll(Collection<?> c);
+	public boolean containsAll(Collection<Process> c);
 	
+	/**
+	 * 返回该模型是否为空。
+	 * @return 该模型是否为空。
+	 */
 	public boolean isEmpty();
 	
+	/**
+	 * 返回该模型中是否包含已经完成的过程。
+	 * @return 是否包含已经完成的过程。
+	 */
+	public boolean hasFinished();
 	
-
+	/**
+	 * 返回最早的已经完成的过程对象，如果没有，则等待。
+	 * @return 最早的已经完成的过程对象。
+	 * @throws InterruptedException 等待过程中线程被中断。
+	 */
+	public Process takeFinished() throws InterruptedException;
+	
+	/**
+	 * 清除模型中所有的已经完成的过程。
+	 * @return 该方法是否改变了模型本身。
+	 */
+	public boolean clearFinished();
+	
+	/**
+	 * 关闭该后台模型。
+	 * <p> 后台模型被关闭后，会拒绝所有过程的提交；对于已经提交的过程则无影响。
+	 */
+	public void shutdown();
+	
 }
