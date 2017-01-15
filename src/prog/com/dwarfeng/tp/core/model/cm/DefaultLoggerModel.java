@@ -11,6 +11,7 @@ import org.apache.logging.log4j.core.LoggerContext;
 
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
+import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
  * 默认记录器模型。
@@ -21,10 +22,30 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
  */
 public final class DefaultLoggerModel extends AbstractLoggerModel {
 	
-	private LoggerContext loggerContext = (LoggerContext) LogManager.getContext();
-	private Set<String> loggerNames = new HashSet<>();
+	private LoggerContext loggerContext;
+	private Set<String> loggerNames;
 	private Set<Logger> loggers = new HashSet<>();
 
+	/**
+	 * 新实例。
+	 */
+	public DefaultLoggerModel() {
+		this(ToolPlatformUtil.getDefaultLoggerContext(), ToolPlatformUtil.getDefaultLoggerNames());
+	}
+	
+	/**
+	 * 新实例。
+	 * @param loggerContext 指定的记录器上下文。
+	 * @param loggerNames 指定的记录器名称集合。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
+	 */
+	public DefaultLoggerModel(LoggerContext loggerContext, Set<String> loggerNames) {
+		Objects.requireNonNull(loggerContext, "入口参数 loggerContext 不能为 null。");
+		Objects.requireNonNull(loggerNames, "入口参数 loggerNames 不能为 null。");
+		
+		this.loggerContext = loggerContext;
+		this.loggerNames = loggerNames;
+	}
 	
 	/*
 	 * (non-Javadoc)

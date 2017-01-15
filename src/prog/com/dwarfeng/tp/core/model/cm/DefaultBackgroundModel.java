@@ -61,6 +61,22 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 		
 		/*
 		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireCancelableChanged(com.dwarfeng.tp.core.model.struct.Process, boolean, boolean)
+		 */
+		@Override
+		public void fireCancelableChanged(Process process, boolean oldValue, boolean newValue) {
+			lock.writeLock().lock();
+			try{
+				for(BackgroundObverser obverser : obversers){
+					if(Objects.nonNull(obverser)) obverser.fireProcessCancelableChanged(process, oldValue, newValue);
+				}
+			}finally {
+				lock.writeLock().unlock();
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
 		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireProgressChanged(com.dwarfeng.tp.core.model.struct.Process, int, int)
 		 */
 		@Override

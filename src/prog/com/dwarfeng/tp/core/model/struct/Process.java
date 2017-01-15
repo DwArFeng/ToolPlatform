@@ -31,6 +31,12 @@ public interface Process extends Callable<Object>, ObverserSet<ProcessObverser>,
 	 * @return 该过程是否被取消。
 	 */
 	public boolean isCancel();
+	
+	/**
+	 * 指示该过程是否能被取消。
+	 * @return 该过程能否被取消。
+	 */
+	public boolean isCancelable();
 
 	/**
 	 * 返回该过程是否完成。
@@ -43,5 +49,16 @@ public interface Process extends Callable<Object>, ObverserSet<ProcessObverser>,
 	 * @return 该过程的消息。
 	 */
 	public String getMessage();
+	
+	/**
+	 * 返回过程中的可抛出对象。
+	 * <p> 返回值为 <code>null</code>通常代表过程被成功的执行完毕；
+	 * 不为 <code>null</code> 则通常意味着过程在什么地方出现了问题，
+	 * 而返回的可抛出对象就是问题的根源。
+	 * @return 返回过程中的可抛出对象。
+	 */
+	public Throwable getThrowable();
+	
+	
 
 }

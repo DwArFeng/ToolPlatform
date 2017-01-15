@@ -18,7 +18,7 @@ import com.dwarfeng.tp.core.model.obv.ProcessObverser;
  * @author  DwArFeng
  * @since 1.8
  */
-public abstract class DefaultProcess implements Process{
+public abstract class AbstractProcess implements Process{
 	
 	/**观察器集合*/
 	protected final Set<ProcessObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
@@ -26,11 +26,13 @@ public abstract class DefaultProcess implements Process{
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 	/**当前的进度*/
-	private int progress = 0;
+	private int progress;
 	/**总进度*/
-	private int totleProgress = 0;
+	private int totleProgress;
 	/**当前的进度是确定的还是不确定的*/
-	private boolean determinateFlag = true;
+	private boolean determinateFlag;
+	/**当前的过程是否可以取消*/
+	private boolean cancelableFlag;
 	
 	/**过程是否完成*/
 	private boolean doneFlag = false;
@@ -40,6 +42,31 @@ public abstract class DefaultProcess implements Process{
 	private String message = "";
 	/**有关过程的可抛出对象*/
 	private Throwable throwable = null;
+	
+	/**
+	 * 新实例。
+	 * <p> 当前进度为0；
+	 * <br> 总进度为0；
+	 * <br> 是不确定的过程；
+	 * <br> 是不可取消的过程。
+	 */
+	public AbstractProcess() {
+		this(0, 0, false, false);
+	}
+	
+	/**
+	 * 新实例。
+	 * @param progress 指定的当前进度。
+	 * @param totleProgress 指定的总进度。
+	 * @param determinateFlag 指定的确定性标志。
+	 * @param cancelableFlag 指定的可取消标志。
+	 */
+	public AbstractProcess(int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag) {
+		this.progress = progress;
+		this.totleProgress = totleProgress;
+		this.determinateFlag = determinateFlag;
+		this.cancelableFlag = cancelableFlag;
+	}
 
 	/* (non-Javadoc)
 	 * @see com.dwarfeng.tp.core.model.struct.Process#getProgress()
@@ -160,19 +187,44 @@ public abstract class DefaultProcess implements Process{
 		}
 	}
 
-	/**
-	 * 返回该过程是否能够取消。
-	 * @return 该过程是否能够取消。
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.Process#isCancelable()
 	 */
-	protected boolean isCancelable(){
+	@Override
+	public boolean isCancelable(){
 		lock.readLock().lock();
 		try{
-			return false;
+			return cancelableFlag;
 		}finally {
 			lock.readLock().unlock();
 		}
 	}
 	
+	/**
+	 * 设置该过程是否能够取消。
+	 * @param aFlag 是否能够取消。
+	 * @return 该操作是否改变了过程本身。
+	 */
+	protected boolean setCancelable(boolean aFlag){
+		lock.writeLock().lock();
+		try{
+			if(this.cancelableFlag == aFlag) return false;
+			boolean oldValue = this.cancelableFlag;
+			this.cancelableFlag = aFlag;
+			fireCancelableChanged(oldValue, aFlag);
+			return true;
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+	
+	private void fireCancelableChanged(boolean oldValue, boolean newValue) {
+		for(ProcessObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireCancelableChanged(this, oldValue, newValue);
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see com.dwarfeng.tp.core.model.struct.Process#isCancel()
 	 */
@@ -261,10 +313,11 @@ public abstract class DefaultProcess implements Process{
 		}
 	}
 	
-	/**
-	 * 返回该过程中的可抛出对象。
-	 * @return 过程中的可抛出对象。
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.Process#getThrowable()
 	 */
+	@Override
 	public Throwable getThrowable(){
 		lock.readLock().lock();
 		try{

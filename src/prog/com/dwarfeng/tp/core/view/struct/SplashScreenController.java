@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.core.view.ctrl;
+package com.dwarfeng.tp.core.view.struct;
 
 /**
  * Æô¶¯´°¿Ú¿ØÖÆÆ÷¡£

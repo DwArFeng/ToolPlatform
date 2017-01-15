@@ -6,13 +6,15 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.dwarfeng.tp.core.control.ToolPlatform;
+import com.dwarfeng.tp.core.model.struct.Mutilang;
+import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 
 /**
  * 程序的主界面。
  * @author  DwArFeng
  * @since 1.8
  */
-public final class MainFrame extends JFrame {
+public final class MainFrame extends JFrame implements MutilangSupported {
 	
 	
 	/**
@@ -25,6 +27,18 @@ public final class MainFrame extends JFrame {
 		} catch (IOException ignore) {
 			//图片资源在包内部，不可能抛出异常。
 		}
+	}
+
+	@Override
+	public Mutilang getMutilang() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean setMutilang(Mutilang mutilang) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 
 import com.dwarfeng.dutil.basic.gui.swing.JImagePanel;
 import com.dwarfeng.tp.core.control.ToolPlatform;
-import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
+import com.dwarfeng.tp.core.view.struct.SplashScreenController;
 
 public class SplashScreen extends JFrame{
 	

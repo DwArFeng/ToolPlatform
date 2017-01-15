@@ -51,6 +51,14 @@ public interface ProcessObverser extends Obverser{
 	public void fireThrowableChanged(Process process, Throwable oldValue, Throwable newValue);
 	
 	/**
+	 * 通知指定的过程对象可取消性发生了改变。
+	 * @param process 发生了改变的过程对象。
+	 * @param oldValue 旧的可取消性。
+	 * @param newValue 新的可取消性。
+	 */
+	public void fireCancelableChanged(Process process, boolean oldValue, boolean newValue);
+
+	/**
 	 * 通知指定的过程对象被取消。
 	 * @param process 指定的过程对象。
 	 */

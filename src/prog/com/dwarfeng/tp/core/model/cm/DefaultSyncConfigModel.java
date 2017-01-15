@@ -9,7 +9,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigEntry;
 import com.dwarfeng.dutil.develop.cfg.ConfigFirmProps;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
-import com.dwarfeng.dutil.develop.cfg.ConfigModelObverser;
+import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
 import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
 
 /**
@@ -314,7 +314,7 @@ public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#getObversers()
 	 */
 	@Override
-	public Set<ConfigModelObverser> getObversers() {
+	public Set<ConfigObverser> getObversers() {
 		lock.readLock().lock();
 		try{
 			return delegate.getObversers();
@@ -328,7 +328,7 @@ public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#addObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean addObverser(ConfigModelObverser obverser) {
+	public boolean addObverser(ConfigObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return delegate.addObverser(obverser);
@@ -342,7 +342,7 @@ public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#removeObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean removeObverser(ConfigModelObverser obverser) {
+	public boolean removeObverser(ConfigObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return delegate.removeObverser(obverser);

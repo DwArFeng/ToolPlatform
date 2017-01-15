@@ -506,32 +506,39 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	}
 	
 	private boolean innerUpdate() throws ProcessException{
-
-		File targetFile = new File(this.getDirection(), this.get(currentLocale).getFile());
-		FileInputStream in = null;
 		
 		try{
-			in = new FileInputStream(targetFile);
-			Properties properties = new Properties();
-			properties.load(in);
-			Map<Name, String> map = new HashMap<>();
-			for(String key : properties.stringPropertyNames()){
-				map.put(new DefaultName(key), properties.getProperty(key));
+			if(Objects.nonNull(currentLocale)){
+				File targetFile = new File(this.getDirection(), this.get(currentLocale).getFile());
+				FileInputStream in = null;
+				try{
+					in = new FileInputStream(targetFile);
+					Properties properties = new Properties();
+					properties.load(in);
+					Map<Name, String> map = new HashMap<>();
+					for(String key : properties.stringPropertyNames()){
+						map.put(new DefaultName(key), properties.getProperty(key));
+					}
+						
+					this.mutilangMap = map;
+					fireUpdated();
+					return true;
+				}finally{
+					if(Objects.nonNull(in)){
+						try {
+							in.close();
+						} catch (IOException e) {
+							throw new ProcessException(e.getMessage(), e);
+						}
+					}
+				}
+			}else{
+				this.mutilangMap = defaultMutilangMap;
+				fireUpdated();
+				return true;
 			}
-			
-			this.mutilangMap = map;
-			fireUpdated();
-			return true;
 		}catch (IOException e) {
 			throw new ProcessException(e.getMessage(), e);
-		}finally{
-			if(Objects.nonNull(in)){
-				try {
-					in.close();
-				} catch (IOException e) {
-					throw new ProcessException(e.getMessage(), e);
-				}
-			}
 		}
 	}
 

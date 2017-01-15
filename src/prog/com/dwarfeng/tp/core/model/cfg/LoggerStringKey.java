@@ -26,6 +26,15 @@ public enum LoggerStringKey implements Name{
 	ActionProcessor_start_13(new DefaultName("ActionProcessor.start.13")),
 	ActionProcessor_start_14(new DefaultName("ActionProcessor.start.14")),
 
+	FinishedProcessTaker_1(new DefaultName("FinishedProcessTaker.1")),
+	FinishedProcessTaker_2(new DefaultName("FinishedProcessTaker.2")),
+	FinishedProcessTaker_3(new DefaultName("FinishedProcessTaker.3")),
+	FinishedProcessTaker_4(new DefaultName("FinishedProcessTaker.4")),
+	
+	ToolPlatform_Manager_1(new DefaultName("ToolPlatform.Manager.1")),
+	ToolPlatform_Manager_2(new DefaultName("ToolPlatform.Manager.2")),
+	
+	ToolPlatform_ProcessProvider_1(new DefaultName("ToolPlatform.ProcessProvider.1")),
 	
 	;
 

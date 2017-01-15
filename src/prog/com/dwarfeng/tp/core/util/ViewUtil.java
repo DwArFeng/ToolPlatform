@@ -1,7 +1,7 @@
 package com.dwarfeng.tp.core.util;
 
-import com.dwarfeng.tp.core.view.ctrl.SplashScreenController;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
+import com.dwarfeng.tp.core.view.struct.SplashScreenController;
 
 /**
  * 视图的一些功能。
