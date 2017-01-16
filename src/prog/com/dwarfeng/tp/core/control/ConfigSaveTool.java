@@ -3,6 +3,7 @@ package com.dwarfeng.tp.core.control;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
 import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
@@ -43,6 +44,8 @@ final class ConfigSaveTool {
 		
 		file = new File("Attributes\\");
 		FileUtil.deleteFile(file);
+		
+		CT.trace("≈‰÷√±£¥ÊÕÍ≥… !");
 	}
 
 }

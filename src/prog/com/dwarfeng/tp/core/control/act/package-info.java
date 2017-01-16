@@ -1,5 +1,5 @@
 /**
- * 为视图提供侦听。
+ * 动作包。
  * @author  DwArFeng
  * @since 1.8
  */

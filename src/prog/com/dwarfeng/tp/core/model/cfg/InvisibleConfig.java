@@ -16,13 +16,13 @@ import com.dwarfeng.tp.core.model.struct.DefaultConfigEntry;
 public enum InvisibleConfig implements ConfigEntry {
 	
 	/**界面在启动时的宽度*/
-	STARTUP_FRAME_WIDTH("startup.frame.width", "800", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
+	STARTUP_MAINFRAME_WIDTH("startup.mainframe.width", "800", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
 	
 	/**界面在启动时的高度*/
-	STARTUP_FRAME_HEIGHT("startup.frame.height", "600", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
+	STARTUP_MAINFRAME_HEIGHT("startup.mainframe.height", "600", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
 	
 	/**界面在启动时候的拓展状态*/
-	STARTUP_FRAME_EXTENDEDSTATE("startup.frame.extendedstate", "0", new IntegerConfigChecker());
+	STARTUP_MAINFRAME_EXTENDEDSTATE("startup.mainframe.extendedstate", "0", new IntegerConfigChecker());
 	
 	;
 

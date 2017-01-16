@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.model.cfg;
 
 import com.dwarfeng.dutil.basic.str.Name;
+import com.dwarfeng.tp.core.model.struct.DefaultName;
 
 /**
  * ³ÌÐòµÄ×Ö·û´®¼ü¡£
@@ -10,7 +11,7 @@ import com.dwarfeng.dutil.basic.str.Name;
  */
 public enum LabelStringKey implements Name{
 	
-	
+	MainFrame_1(new DefaultName("MainFrame.1")),
 	
 	;
 

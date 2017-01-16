@@ -3,8 +3,8 @@ package com.dwarfeng.tp.core.model.struct;
 import java.util.Locale;
 import java.util.Objects;
 
-import com.dwarfeng.dutil.develop.cfg.ConfigModel;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
+import com.dwarfeng.tp.core.model.cm.SyncConfigModel;
 import com.dwarfeng.tp.core.util.LocaleUtil;
 
 /**
@@ -15,9 +15,9 @@ import com.dwarfeng.tp.core.util.LocaleUtil;
  */
 public final class DefaultCoreConfigProvider implements CoreConfigProvider{
 
-	private final ConfigModel configModel;
+	private final SyncConfigModel configModel;
 
-	public DefaultCoreConfigProvider(ConfigModel configModel) {
+	public DefaultCoreConfigProvider(SyncConfigModel configModel) {
 		Objects.requireNonNull(configModel, "入口参数 configModel 不能为 null。");
 		this.configModel = configModel;
 	}
@@ -27,7 +27,7 @@ public final class DefaultCoreConfigProvider implements CoreConfigProvider{
 	 * @see com.dwarfeng.tp.core.model.struct.CoreConfigProvider#getConfigModel()
 	 */
 	@Override
-	public ConfigModel getConfigModel() {
+	public SyncConfigModel getConfigModel() {
 		return this.configModel;
 	}
 
@@ -65,6 +65,18 @@ public final class DefaultCoreConfigProvider implements CoreConfigProvider{
 			throw new IllegalStateException("与之关联模型中没有找到指定的键");
 		}
 		return Boolean.parseBoolean(configModel.getValidValue(CoreConfig.STARTUP_SPLASH_ISSHOW.getConfigKey()));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.CoreConfigProvider#getStartupSplashDuration()
+	 */
+	@Override
+	public int getStartupSplashDuration() {
+		if(! configModel.containsKey(CoreConfig.STARTUP_SHPLASH_DURATION.getConfigKey())){
+			throw new IllegalStateException("与之关联模型中没有找到指定的键");
+		}
+		return Integer.parseInt(configModel.getValidValue(CoreConfig.STARTUP_SHPLASH_DURATION.getConfigKey()));
 	}
 	
 	

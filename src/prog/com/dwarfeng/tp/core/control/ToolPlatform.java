@@ -8,7 +8,12 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
 import com.dwarfeng.dutil.basic.io.CT;
+import com.dwarfeng.dutil.basic.mea.TimeMeasurer;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
@@ -17,7 +22,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
 import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigLoader;
 import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
-import com.dwarfeng.tp.core.control.proc.ProcessProvider;
+import com.dwarfeng.tp.core.control.act.ProcessProvider;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
 import com.dwarfeng.tp.core.model.cfg.InvisibleConfig;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
@@ -62,8 +67,11 @@ import com.dwarfeng.tp.core.model.struct.Process;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
+import com.dwarfeng.tp.core.view.gui.MainFrame;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
+import com.dwarfeng.tp.core.view.struct.AbstractMainFrameController;
 import com.dwarfeng.tp.core.view.struct.AbstractSplashScreenController;
+import com.dwarfeng.tp.core.view.struct.MainFrameController;
 import com.dwarfeng.tp.core.view.struct.SplashScreenController;
 
 /**
@@ -78,8 +86,10 @@ public final class ToolPlatform {
 	
 	/**
 	 * 调试用的启动方法。
+	 * @throws UnsupportedLookAndFeelException 
 	 */
-	public static void main(String[] args) throws ProcessException {
+	public static void main(String[] args) throws ProcessException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		new ToolPlatform().start();
 		CT.trace("线程 main 结束！");
 	}
@@ -253,6 +263,26 @@ public final class ToolPlatform {
 			}
 			
 		};
+		private MainFrameController mainFrameController = new AbstractMainFrameController() {
+			
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.struct.AbstractGuiController#subNewInstance()
+			 */
+			@Override
+			protected MainFrame subNewInstance() {
+				return new MainFrame(labelMutilangProvider.getMutilang());
+			}
+			
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.struct.AbstractGuiController#subDispose(java.awt.Component)
+			 */
+			@Override
+			protected void subDispose(MainFrame component) {
+				component.dispose();
+			}
+		};
 		
 		
 		/**
@@ -381,6 +411,14 @@ public final class ToolPlatform {
 		public SplashScreenController getSplashScreenController() {
 			return splashScreenController;
 		}
+
+		/**
+		 * @return the mainFrameController
+		 */
+		public MainFrameController getMainFrameController() {
+			return mainFrameController;
+		}
+		
 		
 	}
 	
@@ -489,9 +527,11 @@ public final class ToolPlatform {
 					
 					//如果需要显示启动窗口，则显示启动窗口
 					boolean splashFlag = manager.getCoreConfigProvider().isShowSplashScreen();
+					TimeMeasurer tm = new TimeMeasurer();
 					if(splashFlag){
 						info(LoggerStringKey.ToolPlatform_ProcessProvider_10);
 						splash(LoggerStringKey.ToolPlatform_ProcessProvider_10);
+						tm.start();
 					}
 					
 					//加载标签多语言配置。
@@ -533,6 +573,45 @@ public final class ToolPlatform {
 						}
 					}
 					
+					//唤起主界面
+					info(LoggerStringKey.ToolPlatform_ProcessProvider_13);
+					if(splashFlag){
+						splash(LoggerStringKey.ToolPlatform_ProcessProvider_13);
+					}
+					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+						@Override
+						public void run() {
+							manager.getMainFrameController().newInstance();
+							manager.getMainFrameController().setHeight(manager.getInvisibleConfigProvider().getMainFrameStartupHeight());
+							manager.getMainFrameController().setWidth(manager.getInvisibleConfigProvider().getMainFrameStartupWidth());
+							manager.getMainFrameController().setExtendedState(manager.getInvisibleConfigProvider().getMainFrameStartupExtendedState());
+						}
+					});
+					
+					//等待启动窗口到达指定的时间后，令其消失。
+					if(splashFlag){
+						tm.stop();
+						long time = tm.getTimeMs();
+						int duration = manager.getCoreConfigProvider().getStartupSplashDuration();
+						if(time < duration){
+							Thread.sleep(duration - time);
+						}
+						ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+							@Override
+							public void run() {
+								manager.getSplashScreenController().dispose();
+							}
+						});
+					}
+					
+					//显示启动界面
+					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+						@Override
+						public void run() {
+							manager.getMainFrameController().setVisible(true);
+						}
+					});
+					
 					//设置成功消息
 					setMessage(manager.getLoggerMutilangProvider().getMutilang().getString(LoggerStringKey.ToolPlatform_ProcessProvider_1));
 				}catch (Exception e) {
@@ -540,7 +619,7 @@ public final class ToolPlatform {
 					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 						@Override
 						public void run() {
-							//manager.getSplashScreenController().dispose();
+							manager.getSplashScreenController().dispose();
 						}
 					});
 					setThrowable(e);
