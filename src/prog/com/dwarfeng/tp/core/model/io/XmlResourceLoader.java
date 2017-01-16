@@ -6,12 +6,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.tp.core.control.ToolPlatform;
+import com.dwarfeng.tp.core.model.cfg.ResourceKey;
 import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.struct.DefaultResource;
 
@@ -67,13 +67,24 @@ public class XmlResourceLoader extends StreamResourceLoader {
 				
 				File res = new File(resString);
 				
-				resourceModel.put(key, new DefaultResource(def, res));
+				resourceModel.put(findResourceKey(key), new DefaultResource(def, res));
 			}
 			
-		}catch (DocumentException e) {
+		}catch (Exception e) {
 			throw new LoadFailedException("无法向资源模型中读取流中的数据", e);
 		}
 		
 	}
+
+	private ResourceKey findResourceKey(String key) {
+		for(ResourceKey resourceKey : ResourceKey.values()){
+			if(resourceKey.getName().equals(key)){
+				return resourceKey;
+			}
+		}
+		throw new IllegalArgumentException("无法找到资源键: " + key);
+	}
+	
+	
 
 }

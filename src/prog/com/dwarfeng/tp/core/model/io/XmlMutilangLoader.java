@@ -1,13 +1,11 @@
 package com.dwarfeng.tp.core.model.io;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
@@ -83,7 +81,7 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 				}
 			}
 			
-		}catch (DocumentException | IOException e) {
+		}catch (Exception e) {
 			throw new LoadFailedException("无法向指定的多语言模型中读取流中的数据", e);
 		}
 

@@ -1,6 +1,5 @@
 package com.dwarfeng.tp.core.model.io;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.Set;
@@ -46,7 +45,7 @@ public final class XmlLoggerLoader extends StreamLoggerLoader {
 			
 			loggerModel.setLoggerContext(loggerContext);
 			loggerModel.setLoggerNames(loggerNames);
-		}catch (IOException e) {
+		}catch (Exception e) {
 			throw new LoadFailedException("无法向指定的记录器模型中读取流中的数据", e);
 		}
 

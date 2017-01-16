@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
@@ -58,7 +57,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 						try{
 							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_3);
 						}catch (Exception e1) {
-							Mutilang tempMutilang = ToolPlatformUtil.newInitialLoggerMutilang();
+							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
 							str = tempMutilang.getString(LoggerStringKey.FinishedProcessTaker_4);
 							logger.warn(str, e1);
 							str = tempMutilang.getString(LoggerStringKey.FinishedProcessTaker_3);
@@ -83,8 +82,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public DefaultFinishedProcessTaker(BackgroundModel backgroundModel) {
-		this(backgroundModel, ToolPlatformUtil.newInitialLogger(), ToolPlatformUtil.newInitialLoggerMutilang());
-		thread.start();
+		this(backgroundModel, ToolPlatformUtil.newDefaultLogger(), ToolPlatformUtil.newDefaultLoggerMutilang());
 	}
 	
 	/**
@@ -102,6 +100,10 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 		this.backgroundModel = backgroundModel;
 		this.logger = logger;
 		this.mutilang = mutilang;
+		
+		//TODO 需要讨论该线程是否为守护线程。
+		//thread.setDaemon(true);
+		thread.start();
 	}
 	
 	/*

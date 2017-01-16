@@ -9,18 +9,20 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.dwarfeng.dutil.basic.io.CT;
-import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
 import com.dwarfeng.dutil.develop.cfg.ConfigAdapter;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
+import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigLoader;
+import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
 import com.dwarfeng.tp.core.control.proc.ProcessProvider;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
 import com.dwarfeng.tp.core.model.cfg.InvisibleConfig;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
+import com.dwarfeng.tp.core.model.cfg.ResourceKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 import com.dwarfeng.tp.core.model.cm.DefaultBackgroundModel;
 import com.dwarfeng.tp.core.model.cm.DefaultLoggerModel;
@@ -33,7 +35,11 @@ import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.cm.SyncConfigModel;
 import com.dwarfeng.tp.core.model.cm.ToolModel;
+import com.dwarfeng.tp.core.model.io.StreamLoggerLoader;
+import com.dwarfeng.tp.core.model.io.StreamMutilangLoader;
 import com.dwarfeng.tp.core.model.io.StreamResourceLoader;
+import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
+import com.dwarfeng.tp.core.model.io.XmlMutilangLoader;
 import com.dwarfeng.tp.core.model.io.XmlResourceLoader;
 import com.dwarfeng.tp.core.model.obv.BackgroundAdapter;
 import com.dwarfeng.tp.core.model.obv.BackgroundObverser;
@@ -54,7 +60,11 @@ import com.dwarfeng.tp.core.model.struct.LoggerProvider;
 import com.dwarfeng.tp.core.model.struct.MutilangProvider;
 import com.dwarfeng.tp.core.model.struct.Process;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
+import com.dwarfeng.tp.core.model.struct.Resource;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
+import com.dwarfeng.tp.core.view.gui.SplashScreen;
+import com.dwarfeng.tp.core.view.struct.AbstractSplashScreenController;
+import com.dwarfeng.tp.core.view.struct.SplashScreenController;
 
 /**
  * ToolPlatform（DwArFeng 的工具平台）。
@@ -74,19 +84,18 @@ public final class ToolPlatform {
 		CT.trace("线程 main 结束！");
 	}
 	
+	/**程序的版本*/
+	public final static Version VERSION = new DefaultVersion.Builder()
+			.type(VersionType.RELEASE)
+			.firstVersion((byte) 0)
+			.secondVersion((byte) 0)
+			.thirdVersion((byte) 0)
+			.buildDate("20161222")
+			.buildVersion('A')
+			.build();
+	
 	private final ProcessProvider processProvider = new InnerProcessProvider();
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**程序管理器*/
 	private final Manager manager;
 	/**程序的状态*/
 	private Status status;
@@ -167,37 +176,9 @@ public final class ToolPlatform {
 	
 	
 	
-
-	/**
-	 * 程序中的属性集合。
-	 * <p> 该属性集合提供程序中的一些开放属性，比如程序的名称、程序的作者、程序的版本等等。
-	 * @author DwArFeng
-	 * @since 1.8
-	 */
-	public final static class Attributes{
-		
-		/**程序的版本*/
-		public final static Version VERSION = new DefaultVersion.Builder()
-				.type(VersionType.RELEASE)
-				.firstVersion((byte) 0)
-				.secondVersion((byte) 0)
-				.thirdVersion((byte) 0)
-				.buildDate("20161222")
-				.buildVersion('A')
-				.build();
-		
-		/**程序的作者*/
-		public final static String author = "DwArFeng";
-		
-		
-	}
-
-	/**
-	 * 程序的模型结构管理器。
-	 * @author  DwArFeng
-	 * @since 1.8
-	 */
-	private final static class Manager{
+	
+	
+	private final class Manager{
 		
 		//model
 		private ResourceModel resourceModel = new DefaultResourceModel();
@@ -208,7 +189,7 @@ public final class ToolPlatform {
 		private MutilangModel labelMutilangModel = new DefaultMutilangModel();
 		private ToolModel toolModel = new DefaultToolModel();
 		private BackgroundModel backgroundModel = new DefaultBackgroundModel();
-		
+		//taker & provider
 		private FinishedProcessTaker finishedProcessTaker = new DefaultFinishedProcessTaker(backgroundModel);
 		private MutilangProvider loggerMutilangProvider = new DefaultMutilangProvider(loggerMutilangModel);
 		private MutilangProvider labelMutilangProvider = new DefaultMutilangProvider(labelMutilangModel);
@@ -251,6 +232,27 @@ public final class ToolPlatform {
 			}
 		};
 		//GuiControllers
+		private SplashScreenController splashScreenController = new AbstractSplashScreenController(){
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.struct.AbstractGuiController#subNewInstance()
+			 */
+			@Override
+			protected SplashScreen subNewInstance() {
+				return new SplashScreen();
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.struct.AbstractGuiController#subDispose(java.awt.Component)
+			 */
+			@Override
+			protected void subDispose(SplashScreen component) {
+				component.dispose();
+			}
+			
+		};
 		
 		
 		/**
@@ -372,6 +374,13 @@ public final class ToolPlatform {
 		public LoggerProvider getLoggerProvider() {
 			return loggerProvider;
 		}
+
+		/**
+		 * @return the splashScreenController
+		 */
+		public SplashScreenController getSplashScreenController() {
+			return splashScreenController;
+		}
 		
 	}
 	
@@ -383,268 +392,185 @@ public final class ToolPlatform {
 		 */
 		@Override
 		public Process newStartProcess() {
-			return new AbstractProcess(0, 0, false, false) {
-				
-				/*
-				 * (non-Javadoc)
-				 * @see com.dwarfeng.tp.core.model.struct.AbstractProcess#process()
-				 */
-				@Override
-				protected void process() {
-					
-					//由于一开始使用的是默认的配置，不可能出现异常。
+			return new StartProcess();
+		}
+		
+		
+		private final class StartProcess extends AbstractProcess{
+			
+			public StartProcess() {
+				super(0, 0, false, false);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.model.struct.AbstractProcess#process()
+			 */
+			@Override
+			protected void process() {
+				try{
+					//更新模型，此时的多语言模型和记录器模型被更新为默认值。
 					manager.getLoggerModel().update();
 					manager.getLabelMutilangModel().update();
 					manager.getLoggerMutilangModel().update();
 					
-					//读取配置
+					//加载程序的资源模型
+					info(LoggerStringKey.ToolPlatform_ProcessProvider_3);
+					StreamResourceLoader resourceLoader = null;
 					try{
-						
-						//加载程序的资源模型
-						ResourceModel resourceModel = new DefaultResourceModel();
-						StreamResourceLoader resourceLoader = null;
-						try{
-							resourceLoader =
-									new XmlResourceLoader(ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/paths.xml"));
-							resourceLoader.load(resourceModel);
-						}finally{
-							if(Objects.nonNull(resourceLoader)){
-								resourceLoader.close();
-							}
+						resourceLoader = new XmlResourceLoader(ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/paths.xml"));
+						resourceLoader.load(manager.getResourceModel());
+					}finally{
+						if(Objects.nonNull(resourceLoader)){
+							resourceLoader.close();
 						}
-						
-					}catch (LoadFailedException | IOException e) {
-						// TODO: handle exception
 					}
-
 					
+					//加载程序中的记录器模型。
+					info(LoggerStringKey.ToolPlatform_ProcessProvider_5);
+					StreamLoggerLoader loggerLoader = null;
+					try{
+						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
+						loggerLoader.load(manager.getLoggerModel());
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						getResource(ResourceKey.LOGGER_SETTING).reset();
+						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
+						loggerLoader.load(manager.getLoggerModel());
+					}finally {
+						if(Objects.nonNull(loggerLoader)){
+							loggerLoader.close();
+						}
+					}
+					try{
+						manager.getLoggerModel().tryUpdate();
+					}catch (ProcessException e) {
+						warn(LoggerStringKey.ToolPlatform_ProcessProvider_7, e);
+					}
+					
+					//加载记录器多语言配置。
+					info(LoggerStringKey.ToolPlatform_ProcessProvider_8);
+					StreamMutilangLoader loggerMutilangLoader = null;
+					try{
+						loggerMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LOGGER_SETTING).openInputStream());
+						loggerMutilangLoader.load(manager.getLoggerMutilangModel());
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						getResource(ResourceKey.MUTILANG_LOGGER_SETTING).reset();
+						loggerMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LOGGER_SETTING).openInputStream());
+						loggerMutilangLoader.load(manager.getLoggerMutilangModel());
+					}finally {
+						if(Objects.nonNull(loggerMutilangLoader)){
+							loggerMutilangLoader.close();
+						}
+					}
+					try{
+						manager.getLoggerMutilangModel().tryUpdate();
+					}catch (ProcessException e) {
+						warn(LoggerStringKey.ToolPlatform_ProcessProvider_9, e);
+					}
+					
+					//加载程序的核心配置。
+					info(LoggerStringKey.ToolPlatform_ProcessProvider_6);
+					StreamConfigLoader coreConfigLoader = null;
+					try{
+						coreConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_CORE).openInputStream());
+						coreConfigLoader.load(manager.getCoreConfigModel());
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						getResource(ResourceKey.CONFIGURATION_CORE).reset();
+						coreConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_CORE).openInputStream());
+						coreConfigLoader.load(manager.getCoreConfigModel());
+					}finally {
+						if(Objects.nonNull(coreConfigLoader)){
+							coreConfigLoader.close();
+						}
+					}
+					
+					//如果需要显示启动窗口，则显示启动窗口
+					boolean splashFlag = manager.getCoreConfigProvider().isShowSplashScreen();
+					if(splashFlag){
+						info(LoggerStringKey.ToolPlatform_ProcessProvider_10);
+						splash(LoggerStringKey.ToolPlatform_ProcessProvider_10);
+					}
+					
+					//加载标签多语言配置。
+					info(LoggerStringKey.ToolPlatform_ProcessProvider_11);
+					if (splashFlag) {
+						splash(LoggerStringKey.ToolPlatform_ProcessProvider_11);
+					}
+					StreamMutilangLoader labelMutilangLoader = null;
+					try{
+						labelMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LABEL_SETTING).openInputStream());
+						labelMutilangLoader.load(manager.getLabelMutilangModel());
+					}catch(IOException e){
+						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						getResource(ResourceKey.MUTILANG_LABEL_SETTING).reset();
+						labelMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LABEL_SETTING).openInputStream());
+						labelMutilangLoader.load(manager.getLabelMutilangModel());
+					}finally{
+						if(Objects.nonNull(labelMutilangLoader)){
+							labelMutilangLoader.close();
+						}
+					}
+					
+					//加载不可见模型
+					info(LoggerStringKey.ToolPlatform_ProcessProvider_12);
+					if (splashFlag) {
+						splash(LoggerStringKey.ToolPlatform_ProcessProvider_12);
+					}
+					StreamConfigLoader invisibleConfigLoader = null;
+					try{
+						invisibleConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_INVISIBLE).openInputStream());
+						invisibleConfigLoader.load(manager.getInvisibleConfigModel());
+					}catch (IOException e) {
+						getResource(ResourceKey.CONFIGURATION_INVISIBLE).reset();
+						invisibleConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_INVISIBLE).openInputStream());
+						invisibleConfigLoader.load(manager.getInvisibleConfigModel());
+					}finally{
+						if(Objects.nonNull(invisibleConfigLoader)){
+							invisibleConfigLoader.close();
+						}
+					}
+					
+					//设置成功消息
 					setMessage(manager.getLoggerMutilangProvider().getMutilang().getString(LoggerStringKey.ToolPlatform_ProcessProvider_1));
+				}catch (Exception e) {
+					//将启动窗口关闭。
+					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+						@Override
+						public void run() {
+							//manager.getSplashScreenController().dispose();
+						}
+					});
+					setThrowable(e);
+					setMessage(manager.getLoggerMutilangProvider().getMutilang().getString(LoggerStringKey.ToolPlatform_ProcessProvider_2));
 				}
-			};
+			}
+			
 		}
 		
-//		/*
-//		 * (non-Javadoc)
-//		 * @see com.dwarfeng.tp.core.control.proc.ActionProcessor#start()
-//		 */
-//		@Override
-//		public void start() throws ProcessException {
-//			if(! status.equals(Status.NOT_START))  throw new IllegalStateException("程序已经启动或者已经结束");
-//			
-//			//定义变量
-//			Resource resource = null;
-//			Mutilang usingMutilang = ToolPlatformUtil.newInitialLoggerMutilang();
-//			Logger usingLogger = null;
-//			SplashScreenController usingSplashScreenController = null;
-//			TimeMeasurer usingTimeMeasurer = null;
-//			
-//			
-//			try{
-//				
-//				//加载程序的资源模型
-//				ResourceModel resourceModel = new DefaultResourceModel();
-//				StreamResourceLoader resourceLoader = null;
-//				try{
-//					resourceLoader =
-//							new XmlResourceLoader(ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/paths.xml"));
-//					resourceLoader.load(resourceModel);
-//				}finally{
-//					if(Objects.nonNull(resourceLoader)){
-//						resourceLoader.close();
-//					}
-//				}
-//				
-//				
-//				//加载程序中的记录器模型。
-//				LoggerModel loggerModel = new DefaultLoggerModel();
-//				resource = resourceModel.get(PathKey.LOGGER_SETTING);
-//				StreamLoggerLoader loggerLoader = null;
-//				try{
-//					loggerLoader = new XmlLoggerLoader(resource.openInputStream());
-//					loggerLoader.load(loggerModel);
-//				}catch (IOException e) {
-//					resource.reset();
-//					loggerLoader = new XmlLoggerLoader(resource.openInputStream());
-//					loggerLoader.load(loggerModel);
-//				}finally {
-//					if(Objects.nonNull(loggerLoader)){
-//						loggerLoader.close();
-//					}
-//				}
-//				LoggerProvider loggerProvider = new DefaultLoggerProvider(loggerModel);
-//				try{
-//					loggerProvider.update();
-//				}catch(ProcessException e){
-//					//TODO 以后寻找更好的解决方式。
-//					loggerProvider.update2Default();
-//				}
-//				usingLogger = loggerProvider.getLogger();
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_1));
-//				
-//				//加载程序的核心配置。
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_2));
-//				ConfigModel coreConfigModel = new DefaultConfigModel(CoreConfig.values());
-//				resource = resourceModel.get(PathKey.CONFIGURATION_CORE);
-//				StreamConfigLoader coreConfigLoader = null;
-//				try{
-//					coreConfigLoader = new PropertiesConfigLoader(resource.openInputStream());
-//					coreConfigLoader.loadConfig(coreConfigModel);
-//				}catch (IOException e) {
-//					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_3), e);
-//					resource.reset();
-//					coreConfigLoader = new PropertiesConfigLoader(resource.openInputStream());
-//					coreConfigLoader.loadConfig(coreConfigModel);
-//				}finally {
-//					if(Objects.nonNull(coreConfigLoader)){
-//						coreConfigLoader.close();
-//					}
-//				}
-//				CoreConfigProvider coreConfigProvider = new DefaultCoreConfigProvider(coreConfigModel);
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_4));
-//				
-//				//加载记录器多语言配置。
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_5));
-//				MutilangModel loggerMutilangModel = new DefaultMutilangModel();
-//				resource = resourceModel.get(PathKey.MUTILANG_LOGGER_SETTING);
-//				StreamMutilangLoader loggerMutilangLoader = null;
-//				try{
-//					loggerMutilangLoader = new XmlMutilangLoader(resource.openInputStream());
-//					loggerMutilangLoader.load(loggerMutilangModel);
-//				}catch (IOException e) {
-//					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_3), e);
-//					resource.reset();
-//					loggerMutilangLoader = new XmlMutilangLoader(resource.openInputStream());
-//					loggerMutilangLoader.load(loggerMutilangModel);
-//				}finally {
-//					if(Objects.nonNull(loggerMutilangLoader)){
-//						loggerMutilangLoader.close();
-//					}
-//				}
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_6));
-//				MutilangProvider loggerMutilangProvider = ToolPlatformUtil.newLoggerMutilangProvider(loggerMutilangModel);
-//				try{
-//					loggerMutilangProvider.update(coreConfigProvider.getLoggerMutilangLocale());
-//					usingMutilang = loggerMutilangProvider.getMutilang();
-//				}catch (ProcessException e) {
-//					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_7), e);
-//					loggerMutilangProvider.update2Default();
-//					usingMutilang = loggerMutilangProvider.getMutilang();
-//				}
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_8));
-//				
-//				//判断是否要生成闪现窗体。
-//				if(coreConfigProvider.isShowSplashScreen()){
-//					usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_9));
-//					usingSplashScreenController = ViewUtil.newSplashScreenController();
-//					usingTimeMeasurer = new TimeMeasurer();
-//					usingTimeMeasurer.start();
-//				}
-//				
-//				//加载标签多语言配置。
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_10));
-//				if(Objects.nonNull(usingSplashScreenController)){
-//					usingSplashScreenController.setText(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_10));
-//				}
-//				MutilangModel labelMutilangModel = new DefaultMutilangModel();
-//				resource = resourceModel.get(PathKey.MUTILANG_LABEL_SETTING);
-//				StreamMutilangLoader labelMutilangLoader = null;
-//				try{
-//					labelMutilangLoader = new XmlMutilangLoader(resource.openInputStream());
-//					labelMutilangLoader.load(labelMutilangModel);
-//				}catch(IOException e){
-//					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_3), e);
-//					resource.reset();
-//					labelMutilangLoader = new XmlMutilangLoader(resource.openInputStream());
-//					labelMutilangLoader.load(labelMutilangModel);
-//				}finally{
-//					if(Objects.nonNull(labelMutilangLoader)){
-//						labelMutilangLoader.close();
-//					}
-//				}
-//				MutilangProvider labelMutilangProvider = ToolPlatformUtil.newLabelMutilangProvider(labelMutilangModel);
-//				try{
-//					labelMutilangProvider.update(coreConfigProvider.getLabelMutilangLocale());
-//				}catch (ProcessException e) {
-//					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_11), e);
-//					labelMutilangProvider.update2Default();
-//				}
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_12));
-//				
-//				//加载不可见模型
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_13));
-//				if(Objects.nonNull(usingSplashScreenController)){
-//					usingSplashScreenController.setText(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_13));
-//				}
-//				ConfigModel invisibleConfigModel = new DefaultConfigModel(InvisibleConfig.values());
-//				resource = resourceModel.get(PathKey.CONFIGURATION_INVISIBLE);
-//				StreamConfigLoader invisibleConfigLoader = null;
-//				try{
-//					invisibleConfigLoader = new PropertiesConfigLoader(resource.openInputStream());
-//					invisibleConfigLoader.loadConfig(invisibleConfigModel);
-//				}catch (IOException e) {
-//					usingLogger.warn(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_3), e);
-//					resource.reset();
-//					invisibleConfigLoader = new PropertiesConfigLoader(resource.openInputStream());
-//					invisibleConfigLoader.loadConfig(invisibleConfigModel);
-//				}finally{
-//					if(Objects.nonNull(invisibleConfigLoader)){
-//						invisibleConfigLoader.close();
-//					}
-//				}
-//				InvisibleConfigProvider invisibleConfigProvider = new DefaultInvisibleConfigProvider(invisibleConfigModel);
-//				usingLogger.info(usingMutilang.getString(LoggerStringKey.ActionProcessor_start_14));
-//				
-//				
-//				
-//				
-//				
-//				
-//				
-//				
-//				//生成模型管理器。
-//				ModelManager modelManager = new ModelManager(
-//						resourceModel, 
-//						coreConfigModel, 
-//						invisibleConfigModel, 
-//						loggerMutilangModel,
-//						labelMutilangModel,
-//						loggerMutilangProvider, 
-//						labelMutilangProvider, 
-//						loggerModel, 
-//						loggerProvider);
-//				ToolPlatform.this.modelManager = modelManager;
-//				
-//				
-//				try {
-//					Thread.sleep(2000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				
-//				/*
-//				 * TODO 程序启动方法有待完善。
-//				 * 	加载程序的核心配置					√
-//				 * 加载记录器多语言配置				√
-//				 * 应用记录器多语言配置				√
-//				 * 加载闪现窗体								√
-//				 * 加载标签多语言模型					√
-//				 * 加载不可见配置模型					√
-//				 * 
-//				 */
-//				
-//			}catch (IOException | LoadFailedException e) {
-//				if(Objects.nonNull(usingLogger) && Objects.nonNull(usingMutilang)){
-//					//TODO 无法完成初始化。
-//				}
-//				throw new ProcessException("初始化不成功", e.getCause());
-//			}finally{
-//				if(Objects.nonNull(usingSplashScreenController)){
-//					usingSplashScreenController.dispose();
-//				}
-//			}
-//			
-//		}
+		private void info(LoggerStringKey loggerStringKey){
+			manager.getLoggerProvider().getLogger().info(manager.getLoggerMutilangProvider().getMutilang().getString(loggerStringKey));
+		}
+		
+		private void warn(LoggerStringKey loggerStringKey, Throwable throwable){
+			manager.getLoggerProvider().getLogger().warn(manager.getLoggerMutilangProvider().getMutilang().getString(loggerStringKey), throwable);
+		}
+		
+		private Resource getResource(ResourceKey resourceKey){
+			return manager.getResourceModel().get(resourceKey);
+		}
+		
+		private void splash(LoggerStringKey loggerStringKey){
+			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+				@Override
+				public void run() {
+					manager.getSplashScreenController().show();
+					manager.getSplashScreenController().setMessage(manager.getLoggerMutilangProvider().getMutilang().getString(loggerStringKey));
+				}
+			});
+		}
 		
 	}
 	

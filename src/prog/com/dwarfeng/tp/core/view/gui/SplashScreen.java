@@ -13,35 +13,17 @@ import javax.swing.SwingConstants;
 
 import com.dwarfeng.dutil.basic.gui.swing.JImagePanel;
 import com.dwarfeng.tp.core.control.ToolPlatform;
-import com.dwarfeng.tp.core.view.struct.SplashScreenController;
 
+/**
+ * 启动窗口。
+ * @author DwArFeng
+ * @since 1.8
+ */
 public class SplashScreen extends JFrame{
 	
-	private static final long serialVersionUID = 17078290519655271L;
-
-	private final JLabel label;
+	private static final long serialVersionUID = 7808586865358726896L;
 	
-	private final SplashScreenController splashScreenController = new SplashScreenController() {
-		
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.view.ctrl.SplashScreenController#setText(java.lang.String)
-		 */
-		@Override
-		public void setText(String text) {
-			if(Objects.isNull(text)) text = "";
-			label.setText(text);
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.view.ctrl.SplashScreenController#dispose()
-		 */
-		@Override
-		public void dispose() {
-			SplashScreen.this.dispose();
-		}
-	};
+	private final JLabel label;
 
 	/**
 	 * 新实例。
@@ -69,12 +51,25 @@ public class SplashScreen extends JFrame{
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		imagePanel.add(label, BorderLayout.SOUTH);
 	}
-
+	
 	/**
-	 * @return the splashScreenController
+	 * 获取启动窗口的信息文本。
+	 * @return 启动窗口的信息文本。
 	 */
-	public SplashScreenController getSplashScreenController() {
-		return splashScreenController;
+	public String getMessage(){
+		return label.getText();
+	}
+	
+	/**
+	 * 设置启动窗口的信息文本。
+	 * @param text 指定的信息文本，<code>null</code> 相当于 <code>""</code>。
+	 * @return 该操作是否改变了启动窗口。
+	 */
+	public boolean setMessage(String text){
+		text = text == null ? "" : text;
+		if(Objects.equals(label.getText(), text)) return false;
+		this.label.setText(text);
+		return true;
 	}
 
 }

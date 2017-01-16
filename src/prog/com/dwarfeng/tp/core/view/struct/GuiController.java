@@ -2,17 +2,20 @@ package com.dwarfeng.tp.core.view.struct;
 
 import java.awt.Component;
 
+import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
+
 /**
  * 图形交互界面控制器。
  * <p> 用于控制图形交互界面。
  * @author  DwArFeng
  * @since 1.8
  */
-public interface GuiController<T extends Component> {
+public interface GuiController<T extends Component> extends ExternalReadWriteThreadSafe{
 
 	/**
 	 * 生成一个新实例。
 	 * <p> 如果前一个实例还没有被释放，则不进行任何操作，返回 <code>false</code>。
+	 * <p> 该方法需要在 Swing 事件队列中运行。
 	 * @return 该操作是否生成了一个新实例。
 	 */
 	public boolean newInstance();
@@ -48,6 +51,7 @@ public interface GuiController<T extends Component> {
 	/**
 	 * 设置控制器中的实例是否可见。
 	 * <p> 如果控制器中没有实例，则什么也不做并且返回 <code>false</code>。
+	 * <p> 该方法需要在 Swing 事件队列中运行。
 	 * @return 是否成功的设置。
 	 */
 	public boolean setVisible(boolean aFlag);
@@ -56,6 +60,7 @@ public interface GuiController<T extends Component> {
 	 * 展示该控制器中的实例。
 	 * <p> 如果该控制器中没有实例，则新建一个实例，然后将此实例设为可见；
 	 * 如果控制器中有实例，则直接将其设为可见。
+	 * <p> 该方法需要在 Swing 事件队列中运行。
 	 */
 	public void show();
 	

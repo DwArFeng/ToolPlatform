@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.util;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,12 +18,10 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.ConfigurationSource;
 import org.apache.logging.log4j.core.config.Configurator;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
-import com.dwarfeng.tp.core.model.cm.LoggerModel;
 import com.dwarfeng.tp.core.model.struct.Logger;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 
@@ -103,25 +102,30 @@ public final class ToolPlatformUtil {
 	}
 	
 	/**
-	 * 获取初始化记录器接口。
-	 * <p> 该记录器是程序在初始化阶段，尚未通过配置生成专用的记录器提供器之前，
-	 * 用于代替的记录器，该方法生成的记录器只会在程序在初始化的前期保留一段时间。
+	 * 获取默认记录器接口。
 	 * <p> 该记录器不进行任何操作。
 	 * @return 新的初始化记录器接口。
 	 */
-	public final static Logger newInitialLogger(){
+	public final static Logger newDefaultLogger(){
 		return new InitialLogger();
 	}
 	
 	/**
-	 * 获取初始化用多语言接口。
-	 * <p> 该多语言接口是程序在初始化阶段，尚未通过配置生成专用的多语言接口提供器之前，
-	 * 用于代替的多语言接口，该方法生成的多语言接口只会在程序在初始化的前期保留一段时间。
-	 * <p> 使用简体中文，并且不响应设置语言方法和将语言设置为默认值方法。
-	 * @return 新的初始化用多语言接口。
+	 * 获取默认的记录器多语言接口。
+	 * <p> 使用程序中内置的简体中文。
+	 * @return 新的默认记录器多语言接口。
 	 */
-	public final static Mutilang newInitialLoggerMutilang(){
-		return new InitialLoggerMutilang();
+	public final static Mutilang newDefaultLoggerMutilang(){
+		return new DefaultLoggerMutilang();
+	}
+	
+	/**
+	 * 获取默认的标签多语言接口。
+	 * <p> 使用程序中内置的简体中文。
+	 * @return 新的默认标签多语言接口。
+	 */
+	public final static Mutilang newDefaultLabelMutilang(){
+		return new DefaultLabelMutilang();
 	}
 	
 	/**
@@ -139,48 +143,34 @@ public final class ToolPlatformUtil {
 		}
 	}
 	
-//	/**
-//	 * 通过指定的多语言模型生成一个新的记录器多语言提供器。
-//	 * @param mutilangModel 指定的多语言模型。
-//	 * @return 通过指定的多语言模型生成的记录器多语言提供器。
-//	 * @throws NullPointerException 入口参数为 <code>null</code>。
-//	 */
-//	public final static MutilangProvider newLoggerMutilangProvider(MutilangModel mutilangModel){
-//		Objects.requireNonNull(mutilangModel, "入口参数 mutilangModel 不能为 null。");
-//		
-//		return new DefaultMutilangProvider(
-//				mutilangModel, 
-//				new HashSet<>(Arrays.asList(LoggerStringKey.values())), 
-//				ResourceBundleUtil.toMap(loggerMutilangResourceBundle),
-//				missingString);
-//	}
-//	
-//	/**
-//	 * 通过指定的多语言模型生成一个新的标签多语言提供器。
-//	 * @param mutilangModel mutilangModel 指定的多语言模型。
-//	 * @return 通过指定的多语言模型生成的比起阿多语言提供器。
-//	 * @throws NullPointerException 入口参数为 <code>null</code>。
-//	 */
-//	public final static MutilangProvider newLabelMutilangProvider(MutilangModel mutilangModel){
-//		Objects.requireNonNull(mutilangModel, "入口参数 mutilangModel 不能为 null。");
-//
-//		return new DefaultMutilangProvider(
-//				mutilangModel, 
-//				new HashSet<>(Arrays.asList(LabelStringKey.values())), 
-//				ResourceBundleUtil.toMap(labelMutilangResourceBundle),
-//				missingString);
-//	}
+	/**
+	 * 向实践队列中添加一个指定的可运行对象。
+	 * <p> 在指定的可运行对象运行结束之前，当前线程将处于阻塞状态。
+	 * @param runnable 指定的可运行对象。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
+	 * @throws InvocationTargetException <code>runnable</code>	运行时抛出异常。
+	 * @throws InterruptedException 如果等待事件指派线程执完成执行 <code>runnable.run()</code>时被中断 
+	 */
+	public final static void invokeAndWaitInEventQueue(Runnable runnable) throws InvocationTargetException, InterruptedException{
+		Objects.requireNonNull(runnable, "入口参数 runnable 不能为 null。");
+		
+		if(SwingUtilities.isEventDispatchThread()){
+			runnable.run();
+		}else{
+			SwingUtilities.invokeAndWait(runnable);
+		}
+	}
+	
+	
 	
 
 	/**
-	 * 初始化多语言接口。
-	 * <p> 该多语言接口是程序在初始化阶段，尚未通过配置生成专用的多语言接口提供器之前，
-	 * 用于代替的多语言接口，该方法生成的多语言接口只会在程序在初始化的前期保留一段时间。
-	 * <p> 使用简体中文，并且不响应设置语言方法和将语言设置为默认值方法。
+	 * 默认记录器多语言接口。
+	 * <p> 使用程序中内置的简体中文。
 	 * @author  DwArFeng
 	 * @since 1.8
 	 */
-	private static final class InitialLoggerMutilang implements Mutilang {
+	private static final class DefaultLoggerMutilang implements Mutilang {
 		
 		/*
 		 * (non-Javadoc)
@@ -191,15 +181,45 @@ public final class ToolPlatformUtil {
 			if(!(key instanceof LoggerStringKey)){
 				throw new IllegalArgumentException("此多语言接口不支持该键");
 			}
-			return loggerMutilangResourceBundle.getString(key.getName());
+			try{
+				return loggerMutilangResourceBundle.getString(key.getName());
+			}catch (MissingResourceException e) {
+				return missingString;
+			}
 		}
 		
 	}
+	
+	/**
+	 * 默认记录器多语言接口。
+	 * <p> 使用程序中内置的简体中文。
+	 * @author DwArFeng
+	 * @since 1.8
+	 */
+	private static final class DefaultLabelMutilang implements Mutilang{
+
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(com.dwarfeng.dutil.basic.str.Name)
+		 */
+		@Override
+		public String getString(Name key) {
+			if(!(key instanceof LabelStringKey)){
+				throw new IllegalArgumentException("此多语言接口不支持该键");
+			}
+			try{
+				return labelMutilangResourceBundle.getString(key.getName());
+			}catch (MissingResourceException e) {
+				return missingString;
+			}
+		}
+		
+	}
+	
+	
 
 	/**
-	 * 初始化记录器接口。
-	 * <p> 该记录器是程序在初始化阶段，尚未通过配置生成专用的记录器提供器之前，
-	 * 用于代替的记录器，该方法生成的记录器只会在程序在初始化的前期保留一段时间。
+	 * 默认记录器接口。
 	 * <p> 该记录器不进行任何操作。
 	 * @author  DwArFeng
 	 * @since 1.8

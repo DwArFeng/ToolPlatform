@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.view.gui;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
+import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
  * 程序的主界面。
@@ -16,11 +18,21 @@ import com.dwarfeng.tp.core.model.struct.MutilangSupported;
  */
 public final class MainFrame extends JFrame implements MutilangSupported {
 	
+	private Mutilang mutilang;
 	
 	/**
-	 * 调试的时候使用。 
+	 * 新实例。
 	 */
 	public MainFrame() {
+		this(ToolPlatformUtil.newDefaultLabelMutilang());
+	}
+	
+	/**
+	 * 新实例。
+	 * @param mutilang 指定的多语言接口。
+	 */
+	public MainFrame(Mutilang mutilang) {
+		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
 		
 		try {
 			setIconImage(ImageIO.read(ToolPlatform.class.getResource("/com/dwarfeng/tp/resource/image/icon.png")));
@@ -29,16 +41,24 @@ public final class MainFrame extends JFrame implements MutilangSupported {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.MutilangSupported#getMutilang()
+	 */
 	@Override
 	public Mutilang getMutilang() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.mutilang;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.MutilangSupported#setMutilang(com.dwarfeng.tp.core.model.struct.Mutilang)
+	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
-		// TODO Auto-generated method stub
-		return false;
+		if(Objects.equals(mutilang, this.mutilang)) return false;
+		this.mutilang = mutilang;
+		return true;
 	}
 
 }

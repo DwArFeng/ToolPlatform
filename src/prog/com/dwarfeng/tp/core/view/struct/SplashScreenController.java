@@ -1,21 +1,19 @@
 package com.dwarfeng.tp.core.view.struct;
 
+import com.dwarfeng.tp.core.view.gui.SplashScreen;
+
 /**
  * 启动窗口控制器。
  * @author  DwArFeng
  * @since 1.8
  */
-public interface SplashScreenController {
+public interface SplashScreenController extends GuiController<SplashScreen>{
 	
 	/**
-	 * 关闭此启动窗口。
+	 * 设置显示在启动窗口上的信息文本。
+	 * @param text 指定的信息文本, <code>null</code>相当于 <code>""</code>。
+	 * @return 该操作是否对启动窗口造成了改变。
 	 */
-	public void dispose();
-	
-	/**
-	 * 设置显示在启动窗口上的文本。
-	 * @param text 指定的文本, <code>null</code>相当于 <code>""</code>。
-	 */
-	public void setText(String text);
+	public boolean setMessage(String text);
 
 }

@@ -35,7 +35,18 @@ public enum LoggerStringKey implements Name{
 	ToolPlatform_Manager_2(new DefaultName("ToolPlatform.Manager.2")),
 	
 	ToolPlatform_ProcessProvider_1(new DefaultName("ToolPlatform.ProcessProvider.1")),
-	
+	ToolPlatform_ProcessProvider_2(new DefaultName("ToolPlatform.ProcessProvider.2")),
+	ToolPlatform_ProcessProvider_3(new DefaultName("ToolPlatform.ProcessProvider.3")),
+	ToolPlatform_ProcessProvider_4(new DefaultName("ToolPlatform.ProcessProvider.4")),
+	ToolPlatform_ProcessProvider_5(new DefaultName("ToolPlatform.ProcessProvider.5")),
+	ToolPlatform_ProcessProvider_6(new DefaultName("ToolPlatform.ProcessProvider.6")),
+	ToolPlatform_ProcessProvider_7(new DefaultName("ToolPlatform.ProcessProvider.7")),
+	ToolPlatform_ProcessProvider_8(new DefaultName("ToolPlatform.ProcessProvider.8")),
+	ToolPlatform_ProcessProvider_9(new DefaultName("ToolPlatform.ProcessProvider.9")),
+	ToolPlatform_ProcessProvider_10(new DefaultName("ToolPlatform.ProcessProvider.10")),
+	ToolPlatform_ProcessProvider_11(new DefaultName("ToolPlatform.ProcessProvider.11")),
+	ToolPlatform_ProcessProvider_12(new DefaultName("ToolPlatform.ProcessProvider.12")),
+
 	;
 
 	private Name name;

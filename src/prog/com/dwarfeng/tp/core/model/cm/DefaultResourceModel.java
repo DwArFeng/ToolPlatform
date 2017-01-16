@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import com.dwarfeng.tp.core.model.cfg.PathKey;
+import com.dwarfeng.tp.core.model.cfg.ResourceKey;
 import com.dwarfeng.tp.core.model.struct.Resource;
 
 /**
@@ -19,7 +19,7 @@ import com.dwarfeng.tp.core.model.struct.Resource;
  */
 public final class DefaultResourceModel extends AbstractResourceModel {
 	
-	private final Map<String, Resource> delegate = new HashMap<>();
+	private final Map<ResourceKey, Resource> delegate = new HashMap<>();
 
 	/*
 	 * (non-Javadoc)
@@ -85,11 +85,7 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	public Resource get(Object key) {
 		lock.readLock().lock();
 		try{
-			if(key instanceof PathKey){
-				return delegate.get(((PathKey) key).getName());
-			}else{
-				return delegate.get(key);
-			}
+			return delegate.get(key);
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -100,7 +96,7 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public Resource put(String key, Resource value) {
+	public Resource put(ResourceKey key, Resource value) {
 		Objects.requireNonNull(key, "入口参数 key 不能为 null。");
 		Objects.requireNonNull(value, "入口参数 value 不能为 null。");
 
@@ -131,7 +127,7 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	 * @see java.util.Map#putAll(java.util.Map)
 	 */
 	@Override
-	public void putAll(Map<? extends String, ? extends Resource> m) {
+	public void putAll(Map<? extends ResourceKey, ? extends Resource> m) {
 		Objects.requireNonNull(m, "入口参数 m 不能为 null。");
 		
 		lock.writeLock().lock();
@@ -163,7 +159,7 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	 * @return 模型的键集合。
 	 */
 	@Override
-	public Set<String> keySet() {
+	public Set<ResourceKey> keySet() {
 		lock.readLock().lock();
 		try{
 			return Collections.unmodifiableSet(delegate.keySet());
@@ -195,7 +191,7 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	 * @return 模型的入口集合。
 	 */
 	@Override
-	public Set<java.util.Map.Entry<String, Resource>> entrySet() {
+	public Set<java.util.Map.Entry<ResourceKey, Resource>> entrySet() {
 		lock.readLock().lock();
 		try{
 			return Collections.unmodifiableSet(delegate.entrySet());
