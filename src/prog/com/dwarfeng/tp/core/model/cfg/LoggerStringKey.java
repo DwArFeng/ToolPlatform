@@ -30,6 +30,10 @@ public enum LoggerStringKey implements Name{
 	ToolPlatform_ProcessProvider_9(new DefaultName("ToolPlatform.ProcessProvider.9")),
 	ToolPlatform_ProcessProvider_10(new DefaultName("ToolPlatform.ProcessProvider.10")),
 	ToolPlatform_ProcessProvider_11(new DefaultName("ToolPlatform.ProcessProvider.11")),
+	
+	Update_LoggerMutilang_1(new DefaultName("Update.LoggerMutilang.1")),
+	Update_LabelMutilang_1(new DefaultName("Update.LabelMutilang.1")),
+	Update_Logger_1(new DefaultName("Update.Logger.1")),
 
 	;
 

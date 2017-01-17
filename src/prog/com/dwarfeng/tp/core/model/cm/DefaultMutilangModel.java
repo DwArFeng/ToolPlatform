@@ -11,6 +11,7 @@ import java.util.Set;
 
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
+import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
@@ -451,12 +452,15 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.struct.Updateable#update()
 	 */
 	@Override
-	public void update() {
+	public void update() throws ProcessException {
 		lock.writeLock().lock();
 		try{
 			mutilangMap = delegate.getOrDefault(currentLocale, defaultMutilangInfo).getMutilangMap();
 			fireUpdated();
-		}finally {
+		}catch (Exception e) {
+			throw new ProcessException("多语言接口更新时发生异常", e);
+		}
+		finally {
 			lock.writeLock().unlock();
 		}
 	}

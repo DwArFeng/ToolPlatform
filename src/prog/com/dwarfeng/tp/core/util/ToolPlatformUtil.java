@@ -23,10 +23,10 @@ import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
-import com.dwarfeng.tp.core.model.struct.DefaultMutilangInfo;
 import com.dwarfeng.tp.core.model.struct.Logger;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
+import com.dwarfeng.tp.core.model.struct.ProcessException;
 
 /**
  * 关于工具平台的工厂类。
@@ -126,7 +126,12 @@ public final class ToolPlatformUtil {
 	 * @return 记录器多语言接口的支持键集合。
 	 */
 	public static Set<String> getLoggerMutilangSupportedKeys() {
-		return Collections.unmodifiableSet(defaultLoggerMutilangInfo.getMutilangMap().keySet());
+		try {
+			return Collections.unmodifiableSet(defaultLoggerMutilangInfo.getMutilangMap().keySet());
+		} catch (ProcessException ignore) {
+			//不会抛出异常
+			return null;
+		}
 	}
 
 	/**
@@ -134,7 +139,12 @@ public final class ToolPlatformUtil {
 	 * @return 标签多语言接口的支持键集合。
 	 */
 	public static Set<String> getLabelMutilangSupportedKeys() {
-		return Collections.unmodifiableSet(defaultLabelMutilangInfo.getMutilangMap().keySet());
+		try {
+			return Collections.unmodifiableSet(defaultLabelMutilangInfo.getMutilangMap().keySet());
+		} catch (ProcessException ignore) {
+			//不会抛出异常
+			return null;
+		}
 	}
 	
 	/**
@@ -214,8 +224,12 @@ public final class ToolPlatformUtil {
 		 */
 		@Override
 		public String getString(String key) {
-			if(! defaultLoggerMutilangInfo.getMutilangMap().containsKey(key)){
-				throw new IllegalArgumentException("此多语言接口不支持该键");
+			try {
+				if(! defaultLoggerMutilangInfo.getMutilangMap().containsKey(key)){
+					throw new IllegalArgumentException("此多语言接口不支持该键");
+				}
+			} catch (ProcessException ignore) {
+				//不会抛出异常
 			}
 			try{
 				return loggerMutilangResourceBundle.getString(key);
@@ -240,8 +254,12 @@ public final class ToolPlatformUtil {
 		 */
 		@Override
 		public String getString(String key) {
-			if(! defaultLabelMutilangInfo.getMutilangMap().containsKey(key)){
-				throw new IllegalArgumentException("此多语言接口不支持该键");
+			try {
+				if(! defaultLabelMutilangInfo.getMutilangMap().containsKey(key)){
+					throw new IllegalArgumentException("此多语言接口不支持该键");
+				}
+			} catch (ProcessException ignore) {
+				//不会抛出异常
 			}
 			try{
 				return labelMutilangResourceBundle.getString(key);
@@ -278,6 +296,52 @@ public final class ToolPlatformUtil {
 		public void fatal(String message, Throwable t) {}
 		
 	}
+
+	/**
+	 * 默认多语言信息。
+	 * <p> 多语言信息的默认实现。
+	 * @author  DwArFeng
+	 * @since 1.8
+	 */
+	public static final class DefaultMutilangInfo implements MutilangInfo {
+		
+		private final String label;
+		private final Map<String, String> mutilangMap;
+		
+		/**
+		 * 新实例。
+		 * @param label 指定的标签。
+		 * @param filePath 指定的文件的路径。
+		 * @throws NullPointerException 入口参数为 <code>null</code>。
+		 */
+		public DefaultMutilangInfo(String label, Map<String, String> mutilangMap) {
+			Objects.requireNonNull(label, "入口参数 label 不能为 null。");
+			Objects.requireNonNull(mutilangMap, "入口参数 mutilangMap 不能为 null。");
+			
+			this.label = label;
+			this.mutilangMap = mutilangMap;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.struct.MutilangInfo#getLabel()
+		 */
+		@Override
+		public String getLabel() {
+			return this.label;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.struct.MutilangAttribute#getMutilangMap()
+		 */
+		@Override
+		public Map<String, String> getMutilangMap() {
+			return Collections.unmodifiableMap(mutilangMap);
+		}
+
+	}
+
 
 	//禁止外部实例化
 	private ToolPlatformUtil(){}

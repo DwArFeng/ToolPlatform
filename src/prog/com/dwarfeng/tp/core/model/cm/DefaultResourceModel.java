@@ -18,7 +18,24 @@ import com.dwarfeng.tp.core.model.struct.Resource;
  */
 public final class DefaultResourceModel extends AbstractResourceModel {
 	
-	private final Map<String, Resource> delegate = new HashMap<>();
+	private final Map<String, Resource> delegate;
+	
+	/**
+	 * 新实例。
+	 */
+	public DefaultResourceModel() {
+		this(new HashMap<>());
+	}
+	
+	/**
+	 * 新实例。
+	 * @param map 初始值。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
+	 */
+	public DefaultResourceModel(Map<String, Resource> map) {
+		Objects.requireNonNull(map, "入口参数 map 不能为 null。");
+		this.delegate = map;
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -214,13 +214,21 @@ public final class ToolPlatform {
 			@Override
 			public void fireCurrentValueChanged(ConfigKey configKey, String oldValue, String newValue,String validValue) {
 				if(configKey.equals(CoreConfig.MUTILANG_LOGGER.getConfigKey())){
-					loggerMutilangModel.setCurrentLocale(coreConfigProvider.getLoggerMutilangLocale());
-					loggerMutilangModel.update();
+					try {
+						loggerMutilangModel.setCurrentLocale(coreConfigProvider.getLoggerMutilangLocale());
+						loggerMutilangModel.update();
+					} catch (ProcessException e) {
+						loggerProvider.getLogger().warn(loggerMutilangProvider.getMutilang().getString(LoggerStringKey.Update_LoggerMutilang_1.getName()), e);
+					}
 				}
 				
 				if(configKey.equals(CoreConfig.MUTILANG_LABEL.getConfigKey())){
-					labelMutilangModel.setCurrentLocale(coreConfigProvider.getLabelMutilangLocale());
-					loggerMutilangModel.update();
+					try {
+						labelMutilangModel.setCurrentLocale(coreConfigProvider.getLabelMutilangLocale());
+						loggerMutilangModel.update();
+					} catch (ProcessException e) {
+						loggerProvider.getLogger().warn(loggerMutilangProvider.getMutilang().getString(LoggerStringKey.Update_LoggerMutilang_1.getName()), e);
+					}
 				}
 			}
 		};
@@ -449,9 +457,13 @@ public final class ToolPlatform {
 					}
 					
 					//更新模型，此时的多语言模型和记录器模型被更新为默认值。
-					manager.getLoggerModel().update();
-					manager.getLabelMutilangModel().update();
-					manager.getLoggerMutilangModel().update();
+					try{
+						manager.getLoggerModel().update();
+						manager.getLabelMutilangModel().update();
+						manager.getLoggerMutilangModel().update();
+					}catch (ProcessException ignore) {
+						//此时均为默认值，不可能抛出异常。
+					}
 					
 					//加载程序的资源模型
 					info(LoggerStringKey.ToolPlatform_ProcessProvider_3);
@@ -481,7 +493,11 @@ public final class ToolPlatform {
 							loggerLoader.close();
 						}
 					}
-					manager.getLoggerModel().update();
+					try{
+						manager.getLoggerModel().update();
+					}catch (ProcessException e) {
+						warn(LoggerStringKey.Update_Logger_1, e);
+					}
 					
 					//加载记录器多语言配置。
 					info(LoggerStringKey.ToolPlatform_ProcessProvider_7);
@@ -499,7 +515,11 @@ public final class ToolPlatform {
 							loggerMutilangLoader.close();
 						}
 					}
-					manager.getLoggerMutilangModel().update();
+					try{
+						manager.getLoggerMutilangModel().update();
+					}catch (ProcessException e) {
+						warn(LoggerStringKey.Update_LoggerMutilang_1, e);
+					}
 					
 					//加载程序的核心配置。
 					info(LoggerStringKey.ToolPlatform_ProcessProvider_6);

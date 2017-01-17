@@ -9,7 +9,8 @@ public interface Updateable{
 	
 	/**
 	 * 更新该接口。
+	 * @throws ProcessException 更新过程异常。
 	 */
-	public void update();
+	public void update() throws ProcessException;
 
 }

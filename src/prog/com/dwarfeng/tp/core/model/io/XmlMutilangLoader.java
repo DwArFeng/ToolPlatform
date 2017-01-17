@@ -1,14 +1,10 @@
 package com.dwarfeng.tp.core.model.io;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Properties;
 
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -65,7 +61,6 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> mutilangInfos = (List<Element>)root.elements("info");
-			next:
 			for(Element mutilangInfo : mutilangInfos){
 				String language = mutilangInfo.attributeValue("language");
 				String country = mutilangInfo.attributeValue("country");
@@ -83,20 +78,7 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 					Locale locale = new Locale(language, country, variant);
 					
 					File targetFile = new File(dir, filePath);
-					FileInputStream in = null;
-					try{
-						in = new FileInputStream(targetFile);
-						Properties properties = new Properties();
-						properties.load(in);
-						Map<String, String> map = new HashMap<>();
-						for(String key : properties.stringPropertyNames()){
-							map.put(key, properties.getProperty(key));
-						}
-						
-						mutilangModel.put(locale, new DefaultMutilangInfo(label, map));
-					}catch (Exception e) {
-						continue next;
-					}
+					mutilangModel.put(locale, new DefaultMutilangInfo(label, targetFile));
 				}
 			}
 			

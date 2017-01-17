@@ -12,13 +12,15 @@ public interface MutilangInfo {
 	/**
 	 * 获取属性中的标签。
 	 * @return 信息中的标签。
+	 * @throws ProcessException 过程异常。
 	 */
-	public String getLabel();
+	public String getLabel() throws ProcessException;
 	
 	/**
 	 * 获取属性中的键值映射。
 	 * @return 属性中的键值映射。
+	 * @throws ProcessException 过程异常。
 	 */
-	public Map<String, String> getMutilangMap();
+	public Map<String, String> getMutilangMap() throws ProcessException;
 
 }

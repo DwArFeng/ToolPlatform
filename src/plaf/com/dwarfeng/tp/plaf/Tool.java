@@ -2,6 +2,7 @@ package com.dwarfeng.tp.plaf;
 
 import java.awt.Image;
 import java.util.Locale;
+import java.util.Map;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.prog.Version;
@@ -39,10 +40,17 @@ public interface Tool extends ObverserSet<ToolObverser>, Name{
 	/**
 	 * TODO 是否要以 Doucument 的形式来返回描述？？
 	 * 获取工具的描述。
+	 * <p> 返回的映射中应包含一个键为 <code>null</code>的入口，这个入口代表着默认的描述。
 	 * @param 指定的语言，可以为 <code>null</code>，代表默认语言。
 	 * @return 指定的语言下工具的描述。
 	 */
-	public String getDescription(Locale locale);
+	public Map<Locale, String> getDescriptions();
+	
+	/**
+	 * 获取工具的默认描述。
+	 * @return 工具的默认描述。
+	 */
+	public String getDefaultDescription();
 	
 	/**
 	 * 获取工具的作者数组。
