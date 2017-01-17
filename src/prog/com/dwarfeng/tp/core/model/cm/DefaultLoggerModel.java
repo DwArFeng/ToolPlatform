@@ -9,7 +9,6 @@ import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
-import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
@@ -29,7 +28,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 * ÐÂÊµÀý¡£
 	 */
 	public DefaultLoggerModel() {
-		this(ToolPlatformUtil.getDefaultLoggerContext(), ToolPlatformUtil.getDefaultLoggerNames());
+		this(ToolPlatformUtil.newDefaultLoggerContext(), ToolPlatformUtil.getDefaultLoggerNames());
 	}
 	
 	/**
@@ -133,41 +132,18 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 * @see com.dwarfeng.tp.core.model.struct.Updateable#update()
 	 */
 	@Override
-	public boolean update() {
+	public void update() {
 		lock.writeLock().lock();
 		try{
-			try{
-				return innerUpdate();
-			}catch (ProcessException e) {
-				return false;
+			Set<Logger> loggers = new HashSet<>();
+			for(String loggerName : loggerNames){
+				loggers.add(loggerContext.getLogger(loggerName));
 			}
+			this.loggers = loggers;
+			fireUpdated();
 		}finally {
 			lock.writeLock().unlock();
 		}
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Updateable#tryUpdate()
-	 */
-	@Override
-	public void tryUpdate() throws ProcessException {
-		lock.writeLock().lock();
-		try{
-			innerUpdate();
-		}finally {
-			lock.writeLock().unlock();
-		}
-	}
-	
-	private boolean innerUpdate() throws ProcessException{
-		Set<Logger> loggers = new HashSet<>();
-		for(String loggerName : loggerNames){
-			loggers.add(loggerContext.getLogger(loggerName));
-		}
-		this.loggers = loggers;
-		fireUpdated();
-		return true;
 	}
 
 	private void fireUpdated() {

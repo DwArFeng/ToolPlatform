@@ -22,7 +22,10 @@ public enum ResourceKey implements Name{
 	MUTILANG_LOGGER_SETTING("mutilang.logger.setting"),
 	
 	/**记录器多语言化的设置*/
-	MUTILANG_LABEL_SETTING("mutilang.label.setting")
+	MUTILANG_LABEL_SETTING("mutilang.label.setting"),
+	
+	/**工具信息*/
+	TOOLINFO_INFO("tool_info.info"),
 	
 	
 	;

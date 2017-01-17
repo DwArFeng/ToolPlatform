@@ -36,7 +36,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 					if(Objects.isNull(throwable)){
 						lock.readLock().lock();
 						try{
-							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_1);
+							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_1.getName());
 						}finally {
 							lock.readLock().unlock();
 						}
@@ -44,7 +44,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 					}else{
 						lock.readLock().lock();
 						try{
-							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_2);
+							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_2.getName());
 						}finally {
 							lock.readLock().unlock();
 						}
@@ -55,12 +55,12 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 						String str = null;
 						lock.readLock().lock();
 						try{
-							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_3);
+							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_3.getName());
 						}catch (Exception e1) {
 							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
-							str = tempMutilang.getString(LoggerStringKey.FinishedProcessTaker_4);
+							str = tempMutilang.getString(LoggerStringKey.FinishedProcessTaker_4.getName());
 							logger.warn(str, e1);
-							str = tempMutilang.getString(LoggerStringKey.FinishedProcessTaker_3);
+							str = tempMutilang.getString(LoggerStringKey.FinishedProcessTaker_3.getName());
 						}
 						logger.warn(str, e);
 					}

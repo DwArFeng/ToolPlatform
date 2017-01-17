@@ -59,6 +59,11 @@ public interface Process extends Callable<Object>, ObverserSet<ProcessObverser>,
 	 */
 	public Throwable getThrowable();
 	
-	
+	/**
+	 * 等待该过程执行完毕。
+	 * <p> 调用该方法的线程会在过程执行完毕之前一直阻塞。
+	 * @throws InterruptedException 线程在等待的时候被中断。
+	 */
+	public void waitFinished() throws InterruptedException;
 
 }

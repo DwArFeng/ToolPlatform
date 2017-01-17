@@ -11,13 +11,13 @@ import com.dwarfeng.tp.core.model.obv.ToolObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
- * 默认工具模型。
+ * 默认工具信息模型。
  * <p> 工具模型的默认实现。
  * <p> 该模型中的数据的读写均是线程安全的。
  * @author DwArFeng
  * @since 1.8
  */
-public final class DefaultToolModel extends AbstractToolModel implements ToolModel {
+public final class DefaultToolInfoModel extends AbstractToolInfoModel implements ToolInfoModel {
 	
 	private final Map<String, ToolInfo> delegate = new HashMap<>();
 

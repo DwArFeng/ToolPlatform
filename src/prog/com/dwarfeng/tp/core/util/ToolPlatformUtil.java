@@ -3,6 +3,7 @@ package com.dwarfeng.tp.core.util;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,8 +23,10 @@ import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
+import com.dwarfeng.tp.core.model.struct.DefaultMutilangInfo;
 import com.dwarfeng.tp.core.model.struct.Logger;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
+import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 
 /**
  * 关于工具平台的工厂类。
@@ -32,17 +35,46 @@ import com.dwarfeng.tp.core.model.struct.Mutilang;
  */
 public final class ToolPlatformUtil {
 	
+	private final static Set<String> defaultLoggerNames = new HashSet<>(Arrays.asList(new String[]{"std.all"}));
+	private final static String mutilangLabel = "简体中文";
+	private final static MutilangInfo defaultMutilangInfo = new DefaultMutilangInfo(mutilangLabel, new HashMap<>());
 	private final static String missingString = "!文本缺失";
 	private final static ResourceBundle loggerMutilangResourceBundle = ResourceBundle.getBundle(
 			"com.dwarfeng.tp.resource.defaultres.mutilang.logger.default");
 	private final static ResourceBundle labelMutilangResourceBundle = ResourceBundle.getBundle(
 			"com.dwarfeng.tp.resource.defaultres.mutilang.label.default");
+	private final static MutilangInfo defaultLoggerMutilangInfo;
+	private final static MutilangInfo defaultLabelMutilangInfo;
+	
+	static{
+		
+		Map<String, String> loggerMutilangDefaultMap = new HashMap<>();
+		for(Name name : LoggerStringKey.values()){
+			try{
+				loggerMutilangDefaultMap.put(name.getName(), loggerMutilangResourceBundle.getString(name.getName()));
+			}catch (MissingResourceException e) {
+				loggerMutilangDefaultMap.put(name.getName(), missingString);
+			}
+		}
+		
+		Map<String, String> labelMutilangDefaultMap = new HashMap<>();
+		for(Name name : LabelStringKey.values()){
+			try{
+				labelMutilangDefaultMap.put(name.getName(), labelMutilangResourceBundle.getString(name.getName()));
+			}catch (MissingResourceException e) {
+				labelMutilangDefaultMap.put(name.getName(), missingString);
+			}
+		}
+		
+		defaultLoggerMutilangInfo = new DefaultMutilangInfo(mutilangLabel, loggerMutilangDefaultMap);
+		defaultLabelMutilangInfo = new DefaultMutilangInfo(mutilangLabel, labelMutilangDefaultMap);
+	}
 	
 	/**
 	 * 获取默认的记录器上下文。
 	 * @return 默认的记录器上下文。
 	 */
-	public final static LoggerContext getDefaultLoggerContext(){
+	public final static LoggerContext newDefaultLoggerContext(){
 		try {
 			ConfigurationSource cs = new ConfigurationSource(ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/defaultres/logger/setting.xml"));
 			return Configurator.initialize(null, cs);
@@ -58,47 +90,51 @@ public final class ToolPlatformUtil {
 	 * @return 默认的记录器名称集合。
 	 */
 	public final static Set<String> getDefaultLoggerNames(){
-		return new HashSet<>(Arrays.asList(new String[]{"std.all"}));
+		return defaultLoggerNames;
+	}
+	
+	public final static MutilangInfo getDefaultMutilangInfo(){
+		return defaultMutilangInfo;
 	}
 	
 	/**
 	 * 获取文本缺失字段。
 	 * @return 文本缺失字段。
 	 */
-	public final static String getMissingString(){
+	public final static String getDefaultMissingString(){
 		return missingString;
 	}
 	
 	/**
-	 * 返回默认的记录器多语言接口的默认键值映射。
-	 * @return 默认键值映射。
+	 * 获取默认的记录器多语言信息。
+	 * @return 默认的记录器多语言信息。
 	 */
-	public final static Map<Name, String> getLoggerMutilangDefaultMap(){
-		Map<Name, String> map = new HashMap<>();
-		for(Name name : LoggerStringKey.values()){
-			try{
-				map.put(name, loggerMutilangResourceBundle.getString(name.getName()));
-			}catch (MissingResourceException e) {
-				map.put(name, missingString);
-			}
-		}
-		return map;
+	public final static MutilangInfo getDefaultLoggerMutilangInfo(){
+		return defaultLoggerMutilangInfo;
 	}
 	
 	/**
-	 * 返回默认的标签多语言接口的默认键值映射。
-	 * @return 默认键值映射。
+	 * 获取默认的标签多语言信息。
+	 * @return 默认的标签多语言信息。
 	 */
-	public final static Map<Name, String> getLabelMutilangDefaultMap(){
-		Map<Name, String> map = new HashMap<>();
-		for(Name name : LabelStringKey.values()){
-			try{
-				map.put(name, labelMutilangResourceBundle.getString(name.getName()));
-			}catch (MissingResourceException e) {
-				map.put(name, missingString);
-			}
-		}
-		return map;
+	public final static MutilangInfo getDefaultLabelMutilangInfo(){
+		return defaultLoggerMutilangInfo;
+	}
+	
+	/**
+	 * 获取记录器多语言接口的支持键集合。
+	 * @return 记录器多语言接口的支持键集合。
+	 */
+	public static Set<String> getLoggerMutilangSupportedKeys() {
+		return Collections.unmodifiableSet(defaultLoggerMutilangInfo.getMutilangMap().keySet());
+	}
+
+	/**
+	 * 获取标签多语言接口的支持键集合。
+	 * @return 标签多语言接口的支持键集合。
+	 */
+	public static Set<String> getLabelMutilangSupportedKeys() {
+		return Collections.unmodifiableSet(defaultLabelMutilangInfo.getMutilangMap().keySet());
 	}
 	
 	/**
@@ -174,15 +210,15 @@ public final class ToolPlatformUtil {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(com.dwarfeng.dutil.basic.str.Name)
+		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(java.lang.String)
 		 */
 		@Override
-		public String getString(Name key) {
-			if(!(key instanceof LoggerStringKey)){
+		public String getString(String key) {
+			if(! defaultLoggerMutilangInfo.getMutilangMap().containsKey(key)){
 				throw new IllegalArgumentException("此多语言接口不支持该键");
 			}
 			try{
-				return loggerMutilangResourceBundle.getString(key.getName());
+				return loggerMutilangResourceBundle.getString(key);
 			}catch (MissingResourceException e) {
 				return missingString;
 			}
@@ -200,15 +236,15 @@ public final class ToolPlatformUtil {
 
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(com.dwarfeng.dutil.basic.str.Name)
+		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(java.lang.String)
 		 */
 		@Override
-		public String getString(Name key) {
-			if(!(key instanceof LabelStringKey)){
+		public String getString(String key) {
+			if(! defaultLabelMutilangInfo.getMutilangMap().containsKey(key)){
 				throw new IllegalArgumentException("此多语言接口不支持该键");
 			}
 			try{
-				return labelMutilangResourceBundle.getString(key.getName());
+				return labelMutilangResourceBundle.getString(key);
 			}catch (MissingResourceException e) {
 				return missingString;
 			}

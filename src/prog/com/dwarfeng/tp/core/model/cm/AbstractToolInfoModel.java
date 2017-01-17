@@ -9,13 +9,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.dwarfeng.tp.core.model.obv.ToolObverser;
 
 /**
- * 抽象工具模型。
+ * 抽象工具信息模型。
  * <p> 工具模型的抽象实现。
  * <p> 模型中数据的读写均应该是线程安全的。
  * @author DwArFeng
  * @since 1.8
  */
-public abstract class AbstractToolModel implements ToolModel{
+public abstract class AbstractToolInfoModel implements ToolInfoModel{
 
 	/**模型的侦听器集合。*/
 	protected final Set<ToolObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());

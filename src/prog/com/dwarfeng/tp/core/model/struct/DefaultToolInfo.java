@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.model.struct;
 
 import java.awt.Image;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ public final class DefaultToolInfo implements ToolInfo {
 	
 	private final Map<ToolImageType, Image> imageMap;
 	private final Version version;
-	private final String description;
+	private final Map<Locale, String> description;
 	private final String[] authors;
 	private final String toolClass;
 	private final String toolFile;
@@ -40,7 +41,7 @@ public final class DefaultToolInfo implements ToolInfo {
 	public DefaultToolInfo(
 			Map<ToolImageType, Image> imageMap, 
 			Version version, 
-			String description,
+			Map<Locale, String> description,
 			String[] authors,
 			String toolClass, 
 			String toolFile, 
@@ -87,11 +88,11 @@ public final class DefaultToolInfo implements ToolInfo {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getDescription()
+	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getDescription(java.util.Locale)
 	 */
 	@Override
-	public String getDescription() {
-		return this.description;
+	public String getDescription(Locale locale) {
+		return this.description.get(locale);
 	}
 
 	/*

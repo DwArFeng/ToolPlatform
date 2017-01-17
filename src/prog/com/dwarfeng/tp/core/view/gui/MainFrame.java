@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.dwarfeng.tp.core.control.ToolPlatform;
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
@@ -19,18 +18,16 @@ import com.dwarfeng.dutil.basic.gui.swing.JAdjustableBorderPanel;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 
 import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
 import java.awt.GridBagLayout;
 import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JTabbedPane;
-import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * 程序的主界面。
@@ -58,6 +55,13 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 */
 	public MainFrame(Mutilang mutilang) {
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				fireProgramToClose();
+			}
+		});
 		
 		try {
 			setIconImage(ImageIO.read(ToolPlatform.class.getResource("/com/dwarfeng/tp/resource/image/icon.png")));
@@ -110,6 +114,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		panel.setLayout(gbl_panel);
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.setPreferredSize(new Dimension(30, 30));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.gridx = 0;
@@ -171,6 +176,12 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	@Override
 	public void clearObverser() {
 		obversers.clear();
+	}
+	
+	private void fireProgramToClose() {
+		for(MainFrameObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireProgramToClose();
+		}
 	}
 
 }

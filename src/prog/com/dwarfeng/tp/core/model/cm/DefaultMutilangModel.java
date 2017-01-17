@@ -1,8 +1,5 @@
 package com.dwarfeng.tp.core.model.cm;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,14 +7,11 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Properties;
 import java.util.Set;
 
-import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
-import com.dwarfeng.tp.core.model.struct.DefaultName;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
-import com.dwarfeng.tp.core.model.struct.ProcessException;
+import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
  * 默认多语言模型。
@@ -30,58 +24,37 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	
 	private final Map<Locale, MutilangInfo> delegate = new HashMap<>();
 	
-	private Set<Name> supportedKeys = new HashSet<>();
-	private Locale currentLocale = null;
-	private File direction = new File("");
-	private Map<Name, String> defaultMutilangMap = new HashMap<>();
-	private String defaultValue = "";
+	private Set<String> supportedKeys = new HashSet<>();
+	private Locale currentLocale;
+	private MutilangInfo defaultMutilangInfo;
+	private String defaultValue;
 	
-	private Map<Name, String> mutilangMap = new HashMap<>();
+	private Map<String, String> mutilangMap = new HashMap<>();
 
 	
 	/**
 	 * 新实例。
 	 */
-	public DefaultMutilangModel(){}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.vim.MutilangModel#getDir()
-	 */
-	@Override
-	public File getDirection() {
-		lock.readLock().lock();
-		try{
-			return direction;
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.vim.MutilangModel#setDir(java.io.File)
-	 */
-	@Override
-	public boolean setDircetion(File direction) {
-		lock.writeLock().lock();
-		try{
-			if(Objects.equals(this.direction, direction)) return false;
-			File oldOne = this.direction;
-			this.direction = direction;
-			fireDirectionChanged(oldOne, direction);
-			return true;
-		}finally{
-			lock.writeLock().unlock();
-		}
+	public DefaultMutilangModel(){
+		this(null, ToolPlatformUtil.getDefaultMutilangInfo(), ToolPlatformUtil.getDefaultMissingString());
 	}
 	
-	private void fireDirectionChanged(File oldOne, File newOne){
-		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireDirectionChanged(oldOne, newOne);
-		}
+	/**
+	 * 新实例。
+	 * @param currentLocale 指定的当前语言，可以为 <code>null</code>。
+	 * @param defaultMutilangInfo 指定的默认多语言信息。
+	 * @param defaultValue 指定的默认文本。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
+	 */
+	public DefaultMutilangModel(Locale currentLocale, MutilangInfo defaultMutilangInfo, String defaultValue){
+		Objects.requireNonNull(defaultMutilangInfo, "入口参数 defaultMutilangInfo 不能为 null。");
+		Objects.requireNonNull(defaultValue, "入口参数 defaultValue 不能为 null。");
+		
+		this.currentLocale = currentLocale;
+		this.defaultMutilangInfo = defaultMutilangInfo;
+		this.defaultValue = defaultValue;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.util.Map#size()
@@ -164,8 +137,8 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		lock.writeLock().lock();
 		try{
 			if(containsKey(key)){
-				MutilangInfo oldOne = get(key);
-				fireEntryChanged(key, oldOne, value);
+				MutilangInfo oldValue = get(key);
+				fireEntryChanged(key, oldValue, value);
 			}else{
 				fireEntryAdded(key, value);
 			}
@@ -182,9 +155,9 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		}
 	}
 
-	private void fireEntryChanged(Locale locale, MutilangInfo oldOne, MutilangInfo newOne) {
+	private void fireEntryChanged(Locale locale, MutilangInfo oldValue, MutilangInfo newValue) {
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireEntryChanged(locale, oldOne, newOne);
+			if(Objects.nonNull(obverser)) obverser.fireEntryChanged(locale, oldValue, newValue);
 		}
 	}
 
@@ -303,7 +276,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#getSupportedKeys()
 	 */
 	@Override
-	public Set<Name> getSupportedKeys() {
+	public Set<String> getSupportedKeys() {
 		lock.readLock().lock();
 		try{
 			if(Objects.isNull(supportedKeys)){
@@ -320,24 +293,24 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#setSupportedKeys(java.util.Set)
 	 */
 	@Override
-	public boolean setSupportedKeys(Set<Name> names) {
+	public boolean setSupportedKeys(Set<String> names) {
 		Objects.requireNonNull(names, "入口参数 names 不能为 null。");
 		
 		lock.writeLock().lock();
 		try{
 			if(Objects.equals(this.supportedKeys, names)) return false;
-			Set<Name> oldOne = this.supportedKeys;
+			Set<String> oldValue = this.supportedKeys;
 			this.supportedKeys = names;
-			fireSupportedKeysChanged(Collections.unmodifiableSet(oldOne), Collections.unmodifiableSet(names));
+			fireSupportedKeysChanged(Collections.unmodifiableSet(oldValue), Collections.unmodifiableSet(names));
 			return true;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void fireSupportedKeysChanged(Set<Name> oldOne, Set<Name> newOne) {
+	private void fireSupportedKeysChanged(Set<String> oldValue, Set<String> newValue) {
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireSupportedKeysChanged(oldOne, newOne);
+			if(Objects.nonNull(obverser)) obverser.fireSupportedKeysChanged(oldValue, newValue);
 		}
 	}
 
@@ -364,18 +337,18 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		lock.writeLock().lock();
 		try{
 			if(Objects.equals(this.currentLocale, locale)) return false;
-			Locale oldOne = this.currentLocale;
+			Locale oldValue = this.currentLocale;
 			this.currentLocale = locale;
-			fireCurrentLocaleChanged(oldOne, locale);
+			fireCurrentLocaleChanged(oldValue, locale);
 			return true;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void fireCurrentLocaleChanged(Locale oldOne, Locale newOne) {
+	private void fireCurrentLocaleChanged(Locale oldValue, Locale newValue) {
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireCurrentLocaleChanged(oldOne, newOne);
+			if(Objects.nonNull(obverser)) obverser.fireCurrentLocaleChanged(oldValue, newValue);
 		}
 	}
 
@@ -384,7 +357,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#getMutilangMap()
 	 */
 	@Override
-	public Map<Name, String> getMutilangMap() {
+	public Map<String, String> getMutilangMap() {
 		lock.readLock().lock();
 		try{
 			return this.mutilangMap;
@@ -398,10 +371,10 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#getDefaultMutilangMap()
 	 */
 	@Override
-	public Map<Name, String> getDefaultMutilangMap() {
+	public MutilangInfo getDefaultMutilangInfo() {
 		lock.readLock().lock();
 		try{
-			return this.defaultMutilangMap;
+			return this.defaultMutilangInfo;
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -412,24 +385,24 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#setDefaultMutilangMap(java.util.Map)
 	 */
 	@Override
-	public boolean setDefaultMutilangMap(Map<Name, String> mutilangMap) {
-		Objects.requireNonNull(mutilangMap, "入口参数 mutilangMap 不能为 null。");
+	public boolean setDefaultMutilangInfo(MutilangInfo mutilangInfo) {
+		Objects.requireNonNull(mutilangInfo, "入口参数 mutilangInfo 不能为 null。");
 		
 		lock.writeLock().lock();
 		try{
-			if(Objects.equals(this.defaultMutilangMap, mutilangMap)) return false;
-			Map<Name, String> oldOne = this.defaultMutilangMap;
-			this.defaultMutilangMap = mutilangMap;
-			fireDefaultMutilangMapChanged(Collections.unmodifiableMap(oldOne), Collections.unmodifiableMap(mutilangMap));
+			if(Objects.equals(this.defaultMutilangInfo, mutilangInfo)) return false;
+			MutilangInfo oldValue = this.defaultMutilangInfo;
+			this.defaultMutilangInfo = mutilangInfo;
+			fireDefaultMutilangMapChanged(oldValue, mutilangInfo);
 			return true;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void fireDefaultMutilangMapChanged(Map<Name, String> oldOne, Map<Name, String> newOne) {
+	private void fireDefaultMutilangMapChanged(MutilangInfo oldValue, MutilangInfo newValue) {
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireDefaultMutilangMapChanged(oldOne, newOne);
+			if(Objects.nonNull(obverser)) obverser.fireDefaultMutilangMapChanged(oldValue, newValue);
 		}
 	}
 
@@ -458,18 +431,18 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		lock.writeLock().lock();
 		try{
 			if(Objects.equals(this.defaultValue, value)) return false;
-			String oldOne = this.defaultValue;
+			String oldValue = this.defaultValue;
 			this.defaultValue = value;
-			fireDefaultValueChanged(oldOne, value);
+			fireDefaultValueChanged(oldValue, value);
 			return true;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void fireDefaultValueChanged(String oldOne, String newOne) {
+	private void fireDefaultValueChanged(String oldValue, String newValue) {
 		for(MutilangObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireDefaultVauleChanged(oldOne, newOne);
+			if(Objects.nonNull(obverser)) obverser.fireDefaultVauleChanged(oldValue, newValue);
 		}
 	}
 
@@ -478,67 +451,13 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * @see com.dwarfeng.tp.core.model.struct.Updateable#update()
 	 */
 	@Override
-	public boolean update() {
+	public void update() {
 		lock.writeLock().lock();
 		try{
-			try{
-				return innerUpdate();
-			}catch (ProcessException e) {
-				return false;
-			}
+			mutilangMap = delegate.getOrDefault(currentLocale, defaultMutilangInfo).getMutilangMap();
+			fireUpdated();
 		}finally {
 			lock.writeLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Updateable#tryUpdate()
-	 */
-	@Override
-	public void tryUpdate() throws ProcessException {
-		lock.writeLock().lock();
-		try{
-			innerUpdate();
-		}finally {
-			lock.writeLock().unlock();
-		}
-	}
-	
-	private boolean innerUpdate() throws ProcessException{
-		
-		try{
-			if(Objects.nonNull(currentLocale)){
-				File targetFile = new File(this.getDirection(), this.get(currentLocale).getFile());
-				FileInputStream in = null;
-				try{
-					in = new FileInputStream(targetFile);
-					Properties properties = new Properties();
-					properties.load(in);
-					Map<Name, String> map = new HashMap<>();
-					for(String key : properties.stringPropertyNames()){
-						map.put(new DefaultName(key), properties.getProperty(key));
-					}
-						
-					this.mutilangMap = map;
-					fireUpdated();
-					return true;
-				}finally{
-					if(Objects.nonNull(in)){
-						try {
-							in.close();
-						} catch (IOException e) {
-							throw new ProcessException(e.getMessage(), e);
-						}
-					}
-				}
-			}else{
-				this.mutilangMap = defaultMutilangMap;
-				fireUpdated();
-				return true;
-			}
-		}catch (IOException e) {
-			throw new ProcessException(e.getMessage(), e);
 		}
 	}
 

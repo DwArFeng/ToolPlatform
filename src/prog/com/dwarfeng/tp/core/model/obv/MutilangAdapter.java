@@ -1,11 +1,8 @@
 package com.dwarfeng.tp.core.model.obv;
 
-import java.io.File;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
-import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 
 /**
@@ -16,23 +13,21 @@ import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 public abstract class MutilangAdapter implements MutilangObverser {
 
 	@Override
-	public void fireEntryAdded(Locale locale, MutilangInfo info) {	}
+	public void fireEntryAdded(Locale key, MutilangInfo value) {	}
 	@Override
-	public void fireEntryRemoved(Locale locale) {}
+	public void fireEntryRemoved(Locale key) {}
 	@Override
-	public void fireEntryChanged(Locale locale, MutilangInfo oldOne, MutilangInfo newOne) {}
+	public void fireEntryChanged(Locale key, MutilangInfo oldValue, MutilangInfo newValue) {}
 	@Override
 	public void fireCleared() {}
 	@Override
-	public void fireDirectionChanged(File oldOne, File newOne) {}
+	public void fireSupportedKeysChanged(Set<String> oldValue, Set<String> newValue) {}
 	@Override
-	public void fireSupportedKeysChanged(Set<Name> oldOne, Set<Name> newOne) {}
+	public void fireCurrentLocaleChanged(Locale oldValue, Locale newValue) {}
 	@Override
-	public void fireCurrentLocaleChanged(Locale oldOne, Locale newOne) {}
+	public void fireDefaultMutilangMapChanged(MutilangInfo oldValue, MutilangInfo newValue) {}
 	@Override
-	public void fireDefaultMutilangMapChanged(Map<Name, String> oldOne, Map<Name, String> newOne) {}
-	@Override
-	public void fireDefaultVauleChanged(String oldOne, String newOne) {}
+	public void fireDefaultVauleChanged(String oldValue, String newValue) {}
 	@Override
 	public void fireUpdated() {}
 

@@ -2,7 +2,6 @@ package com.dwarfeng.tp.core.model.struct;
 
 import java.util.Locale;
 
-import com.dwarfeng.dutil.develop.cfg.ConfigModel;
 import com.dwarfeng.tp.core.model.cm.SyncConfigModel;
 
 /**

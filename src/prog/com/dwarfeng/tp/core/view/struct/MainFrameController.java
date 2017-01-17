@@ -1,5 +1,7 @@
 package com.dwarfeng.tp.core.view.struct;
 
+import java.awt.Component;
+
 import com.dwarfeng.tp.core.view.gui.MainFrame;
 
 /**
@@ -50,4 +52,11 @@ public interface MainFrameController extends MutilangSupportedGuiController<Main
 	 * @return 该操作是否对主界面造成了改变。
 	 */
 	public boolean setExtendedState(int state);
+	
+	/**
+	 * 设置窗口相对于指定组件的位置。
+	 * @param component 指定的组件。
+	 * @return 该操作是否改变了控制器中的组件。
+	 */
+	public boolean setLocationRelativeTo(Component component);
 }

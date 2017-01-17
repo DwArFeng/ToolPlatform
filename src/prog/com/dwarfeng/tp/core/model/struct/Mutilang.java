@@ -1,7 +1,5 @@
 package com.dwarfeng.tp.core.model.struct;
 
-import com.dwarfeng.dutil.basic.str.Name;
-
 /**
  * 多语言接口。
  * @author DwArFeng
@@ -16,6 +14,6 @@ public interface Mutilang {
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 * @throws IllegalArgumentException 入口参数不受该多语言接口的支持。
 	 */
-	public String getString(Name key);
+	public String getString(String key);
 
 }

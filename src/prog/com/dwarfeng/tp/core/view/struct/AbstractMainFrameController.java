@@ -1,5 +1,6 @@
 package com.dwarfeng.tp.core.view.struct;
 
+import java.awt.Component;
 import java.util.Objects;
 
 import com.dwarfeng.tp.core.view.gui.MainFrame;
@@ -93,6 +94,21 @@ public abstract class AbstractMainFrameController extends AbstractMusuedGuiContr
 		try{
 			if(Objects.isNull(component)) return false;
 			component.setExtendedState(state);
+			return true;
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.view.struct.MainFrameController#setLocationRelativeTo(java.awt.Component)
+	 */
+	@Override
+	public boolean setLocationRelativeTo(Component component) {
+		lock.writeLock().lock();
+		try{
+			if(Objects.isNull(this.component)) return false;
+			this.component.setLocationRelativeTo(component);
 			return true;
 		}finally {
 			lock.writeLock().unlock();

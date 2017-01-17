@@ -1,5 +1,7 @@
 package com.dwarfeng.tp.core.model.struct;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -11,7 +13,7 @@ import java.util.Objects;
 public final class DefaultMutilangInfo implements MutilangInfo {
 	
 	private final String label;
-	private final String filePath;
+	private final Map<String, String> mutilangMap;
 	
 	/**
 	 * 新实例。
@@ -19,12 +21,12 @@ public final class DefaultMutilangInfo implements MutilangInfo {
 	 * @param filePath 指定的文件的路径。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public DefaultMutilangInfo(String label, String filePath) {
+	public DefaultMutilangInfo(String label, Map<String, String> mutilangMap) {
 		Objects.requireNonNull(label, "入口参数 label 不能为 null。");
-		Objects.requireNonNull(filePath, "入口参数 filePath 不能为 null。");
+		Objects.requireNonNull(mutilangMap, "入口参数 mutilangMap 不能为 null。");
 		
 		this.label = label;
-		this.filePath = filePath;
+		this.mutilangMap = mutilangMap;
 	}
 
 	/*
@@ -38,11 +40,11 @@ public final class DefaultMutilangInfo implements MutilangInfo {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.MutilangInfo#getFile()
+	 * @see com.dwarfeng.tp.core.model.struct.MutilangAttribute#getMutilangMap()
 	 */
 	@Override
-	public String getFile() {
-		return this.filePath;
+	public Map<String, String> getMutilangMap() {
+		return Collections.unmodifiableMap(mutilangMap);
 	}
 
 }

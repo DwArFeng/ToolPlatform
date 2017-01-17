@@ -1,11 +1,13 @@
 package com.dwarfeng.tp.plaf;
 
 import java.awt.Image;
+import java.util.Locale;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.str.Name;
-import com.dwarfeng.tp.plaf.core.ToolIconSize;
+import com.dwarfeng.tp.core.model.struct.ToolImageType;
+import com.dwarfeng.tp.plaf.core.FileManager;
 import com.dwarfeng.tp.plaf.core.ToolObverser;
 import com.dwarfeng.tp.plaf.core.ToolStopMode;
 
@@ -21,34 +23,41 @@ import com.dwarfeng.tp.plaf.core.ToolStopMode;
 public interface Tool extends ObverserSet<ToolObverser>, Name{
 	
 	/**
-	 * 获取工具中作为图标的图片。
-	 * <p> 图片应具有小、中、大三个类型，返回的图片最好符合指定类型的大小，否则的话，图像在显示的时候将进行缩放，
-	 * 造成失真。
-	 * @param size 图片的大小枚举。
-	 * @return 工具中指定大小的图片。
+	 * 返回工具中指定类型的图片。
+	 * @param type 图片类型。
+	 * @return 工具中指定类型的图片。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public Image getIconImage(ToolIconSize size);
-	
-	/**
-	 * 返回工具的头部图像。
-	 * <p> 头部图像用在工具的详细信息窗口框中的标题处，是用来对工具进行描述与宣传的。
-	 * 该图像是一个横幅图像 TODO 具体的尺寸。
-	 * @return 工具的头部图像。
-	 */
-	public Image getHeadImage();
-	
-	/**
-	 * 返回作者的名称数组。
-	 * <p> 排在数组前方的名字会显示在工具详细信息以及工具
-	 * @return 作者名称组成的数组。
-	 */
-	public String[] getAuthors();
+	public Image getImage(ToolImageType type);
 	
 	/**
 	 * 获取软件的版本。
 	 * @return 软件的版本。
 	 */
 	public Version getVersion();
+	
+	/**
+	 * TODO 是否要以 Doucument 的形式来返回描述？？
+	 * 获取工具的描述。
+	 * @param 指定的语言，可以为 <code>null</code>，代表默认语言。
+	 * @return 指定的语言下工具的描述。
+	 */
+	public String getDescription(Locale locale);
+	
+	/**
+	 * 获取工具的作者数组。
+	 * <p> 作者应该按照贡献程度的大小排序，因为返回的作者数组中，
+	 * 靠前的作者更有可能显示在概要界面上。
+	 * @return 工具的作者数组。
+	 */
+	public String[] getAuthors();
+	
+	/**
+	 * 获取工具的库列表。
+	 * <p> 返回的字符串应该是所需要使用的库文件的文件名，不可带路径。
+	 * @return 工具的库列表。
+	 */
+	public String[] getToolLibs();
 	
 	/**
 	 * 以指定的停止方式停止程序。
@@ -58,5 +67,12 @@ public interface Tool extends ObverserSet<ToolObverser>, Name{
 	 * @param stopMode 停止方式。
 	 */
 	public void stop(ToolStopMode stopMode);
+	
+	/**
+	 * 启动工具。
+	 * @param fileManager 指定的文件管理器。
+	 * 
+	 */
+	public void start(FileManager fileManager);
 	
 }

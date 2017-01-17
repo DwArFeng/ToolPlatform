@@ -10,9 +10,9 @@ import com.dwarfeng.tp.core.model.struct.Process;
 public interface ProcessProvider {
 	
 	/**
-	 * 获取一个新的程序启动时使用的过程。
-	 * @return 新的程序启动时使用的后台过程。
+	 * 获取一个新的程序初始化时使用的过程。
+	 * @return 新的程序初始化时使用的后台过程。
 	 */
-	public Process newStartProcess();
+	public Process newInitializeProcess();
 
 }

@@ -14,6 +14,7 @@ import com.dwarfeng.tp.core.model.cm.MutilangModel;
  * @author  DwArFeng
  * @since 1.8
  */
+@SuppressWarnings("unused")
 public final class DefaultMutilangProvider implements MutilangProvider {
 	
 	private final MutilangModel mutilangModel;
@@ -25,17 +26,17 @@ public final class DefaultMutilangProvider implements MutilangProvider {
 		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(com.dwarfeng.dutil.basic.str.Name)
 		 */
 		@Override
-		public String getString(Name key) {
+		public String getString(String key) {
 			Objects.requireNonNull(key, "入口参数 key 不能为 null。");
 			
-			Map<Name, String> mutilangMap;
+			Map<String, String> mutilangMap;
 			String defaultValue;
 			ReadWriteLock lock = mutilangModel.getLock();
 			
 			lock.readLock().lock();
 			try{
 				if(!mutilangModel.getSupportedKeys().contains(key)){
-					throw new IllegalArgumentException("该多语言接口不自持此键");
+					throw new IllegalArgumentException("该多语言接口不支持此键");
 				}
 				mutilangMap = new HashMap<>(mutilangModel.getMutilangMap());
 				defaultValue = mutilangModel.getDefaultValue();

@@ -10,21 +10,6 @@ import com.dwarfeng.tp.core.model.struct.DefaultName;
  * @since 1.8
  */
 public enum LoggerStringKey implements Name{
-	
-	ActionProcessor_start_1(new DefaultName("ActionProcessor.start.1")),
-	ActionProcessor_start_2(new DefaultName("ActionProcessor.start.2")),
-	ActionProcessor_start_3(new DefaultName("ActionProcessor.start.3")),
-	ActionProcessor_start_4(new DefaultName("ActionProcessor.start.4")),
-	ActionProcessor_start_5(new DefaultName("ActionProcessor.start.5")),
-	ActionProcessor_start_6(new DefaultName("ActionProcessor.start.6")),
-	ActionProcessor_start_7(new DefaultName("ActionProcessor.start.7")),
-	ActionProcessor_start_8(new DefaultName("ActionProcessor.start.8")),
-	ActionProcessor_start_9(new DefaultName("ActionProcessor.start.9")),
-	ActionProcessor_start_10(new DefaultName("ActionProcessor.start.10")),
-	ActionProcessor_start_11(new DefaultName("ActionProcessor.start.11")),
-	ActionProcessor_start_12(new DefaultName("ActionProcessor.start.12")),
-	ActionProcessor_start_13(new DefaultName("ActionProcessor.start.13")),
-	ActionProcessor_start_14(new DefaultName("ActionProcessor.start.14")),
 
 	FinishedProcessTaker_1(new DefaultName("FinishedProcessTaker.1")),
 	FinishedProcessTaker_2(new DefaultName("FinishedProcessTaker.2")),
@@ -45,8 +30,6 @@ public enum LoggerStringKey implements Name{
 	ToolPlatform_ProcessProvider_9(new DefaultName("ToolPlatform.ProcessProvider.9")),
 	ToolPlatform_ProcessProvider_10(new DefaultName("ToolPlatform.ProcessProvider.10")),
 	ToolPlatform_ProcessProvider_11(new DefaultName("ToolPlatform.ProcessProvider.11")),
-	ToolPlatform_ProcessProvider_12(new DefaultName("ToolPlatform.ProcessProvider.12")),
-	ToolPlatform_ProcessProvider_13(new DefaultName("ToolPlatform.ProcessProvider.13")),
 
 	;
 

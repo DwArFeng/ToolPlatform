@@ -1,10 +1,14 @@
 package com.dwarfeng.tp.core.model.io;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -53,8 +57,7 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 				throw new LoadFailedException("根元素缺失dir属性");
 			}
 			
-			File direction = new File(rootDirStr);
-			mutilangModel.setDircetion(direction);
+			File dir = new File(rootDirStr);
 			
 			/*
 			 * 根据 dom4j 的相关说明，此处转换是安全的。
@@ -62,6 +65,7 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> mutilangInfos = (List<Element>)root.elements("info");
+			next:
 			for(Element mutilangInfo : mutilangInfos){
 				String language = mutilangInfo.attributeValue("language");
 				String country = mutilangInfo.attributeValue("country");
@@ -77,7 +81,22 @@ public final class XmlMutilangLoader extends StreamMutilangLoader {
 						Objects.nonNull(filePath)
 						){
 					Locale locale = new Locale(language, country, variant);
-					mutilangModel.put(locale, new DefaultMutilangInfo(label, filePath));
+					
+					File targetFile = new File(dir, filePath);
+					FileInputStream in = null;
+					try{
+						in = new FileInputStream(targetFile);
+						Properties properties = new Properties();
+						properties.load(in);
+						Map<String, String> map = new HashMap<>();
+						for(String key : properties.stringPropertyNames()){
+							map.put(key, properties.getProperty(key));
+						}
+						
+						mutilangModel.put(locale, new DefaultMutilangInfo(label, map));
+					}catch (Exception e) {
+						continue next;
+					}
 				}
 			}
 			

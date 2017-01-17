@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -24,6 +25,8 @@ public abstract class AbstractProcess implements Process{
 	protected final Set<ProcessObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	/**同步读写锁*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
+	/**写锁的中断状态*/
+	protected final Condition condition = lock.writeLock().newCondition();
 	
 	/**当前的进度*/
 	private int progress;
@@ -380,7 +383,13 @@ public abstract class AbstractProcess implements Process{
 			setThrowable(e);
 		}
 		done();
-		return null;
+		lock.writeLock().lock();
+		try{
+			condition.signalAll();
+		}finally {
+			lock.writeLock().unlock();
+		}
+		return null;	
 	}
 	
 	/**
@@ -448,6 +457,22 @@ public abstract class AbstractProcess implements Process{
 		lock.writeLock().lock();
 		try{
 			obversers.clear();
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.Process#waitFinished()
+	 */
+	@Override
+	public void waitFinished() throws InterruptedException {
+		lock.writeLock().lock();
+		try{
+			while(! isDone()){
+				condition.await();
+			}
 		}finally {
 			lock.writeLock().unlock();
 		}

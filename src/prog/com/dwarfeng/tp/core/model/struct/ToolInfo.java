@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.model.struct;
 
 import java.awt.Image;
+import java.util.Locale;
 
 import com.dwarfeng.dutil.basic.prog.Version;
 
@@ -29,9 +30,10 @@ public interface ToolInfo {
 	/**
 	 * TODO 是否要以 Doucument 的形式来返回描述？？
 	 * 获取工具的描述。
-	 * @return 工具的描述。
+	 * @param 指定的语言，可以为 <code>null</code>，代表默认语言。
+	 * @return 指定的语言下工具的描述。
 	 */
-	public String getDescription();
+	public String getDescription(Locale locale);
 	
 	/**
 	 * 获取工具的作者数组。
@@ -40,6 +42,13 @@ public interface ToolInfo {
 	 * @return 工具的作者数组。
 	 */
 	public String[] getAuthors();
+	
+	/**
+	 * 获取工具的库列表。
+	 * <p> 返回的字符串应该是所需要使用的库文件的文件名，不可带路径。
+	 * @return 工具的库列表。
+	 */
+	public String[] getToolLibs();
 	
 	/**
 	 * 获取工具的主类类名。
@@ -53,12 +62,5 @@ public interface ToolInfo {
 	 * @return 工具的主文件（jar包）名称。
 	 */
 	public String getToolFile();
-	
-	/**
-	 * 获取工具的库列表。
-	 * <p> 返回的字符串应该是所需要使用的库文件的文件名，不可带路径。
-	 * @return 工具的库列表。
-	 */
-	public String[] getToolLibs();
 	
 }
