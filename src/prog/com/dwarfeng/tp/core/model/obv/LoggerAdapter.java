@@ -17,5 +17,7 @@ public abstract class LoggerAdapter implements LoggerObverser{
 	public void fireLoggerNamesChanged(Set<String> oldOne, Set<String> newOne) {}
 	@Override
 	public void fireUpdated() {}
+	@Override
+	public void fireCleared() {}
 
 }

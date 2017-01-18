@@ -1,21 +1,18 @@
 package com.dwarfeng.tp.core.control;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.File;
+
+import com.dwarfeng.dutil.basic.io.CT;
 
 public final class Foo {
 	
 	public static void main(String[] args) {
-		ExecutorService es = Executors.newSingleThreadScheduledExecutor();
-		es.shutdown();
-		es.submit(new Callable<Object>() {
-
-			@Override
-			public Object call() throws Exception {
-				return null;
-			}
-		});
+		File dir = new File("lib/");
+		File[] jars = dir.listFiles();
+		
+		for(File file : jars){
+			CT.trace(file.getName().substring(0, file.getName().length()-4));
+		}
 	}
 
 }

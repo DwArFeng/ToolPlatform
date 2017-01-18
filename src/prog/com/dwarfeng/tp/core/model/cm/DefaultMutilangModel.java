@@ -137,14 +137,17 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		
 		lock.writeLock().lock();
 		try{
-			if(containsKey(key)){
-				MutilangInfo oldValue = get(key);
+			boolean changeFlag = containsKey(key);
+			MutilangInfo oldValue = get(key);	//Maybe null
+			MutilangInfo dejavu = delegate.put(key, value);
+			
+			if(changeFlag){
 				fireEntryChanged(key, oldValue, value);
 			}else{
 				fireEntryAdded(key, value);
 			}
 			
-			return delegate.put(key, value);
+			return dejavu;
 		}finally {
 			lock.writeLock().unlock();
 		}
@@ -170,10 +173,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	public MutilangInfo remove(Object key) {
 		lock.writeLock().lock();
 		try{
-			if(containsKey(key)){
+			boolean removeFlag = containsKey(key);
+			MutilangInfo dejavu = delegate.remove(key);
+			if(removeFlag){
 				fireEntryRemoved((Locale) key);
 			}
-			return delegate.remove(key);
+			return dejavu;
 		}finally {
 			lock.writeLock().unlock();
 		}
@@ -211,8 +216,8 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	public void clear() {
 		lock.writeLock().lock();
 		try{
-			fireCleared();
 			delegate.clear();
+			fireCleared();
 		}finally {
 			lock.writeLock().unlock();
 		}

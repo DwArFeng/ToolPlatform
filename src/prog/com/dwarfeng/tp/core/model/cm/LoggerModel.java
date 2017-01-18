@@ -53,5 +53,10 @@ public interface LoggerModel extends ObverserSet<LoggerObverser>, ExternalReadWr
 	 * @return 该模型中的Logger集合。
 	 */
 	public Set<Logger> getLoggers();
+	
+	/**
+	 * 清除该模型中的记录器名称。
+	 */
+	public void clear();
 		
 }

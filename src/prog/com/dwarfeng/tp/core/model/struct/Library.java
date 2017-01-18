@@ -1,7 +1,6 @@
 package com.dwarfeng.tp.core.model.struct;
 
 import java.net.URL;
-import java.util.Set;
 
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.io.LibraryClassLoader;
@@ -15,10 +14,16 @@ import com.dwarfeng.tp.core.model.io.LibraryClassLoader;
 public interface Library extends ExternalReadWriteThreadSafe{
 	
 	/**
-	 * 获取引用该库的所有库类加载器。
-	 * @return 引用该库的所有库类加载器。
+	 * 获取该库是否被持有引用。
+	 * @return 该库是否被持有引用。
 	 */
-	public Set<LibraryClassLoader> getReferences();
+	public boolean hasReference();
+	
+//	/**
+//	 * 获取引用该库的所有库类加载器。
+//	 * @return 引用该库的所有库类加载器。
+//	 */
+//	public Set<LibraryClassLoader> getReferences();
 	
 	/**
 	 * 增加一个库类加载器的引用。

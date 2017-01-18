@@ -25,7 +25,10 @@ public enum ResourceKey implements Name{
 	MUTILANG_LABEL_SETTING("mutilang.label.setting"),
 	
 	/**工具信息*/
-	TOOLINFO_INFO("tool_info.info"),
+	TOOL_INFO("tool.info"),
+	
+	/**工具库*/
+	TOOL_LIBS("tool.libs"),
 	
 	
 	;

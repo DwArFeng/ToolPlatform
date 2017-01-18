@@ -102,14 +102,17 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 		
 		lock.writeLock().lock();
 		try{
-			if(containsKey(key)){
-				ToolInfo oldOne = get(key);
-				fireEntryChanged(key, oldOne, value);
+			boolean changeFlag = containsKey(key);
+			ToolInfo oldValue = get(key);	//Maybe null
+			ToolInfo dejavu = delegate.put(key, value);
+			
+			if(changeFlag){
+				fireEntryChanged(key, oldValue, value);
 			}else{
 				fireEntryAdded(key, value);
 			}
 			
-			return delegate.put(key, value);
+			return dejavu;
 		}finally {
 			lock.writeLock().unlock();
 		}
@@ -135,10 +138,12 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	public ToolInfo remove(Object key) {
 		lock.writeLock().lock();
 		try{
-			if(containsKey(key)){
+			boolean removeFlag = containsKey(key);
+			ToolInfo dejavu = delegate.remove(key);
+			if(removeFlag){
 				fireEntryRemoved((String) key);
 			}
-			return delegate.remove(key);
+			return dejavu;
 		}finally {
 			lock.writeLock().unlock();
 		}
@@ -176,8 +181,8 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	public void clear() {
 		lock.writeLock().lock();
 		try{
-			fireCleared();
 			delegate.clear();
+			fireCleared();
 		}finally {
 			lock.writeLock().unlock();
 		}

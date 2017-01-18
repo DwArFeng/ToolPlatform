@@ -20,7 +20,7 @@ public abstract class AbstractResourceModel implements ResourceModel{
 	 * @see com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe#getLock()
 	 */
 	@Override
-	public final ReadWriteLock getLock() {
+	public ReadWriteLock getLock() {
 		return lock;
 	}
 

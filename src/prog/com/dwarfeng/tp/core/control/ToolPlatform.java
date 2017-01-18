@@ -27,19 +27,19 @@ import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cfg.ResourceKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 import com.dwarfeng.tp.core.model.cm.DefaultBackgroundModel;
+import com.dwarfeng.tp.core.model.cm.DefaultLibraryModel;
 import com.dwarfeng.tp.core.model.cm.DefaultLoggerModel;
 import com.dwarfeng.tp.core.model.cm.DefaultMutilangModel;
 import com.dwarfeng.tp.core.model.cm.DefaultResourceModel;
 import com.dwarfeng.tp.core.model.cm.DefaultSyncConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultToolInfoModel;
+import com.dwarfeng.tp.core.model.cm.LibraryModel;
 import com.dwarfeng.tp.core.model.cm.LoggerModel;
 import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.cm.SyncConfigModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
-import com.dwarfeng.tp.core.model.io.StreamLoggerLoader;
-import com.dwarfeng.tp.core.model.io.StreamMutilangLoader;
-import com.dwarfeng.tp.core.model.io.StreamResourceLoader;
+import com.dwarfeng.tp.core.model.io.XmlLibraryLoader;
 import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
 import com.dwarfeng.tp.core.model.io.XmlMutilangLoader;
 import com.dwarfeng.tp.core.model.io.XmlResourceLoader;
@@ -190,6 +190,7 @@ public final class ToolPlatform {
 		private MutilangModel labelMutilangModel = new DefaultMutilangModel();
 		private ToolInfoModel toolInfoModel = new DefaultToolInfoModel();
 		private BackgroundModel backgroundModel = new DefaultBackgroundModel();
+		private LibraryModel libraryModel = new DefaultLibraryModel();
 		//taker & provider
 		private FinishedProcessTaker finishedProcessTaker = new DefaultFinishedProcessTaker(backgroundModel);
 		private MutilangProvider loggerMutilangProvider = new DefaultMutilangProvider(loggerMutilangModel);
@@ -356,6 +357,13 @@ public final class ToolPlatform {
 		public BackgroundModel getBackgroundModel() {
 			return backgroundModel;
 		}
+		
+		/**
+		 * @return the libraryModel
+		 */
+		public LibraryModel getLibraryModel() {
+			return libraryModel;
+		}
 
 		/**
 		 * @return the finishedProcessTaker
@@ -467,7 +475,8 @@ public final class ToolPlatform {
 					
 					//加载程序的资源模型
 					info(LoggerStringKey.ToolPlatform_ProcessProvider_3);
-					StreamResourceLoader resourceLoader = null;
+					manager.getResourceModel().clear();
+					XmlResourceLoader resourceLoader = null;
 					try{
 						resourceLoader = new XmlResourceLoader(ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/paths.xml"));
 						resourceLoader.load(manager.getResourceModel());
@@ -479,7 +488,11 @@ public final class ToolPlatform {
 					
 					//加载程序中的记录器模型。
 					info(LoggerStringKey.ToolPlatform_ProcessProvider_5);
-					StreamLoggerLoader loggerLoader = null;
+					manager.getLoggerModel().clear();
+					if(manager.getLoggerModel().getLoggerContext() != null){
+						manager.getLoggerModel().getLoggerContext().stop();
+					}
+					XmlLoggerLoader loggerLoader = null;
 					try{
 						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
 						loggerLoader.load(manager.getLoggerModel());
@@ -501,7 +514,8 @@ public final class ToolPlatform {
 					
 					//加载记录器多语言配置。
 					info(LoggerStringKey.ToolPlatform_ProcessProvider_7);
-					StreamMutilangLoader loggerMutilangLoader = null;
+					manager.getLoggerMutilangModel().clear();
+					XmlMutilangLoader loggerMutilangLoader = null;
 					try{
 						loggerMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LOGGER_SETTING).openInputStream());
 						loggerMutilangLoader.load(manager.getLoggerMutilangModel());
@@ -549,10 +563,11 @@ public final class ToolPlatform {
 					
 					//加载标签多语言配置。
 					info(LoggerStringKey.ToolPlatform_ProcessProvider_9);
+					manager.getLabelMutilangModel().clear();
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_ProcessProvider_9);
 					}
-					StreamMutilangLoader labelMutilangLoader = null;
+					XmlMutilangLoader labelMutilangLoader = null;
 					try{
 						labelMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LABEL_SETTING).openInputStream());
 						labelMutilangLoader.load(manager.getLabelMutilangModel());
@@ -584,6 +599,27 @@ public final class ToolPlatform {
 					}finally{
 						if(Objects.nonNull(invisibleConfigLoader)){
 							invisibleConfigLoader.close();
+						}
+					}
+					
+					//加载库模型
+					info(LoggerStringKey.ToolPlatform_ProcessProvider_12);
+					manager.getLibraryModel().clear();
+					if (splashFlag) {
+						splash(LoggerStringKey.ToolPlatform_ProcessProvider_12);
+					}
+					XmlLibraryLoader libraryLoader = null;
+					try{
+						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIBS).openInputStream());
+						libraryLoader.load(manager.getLibraryModel());
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						getResource(ResourceKey.TOOL_LIBS).reset();
+						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIBS).openInputStream());
+						libraryLoader.load(manager.getLibraryModel());
+					}finally{
+						if(Objects.nonNull(libraryLoader)){
+							libraryLoader.close();
 						}
 					}
 					

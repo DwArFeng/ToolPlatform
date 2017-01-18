@@ -18,7 +18,7 @@ import com.dwarfeng.tp.core.model.cm.LoggerModel;
  * @author  DwArFeng
  * @since 1.8
  */
-public final class XmlLoggerLoader extends StreamLoggerLoader {
+public final class XmlLoggerLoader extends StreamLoader implements Loader<LoggerModel>{
 
 	/**
 	 * ÐÂÊµÀý¡£

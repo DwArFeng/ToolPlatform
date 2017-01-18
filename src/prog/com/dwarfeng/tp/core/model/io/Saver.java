@@ -1,9 +1,13 @@
 package com.dwarfeng.tp.core.model.io;
 
 import com.dwarfeng.dutil.basic.io.SaveFailedException;
-import com.dwarfeng.tp.core.model.cm.MutilangModel;
 
-public interface MutilangSaver {
+/**
+ * 保存器。
+ * @author DwArFeng
+ * @since 1.8
+ */
+public interface Saver<T> {
 
 	/**
 	 * 从指定的多语言模型中保存数据。
@@ -11,6 +15,6 @@ public interface MutilangSaver {
 	 * @throws SaveFailedException 保存失败异常。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public void save(MutilangModel mutilangModel) throws SaveFailedException;
+	public void save(T model) throws SaveFailedException;
 	
 }

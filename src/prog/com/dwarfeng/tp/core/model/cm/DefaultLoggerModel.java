@@ -168,4 +168,25 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.LoggerModel#clear()
+	 */
+	@Override
+	public void clear() {
+		lock.writeLock().lock();
+		try{
+			loggers.clear();
+			fireCleared();
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+
+	private void fireCleared() {
+		for(LoggerObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireCleared();
+		}
+	}
+	
 }

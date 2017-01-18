@@ -19,7 +19,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultMutilangInfo;
  * @author  DwArFeng
  * @since 1.8
  */
-public final class XmlMutilangLoader extends StreamMutilangLoader {
+public final class XmlMutilangLoader extends StreamLoader implements Loader<MutilangModel>{
 
 	/**
 	 * ÐÂÊµÀý¡£

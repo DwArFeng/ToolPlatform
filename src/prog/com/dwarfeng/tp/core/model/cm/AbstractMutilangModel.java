@@ -27,7 +27,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#getObversers()
 	 */
 	@Override
-	public final Set<MutilangObverser> getObversers() {
+	public Set<MutilangObverser> getObversers() {
 		lock.readLock().lock();
 		try{
 			return Collections.unmodifiableSet(obversers);
@@ -41,7 +41,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#addObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public final boolean addObverser(MutilangObverser obverser) {
+	public boolean addObverser(MutilangObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.add(obverser);
@@ -55,7 +55,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#removeObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public final boolean removeObverser(MutilangObverser obverser) {
+	public boolean removeObverser(MutilangObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.remove(obverser);
@@ -69,7 +69,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#clearObverser()
 	 */
 	@Override
-	public final void clearObverser() {
+	public void clearObverser() {
 		lock.writeLock().lock();
 		try{
 			obversers.clear();
@@ -83,7 +83,7 @@ public abstract class AbstractMutilangModel implements MutilangModel {
 	 * @see com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe#getLock()
 	 */
 	@Override
-	public final ReadWriteLock getLock() {
+	public ReadWriteLock getLock() {
 		return lock;
 	}
 

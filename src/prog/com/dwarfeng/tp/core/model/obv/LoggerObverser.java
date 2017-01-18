@@ -31,4 +31,9 @@ public interface LoggerObverser extends Obverser{
 	 * 通知模型更新。
 	 */
 	public void fireUpdated();
+
+	/**
+	 * 通知模型中的记录器名称被清除。
+	 */
+	public void fireCleared();
 }
