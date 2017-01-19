@@ -17,7 +17,7 @@ import com.dwarfeng.tp.core.model.obv.ProcessObverser;
  * <br> 过程根据是否知道进度可分为确定过程和不确定过程，该属性由 {@link #isDeterminate()} 确定。
  * <p> 观察器是线程安全的。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class AbstractProcess implements Process{
 	

@@ -6,7 +6,7 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
  * 卸载器。
  * <p> 卸载某个事物，并且向指定的模型通知。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface Uninstaller<T> {
 	

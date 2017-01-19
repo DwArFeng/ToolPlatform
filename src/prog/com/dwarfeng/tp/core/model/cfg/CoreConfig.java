@@ -13,7 +13,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultConfigEntry;
  * 程序配置枚举。
  * <p> 此枚举记录程序运行时所需要的所有的配置。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public enum CoreConfig implements ConfigEntry{
 	

@@ -9,7 +9,7 @@ import java.util.Objects;
  * 流记读取器。
  * <p> 用流实现的读取器。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class StreamLoader implements Closeable{
 	

@@ -5,7 +5,7 @@ import com.dwarfeng.tp.core.model.struct.Process;
 /**
  * 过程模型观察器适配器。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class ProcessAdapter implements ProcessObverser{
 

@@ -12,7 +12,7 @@ import com.dwarfeng.tp.core.util.ToolPlatformUtil;
  * 默认完成过程取出器。
  * <p> 完成过程取出器的默认实现。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 	

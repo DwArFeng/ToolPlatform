@@ -3,7 +3,7 @@ package com.dwarfeng.tp.core.model.cm;
 /**
  * Ä£Ì¬ÅäÖÃÄ£ÐÍ¡£
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface ModalConfigModel extends SyncConfigModel {
 	

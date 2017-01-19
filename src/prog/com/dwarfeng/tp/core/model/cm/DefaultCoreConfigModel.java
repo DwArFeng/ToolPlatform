@@ -9,7 +9,7 @@ import com.dwarfeng.tp.core.util.LocaleUtil;
  * 默认核心配置模型。
  * <p> 核心配置模型的默认实现。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public class DefaultCoreConfigModel extends DefaultSyncConfigModel implements CoreConfigModel{
 	

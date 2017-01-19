@@ -32,7 +32,7 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
 /**
  * 关于工具平台的工厂类。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class ToolPlatformUtil {
 	
@@ -217,7 +217,7 @@ public final class ToolPlatformUtil {
 	 * 默认记录器多语言接口。
 	 * <p> 使用程序中内置的简体中文。
 	 * @author  DwArFeng
-	 * @since 1.8
+	 * @since 0.0.0-alpha
 	 */
 	private static final class DefaultLoggerMutilang implements Mutilang {
 		
@@ -247,7 +247,7 @@ public final class ToolPlatformUtil {
 	 * 默认记录器多语言接口。
 	 * <p> 使用程序中内置的简体中文。
 	 * @author DwArFeng
-	 * @since 1.8
+	 * @since 0.0.0-alpha
 	 */
 	private static final class DefaultLabelMutilang implements Mutilang{
 
@@ -279,7 +279,7 @@ public final class ToolPlatformUtil {
 	 * 默认记录器接口。
 	 * <p> 该记录器不进行任何操作。
 	 * @author  DwArFeng
-	 * @since 1.8
+	 * @since 0.0.0-alpha
 	 */
 	private static final class InitialLogger implements Logger{
 
@@ -304,7 +304,7 @@ public final class ToolPlatformUtil {
 	 * 内部多语言信息。
 	 * <p> 多语言信息的内部实现。
 	 * @author  DwArFeng
-	 * @since 1.8
+	 * @since 0.0.0-alpha
 	 */
 	private static final class InnerMutilangInfo implements MutilangInfo {
 		
@@ -343,7 +343,7 @@ public final class ToolPlatformUtil {
 	 * 内部记录器信息。
 	 * <p> 记录器信息的内部实现。
 	 * @author DwArFeng
-	 * @since 1.8
+	 * @since 0.0.0-alpha
 	 */
 	private static final class InnerLoggerInfo implements LoggerInfo{
 

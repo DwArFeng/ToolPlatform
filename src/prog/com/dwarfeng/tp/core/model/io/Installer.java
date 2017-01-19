@@ -6,7 +6,7 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
  * 安装器。
  * <p> 安装某个事物，并且向指定的模型通知。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface Installer<T> {
 	

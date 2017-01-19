@@ -13,7 +13,7 @@ import com.dwarfeng.tp.core.model.io.LibraryClassLoader;
  * 默认库。
  * <p> 库接口的默认实现。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class DefaultLibrary implements Library {
 

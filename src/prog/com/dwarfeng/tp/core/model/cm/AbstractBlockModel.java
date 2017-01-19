@@ -6,28 +6,38 @@ import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.dwarfeng.tp.core.model.obv.ToolObverser;
+import com.dwarfeng.tp.core.model.obv.BlockObverser;
 
 /**
- * 抽象工具信息模型。
- * <p> 工具模型的抽象实现。
+ * 抽象阻挡模型。
+ * <p> 阻挡模型的抽象实现。
  * <p> 模型中数据的读写均应该是线程安全的。
- * @author DwArFeng
+ * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public abstract class AbstractToolInfoModel implements ToolInfoModel{
-
+public abstract class AbstractBlockModel implements BlockModel {
+	
 	/**模型的侦听器集合。*/
-	protected final Set<ToolObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
+	protected final Set<BlockObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	/**模型的同步读写锁。*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
+	/**模型的执行器服务*/
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe#getLock()
+	 */
+	@Override
+	public ReadWriteLock getLock() {
+		return lock;
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#getObversers()
 	 */
 	@Override
-	public Set<ToolObverser> getObversers() {
+	public Set<BlockObverser> getObversers() {
 		lock.readLock().lock();
 		try{
 			return Collections.unmodifiableSet(obversers);
@@ -41,7 +51,7 @@ public abstract class AbstractToolInfoModel implements ToolInfoModel{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#addObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean addObverser(ToolObverser obverser) {
+	public boolean addObverser(BlockObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.add(obverser);
@@ -55,7 +65,7 @@ public abstract class AbstractToolInfoModel implements ToolInfoModel{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#removeObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean removeObverser(ToolObverser obverser) {
+	public boolean removeObverser(BlockObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.remove(obverser);
@@ -77,14 +87,6 @@ public abstract class AbstractToolInfoModel implements ToolInfoModel{
 			lock.writeLock().unlock();
 		}
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.ReadWriteThreadSafe#getLock()
-	 */
-	@Override
-	public ReadWriteLock getLock() {
-		return lock;
-	}
+
 
 }

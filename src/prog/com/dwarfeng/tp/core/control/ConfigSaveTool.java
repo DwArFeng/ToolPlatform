@@ -15,7 +15,7 @@ import com.dwarfeng.tp.core.model.cfg.ModalConfig;
 /**
  * ”√”⁄≤‚ ‘
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 final class ConfigSaveTool {
 

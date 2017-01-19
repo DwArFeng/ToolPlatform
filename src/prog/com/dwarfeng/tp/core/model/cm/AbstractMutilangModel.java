@@ -13,7 +13,7 @@ import com.dwarfeng.tp.core.model.obv.MutilangObverser;
  * <p> 多语言模型的抽象实现。
  * <p> 模型中的数据的读写均应该是安全的。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class AbstractMutilangModel implements MutilangModel {
 

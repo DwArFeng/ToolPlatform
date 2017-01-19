@@ -8,7 +8,7 @@ import com.dwarfeng.dutil.basic.str.Name;
  * 默认名称接口。
  * <p> 名称接口的默认实现。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class DefaultName implements Name {
 	

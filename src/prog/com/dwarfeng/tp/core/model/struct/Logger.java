@@ -5,7 +5,7 @@ package com.dwarfeng.tp.core.model.struct;
  * <p> 该命名是为了与 log4j 中的 logger 加以区分。
  * <p> 用来处理与记录有关的方法。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface Logger {
 

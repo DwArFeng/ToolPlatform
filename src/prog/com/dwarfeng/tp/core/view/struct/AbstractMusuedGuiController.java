@@ -10,7 +10,7 @@ import com.dwarfeng.tp.core.model.struct.MutilangSupported;
  * 抽象多语言支持图形交互界面控制器。
  * <p> 多语言支持图形交互界面控制器的抽象实现。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class AbstractMusuedGuiController<T extends Component & MutilangSupported> 
 extends AbstractGuiController<T> implements MutilangSupportedGuiController<T> {

@@ -17,7 +17,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultMutilangInfo;
  * xml多语言模型读取器。
  * <p> 使用xml读取多语言模型。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class XmlMutilangLoader extends StreamLoader implements Loader<MutilangModel>{
 

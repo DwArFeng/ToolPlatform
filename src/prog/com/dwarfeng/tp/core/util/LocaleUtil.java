@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 /**
  * 地区常用方法。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class LocaleUtil {
 

@@ -11,7 +11,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultConfigEntry;
  * 模态配置。
  * <p> 模态配置是用户无法
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public enum ModalConfig implements ConfigEntry {
 	

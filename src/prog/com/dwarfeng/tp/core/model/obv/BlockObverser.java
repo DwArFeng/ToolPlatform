@@ -1,21 +1,20 @@
 package com.dwarfeng.tp.core.model.obv;
 
 import com.dwarfeng.dutil.basic.prog.Obverser;
-import com.dwarfeng.tp.core.model.struct.Library;
 
 /**
- * 库观察器。
- * @author DwArFeng
+ * 阻挡观察器。
+ * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public interface LibraryObverser extends Obverser {
+public interface BlockObverser extends Obverser {
 
 	/**
 	 * 通知入口被添加。
 	 * @param key 指定的键。
 	 * @param value 指定的值。
 	 */
-	public void fireEntryAdded(String key, Library value);
+	public void fireEntryAdded(String key, String value);
 	
 	/**
 	 * 通知入口被移除。
@@ -29,11 +28,16 @@ public interface LibraryObverser extends Obverser {
 	 * @param oldValue 旧的值。
 	 * @param newValue 新的值。
 	 */
-	public void fireEntryChanged(String key, Library oldValue, Library newValue);
+	public void fireEntryChanged(String key, String oldValue, String newValue);
 	
 	/**
 	 * 通知模型被清除。
 	 */
 	public void fireCleared();
+	
+	/**
+	 * 通知模型被更新。
+	 */
+	public void fireUpdated();
 	
 }

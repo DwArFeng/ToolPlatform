@@ -5,7 +5,7 @@ import com.dwarfeng.tp.core.model.struct.Library;
 /**
  * ¿â¹Û²ìÆ÷ÊÊÅäÆ÷¡£
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class LibraryAdapter implements LibraryObverser{
 

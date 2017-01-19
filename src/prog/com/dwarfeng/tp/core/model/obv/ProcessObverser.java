@@ -6,7 +6,7 @@ import com.dwarfeng.tp.core.model.struct.Process;
 /**
  * ¹ý³Ì¹Û²ìÆ÷¡£
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface ProcessObverser extends Obverser{
 	

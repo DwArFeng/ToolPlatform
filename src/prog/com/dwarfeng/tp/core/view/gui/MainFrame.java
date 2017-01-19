@@ -32,7 +32,7 @@ import java.awt.event.WindowEvent;
 /**
  * 程序的主界面。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class MainFrame extends JFrame implements MutilangSupported, ObverserSet<MainFrameObverser>{
 	

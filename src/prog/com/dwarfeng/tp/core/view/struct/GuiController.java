@@ -8,7 +8,7 @@ import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
  * 图形交互界面控制器。
  * <p> 用于控制图形交互界面。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface GuiController<T extends Component> extends ExternalReadWriteThreadSafe{
 

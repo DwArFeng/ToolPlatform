@@ -4,7 +4,7 @@ package com.dwarfeng.tp.core.model.struct;
  * 阻挡接口。
  * <p> 该接口线程安全，不向外暴露同步锁。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface Block{
 

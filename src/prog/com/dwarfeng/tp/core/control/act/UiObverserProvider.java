@@ -5,7 +5,7 @@ import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
 /**
  * 界面观察器提供器。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface UiObverserProvider {
 

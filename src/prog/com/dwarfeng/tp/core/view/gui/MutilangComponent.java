@@ -5,7 +5,7 @@ import com.dwarfeng.tp.core.model.struct.Mutilang;
 /**
  * 具有多语言功能的界面。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface MutilangComponent {
 	

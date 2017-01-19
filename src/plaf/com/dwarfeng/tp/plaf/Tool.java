@@ -19,7 +19,7 @@ import com.dwarfeng.tp.plaf.core.ToolStopMode;
  * 即被添加进工具列表中。
  * <p> 注意：需要保证此方法永远不返回 <code>null</code>。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface Tool extends ObverserSet<ToolObverser>, Name{
 	

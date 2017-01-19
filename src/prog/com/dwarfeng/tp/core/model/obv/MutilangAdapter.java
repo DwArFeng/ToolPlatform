@@ -8,7 +8,7 @@ import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 /**
  * 多语言模型观察器适配器。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class MutilangAdapter implements MutilangObverser {
 

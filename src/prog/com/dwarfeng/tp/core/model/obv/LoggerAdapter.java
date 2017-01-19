@@ -7,7 +7,7 @@ import com.dwarfeng.tp.core.model.struct.LoggerInfo;
 /**
  * 记录器模型观察器适配器。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class LoggerAdapter implements LoggerObverser{
 

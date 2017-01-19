@@ -7,7 +7,7 @@ import com.dwarfeng.tp.core.view.gui.MainFrame;
 /**
  * 主界面控制器。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface MainFrameController extends MutilangSupportedGuiController<MainFrame>{
 	

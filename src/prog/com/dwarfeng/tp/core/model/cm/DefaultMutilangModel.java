@@ -22,7 +22,7 @@ import com.dwarfeng.tp.core.util.ToolPlatformUtil;
  * <p> 多语言模型接口的默认实现。
  * <p> 该模型中的数据的读写均是线程安全的。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class DefaultMutilangModel extends AbstractMutilangModel {
 	

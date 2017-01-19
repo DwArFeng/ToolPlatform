@@ -15,7 +15,7 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
 /**
  * ¿âÐ¶ÔØÆ÷¡£
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class LibraryUninstaller implements Uninstaller<LibraryModel> {
 	

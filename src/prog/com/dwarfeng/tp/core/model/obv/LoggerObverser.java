@@ -8,7 +8,7 @@ import com.dwarfeng.tp.core.model.struct.LoggerInfo;
 /**
  * ¼ÇÂ¼Æ÷¹Û²ìÆ÷¡£
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface LoggerObverser extends Obverser{
 	

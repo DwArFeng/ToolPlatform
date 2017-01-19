@@ -8,7 +8,7 @@ import java.io.OutputStream;
  * 流保存器。
  * <p> 用流实现的保存器。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class StreamSaver implements Closeable {
 

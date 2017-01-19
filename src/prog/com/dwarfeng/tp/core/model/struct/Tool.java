@@ -7,7 +7,7 @@ import com.dwarfeng.tp.core.model.obv.ToolObverser;
 /**
  * 运行中工具。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface Tool extends ObverserSet<ToolObverser>, Name{
 	

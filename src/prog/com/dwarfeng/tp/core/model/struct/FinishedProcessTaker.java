@@ -7,7 +7,7 @@ import com.dwarfeng.tp.core.model.cm.BackgroundModel;
  * 完成过程取出器。
  * <p> 用于在后台模型中取出完成的过程，并且记录在指定的 Logger 之中。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface FinishedProcessTaker extends ExternalReadWriteThreadSafe, MutilangSupported{
 

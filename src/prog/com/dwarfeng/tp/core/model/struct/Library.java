@@ -9,7 +9,7 @@ import com.dwarfeng.tp.core.model.io.LibraryClassLoader;
  * 库。
  * <p> 该接口的读写均应该是线程安全的。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface Library extends ExternalReadWriteThreadSafe{
 	

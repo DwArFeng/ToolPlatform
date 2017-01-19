@@ -5,7 +5,7 @@ import com.dwarfeng.tp.core.model.struct.Process;
 /**
  * 过程提供器。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface ProcessProvider {
 	

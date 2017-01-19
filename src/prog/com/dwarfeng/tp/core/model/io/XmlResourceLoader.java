@@ -18,7 +18,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultResource;
  * xml资源模型读取器。
  * <p> 使用xml读取资源模型。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public class XmlResourceLoader extends StreamLoader implements Loader<ResourceModel>{
 

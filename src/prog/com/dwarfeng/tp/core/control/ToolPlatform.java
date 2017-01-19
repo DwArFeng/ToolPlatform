@@ -71,7 +71,7 @@ import com.dwarfeng.tp.core.view.struct.SplashScreenController;
  * 该工具平台利用反射读取其工具目录下的所有工具，并且拥有将这些工具进行分标签管理、搜索、分类的功能。
  * <p> TODO 需要进行详细的描述。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class ToolPlatform {
 	

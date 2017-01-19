@@ -1,5 +1,6 @@
 package com.dwarfeng.tp.core.model.cm;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -17,11 +18,11 @@ import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
  * <p> 配置模型的线程安全的默认实现。
  * <p> 该模型中的数据的读写均是线程安全的。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 
-	private final ConfigModel delegate;
+	private final ConfigModel delegate = new DefaultConfigModel();
 	
 	/**
 	 * 新实例。
@@ -38,7 +39,7 @@ public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 	 */
 	public DefaultSyncConfigModel(ConfigEntry[] configEntries) {
 		Objects.requireNonNull(configEntries, "入口参数 configEntries 不能为 null。");
-		this.delegate = new DefaultConfigModel(configEntries);
+		delegate.addAll(Arrays.asList(configEntries));
 	}
 	
 	/*

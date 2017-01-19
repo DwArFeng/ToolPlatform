@@ -7,7 +7,7 @@ import com.dwarfeng.tp.core.view.gui.SplashScreen;
 /**
  * 默认启动窗口控制器。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class AbstractSplashScreenController extends AbstractGuiController<SplashScreen> implements SplashScreenController{
 	

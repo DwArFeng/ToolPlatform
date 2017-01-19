@@ -3,7 +3,7 @@ package com.dwarfeng.tp.plaf.core;
 /**
  * 工具的图片类型。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public enum ToolImageType {
 

@@ -17,7 +17,7 @@ import com.dwarfeng.tp.core.control.ToolPlatform;
 /**
  * Æô¶¯´°¿Ú¡£
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public class SplashScreen extends JFrame{
 	

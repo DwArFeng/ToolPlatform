@@ -12,7 +12,7 @@ import com.dwarfeng.dutil.basic.prog.Version;
  * 默认工具信息。
  * <p> 工具信息接口的默认实现。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class DefaultToolInfo implements ToolInfo {
 	

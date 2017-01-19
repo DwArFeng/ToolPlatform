@@ -3,7 +3,7 @@ package com.dwarfeng.tp.core.model.struct;
 /**
  * ¼ÇÂ¼Æ÷ÐÅÏ¢¡£
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface LoggerInfo {
 

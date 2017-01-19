@@ -15,7 +15,7 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
  * <p> 工具模型的默认实现。
  * <p> 该模型中的数据的读写均是线程安全的。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class DefaultToolInfoModel extends AbstractToolInfoModel implements ToolInfoModel {
 	

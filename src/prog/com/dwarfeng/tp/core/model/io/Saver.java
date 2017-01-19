@@ -5,7 +5,7 @@ import com.dwarfeng.dutil.basic.io.SaveFailedException;
 /**
  * ±£´æÆ÷¡£
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface Saver<T> {
 

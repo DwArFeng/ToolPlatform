@@ -13,7 +13,7 @@ import com.dwarfeng.tp.core.model.obv.LibraryObverser;
  * <p> 库模型接口的默认实现。
  * <p> 模型中数据的读写均应该是线程安全的。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class AbstractLibraryModel implements LibraryModel {
 	

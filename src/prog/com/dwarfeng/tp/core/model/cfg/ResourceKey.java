@@ -5,7 +5,7 @@ import com.dwarfeng.dutil.basic.str.Name;
 /**
  * 有关于资源的键。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public enum ResourceKey implements Name{
 	

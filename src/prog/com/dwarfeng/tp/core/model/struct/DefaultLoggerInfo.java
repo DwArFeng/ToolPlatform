@@ -6,7 +6,7 @@ import java.util.Objects;
  * 默认记录器信息。
  * <p> 记录器信息的默认实现。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public class DefaultLoggerInfo implements LoggerInfo {
 	

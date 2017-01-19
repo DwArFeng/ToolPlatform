@@ -5,7 +5,7 @@ import com.dwarfeng.tp.core.view.gui.SplashScreen;
 /**
  * Æô¶¯´°¿Ú¿ØÖÆÆ÷¡£
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface SplashScreenController extends GuiController<SplashScreen>{
 	

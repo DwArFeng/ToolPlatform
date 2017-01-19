@@ -6,7 +6,7 @@ import com.dwarfeng.tp.core.model.cfg.ModalConfig;
  * 默认模态配置模型。
  * <p> 模态配置模型的默认实现。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public class DefaultModalConfigModel extends DefaultSyncConfigModel implements ModalConfigModel {
 	

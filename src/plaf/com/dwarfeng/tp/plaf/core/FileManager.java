@@ -7,7 +7,7 @@ import java.io.File;
  * <p> 为了保证文件的可维护性，平台中的工具涉及到文件操作，均应该使用该管理器中的
  * 获得文件的方法，而不应该直接生成 File 实例。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface FileManager {
 

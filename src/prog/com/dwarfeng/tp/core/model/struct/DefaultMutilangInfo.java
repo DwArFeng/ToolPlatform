@@ -13,7 +13,7 @@ import java.util.Properties;
  * 默认多语言信息。
  * <p> 多语言信息的默认实现。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class DefaultMutilangInfo implements MutilangInfo {
 	

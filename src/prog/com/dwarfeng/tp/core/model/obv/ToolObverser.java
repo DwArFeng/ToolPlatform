@@ -6,7 +6,7 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
 /**
  * ¹¤¾ß¹Û²ìÆ÷¡£
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface ToolObverser extends Obverser{
 

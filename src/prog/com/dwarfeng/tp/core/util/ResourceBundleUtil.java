@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 /**
  * ResourceBundle中的常用工具。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class ResourceBundleUtil {
 	

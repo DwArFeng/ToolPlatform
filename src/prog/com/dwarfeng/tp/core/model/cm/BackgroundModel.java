@@ -10,8 +10,9 @@ import com.dwarfeng.tp.core.model.struct.Process;
 
 /**
  * 后台模型。
+ * <p> 模型中数据的读写均应该是线程安全的。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface BackgroundModel extends ObverserSet<BackgroundObverser>, ExternalReadWriteThreadSafe, Iterable<Process>{
 	

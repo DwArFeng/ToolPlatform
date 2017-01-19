@@ -15,7 +15,7 @@ import com.dwarfeng.tp.core.model.struct.Updateable;
  * 有关记录器的配置模型。
  * <p> 模型中数据的读写均应该是线程安全的。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface LoggerModel extends Set<LoggerInfo>, ObverserSet<LoggerObverser>, ExternalReadWriteThreadSafe, Updateable{
 	

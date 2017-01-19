@@ -9,7 +9,7 @@ import com.dwarfeng.dutil.basic.prog.Version;
  * 工具信息。
  * <p> 注意：返回的所有值均不能为 <code>null</code>。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface ToolInfo {
 

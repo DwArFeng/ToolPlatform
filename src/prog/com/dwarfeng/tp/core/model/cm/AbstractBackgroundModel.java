@@ -22,7 +22,7 @@ import com.dwarfeng.tp.core.model.obv.BackgroundObverser;
  * <p> 后台模型的抽象实现.
  * <p> 模型中数据的读写均应该是线程安全的。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class AbstractBackgroundModel implements BackgroundModel{
 

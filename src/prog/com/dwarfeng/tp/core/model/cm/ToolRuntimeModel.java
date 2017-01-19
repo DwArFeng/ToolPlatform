@@ -10,7 +10,7 @@ import com.dwarfeng.tp.core.model.struct.Tool;
 /**
  * 工具运行时模型。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface ToolRuntimeModel extends ExternalReadWriteThreadSafe, ObverserSet<ToolRuntimeObverser>, Iterator<Tool>{
 

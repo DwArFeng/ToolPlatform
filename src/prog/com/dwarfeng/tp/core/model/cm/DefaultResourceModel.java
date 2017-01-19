@@ -14,11 +14,11 @@ import com.dwarfeng.tp.core.model.struct.Resource;
  * <p> 资源模型接口的默认实现。
  * <p> 该模型中的数据的读写均是线程安全的。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public final class DefaultResourceModel extends AbstractResourceModel {
 	
-	private final Map<String, Resource> delegate;
+	private final Map<String, Resource> delegate = new HashMap<>();
 	
 	/**
 	 * 新实例。
@@ -34,7 +34,7 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	 */
 	public DefaultResourceModel(Map<String, Resource> map) {
 		Objects.requireNonNull(map, "入口参数 map 不能为 null。");
-		this.delegate = map;
+		delegate.putAll(map);
 	}
 
 	/*

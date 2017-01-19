@@ -5,7 +5,7 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 /**
  * 主界面观察器。
  * @author  DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public interface MainFrameObverser extends Obverser{
 	

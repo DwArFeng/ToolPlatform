@@ -9,7 +9,7 @@ import com.dwarfeng.tp.core.view.gui.MainFrame;
  * 抽象主界面控制器。
  * <p> 主界面控制器的抽象实现。
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public abstract class AbstractMainFrameController extends AbstractMusuedGuiController<MainFrame> implements MainFrameController {
 

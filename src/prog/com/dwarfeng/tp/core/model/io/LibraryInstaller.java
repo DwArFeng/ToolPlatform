@@ -21,7 +21,7 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
 /**
  * ¿â°²×°Æ÷¡£
  * @author DwArFeng
- * @since 1.8
+ * @since 0.0.0-alpha
  */
 public class LibraryInstaller implements Installer<LibraryModel>, Closeable {
 	
