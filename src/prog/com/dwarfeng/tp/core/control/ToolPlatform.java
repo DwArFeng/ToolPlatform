@@ -22,22 +22,24 @@ import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
 import com.dwarfeng.tp.core.control.act.ProcessProvider;
 import com.dwarfeng.tp.core.control.act.UiObverserProvider;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
-import com.dwarfeng.tp.core.model.cfg.InvisibleConfig;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
+import com.dwarfeng.tp.core.model.cfg.ModalConfig;
 import com.dwarfeng.tp.core.model.cfg.ResourceKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
+import com.dwarfeng.tp.core.model.cm.CoreConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultBackgroundModel;
+import com.dwarfeng.tp.core.model.cm.DefaultCoreConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultLibraryModel;
 import com.dwarfeng.tp.core.model.cm.DefaultLoggerModel;
+import com.dwarfeng.tp.core.model.cm.DefaultModalConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultMutilangModel;
 import com.dwarfeng.tp.core.model.cm.DefaultResourceModel;
-import com.dwarfeng.tp.core.model.cm.DefaultSyncConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultToolInfoModel;
 import com.dwarfeng.tp.core.model.cm.LibraryModel;
 import com.dwarfeng.tp.core.model.cm.LoggerModel;
+import com.dwarfeng.tp.core.model.cm.ModalConfigModel;
 import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.cm.ResourceModel;
-import com.dwarfeng.tp.core.model.cm.SyncConfigModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
 import com.dwarfeng.tp.core.model.io.XmlLibraryLoader;
 import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
@@ -48,16 +50,8 @@ import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 import com.dwarfeng.tp.core.model.obv.MutilangAdapter;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 import com.dwarfeng.tp.core.model.struct.AbstractProcess;
-import com.dwarfeng.tp.core.model.struct.CoreConfigProvider;
-import com.dwarfeng.tp.core.model.struct.DefaultCoreConfigProvider;
 import com.dwarfeng.tp.core.model.struct.DefaultFinishedProcessTaker;
-import com.dwarfeng.tp.core.model.struct.DefaultInvisibleConfigProvider;
-import com.dwarfeng.tp.core.model.struct.DefaultLoggerProvider;
-import com.dwarfeng.tp.core.model.struct.DefaultMutilangProvider;
 import com.dwarfeng.tp.core.model.struct.FinishedProcessTaker;
-import com.dwarfeng.tp.core.model.struct.InvisibleConfigProvider;
-import com.dwarfeng.tp.core.model.struct.LoggerProvider;
-import com.dwarfeng.tp.core.model.struct.MutilangProvider;
 import com.dwarfeng.tp.core.model.struct.Process;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
@@ -184,31 +178,26 @@ public final class ToolPlatform {
 		//model
 		private ResourceModel resourceModel = new DefaultResourceModel();
 		private LoggerModel loggerModel = new DefaultLoggerModel();
-		private SyncConfigModel coreConfigModel = new DefaultSyncConfigModel();
-		private SyncConfigModel invisibleConfigModel = new DefaultSyncConfigModel();
+		private CoreConfigModel coreConfigModel = new DefaultCoreConfigModel();
+		private ModalConfigModel modalConfigModel = new DefaultModalConfigModel();
 		private MutilangModel loggerMutilangModel = new DefaultMutilangModel();
 		private MutilangModel labelMutilangModel = new DefaultMutilangModel();
 		private ToolInfoModel toolInfoModel = new DefaultToolInfoModel();
 		private BackgroundModel backgroundModel = new DefaultBackgroundModel();
 		private LibraryModel libraryModel = new DefaultLibraryModel();
-		//taker & provider
+		//structs
 		private FinishedProcessTaker finishedProcessTaker = new DefaultFinishedProcessTaker(backgroundModel);
-		private MutilangProvider loggerMutilangProvider = new DefaultMutilangProvider(loggerMutilangModel);
-		private MutilangProvider labelMutilangProvider = new DefaultMutilangProvider(labelMutilangModel);
-		private CoreConfigProvider coreConfigProvider = new DefaultCoreConfigProvider(coreConfigModel);
-		private InvisibleConfigProvider invisibleConfigProvider = new DefaultInvisibleConfigProvider(invisibleConfigModel);
-		private LoggerProvider loggerProvider = new DefaultLoggerProvider(loggerModel);
 		//obvs
 		private LoggerObverser loggerObverser = new LoggerAdapter() {
 			@Override
 			public void fireUpdated() {
-				finishedProcessTaker.setLogger(loggerProvider.getLogger());
+				finishedProcessTaker.setLogger(loggerModel.getLogger());
 			}
 		};
 		private MutilangObverser loggerMutilangObverser = new MutilangAdapter() {
 			@Override
 			public void fireUpdated() {
-				finishedProcessTaker.setMutilang(loggerMutilangProvider.getMutilang());
+				finishedProcessTaker.setMutilang(loggerMutilangModel.getMutilang());
 			}
 		};
 		private ConfigObverser coreConfigObverser = new ConfigAdapter() {
@@ -216,19 +205,19 @@ public final class ToolPlatform {
 			public void fireCurrentValueChanged(ConfigKey configKey, String oldValue, String newValue,String validValue) {
 				if(configKey.equals(CoreConfig.MUTILANG_LOGGER.getConfigKey())){
 					try {
-						loggerMutilangModel.setCurrentLocale(coreConfigProvider.getLoggerMutilangLocale());
+						loggerMutilangModel.setCurrentLocale(coreConfigModel.getLoggerMutilangLocale());
 						loggerMutilangModel.update();
 					} catch (ProcessException e) {
-						loggerProvider.getLogger().warn(loggerMutilangProvider.getMutilang().getString(LoggerStringKey.Update_LoggerMutilang_1.getName()), e);
+						loggerModel.getLogger().warn(loggerMutilangModel.getMutilang().getString(LoggerStringKey.Update_LoggerMutilang_1.getName()), e);
 					}
 				}
 				
 				if(configKey.equals(CoreConfig.MUTILANG_LABEL.getConfigKey())){
 					try {
-						labelMutilangModel.setCurrentLocale(coreConfigProvider.getLabelMutilangLocale());
+						labelMutilangModel.setCurrentLocale(coreConfigModel.getLabelMutilangLocale());
 						loggerMutilangModel.update();
 					} catch (ProcessException e) {
-						loggerProvider.getLogger().warn(loggerMutilangProvider.getMutilang().getString(LoggerStringKey.Update_LoggerMutilang_1.getName()), e);
+						loggerModel.getLogger().warn(loggerMutilangModel.getMutilang().getString(LoggerStringKey.Update_LoggerMutilang_1.getName()), e);
 					}
 				}
 			}
@@ -263,7 +252,7 @@ public final class ToolPlatform {
 			 */
 			@Override
 			protected MainFrame subNewInstance() {
-				MainFrame mainFrame = new MainFrame(labelMutilangProvider.getMutilang());
+				MainFrame mainFrame = new MainFrame(labelMutilangModel.getMutilang());
 				mainFrame.addObverser(uiObverserProvider.getMainFrameProvider());
 				return mainFrame;
 			}
@@ -285,7 +274,7 @@ public final class ToolPlatform {
 		 */
 		public Manager() {
 			coreConfigModel.addAll(Arrays.asList(CoreConfig.values()));
-			invisibleConfigModel.addAll(Arrays.asList(InvisibleConfig.values()));
+			modalConfigModel.addAll(Arrays.asList(ModalConfig.values()));
 			loggerMutilangModel.setDefaultMutilangInfo(ToolPlatformUtil.getDefaultLoggerMutilangInfo());
 			loggerMutilangModel.setDefaultValue(ToolPlatformUtil.getDefaultMissingString());
 			loggerMutilangModel.setSupportedKeys(ToolPlatformUtil.getLoggerMutilangSupportedKeys());
@@ -319,15 +308,15 @@ public final class ToolPlatform {
 		/**
 		 * @return the coreConfigModel
 		 */
-		public SyncConfigModel getCoreConfigModel() {
+		public CoreConfigModel getCoreConfigModel() {
 			return coreConfigModel;
 		}
 
 		/**
-		 * @return the invisibleConfigModel
+		 * @return the modalConfigModel
 		 */
-		public SyncConfigModel getInvisibleConfigModel() {
-			return invisibleConfigModel;
+		public ModalConfigModel getModalConfigModel() {
+			return modalConfigModel;
 		}
 
 		/**
@@ -373,41 +362,6 @@ public final class ToolPlatform {
 		}
 
 		/**
-		 * @return the loggerMutilangProvider
-		 */
-		public MutilangProvider getLoggerMutilangProvider() {
-			return loggerMutilangProvider;
-		}
-
-		/**
-		 * @return the labelMutilangProvider
-		 */
-		public MutilangProvider getLabelMutilangProvider() {
-			return labelMutilangProvider;
-		}
-
-		/**
-		 * @return the coreConfigProvider
-		 */
-		public CoreConfigProvider getCoreConfigProvider() {
-			return coreConfigProvider;
-		}
-
-		/**
-		 * @return the invisibleConfigProvider
-		 */
-		public InvisibleConfigProvider getInvisibleConfigProvider() {
-			return invisibleConfigProvider;
-		}
-
-		/**
-		 * @return the loggerProvider
-		 */
-		public LoggerProvider getLoggerProvider() {
-			return loggerProvider;
-		}
-
-		/**
 		 * @return the splashScreenController
 		 */
 		public SplashScreenController getSplashScreenController() {
@@ -440,11 +394,11 @@ public final class ToolPlatform {
 		
 		
 		private void info(LoggerStringKey loggerStringKey){
-			manager.getLoggerProvider().getLogger().info(manager.getLoggerMutilangProvider().getMutilang().getString(loggerStringKey.getName()));
+			manager.getLoggerModel().getLogger().info(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
 		}
 		
 		private void warn(LoggerStringKey loggerStringKey, Throwable throwable){
-			manager.getLoggerProvider().getLogger().warn(manager.getLoggerMutilangProvider().getMutilang().getString(loggerStringKey.getName()), throwable);
+			manager.getLoggerModel().getLogger().warn(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()), throwable);
 		}
 		
 		private final class InitializeProcess extends AbstractProcess{
@@ -553,7 +507,7 @@ public final class ToolPlatform {
 					}
 					
 					//如果需要显示启动窗口，则显示启动窗口
-					boolean splashFlag = manager.getCoreConfigProvider().isShowSplashScreen();
+					boolean splashFlag = manager.getCoreConfigModel().isShowSplashScreen();
 					TimeMeasurer tm = new TimeMeasurer();
 					if(splashFlag){
 						info(LoggerStringKey.ToolPlatform_ProcessProvider_8);
@@ -582,23 +536,23 @@ public final class ToolPlatform {
 						}
 					}
 					
-					//加载不可见模型
+					//加载不可见模态模型
 					info(LoggerStringKey.ToolPlatform_ProcessProvider_10);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_ProcessProvider_10);
 					}
-					StreamConfigLoader invisibleConfigLoader = null;
+					StreamConfigLoader modalConfigLoader = null;
 					try{
-						invisibleConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_INVISIBLE).openInputStream());
-						invisibleConfigLoader.load(manager.getInvisibleConfigModel());
+						modalConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_MODAL).openInputStream());
+						modalConfigLoader.load(manager.getModalConfigModel());
 					}catch (IOException e) {
 						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
-						getResource(ResourceKey.CONFIGURATION_INVISIBLE).reset();
-						invisibleConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_INVISIBLE).openInputStream());
-						invisibleConfigLoader.load(manager.getInvisibleConfigModel());
+						getResource(ResourceKey.CONFIGURATION_MODAL).reset();
+						modalConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_MODAL).openInputStream());
+						modalConfigLoader.load(manager.getModalConfigModel());
 					}finally{
-						if(Objects.nonNull(invisibleConfigLoader)){
-							invisibleConfigLoader.close();
+						if(Objects.nonNull(modalConfigLoader)){
+							modalConfigLoader.close();
 						}
 					}
 					
@@ -632,9 +586,9 @@ public final class ToolPlatform {
 						@Override
 						public void run() {
 							manager.getMainFrameController().newInstance();
-							manager.getMainFrameController().setHeight(manager.getInvisibleConfigProvider().getMainFrameStartupHeight());
-							manager.getMainFrameController().setWidth(manager.getInvisibleConfigProvider().getMainFrameStartupWidth());
-							manager.getMainFrameController().setExtendedState(manager.getInvisibleConfigProvider().getMainFrameStartupExtendedState());
+							manager.getMainFrameController().setHeight(manager.getModalConfigModel().getMainFrameStartupHeight());
+							manager.getMainFrameController().setWidth(manager.getModalConfigModel().getMainFrameStartupWidth());
+							manager.getMainFrameController().setExtendedState(manager.getModalConfigModel().getMainFrameStartupExtendedState());
 							manager.getMainFrameController().setLocationRelativeTo(null);
 						}
 					});
@@ -643,7 +597,7 @@ public final class ToolPlatform {
 					if(splashFlag){
 						tm.stop();
 						long time = tm.getTimeMs();
-						int duration = manager.getCoreConfigProvider().getStartupSplashDuration();
+						int duration = manager.getCoreConfigModel().getStartupSplashDuration();
 						if(time < duration){
 							Thread.sleep(duration - time);
 						}
@@ -688,12 +642,12 @@ public final class ToolPlatform {
 					@Override
 					public void run() {
 						manager.getSplashScreenController().show();
-						manager.getSplashScreenController().setMessage(manager.getLoggerMutilangProvider().getMutilang().getString(loggerStringKey.getName()));
+						manager.getSplashScreenController().setMessage(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
 					}
 				});
 			}
 			private void message(LoggerStringKey loggerStringKey){
-				setMessage(manager.getLoggerMutilangProvider().getMutilang().getString(loggerStringKey.getName()));
+				setMessage(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
 			}
 			
 		}

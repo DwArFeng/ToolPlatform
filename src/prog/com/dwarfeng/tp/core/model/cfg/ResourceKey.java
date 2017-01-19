@@ -15,8 +15,8 @@ public enum ResourceKey implements Name{
 	/**主程序的配置*/
 	CONFIGURATION_CORE("configuration.core"),
 	
-	/**不可见配置*/
-	CONFIGURATION_INVISIBLE("configuration.invisible"),
+	/**模态配置*/
+	CONFIGURATION_MODAL("configuration.modal"),
 	
 	/**记录器多语言化的设置*/
 	MUTILANG_LOGGER_SETTING("mutilang.logger.setting"),

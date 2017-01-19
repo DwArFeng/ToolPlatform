@@ -6,7 +6,9 @@ package com.dwarfeng.tp.core.model.struct;
  * @author  DwArFeng
  * @since 1.8
  */
-public class ProcessException extends ToolPlatformException {
+public class ProcessException extends Exception{
+
+	private static final long serialVersionUID = 3395463093993235210L;
 
 	public ProcessException() {
 		// TODO Auto-generated constructor stub

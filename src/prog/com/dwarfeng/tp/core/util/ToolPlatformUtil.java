@@ -24,6 +24,7 @@ import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.struct.Logger;
+import com.dwarfeng.tp.core.model.struct.LoggerInfo;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
@@ -35,9 +36,9 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
  */
 public final class ToolPlatformUtil {
 	
-	private final static Set<String> defaultLoggerNames = new HashSet<>(Arrays.asList(new String[]{"std.all"}));
+	private final static Set<LoggerInfo> defaultLoggerInfos;
 	private final static String mutilangLabel = "简体中文";
-	private final static MutilangInfo defaultMutilangInfo = new DefaultMutilangInfo(mutilangLabel, new HashMap<>());
+	private final static MutilangInfo defaultMutilangInfo = new InnerMutilangInfo(mutilangLabel, new HashMap<>());
 	private final static String missingString = "!文本缺失";
 	private final static ResourceBundle loggerMutilangResourceBundle = ResourceBundle.getBundle(
 			"com.dwarfeng.tp.resource.defaultres.mutilang.logger.default");
@@ -47,6 +48,8 @@ public final class ToolPlatformUtil {
 	private final static MutilangInfo defaultLabelMutilangInfo;
 	
 	static{
+		
+		defaultLoggerInfos = new HashSet<>(Arrays.asList(new LoggerInfo[]{new InnerLoggerInfo("std.all")}));
 		
 		Map<String, String> loggerMutilangDefaultMap = new HashMap<>();
 		for(Name name : LoggerStringKey.values()){
@@ -66,8 +69,8 @@ public final class ToolPlatformUtil {
 			}
 		}
 		
-		defaultLoggerMutilangInfo = new DefaultMutilangInfo(mutilangLabel, loggerMutilangDefaultMap);
-		defaultLabelMutilangInfo = new DefaultMutilangInfo(mutilangLabel, labelMutilangDefaultMap);
+		defaultLoggerMutilangInfo = new InnerMutilangInfo(mutilangLabel, loggerMutilangDefaultMap);
+		defaultLabelMutilangInfo = new InnerMutilangInfo(mutilangLabel, labelMutilangDefaultMap);
 	}
 	
 	/**
@@ -89,8 +92,8 @@ public final class ToolPlatformUtil {
 	 * 获取默认的记录器名称集合。
 	 * @return 默认的记录器名称集合。
 	 */
-	public final static Set<String> getDefaultLoggerNames(){
-		return defaultLoggerNames;
+	public final static Set<LoggerInfo> getDefaultLoggerInfos(){
+		return defaultLoggerInfos;
 	}
 	
 	public final static MutilangInfo getDefaultMutilangInfo(){
@@ -298,23 +301,17 @@ public final class ToolPlatformUtil {
 	}
 
 	/**
-	 * 默认多语言信息。
-	 * <p> 多语言信息的默认实现。
+	 * 内部多语言信息。
+	 * <p> 多语言信息的内部实现。
 	 * @author  DwArFeng
 	 * @since 1.8
 	 */
-	public static final class DefaultMutilangInfo implements MutilangInfo {
+	private static final class InnerMutilangInfo implements MutilangInfo {
 		
 		private final String label;
 		private final Map<String, String> mutilangMap;
 		
-		/**
-		 * 新实例。
-		 * @param label 指定的标签。
-		 * @param filePath 指定的文件的路径。
-		 * @throws NullPointerException 入口参数为 <code>null</code>。
-		 */
-		public DefaultMutilangInfo(String label, Map<String, String> mutilangMap) {
+		public InnerMutilangInfo(String label, Map<String, String> mutilangMap) {
 			Objects.requireNonNull(label, "入口参数 label 不能为 null。");
 			Objects.requireNonNull(mutilangMap, "入口参数 mutilangMap 不能为 null。");
 			
@@ -340,6 +337,32 @@ public final class ToolPlatformUtil {
 			return Collections.unmodifiableMap(mutilangMap);
 		}
 
+	}
+	
+	/**
+	 * 内部记录器信息。
+	 * <p> 记录器信息的内部实现。
+	 * @author DwArFeng
+	 * @since 1.8
+	 */
+	private static final class InnerLoggerInfo implements LoggerInfo{
+
+		private final String name;
+		
+		public InnerLoggerInfo(String name) {
+			Objects.requireNonNull(name, "入口参数 name 不能为 null。");
+			this.name = name;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.struct.LoggerInfo#getName()
+		 */
+		@Override
+		public String getName() {
+			return name;
+		}
+		
 	}
 
 

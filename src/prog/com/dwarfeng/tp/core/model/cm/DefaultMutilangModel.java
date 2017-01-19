@@ -8,8 +8,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
+import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
@@ -29,9 +32,8 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	private Locale currentLocale;
 	private MutilangInfo defaultMutilangInfo;
 	private String defaultValue;
-	
-	private Map<String, String> mutilangMap = new HashMap<>();
 
+	private final InnerMutilang mutilang = new InnerMutilang();
 	
 	/**
 	 * 新实例。
@@ -360,20 +362,6 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#getMutilangMap()
-	 */
-	@Override
-	public Map<String, String> getMutilangMap() {
-		lock.readLock().lock();
-		try{
-			return this.mutilangMap;
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#getDefaultMutilangMap()
 	 */
 	@Override
@@ -459,13 +447,28 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	@Override
 	public void update() throws ProcessException {
 		lock.writeLock().lock();
+		mutilang.mutilangLock.lock();
 		try{
-			mutilangMap = delegate.getOrDefault(currentLocale, defaultMutilangInfo).getMutilangMap();
-			fireUpdated();
-		}catch (Exception e) {
-			throw new ProcessException("多语言接口更新时发生异常", e);
-		}
-		finally {
+			try{
+				Set<String> tSupportedKeys = null;
+				String tDefaultValue = defaultValue = null;
+				Map<String, String> tMutilangMap = null;
+				try{
+					tSupportedKeys = supportedKeys;
+					tDefaultValue = defaultValue;
+					tMutilangMap = delegate.getOrDefault(currentLocale, defaultMutilangInfo).getMutilangMap();
+				}catch (Exception e) {
+					throw new ProcessException("多语言模型更新过程遇到异常，使用上次的设置", e);
+				}
+				mutilang.supportedKeys = tSupportedKeys;
+				mutilang.defaultValue = tDefaultValue;
+				mutilang.mutilangMap = tMutilangMap;
+			}finally {
+				fireUpdated();
+			}
+
+		}finally {
+			mutilang.mutilangLock.unlock();
 			lock.writeLock().unlock();
 		}
 	}
@@ -474,6 +477,46 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		for(MutilangObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireUpdated();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.MutilangModel#getMutilang()
+	 */
+	@Override
+	public Mutilang getMutilang() {
+		return mutilang;
+	}
+	
+	
+	private class InnerMutilang implements Mutilang {
+		
+		private final Lock mutilangLock = new ReentrantLock();
+		
+		private Set<String> supportedKeys = new HashSet<>();
+		private Map<String, String> mutilangMap = new HashMap<>(); 
+		private String defaultValue = "";
+		
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.struct.Mutilang#getString(java.lang.String)
+		 */
+		@Override
+		public String getString(String key) {
+			Objects.requireNonNull(key, "入口参数 key 不能为 null。");
+			
+			mutilangLock.lock();
+			try{
+				if(! supportedKeys.contains(key)){
+					throw new IllegalArgumentException("该多语言接口不支持此键");
+				}
+				return mutilangMap.getOrDefault(key, defaultValue);
+			}finally {
+				mutilangLock.unlock();
+			}
+			
+		}
+
 	}
 	
 }

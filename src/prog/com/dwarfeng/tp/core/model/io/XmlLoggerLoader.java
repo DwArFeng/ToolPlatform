@@ -11,6 +11,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.tp.core.model.cm.LoggerModel;
+import com.dwarfeng.tp.core.model.struct.DefaultLoggerInfo;
 
 /**
  * xml记录器模型读取器。
@@ -44,7 +45,9 @@ public final class XmlLoggerLoader extends StreamLoader implements Loader<Logger
 			Set<String> loggerNames = cfg.getLoggers().keySet();
 			
 			loggerModel.setLoggerContext(loggerContext);
-			loggerModel.setLoggerNames(loggerNames);
+			for(String loggerName : loggerNames){
+				loggerModel.add(new DefaultLoggerInfo(loggerName));
+			}
 		}catch (Exception e) {
 			throw new LoadFailedException("无法向指定的记录器模型中读取流中的数据", e);
 		}

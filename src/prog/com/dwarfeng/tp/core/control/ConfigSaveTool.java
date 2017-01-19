@@ -10,7 +10,7 @@ import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
 import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigSaver;
 import com.dwarfeng.dutil.develop.cfg.io.StreamConfigSaver;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
-import com.dwarfeng.tp.core.model.cfg.InvisibleConfig;
+import com.dwarfeng.tp.core.model.cfg.ModalConfig;
 
 /**
  * ”√”⁄≤‚ ‘
@@ -21,7 +21,7 @@ final class ConfigSaveTool {
 
 	public static void main(String[] args) throws Exception {
 		ConfigModel coreConfigModel = new DefaultConfigModel(CoreConfig.values());
-		ConfigModel invisibleConfigModel = new DefaultConfigModel(InvisibleConfig.values());
+		ConfigModel modalConfigModel = new DefaultConfigModel(ModalConfig.values());
 		File file = new File("src\\prog\\com\\dwarfeng\\tp\\resource\\defaultres\\configuration\\core.properties");
 		FileUtil.createFileIfNotExists(file);
 		StreamConfigSaver saver = null;
@@ -32,12 +32,12 @@ final class ConfigSaveTool {
 			saver.close();
 		}
 		
-		file = new File("src\\prog\\com\\dwarfeng\\tp\\resource\\defaultres\\configuration\\invisible.properties");
+		file = new File("src\\prog\\com\\dwarfeng\\tp\\resource\\defaultres\\configuration\\modal.properties");
 		FileUtil.createFileIfNotExists(file);
 		saver = null;
 		try{
 			saver = new PropertiesConfigSaver(new FileOutputStream(file));
-			saver.save(invisibleConfigModel);
+			saver.save(modalConfigModel);
 		}finally {
 			saver.close();
 		}

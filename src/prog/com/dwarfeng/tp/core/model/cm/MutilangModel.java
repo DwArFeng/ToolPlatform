@@ -7,6 +7,7 @@ import java.util.Set;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
+import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 import com.dwarfeng.tp.core.model.struct.Updateable;
 
@@ -51,14 +52,6 @@ public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<Mu
 	public boolean setCurrentLocale(Locale locale);
 	
 	/**
-	 * 获取模型中的多语言键值映射。
-	 * <p> 返回的多语言键值映射是在当前语言环境下的键值映射。
-	 * <p> 该键值映射是不可修改的，试图调用其编辑方法会抛出 {@link UnsupportedOperationException}。
-	 * @return 多语言键值映射。
-	 */
-	public Map<String, String> getMutilangMap();
-	
-	/**
 	 * 获取模型中的默认多语言键值信息。
 	 * <p> 该方法返回当前语言为 <code>null</code>的情况下的多语言键值信息。
 	 * @return 默认的多语言键值信息。
@@ -87,6 +80,12 @@ public interface MutilangModel extends Map<Locale, MutilangInfo>, ObverserSet<Mu
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public boolean setDefaultValue(String value);
+	
+	/**
+	 * 获取该模型中的多语言接口。
+	 * @return 该模型中的多语言接口。
+	 */
+	public Mutilang getMutilang();
 	
 	
 }
