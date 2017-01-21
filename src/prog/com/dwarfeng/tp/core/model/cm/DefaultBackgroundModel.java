@@ -8,10 +8,12 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.Condition;
 
 import com.dwarfeng.tp.core.model.obv.BackgroundObverser;
 import com.dwarfeng.tp.core.model.obv.ProcessObverser;
+import com.dwarfeng.tp.core.model.struct.NumberedThreadFactory;
 import com.dwarfeng.tp.core.model.struct.Process;
 
 /**
@@ -22,6 +24,8 @@ import com.dwarfeng.tp.core.model.struct.Process;
  * @since 0.0.0-alpha
  */
 public final class DefaultBackgroundModel extends AbstractBackgroundModel {
+	
+	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("background");
 	
 	private final Condition condition = lock.writeLock().newCondition();
 	private final Set<Process> processes = new HashSet<>();
@@ -165,7 +169,7 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public DefaultBackgroundModel() {
-		super(Executors.newCachedThreadPool());
+		super(Executors.newCachedThreadPool(THREAD_FACTORY));
 	}
 
 	/*

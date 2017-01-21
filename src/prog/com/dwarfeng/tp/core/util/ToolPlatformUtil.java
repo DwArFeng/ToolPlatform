@@ -85,7 +85,6 @@ public final class ToolPlatformUtil {
 			e.printStackTrace();
 			return (LoggerContext) LogManager.getContext();
 		}
-		
 	}
 	
 	/**

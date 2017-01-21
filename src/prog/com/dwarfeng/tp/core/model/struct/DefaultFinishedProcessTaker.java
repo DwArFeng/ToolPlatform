@@ -1,6 +1,9 @@
 package com.dwarfeng.tp.core.model.struct;
 
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -16,9 +19,11 @@ import com.dwarfeng.tp.core.util.ToolPlatformUtil;
  */
 public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 	
+	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("finished_process_taker");
+	
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	private final BackgroundModel backgroundModel;
-	private final Thread thread = new Thread(new Runnable() {
+	private final Thread thread = THREAD_FACTORY.newThread(new Runnable() {
 		
 		/*
 		 * (non-Javadoc)
@@ -67,8 +72,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 				}
 			}
 		}
-		
-	}, "Finished-Process-Taker");
+	});
 	
 	
 	private Logger logger;
@@ -101,8 +105,6 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 		this.logger = logger;
 		this.mutilang = mutilang;
 		
-		//TODO 需要讨论该线程是否为守护线程。
-		//thread.setDaemon(true);
 		thread.start();
 	}
 	
