@@ -1,5 +1,7 @@
 package com.dwarfeng.tp.core.model.obv;
 
+import java.util.Set;
+
 /**
  * ×èµ²Ä£ÐÍ¹Û²ìÆ÷ÊÊÅäÆ÷¡£
  * @author  DwArFeng
@@ -8,11 +10,11 @@ package com.dwarfeng.tp.core.model.obv;
 public abstract class BlockAdapter implements BlockObverser{
 
 	@Override
-	public void fireEntryAdded(String key, String value) {}
+	public void fireEntryAdded(String key, Set<String> value) {}
 	@Override
 	public void fireEntryRemoved(String key) {}
 	@Override
-	public void fireEntryChanged(String key, String oldValue, String newValue) {}
+	public void fireEntryChanged(String key, Set<String> oldValue, Set<String> newValue) {}
 	@Override
 	public void fireCleared() {}
 	@Override

@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.model.cm;
 
 import java.util.Map;
+import java.util.Set;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
@@ -14,7 +15,7 @@ import com.dwarfeng.tp.core.model.struct.Updateable;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public interface BlockModel extends Map<String, String>, ObverserSet<BlockObverser>, ExternalReadWriteThreadSafe, Updateable{
+public interface BlockModel extends Map<String, Set<String>>, ObverserSet<BlockObverser>, ExternalReadWriteThreadSafe, Updateable{
 	
 	/**
 	 * 获取模型中的阻挡。

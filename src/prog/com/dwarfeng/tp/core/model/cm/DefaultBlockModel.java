@@ -1,7 +1,10 @@
 package com.dwarfeng.tp.core.model.cm;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -22,7 +25,7 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
  */
 public final class DefaultBlockModel extends AbstractBlockModel {
 	
-	private final Map<String, String> delegate = new HashMap<>();
+	private final Map<String, Set<String>> delegate = new HashMap<>();
 	
 	private final InnerBlock block = new InnerBlock();
 	
@@ -30,7 +33,7 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 * 新实例。
 	 * @param map 默认的映射关系。
 	 */
-	public DefaultBlockModel(Map<String, String> map) {
+	public DefaultBlockModel(Map<String, Set<String>> map) {
 		Objects.requireNonNull(map, "入口参数 map 不能为 null。");
 		delegate.putAll(map);
 	}
@@ -96,7 +99,7 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
-	public String get(Object key) {
+	public Set<String> get(Object key) {
 		lock.readLock().lock();
 		try{
 			return delegate.get(key);
@@ -110,15 +113,15 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public String put(String key, String value) {
+	public Set<String> put(String key, Set<String> value) {
 		Objects.requireNonNull(key, "入口参数 key 不能为 null。");
 		Objects.requireNonNull(value, "入口参数 value 不能为 null。");
 		
 		lock.writeLock().lock();
 		try{
 			boolean changeFlag = containsKey(key);
-			String oldValue = get(key);	//Maybe null
-			String dejavu = delegate.put(key, value);
+			Set<String> oldValue = get(key);	//Maybe null
+			Set<String> dejavu = delegate.put(key, value);
 			
 			if(changeFlag){
 				fireEntryChanged(key, oldValue, value);
@@ -132,13 +135,13 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 		}
 	}
 
-	private void fireEntryAdded(String key, String value) {
+	private void fireEntryAdded(String key, Set<String> value) {
 		for(BlockObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireEntryAdded(key, value);
 		}
 	}
 
-	private void fireEntryChanged(String key, String oldValue, String newValue) {
+	private void fireEntryChanged(String key, Set<String> oldValue, Set<String> newValue) {
 		for(BlockObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireEntryChanged(key, oldValue, newValue);
 		}
@@ -149,11 +152,11 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 * @see java.util.Map#remove(java.lang.Object)
 	 */
 	@Override
-	public String remove(Object key) {
+	public Set<String> remove(Object key) {
 		lock.writeLock().lock();
 		try{
 			boolean removeFlag = containsKey(key);
-			String dejavu = delegate.remove(key);
+			Set<String> dejavu = delegate.remove(key);
 			if(removeFlag){
 				fireEntryRemoved((String) key);
 			}
@@ -174,12 +177,12 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 * @see java.util.Map#putAll(java.util.Map)
 	 */
 	@Override
-	public void putAll(Map<? extends String, ? extends String> m) {
+	public void putAll(Map<? extends String, ? extends Set<String>> m) {
 		Objects.requireNonNull(m, "入口参数 m 不能为 null。");
 		
 		lock.writeLock().lock();
 		try{
-			for(Map.Entry<? extends String, ? extends String> entry : m.entrySet()){
+			for(Map.Entry<? extends String, ? extends Set<String>> entry : m.entrySet()){
 				put(entry.getKey(), entry.getValue());
 			}
 		}finally {
@@ -232,7 +235,7 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 * @return 模型的值集合。
 	 */
 	@Override
-	public Collection<String> values() {
+	public Collection<Set<String>> values() {
 		lock.readLock().lock();
 		try{
 			return delegate.values();
@@ -248,7 +251,7 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 * @return 模型的入口集合。
 	 */
 	@Override
-	public Set<java.util.Map.Entry<String, String>> entrySet() {
+	public Set<java.util.Map.Entry<String, Set<String>>> entrySet() {
 		lock.readLock().lock();
 		try{
 			return delegate.entrySet();
@@ -267,7 +270,13 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 		block.updateLock.lock();
 		try{
 			try{
-				
+				block.dictionary = delegate;
+				block.blockLock.lock();
+				try{
+					block.condition.signalAll();
+				}finally {
+					block.blockLock.unlock();
+				}
 			}finally {
 				fireUpdated();
 			}
@@ -299,8 +308,9 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 		private final Condition condition = blockLock.newCondition();
 		
 		private final Lock updateLock = new ReentrantLock();
+		private final Map<String, List<Thread>> blockingList = new HashMap<>();
 		
-		private Map<String, String> dictionary = new HashMap<>();
+		private Map<String, Set<String>> dictionary = new HashMap<>();
 
 		/*
 		 * (non-Javadoc)
@@ -308,12 +318,48 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 		 */
 		@Override
 		public void block(String key) {
+			Objects.requireNonNull(key, "入口参数 key 不能为 null。");
+			
 			blockLock.lock();
 			try{
+				Set<String> blockKeys = dictionary.getOrDefault(key, new HashSet<>());
 				
-				//TODO
+				//如果需要阻塞，则阻塞。
+				while(needBlock(blockKeys)){
+					try {
+						condition.await();
+					} catch (InterruptedException ignore) {
+						//Do nothing
+					}
+				}
 			}finally {
 				blockLock.unlock();
+			}
+			
+			//将自身的线程添加到正在阻塞列表中。
+			addKeyToBlockingLists(key);
+		}
+		
+		private boolean needBlock(Set<String> blockKeys){
+			for(String blockKey : blockKeys){
+				List<Thread> blockingThreads = blockingList.getOrDefault(blockKey, new ArrayList<>());
+				for(Thread blockingThread : blockingThreads){
+					if(! Objects.equals(blockingThread, Thread.currentThread())){
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		private void addKeyToBlockingLists(String key) {
+			if(! blockingList.containsKey(key)){
+				List<Thread> blockingThreads = new ArrayList<>();
+				blockingThreads.add(Thread.currentThread());
+				blockingList.put(key, blockingThreads);
+			}else{
+				List<Thread> blockingThreads = blockingList.get(key);
+				blockingThreads.add(Thread.currentThread());
 			}
 		}
 
@@ -323,15 +369,19 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 		 */
 		@Override
 		public void unblock(String key) {
+			Objects.requireNonNull(key, "入口参数 key 不能为 null。");
+			
 			blockLock.lock();
 			try{
-				//TODO
-				
+				List<Thread> blockingThreads = blockingList.get(key);
+				blockingThreads.remove(Thread.currentThread());
 				condition.signalAll();
 			}finally {
 				blockLock.unlock();
 			}
 		}
+		
+		
 		
 	}
 

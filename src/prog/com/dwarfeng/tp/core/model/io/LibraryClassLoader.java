@@ -13,7 +13,7 @@ public class LibraryClassLoader extends URLClassLoader {
 	 */
 	public LibraryClassLoader(URL[] urls, ClassLoader parent, URLStreamHandlerFactory factory) {
 		super(urls, parent, factory);
-		// TODO Auto-generated constructor stub
+		// TODO LibraryClassLoader 构造器方法。
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class LibraryClassLoader extends URLClassLoader {
 	 */
 	public LibraryClassLoader(URL[] urls, ClassLoader parent) {
 		super(urls, parent);
-		// TODO Auto-generated constructor stub
+		// TODO LibraryClassLoader 构造器方法。
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class LibraryClassLoader extends URLClassLoader {
 	 */
 	public LibraryClassLoader(URL[] urls) {
 		super(urls);
-		// TODO Auto-generated constructor stub
+		// TODO LibraryClassLoader 构造器方法。
 	}
 
 }

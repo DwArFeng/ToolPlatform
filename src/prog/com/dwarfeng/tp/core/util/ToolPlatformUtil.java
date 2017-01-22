@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -71,6 +72,14 @@ public final class ToolPlatformUtil {
 		
 		defaultLoggerMutilangInfo = new InnerMutilangInfo(mutilangLabel, loggerMutilangDefaultMap);
 		defaultLabelMutilangInfo = new InnerMutilangInfo(mutilangLabel, labelMutilangDefaultMap);
+	}
+	
+	/**
+	 * 获取一个新的阻挡字典指示的输入流。
+	 * @return 新的阻挡字典指示的输入流。
+	 */
+	public final InputStream newBlockDictionary(){
+		return ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/block_dictionary.xml");
 	}
 	
 	/**

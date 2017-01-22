@@ -1,5 +1,7 @@
 package com.dwarfeng.tp.core.model.obv;
 
+import java.util.Set;
+
 import com.dwarfeng.dutil.basic.prog.Obverser;
 
 /**
@@ -14,7 +16,7 @@ public interface BlockObverser extends Obverser {
 	 * @param key 指定的键。
 	 * @param value 指定的值。
 	 */
-	public void fireEntryAdded(String key, String value);
+	public void fireEntryAdded(String key, Set<String> value);
 	
 	/**
 	 * 通知入口被移除。
@@ -28,7 +30,7 @@ public interface BlockObverser extends Obverser {
 	 * @param oldValue 旧的值。
 	 * @param newValue 新的值。
 	 */
-	public void fireEntryChanged(String key, String oldValue, String newValue);
+	public void fireEntryChanged(String key, Set<String> oldValue, Set<String> newValue);
 	
 	/**
 	 * 通知模型被清除。

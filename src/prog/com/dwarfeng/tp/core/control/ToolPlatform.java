@@ -107,8 +107,7 @@ public final class ToolPlatform {
 	
 	
 	/**
-	 * 生成一个默认的工具平台实例。
-	 * 生成一个具有指定 TODO
+	 * 新实例。
 	 */
 	public ToolPlatform() {
 		this.manager = new Manager();
@@ -155,12 +154,12 @@ public final class ToolPlatform {
 	 * @return
 	 */
 	public boolean attemptExit(){
-		//TODO
+		//TODO 为 ToolPlaform 中的 attemptExit 方法添加具体实现。 
 		return true;
 	}
 	
 	public void forceExit(){
-		//TODO
+		//TODO 为 ToolPlaform 中的 forceExit 方法添加具体实现。 
 	}
 	
 	

@@ -21,6 +21,7 @@ public interface Block{
 	 * 解除阻挡。
 	 * <p> 该方法将调用此方法的线程从阻挡池中移除，并且通知其它的阻挡对象重新判断阻挡状况。
 	 * @param key 指定的键。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public void unblock(String key);
 	
