@@ -20,7 +20,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultLibrary;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public class XmlLibraryLoader extends StreamLoader implements Loader<LibraryModel> {
+public class XmlLibraryLoader extends StreamLoader<LibraryModel> implements Loader<LibraryModel> {
 
 	/**
 	 * ÐÂÊµÀý¡£
@@ -61,7 +61,6 @@ public class XmlLibraryLoader extends StreamLoader implements Loader<LibraryMode
 				String key = lib.getName().substring(0, lib.getName().length()-4);
 				URL url = lib.toURI().toURL();
 				libraryModel.put(key, new DefaultLibrary(url));
-				CT.trace(key);
 			}
 			
 		}catch (Exception e) {

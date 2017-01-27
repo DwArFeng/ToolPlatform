@@ -10,7 +10,7 @@ import java.io.OutputStream;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public abstract class StreamSaver implements Closeable {
+public abstract class StreamSaver<T> implements Closeable, Saver<T>{
 
 	/**保存器中的输出流*/
 	protected final OutputStream out;

@@ -21,6 +21,7 @@ public final class DefaultToolInfo implements ToolInfo {
 	private final Map<Locale, String> description;
 	private final String[] authors;
 	private final String toolClass;
+	private final String infoClass;
 	private final String toolFile;
 	private final String[] toolLibs;
 	
@@ -44,6 +45,7 @@ public final class DefaultToolInfo implements ToolInfo {
 			Map<Locale, String> description,
 			String[] authors,
 			String toolClass, 
+			String infoClass,
 			String toolFile, 
 			String[] toolLibs) {
 		Objects.requireNonNull(imageMap, "入口参数 imageMap 不能为 null。");
@@ -51,6 +53,7 @@ public final class DefaultToolInfo implements ToolInfo {
 		Objects.requireNonNull(description, "入口参数 description 不能为 null。");
 		ArrayUtil.requireNotContainsNull(authors, "入口参数 authors 不能为 null，也不能包含 null 元素。");
 		Objects.requireNonNull(toolClass, "入口参数 toolClass 不能为 null。");
+		Objects.requireNonNull(infoClass, "入口参数 infoClass 不能为 null。");
 		Objects.requireNonNull(toolFile, "入口参数 toolFile 不能为 null。");
 		ArrayUtil.requireNotContainsNull(toolLibs, "入口参数 toolLibs 不能为 null，也不能包含 null 元素。");
 		for(ToolImageType type : imageMap.keySet()){
@@ -64,6 +67,7 @@ public final class DefaultToolInfo implements ToolInfo {
 		this.description = description;
 		this.authors = authors;
 		this.toolClass = toolClass;
+		this.infoClass = infoClass;
 		this.toolFile = toolFile;
 		this.toolLibs = toolLibs;
 	}
@@ -83,7 +87,7 @@ public final class DefaultToolInfo implements ToolInfo {
 	 */
 	@Override
 	public Version getVersion() {
-		return this.version;
+		return version;
 	}
 
 	/*
@@ -92,7 +96,7 @@ public final class DefaultToolInfo implements ToolInfo {
 	 */
 	@Override
 	public String getDescription(Locale locale) {
-		return this.description.get(locale);
+		return description.getOrDefault(locale, description.get(null));
 	}
 
 	/*
@@ -101,7 +105,7 @@ public final class DefaultToolInfo implements ToolInfo {
 	 */
 	@Override
 	public String[] getAuthors() {
-		return this.authors;
+		return authors;
 	}
 
 	/*
@@ -110,16 +114,25 @@ public final class DefaultToolInfo implements ToolInfo {
 	 */
 	@Override
 	public String getToolClass() {
-		return this.toolClass;
+		return toolClass;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getInfoClass()
+	 */
+	@Override
+	public String getInfoClass() throws ProcessException {
+		return infoClass;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getToolFile()
 	 */
 	@Override
 	public String getToolFile() {
-		return this.toolFile;
+		return toolFile;
 	}
 
 	/*
@@ -127,7 +140,7 @@ public final class DefaultToolInfo implements ToolInfo {
 	 */
 	@Override
 	public String[] getToolLibs() {
-		return this.toolLibs;
+		return toolLibs;
 	}
 
 }

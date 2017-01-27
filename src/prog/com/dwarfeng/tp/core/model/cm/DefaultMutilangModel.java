@@ -451,7 +451,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		try{
 			try{
 				Set<String> tSupportedKeys = null;
-				String tDefaultValue = defaultValue = null;
+				String tDefaultValue = null;
 				Map<String, String> tMutilangMap = null;
 				try{
 					tSupportedKeys = supportedKeys;

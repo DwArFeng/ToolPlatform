@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.obv.BackgroundObverser;
-import com.dwarfeng.tp.core.model.struct.Process;
+import com.dwarfeng.tp.core.model.struct.Flow;
 
 /**
  * 后台模型。
@@ -14,7 +14,7 @@ import com.dwarfeng.tp.core.model.struct.Process;
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-public interface BackgroundModel extends ObverserSet<BackgroundObverser>, ExternalReadWriteThreadSafe, Iterable<Process>{
+public interface BackgroundModel extends ObverserSet<BackgroundObverser>, ExternalReadWriteThreadSafe, Iterable<Flow>{
 	
 	/**
 	 * 返回该后台模型中用于处理过程的执行器服务。
@@ -26,10 +26,10 @@ public interface BackgroundModel extends ObverserSet<BackgroundObverser>, Extern
 	/**
 	 * 向后台模型中提交一个过程。
 	 * <p> 当指定的进程为 <code>null</code>，或者模型中已经包含了指定的进程时，不进行任何操作。
-	 * @param process 指定的进程。
+	 * @param flow 指定的进程。
 	 * @return 该操作是否对模型造成了改变。
 	 */
-	public boolean submit(Process process);
+	public boolean submit(Flow flow);
 	
 	/**
 	 * 向后台模型中提交指定集合中的所有过程。
@@ -38,14 +38,14 @@ public interface BackgroundModel extends ObverserSet<BackgroundObverser>, Extern
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 * @return 该操作过程是否对模型造成了改变。
 	 */
-	public boolean submitAll(Collection<? extends Process> c);
+	public boolean submitAll(Collection<? extends Flow> c);
 	
 	/**
 	 * 返回该后台进程是否包含指定的过程。
-	 * @param process 指定的对象。
+	 * @param flow 指定的对象。
 	 * @return 该后台模型中是否包含指定的对象。
 	 */
-	public boolean contains(Process process);
+	public boolean contains(Flow flow);
 	
 	/**
 	 * 返回后台进程中是否包含全部的指定对象。
@@ -53,7 +53,7 @@ public interface BackgroundModel extends ObverserSet<BackgroundObverser>, Extern
 	 * @return 后台模型中是否包含所有的指定对象。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public boolean containsAll(Collection<Process> c);
+	public boolean containsAll(Collection<Flow> c);
 	
 	/**
 	 * 返回该模型是否为空。
@@ -72,7 +72,7 @@ public interface BackgroundModel extends ObverserSet<BackgroundObverser>, Extern
 	 * @return 最早的已经完成的过程对象。
 	 * @throws InterruptedException 等待过程中线程被中断。
 	 */
-	public Process takeFinished() throws InterruptedException;
+	public Flow takeFinished() throws InterruptedException;
 	
 	/**
 	 * 清除模型中所有的已经完成的过程。

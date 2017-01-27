@@ -114,5 +114,5 @@ public abstract class AbstractMainFrameController extends AbstractMusuedGuiContr
 			lock.writeLock().unlock();
 		}
 	}
-	
+
 }

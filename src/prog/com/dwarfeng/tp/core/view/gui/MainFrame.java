@@ -1,5 +1,12 @@
 package com.dwarfeng.tp.core.view.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
@@ -7,27 +14,20 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.border.TitledBorder;
 
+import com.dwarfeng.dutil.basic.gui.swing.JAdjustableBorderPanel;
+import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.tp.core.control.ToolPlatform;
+import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
-import com.dwarfeng.dutil.basic.gui.swing.JAdjustableBorderPanel;
-import com.dwarfeng.dutil.basic.prog.ObverserSet;
-
-import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.border.TitledBorder;
-import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.JTabbedPane;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 /**
  * 程序的主界面。
@@ -38,6 +38,12 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	
 	/**观察器集合*/
 	private final Set<MainFrameObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
+	
+	
+	/*
+	 * 所有与多语言有关的对象
+	 */
+	private final TitledBorder north_border;
 	
 	/**多语言接口*/
 	private Mutilang mutilang;
@@ -56,10 +62,16 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	public MainFrame(Mutilang mutilang) {
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
 		
+		this.mutilang = mutilang;
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				fireProgramToClose();
+				fireFireWindowClosing();
+			}
+			@Override
+			public void windowActivated(WindowEvent e) {
+				fireFireWindowActivated();
 			}
 		});
 		
@@ -101,10 +113,16 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		JPanel panel_3 = new JPanel();
 		tabbedPane.addTab("New tab", null, panel_3, null);
 		
+		JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
+		adjustableBorderPanel_1.add(tabbedPane_2, BorderLayout.CENTER);
+		
+		JPanel panel_4 = new JPanel();
+		tabbedPane_2.addTab("New tab", null, panel_4, null);
+		
 		JPanel panel = new JPanel();
-		panel.setBorder(
-				new TitledBorder(null, "\u5DE5\u5177\u680F", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0))
-		);
+		
+		north_border = new TitledBorder(null, getLabel(LabelStringKey.MainFrame_1), TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0));
+		panel.setBorder(north_border);
 		adjustableBorderPanel.add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{30, 0};
@@ -120,6 +138,9 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 0;
 		panel.add(btnNewButton, gbc_btnNewButton);
+		
+		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		adjustableBorderPanel.add(tabbedPane_1, BorderLayout.SOUTH);
 	}
 
 	/*
@@ -137,8 +158,11 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
+		Objects.requireNonNull(mutilang , "入口参数 mutilang 不能为 null。");
+		
 		if(Objects.equals(mutilang, this.mutilang)) return false;
 		this.mutilang = mutilang;
+		north_border.setTitle(getLabel(LabelStringKey.MainFrame_1));
 		return true;
 	}
 
@@ -178,9 +202,19 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		obversers.clear();
 	}
 	
-	private void fireProgramToClose() {
+	private String getLabel(LabelStringKey labelStringKey){
+		return mutilang.getString(labelStringKey.getName());
+	}
+	
+	private void fireFireWindowClosing() {
 		for(MainFrameObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireProgramToClose();
+			if(Objects.nonNull(obverser)) obverser.fireWindowClosing();
+		}
+	}
+
+	private void fireFireWindowActivated() {
+		for(MainFrameObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireFireWindowActivated();
 		}
 	}
 

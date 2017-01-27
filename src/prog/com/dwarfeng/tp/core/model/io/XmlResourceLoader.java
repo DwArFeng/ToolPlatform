@@ -20,7 +20,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultResource;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public class XmlResourceLoader extends StreamLoader implements Loader<ResourceModel>{
+public class XmlResourceLoader extends StreamLoader<ResourceModel> {
 
 	/**
 	 * ÐÂÊµÀý¡£

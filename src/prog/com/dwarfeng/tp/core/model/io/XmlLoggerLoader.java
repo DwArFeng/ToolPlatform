@@ -19,7 +19,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultLoggerInfo;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public final class XmlLoggerLoader extends StreamLoader implements Loader<LoggerModel>{
+public final class XmlLoggerLoader extends StreamLoader<LoggerModel> {
 
 	/**
 	 * ÐÂÊµÀý¡£

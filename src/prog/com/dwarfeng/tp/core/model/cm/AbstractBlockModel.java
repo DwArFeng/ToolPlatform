@@ -21,7 +21,6 @@ public abstract class AbstractBlockModel implements BlockModel {
 	protected final Set<BlockObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	/**模型的同步读写锁。*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
-	/**模型的执行器服务*/
 
 	/*
 	 * (non-Javadoc)

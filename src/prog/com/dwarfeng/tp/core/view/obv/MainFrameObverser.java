@@ -10,10 +10,13 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 public interface MainFrameObverser extends Obverser{
 	
 	/**
-	 * 通知程序将会被关闭。
+	 * 通知界面的关闭按钮被点击。
 	 */
-	public void fireProgramToClose();
-	
-	
+	public void fireWindowClosing();
 
+	/**
+	 * 通知界面被激活。
+	 */
+	public void fireFireWindowActivated();
+	
 }

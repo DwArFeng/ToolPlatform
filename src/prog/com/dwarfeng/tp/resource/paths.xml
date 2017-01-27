@@ -6,5 +6,5 @@
 	<info key="mutilang.logger.setting" path="attributes/mutilang/logger/setting.xml" default="/com/dwarfeng/tp/resource/defaultres/mutilang/logger/setting.xml"></info>
 	<info key="mutilang.label.setting" path="attributes/mutilang/label/setting.xml" default="/com/dwarfeng/tp/resource/defaultres/mutilang/label/setting.xml"></info>
 	<info key="tool.info" path="attributes/tool/info.xml" default="/com/dwarfeng/tp/resource/defaultres/tool/info.xml"></info>
-	<info key="tool.libs" path="attributes/tool/libs.xml" default="/com/dwarfeng/tp/resource/defaultres/tool/libs.xml"></info>
+	<info key="tool.lib" path="attributes/tool/lib.xml" default="/com/dwarfeng/tp/resource/defaultres/tool/lib.xml"></info>
 </root>

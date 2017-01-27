@@ -78,7 +78,7 @@ public final class ToolPlatformUtil {
 	 * 获取一个新的阻挡字典指示的输入流。
 	 * @return 新的阻挡字典指示的输入流。
 	 */
-	public final InputStream newBlockDictionary(){
+	public final static InputStream newBlockDictionary(){
 		return ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/block_dictionary.xml");
 	}
 	
@@ -129,7 +129,7 @@ public final class ToolPlatformUtil {
 	 * @return 默认的标签多语言信息。
 	 */
 	public final static MutilangInfo getDefaultLabelMutilangInfo(){
-		return defaultLoggerMutilangInfo;
+		return defaultLabelMutilangInfo;
 	}
 	
 	/**

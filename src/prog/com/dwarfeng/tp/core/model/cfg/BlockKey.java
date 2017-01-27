@@ -1,10 +1,43 @@
 package com.dwarfeng.tp.core.model.cfg;
 
+import com.dwarfeng.dutil.basic.str.Name;
+import com.dwarfeng.tp.core.model.struct.DefaultName;
+
 /**
  * ×èµ²¼ü¡£
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-public enum BlockKey {
+public enum BlockKey implements Name{
+	
+	INITIALIZE(new DefaultName("initialize")),
+	LOAD_LIB(new DefaultName("load_lib")),
+	CHECK_LIB(new DefaultName("check_lib")),
+	
+	;
+
+	private Name name;
+	
+	private BlockKey(Name name) {
+		this.name = name;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.dutil.basic.str.Name#getName()
+	 */
+	@Override
+	public String getName() {
+		return name.getName();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString() {
+		return name.getName();
+	}
 
 }

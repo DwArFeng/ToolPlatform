@@ -4,9 +4,9 @@ import java.util.concurrent.Callable;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
-import com.dwarfeng.tp.core.model.obv.ProcessObverser;
+import com.dwarfeng.tp.core.model.obv.FlowObverser;
 
-public interface Process extends Callable<Object>, ObverserSet<ProcessObverser>, ExternalReadWriteThreadSafe {
+public interface Flow extends Callable<Object>, ObverserSet<FlowObverser>, ExternalReadWriteThreadSafe {
 
 	/**
 	 * 返回过程的进度。

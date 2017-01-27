@@ -1,9 +1,13 @@
 package com.dwarfeng.tp.core.control;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReadWriteLock;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -19,15 +23,19 @@ import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
 import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigLoader;
 import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
-import com.dwarfeng.tp.core.control.act.ProcessProvider;
+import com.dwarfeng.tp.core.control.act.FlowProvider;
 import com.dwarfeng.tp.core.control.act.UiObverserProvider;
+import com.dwarfeng.tp.core.model.cfg.BlockKey;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
+import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cfg.ModalConfig;
 import com.dwarfeng.tp.core.model.cfg.ResourceKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
+import com.dwarfeng.tp.core.model.cm.BlockModel;
 import com.dwarfeng.tp.core.model.cm.CoreConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultBackgroundModel;
+import com.dwarfeng.tp.core.model.cm.DefaultBlockModel;
 import com.dwarfeng.tp.core.model.cm.DefaultCoreConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultLibraryModel;
 import com.dwarfeng.tp.core.model.cm.DefaultLoggerModel;
@@ -41,6 +49,7 @@ import com.dwarfeng.tp.core.model.cm.ModalConfigModel;
 import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
+import com.dwarfeng.tp.core.model.io.XmlBlockLoader;
 import com.dwarfeng.tp.core.model.io.XmlLibraryLoader;
 import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
 import com.dwarfeng.tp.core.model.io.XmlMutilangLoader;
@@ -49,10 +58,11 @@ import com.dwarfeng.tp.core.model.obv.LoggerAdapter;
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 import com.dwarfeng.tp.core.model.obv.MutilangAdapter;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
-import com.dwarfeng.tp.core.model.struct.AbstractProcess;
-import com.dwarfeng.tp.core.model.struct.DefaultFinishedProcessTaker;
-import com.dwarfeng.tp.core.model.struct.FinishedProcessTaker;
-import com.dwarfeng.tp.core.model.struct.Process;
+import com.dwarfeng.tp.core.model.struct.AbstractFlow;
+import com.dwarfeng.tp.core.model.struct.DefaultFinishedFlowTaker;
+import com.dwarfeng.tp.core.model.struct.FinishedFlowTaker;
+import com.dwarfeng.tp.core.model.struct.Flow;
+import com.dwarfeng.tp.core.model.struct.LibraryKeyChecker;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
 import com.dwarfeng.tp.core.model.struct.RuntimeState;
@@ -69,7 +79,7 @@ import com.dwarfeng.tp.core.view.struct.SplashScreenController;
  * ToolPlatform（DwArFeng 的工具平台）。
  * <p> 该工具平台是用来管理 DwArFeng 编写的众多的工具的。
  * 该工具平台利用反射读取其工具目录下的所有工具，并且拥有将这些工具进行分标签管理、搜索、分类的功能。
- * <p> TODO 需要进行详细的描述。
+ * <p> TODO ToolPlatform 的Doc文档需要进行详细的描述。
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -98,7 +108,7 @@ public final class ToolPlatform {
 	/**程序的界面观察器提供器*/
 	private final UiObverserProvider uiObverserProvider = new InnerUiObverserProvider();
 	/**程序的过程提供器*/
-	private final ProcessProvider processProvider = new InnerProcessProvider();
+	private final FlowProvider flowProvider = new InnerFlowProvider();
 	/**程序管理器*/
 	private final Manager manager;
 	/**程序的状态*/
@@ -121,17 +131,17 @@ public final class ToolPlatform {
 	 */
 	public void start() throws ProcessException{
 		//开启初始化过程
-		final Process initializeProcess = processProvider.newInitializeProcess();
-		manager.getBackgroundModel().submit(initializeProcess);
-		while(! initializeProcess.isDone()){
+		final Flow initializeFlow = flowProvider.newInitializeFlow();
+		manager.getBackgroundModel().submit(initializeFlow);
+		while(! initializeFlow.isDone()){
 			try {
-				initializeProcess.waitFinished();
+				initializeFlow.waitFinished();
 			} catch (InterruptedException ignore) {
 				//中断也要按照基本法
 			}
 		}
-		if(initializeProcess.getThrowable() != null){
-			throw new ProcessException("初始化过程失败", initializeProcess.getThrowable());
+		if(initializeFlow.getThrowable() != null){
+			throw new ProcessException("初始化过程失败", initializeFlow.getThrowable());
 		}
 	}
 	
@@ -184,19 +194,20 @@ public final class ToolPlatform {
 		private ToolInfoModel toolInfoModel = new DefaultToolInfoModel();
 		private BackgroundModel backgroundModel = new DefaultBackgroundModel();
 		private LibraryModel libraryModel = new DefaultLibraryModel();
+		private BlockModel blockModel = new DefaultBlockModel();
 		//structs
-		private FinishedProcessTaker finishedProcessTaker = new DefaultFinishedProcessTaker(backgroundModel);
+		private FinishedFlowTaker finishedFlowTaker = new DefaultFinishedFlowTaker(backgroundModel);
 		//obvs
 		private LoggerObverser loggerObverser = new LoggerAdapter() {
 			@Override
 			public void fireUpdated() {
-				finishedProcessTaker.setLogger(loggerModel.getLogger());
+				finishedFlowTaker.setLogger(loggerModel.getLogger());
 			}
 		};
 		private MutilangObverser loggerMutilangObverser = new MutilangAdapter() {
 			@Override
 			public void fireUpdated() {
-				finishedProcessTaker.setMutilang(loggerMutilangModel.getMutilang());
+				finishedFlowTaker.setMutilang(loggerMutilangModel.getMutilang());
 			}
 		};
 		private ConfigObverser coreConfigObverser = new ConfigAdapter() {
@@ -352,12 +363,19 @@ public final class ToolPlatform {
 		public LibraryModel getLibraryModel() {
 			return libraryModel;
 		}
+		
+		/**
+		 * @return the blockModel
+		 */
+		public BlockModel getBlockModel(){
+			return blockModel;
+		}
 
 		/**
-		 * @return the finishedProcessTaker
+		 * @return the finishedFlowTaker
 		 */
-		public FinishedProcessTaker getFinishedProcessTaker() {
-			return finishedProcessTaker;
+		public FinishedFlowTaker getFinishedFlowTaker() {
+			return finishedFlowTaker;
 		}
 
 		/**
@@ -377,41 +395,148 @@ public final class ToolPlatform {
 		
 	}
 	
-	private final class InnerProcessProvider implements ProcessProvider{
+	private final class InnerFlowProvider implements FlowProvider{
 
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.control.proc.ProcessProvider#getStartProcess()
+		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newInitializeFlow()
 		 */
 		@Override
-		public Process newInitializeProcess() {
-			return new InitializeProcess();
+		public Flow newInitializeFlow() {
+			return new InitializeFlow();
 		}
 		
-		
-		
-		
-		
-		private void info(LoggerStringKey loggerStringKey){
-			manager.getLoggerModel().getLogger().info(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newLoadLibFlow()
+		 */
+		@Override
+		public Flow newLoadLibFlow() {
+			return new LoadLibFlow();
 		}
 		
-		private void warn(LoggerStringKey loggerStringKey, Throwable throwable){
-			manager.getLoggerModel().getLogger().warn(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()), throwable);
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newCheckLibFlow()
+		 */
+		@Override
+		public Flow newCheckLibFlow() {
+			return new CheckLibFlow();
 		}
+
 		
-		private final class InitializeProcess extends AbstractProcess{
+		/**
+		 * 内部抽象过程。
+		 * <p> 定义常用的内部用方法。
+		 * @author DwArFeng
+		 * @since 0.0.0-alpha
+		 */
+		private abstract class InnerAbstractFlow extends AbstractFlow{
 			
-			public InitializeProcess() {
-				super(0, 0, false, false);
+			private final String blockKey;
+			
+			/**
+			 * 新实例。
+			 * @param blockKey 阻挡键, 不能为 <code>null</code>。
+			 * @throws NullPointerException 入口参数为 <code>null</code>。
+			 */
+			public InnerAbstractFlow(BlockKey blockKey) {
+				this(blockKey, 0, 0, false, false);
+			}
+			
+			/**
+			 * 新实例。
+			 * @param blockKey 阻挡键，不能为 <code>null</code>。
+			 * @param progress 当前进度。
+			 * @param totleProgress 总进度。
+			 * @param determinateFlag 是否为进度已知的流程。
+			 * @param cancelableFlag 是否能够被取消。
+			 */
+			public InnerAbstractFlow(BlockKey blockKey, int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag ){
+				super(progress, totleProgress, determinateFlag, cancelableFlag);
+				Objects.requireNonNull(blockKey, "入口参数 blockKey 不能为 null。");
+				this.blockKey = blockKey.getName();
 			}
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.model.struct.AbstractProcess#process()
+			 * @see com.dwarfeng.tp.core.model.struct.AbstractFlow#process()
 			 */
 			@Override
 			protected void process() {
+				manager.getBlockModel().getBlock().block(blockKey);
+				try{
+					subProcess();
+				}finally {
+					manager.getBlockModel().getBlock().unblock(blockKey);
+				}
+			}
+			
+			/**
+			 * 子处理方法。
+			 * <p> 该方法是主要的处理方法。
+			 * <p> 该方法不允许抛出任何异常。
+			 */
+			protected abstract void subProcess();
+
+			/**
+			 * 向记录器中输入一条INFO类信息。
+			 * @param loggerStringKey 指定的记录器键。
+			 */
+			protected void info(LoggerStringKey loggerStringKey){
+				manager.getLoggerModel().getLogger().info(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
+			}
+
+			/**
+			 * 向记录器中format一条INFO类信息。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @param args format参数。
+			 */
+			protected void formatInfo(LoggerStringKey loggerStringKey, Object... args){
+				manager.getLoggerModel().getLogger().info(String.format(manager.getLoggerMutilangModel().getMutilang().getString(
+						loggerStringKey.getName()),args));	
+			}
+
+			/**
+			 * 向记录器中输入一条WARN类信息。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @param throwable 指定的可抛出对象。
+			 */
+			protected void warn(LoggerStringKey loggerStringKey, Throwable throwable){
+				manager.getLoggerModel().getLogger().warn(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()), throwable);
+			}
+
+			/**
+			 * 获取指定键对应的资源。
+			 * @param resourceKey 指定的键。
+			 * @return 指定的键对应的资源。
+			 */
+			protected Resource getResource(ResourceKey resourceKey){
+				return manager.getResourceModel().get(resourceKey.getName());
+			}
+			
+			/**
+			 * 设置信息为指定的信息。
+			 * @param loggerStringKey 指定的记录器键。
+			 */
+			protected void message(LoggerStringKey loggerStringKey){
+				setMessage(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
+			}
+			
+		}
+		
+		private final class InitializeFlow extends InnerAbstractFlow{
+			
+			public InitializeFlow() {
+				super(BlockKey.INITIALIZE);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 */
+			@Override
+			protected void subProcess() {
 				try{
 					if(getState() != RuntimeState.NOT_START){
 						throw new IllegalStateException("程序已经启动或已经结束");
@@ -422,12 +547,13 @@ public final class ToolPlatform {
 						manager.getLoggerModel().update();
 						manager.getLabelMutilangModel().update();
 						manager.getLoggerMutilangModel().update();
+						manager.getBlockModel().update();
 					}catch (ProcessException ignore) {
 						//此时均为默认值，不可能抛出异常。
 					}
 					
 					//加载程序的资源模型
-					info(LoggerStringKey.ToolPlatform_ProcessProvider_3);
+					info(LoggerStringKey.ToolPlatform_FlowProvider_3);
 					manager.getResourceModel().clear();
 					XmlResourceLoader resourceLoader = null;
 					try{
@@ -440,7 +566,7 @@ public final class ToolPlatform {
 					}
 					
 					//加载程序中的记录器模型。
-					info(LoggerStringKey.ToolPlatform_ProcessProvider_5);
+					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
 					manager.getLoggerModel().clear();
 					if(manager.getLoggerModel().getLoggerContext() != null){
 						manager.getLoggerModel().getLoggerContext().stop();
@@ -450,7 +576,7 @@ public final class ToolPlatform {
 						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
 						loggerLoader.load(manager.getLoggerModel());
 					}catch (IOException e) {
-						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
 						getResource(ResourceKey.LOGGER_SETTING).reset();
 						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
 						loggerLoader.load(manager.getLoggerModel());
@@ -466,14 +592,14 @@ public final class ToolPlatform {
 					}
 					
 					//加载记录器多语言配置。
-					info(LoggerStringKey.ToolPlatform_ProcessProvider_7);
+					info(LoggerStringKey.ToolPlatform_FlowProvider_7);
 					manager.getLoggerMutilangModel().clear();
 					XmlMutilangLoader loggerMutilangLoader = null;
 					try{
 						loggerMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LOGGER_SETTING).openInputStream());
 						loggerMutilangLoader.load(manager.getLoggerMutilangModel());
 					}catch (IOException e) {
-						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
 						getResource(ResourceKey.MUTILANG_LOGGER_SETTING).reset();
 						loggerMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LOGGER_SETTING).openInputStream());
 						loggerMutilangLoader.load(manager.getLoggerMutilangModel());
@@ -489,13 +615,13 @@ public final class ToolPlatform {
 					}
 					
 					//加载程序的核心配置。
-					info(LoggerStringKey.ToolPlatform_ProcessProvider_6);
+					info(LoggerStringKey.ToolPlatform_FlowProvider_6);
 					StreamConfigLoader coreConfigLoader = null;
 					try{
 						coreConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_CORE).openInputStream());
 						coreConfigLoader.load(manager.getCoreConfigModel());
 					}catch (IOException e) {
-						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
 						getResource(ResourceKey.CONFIGURATION_CORE).reset();
 						coreConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_CORE).openInputStream());
 						coreConfigLoader.load(manager.getCoreConfigModel());
@@ -509,23 +635,39 @@ public final class ToolPlatform {
 					boolean splashFlag = manager.getCoreConfigModel().isShowSplashScreen();
 					TimeMeasurer tm = new TimeMeasurer();
 					if(splashFlag){
-						info(LoggerStringKey.ToolPlatform_ProcessProvider_8);
-						splash(LoggerStringKey.ToolPlatform_ProcessProvider_8);
+						info(LoggerStringKey.ToolPlatform_FlowProvider_8);
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_8);
 						tm.start();
 					}
 					
-					//加载标签多语言配置。
-					info(LoggerStringKey.ToolPlatform_ProcessProvider_9);
-					manager.getLabelMutilangModel().clear();
+					//加载阻挡模型字典
+					info(LoggerStringKey.ToolPlatform_FlowProvider_13);
 					if (splashFlag) {
-						splash(LoggerStringKey.ToolPlatform_ProcessProvider_9);
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_13);
 					}
+					manager.getBlockModel().clear();
+					XmlBlockLoader blockLoader = null;
+					try{
+						blockLoader = new XmlBlockLoader(ToolPlatformUtil.newBlockDictionary());
+						blockLoader.load(manager.getBlockModel());
+					}finally {
+						if(Objects.nonNull(blockLoader)){
+							blockLoader.close();
+						}
+					}
+					
+					//加载标签多语言配置。
+					info(LoggerStringKey.ToolPlatform_FlowProvider_9);
+					if (splashFlag) {
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_9);
+					}
+					manager.getLabelMutilangModel().clear();
 					XmlMutilangLoader labelMutilangLoader = null;
 					try{
 						labelMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LABEL_SETTING).openInputStream());
 						labelMutilangLoader.load(manager.getLabelMutilangModel());
 					}catch(IOException e){
-						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
 						getResource(ResourceKey.MUTILANG_LABEL_SETTING).reset();
 						labelMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LABEL_SETTING).openInputStream());
 						labelMutilangLoader.load(manager.getLabelMutilangModel());
@@ -534,18 +676,23 @@ public final class ToolPlatform {
 							labelMutilangLoader.close();
 						}
 					}
+					try{
+						manager.getLabelMutilangModel().update();
+					}catch (ProcessException e) {
+						warn(LoggerStringKey.Update_LabelMutilang_1, e);
+					}
 					
 					//加载不可见模态模型
-					info(LoggerStringKey.ToolPlatform_ProcessProvider_10);
+					info(LoggerStringKey.ToolPlatform_FlowProvider_10);
 					if (splashFlag) {
-						splash(LoggerStringKey.ToolPlatform_ProcessProvider_10);
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_10);
 					}
 					StreamConfigLoader modalConfigLoader = null;
 					try{
 						modalConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_MODAL).openInputStream());
 						modalConfigLoader.load(manager.getModalConfigModel());
 					}catch (IOException e) {
-						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
 						getResource(ResourceKey.CONFIGURATION_MODAL).reset();
 						modalConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_MODAL).openInputStream());
 						modalConfigLoader.load(manager.getModalConfigModel());
@@ -556,19 +703,19 @@ public final class ToolPlatform {
 					}
 					
 					//加载库模型
-					info(LoggerStringKey.ToolPlatform_ProcessProvider_12);
-					manager.getLibraryModel().clear();
+					info(LoggerStringKey.ToolPlatform_FlowProvider_12);
 					if (splashFlag) {
-						splash(LoggerStringKey.ToolPlatform_ProcessProvider_12);
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_12);
 					}
+					manager.getLibraryModel().clear();
 					XmlLibraryLoader libraryLoader = null;
 					try{
-						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIBS).openInputStream());
+						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIB).openInputStream());
 						libraryLoader.load(manager.getLibraryModel());
 					}catch (IOException e) {
-						warn(LoggerStringKey.ToolPlatform_ProcessProvider_4, e);
-						getResource(ResourceKey.TOOL_LIBS).reset();
-						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIBS).openInputStream());
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+						getResource(ResourceKey.TOOL_LIB).reset();
+						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIB).openInputStream());
 						libraryLoader.load(manager.getLibraryModel());
 					}finally{
 						if(Objects.nonNull(libraryLoader)){
@@ -577,9 +724,9 @@ public final class ToolPlatform {
 					}
 					
 					//唤起主界面
-					info(LoggerStringKey.ToolPlatform_ProcessProvider_11);
+					info(LoggerStringKey.ToolPlatform_FlowProvider_11);
 					if(splashFlag){
-						splash(LoggerStringKey.ToolPlatform_ProcessProvider_11);
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_11);
 					}
 					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 						@Override
@@ -617,8 +764,9 @@ public final class ToolPlatform {
 					});
 					
 					//设置成功消息
-					message(LoggerStringKey.ToolPlatform_ProcessProvider_1);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_1);
 					setState(RuntimeState.RUNNING);
+					
 				}catch (Exception e) {
 					//将启动窗口关闭。
 					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
@@ -628,14 +776,10 @@ public final class ToolPlatform {
 						}
 					});
 					setThrowable(e);
-					message(LoggerStringKey.ToolPlatform_ProcessProvider_2);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_2);
 				}
 			}
-			
-			private Resource getResource(ResourceKey resourceKey){
-				return manager.getResourceModel().get(resourceKey.getName());
-			}
-			
+
 			private void splash(LoggerStringKey loggerStringKey){
 				ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 					@Override
@@ -645,27 +789,156 @@ public final class ToolPlatform {
 					}
 				});
 			}
-			private void message(LoggerStringKey loggerStringKey){
-				setMessage(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
-			}
 			
 		}
 
+		private final class LoadLibFlow extends InnerAbstractFlow{
+			
+			public LoadLibFlow() {
+				super(BlockKey.LOAD_LIB);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 */
+			@Override
+			protected void subProcess() {
+				try{
+					if(getState() != RuntimeState.RUNNING){
+						throw new IllegalStateException("程序还未启动或已经结束");
+					}
+					
+					//读取库文件
+					info(LoggerStringKey.ToolPlatform_FlowProvider_14);
+					manager.getLibraryModel().clear();
+					XmlLibraryLoader libraryLoader = null;
+					try{
+						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIB).openInputStream());
+						libraryLoader.load(manager.getLibraryModel());
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+						getResource(ResourceKey.TOOL_LIB).reset();
+						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIB).openInputStream());
+						libraryLoader.load(manager.getLibraryModel());
+					}finally{
+						if(Objects.nonNull(libraryLoader)){
+							libraryLoader.close();
+						}
+					}
+					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_15);
+					
+				}catch (Exception e) {
+					message(LoggerStringKey.ToolPlatform_FlowProvider_16);
+				}
+			}
+			
+		}
 		
+		private final class CheckLibFlow extends InnerAbstractFlow{
+
+			public CheckLibFlow() {
+				super(BlockKey.CHECK_LIB);
+			}
+			
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 */
+			@Override
+			protected void subProcess() {
+				try{
+					if(getState() != RuntimeState.RUNNING){
+						throw new IllegalStateException("程序还未启动或已经结束");
+					}
+					
+					//开始构造条件
+					info(LoggerStringKey.ToolPlatform_FlowProvider_17);
+					
+					Set<String> keys = new HashSet<>();
+					ReadWriteLock modelLock = manager.getLibraryModel().getLock();
+					
+					modelLock.readLock().lock();
+					try{
+						keys.addAll(manager.getLibraryModel().keySet());
+					}finally {
+						modelLock.readLock().unlock();
+					}
+					
+					
+					InputStream in = null;
+					LibraryKeyChecker libraryChecker = null;
+					try{
+						in = getResource(ResourceKey.TOOL_LIB).openInputStream();
+						libraryChecker = new LibraryKeyChecker(in);
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+						in = getResource(ResourceKey.TOOL_LIB).openInputStream();
+						libraryChecker = new LibraryKeyChecker(in);
+					}finally{
+						if(Objects.nonNull(in)){
+							in.close();
+						}
+					}
+					
+					if(isCancel()){
+						message(LoggerStringKey.ToolPlatform_FlowProvider_21);
+						return;
+					}
+					
+					//设置过程是可以确定进度的，并确定进度
+					setTotleProgress(manager.getLibraryModel().size());
+					setDeterminate(true);
+					
+					//开始循环检查
+					for(String key : keys){
+						if(isCancel()) return;
+						if(libraryChecker.nonValid(key)){
+							formatInfo(LoggerStringKey.ToolPlatform_FlowProvider_18, key);
+							manager.getLibraryModel().remove(key);
+						}
+						setProgress(getProgress() + 1);
+					}
+					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_19);
+					
+				}catch (Exception e) {
+					message(LoggerStringKey.ToolPlatform_FlowProvider_20);
+				}
+			}
+			
+		}
 	}
 	
 	private final class InnerUiObverserProvider implements UiObverserProvider{
+		
+		public InnerUiObverserProvider() {
+			//TODO 补充
+		}
 		
 		private final MainFrameObverser mainFrameObverser = new MainFrameObverser() {
 			
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireProgramClosed()
+			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireWindowClosing()
 			 */
 			@Override
-			public void fireProgramToClose() {
+			public void fireWindowClosing() {
 				CT.trace("CLICKED");
 			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireFireWindowActivated()
+			 */
+			@Override
+			public void fireFireWindowActivated() {
+				manager.getBackgroundModel().submit(flowProvider.newLoadLibFlow());
+				manager.getBackgroundModel().submit(flowProvider.newCheckLibFlow());
+				
+			}
+			
 		};
 
 		

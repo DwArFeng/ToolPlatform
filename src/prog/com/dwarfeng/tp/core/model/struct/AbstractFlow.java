@@ -8,7 +8,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.dwarfeng.tp.core.model.obv.ProcessObverser;
+import com.dwarfeng.tp.core.model.obv.FlowObverser;
 
 /**
  * 过程类。
@@ -19,10 +19,10 @@ import com.dwarfeng.tp.core.model.obv.ProcessObverser;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public abstract class AbstractProcess implements Process{
+public abstract class AbstractFlow implements Flow{
 	
 	/**观察器集合*/
-	protected final Set<ProcessObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
+	protected final Set<FlowObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	/**同步读写锁*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
 	/**写锁的中断状态*/
@@ -53,7 +53,7 @@ public abstract class AbstractProcess implements Process{
 	 * <br> 是不确定的过程；
 	 * <br> 是不可取消的过程。
 	 */
-	public AbstractProcess() {
+	public AbstractFlow() {
 		this(0, 0, false, false);
 	}
 	
@@ -64,15 +64,16 @@ public abstract class AbstractProcess implements Process{
 	 * @param determinateFlag 指定的确定性标志。
 	 * @param cancelableFlag 指定的可取消标志。
 	 */
-	public AbstractProcess(int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag) {
+	public AbstractFlow(int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag) {
 		this.progress = progress;
 		this.totleProgress = totleProgress;
 		this.determinateFlag = determinateFlag;
 		this.cancelableFlag = cancelableFlag;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#getProgress()
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#getProgress()
 	 */
 	@Override
 	public int getProgress() {
@@ -107,13 +108,13 @@ public abstract class AbstractProcess implements Process{
 	}
 
 	private void fireProgressChanged(int oldValue, int newValue) {
-		for(ProcessObverser obverser : obversers){
+		for(FlowObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireProgressChanged(this, oldValue, newValue);
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#getTotleProgress()
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#getTotleProgress()
 	 */
 	@Override
 	public int getTotleProgress() {
@@ -148,13 +149,13 @@ public abstract class AbstractProcess implements Process{
 	}
 
 	private void fireTotleProgressChanged(int oldValue, int newValue) {
-		for(ProcessObverser obverser : obversers){
+		for(FlowObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireTotleProgressChanged(this, oldValue, newValue);
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#isDeterminate()
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#isDeterminate()
 	 */
 	@Override
 	public boolean isDeterminate() {
@@ -184,15 +185,15 @@ public abstract class AbstractProcess implements Process{
 		}
 	}
 	
-	private void fireDeterminateChanged(Process process, boolean oldValue, boolean newValue) {
-		for(ProcessObverser obverser : obversers){
+	private void fireDeterminateChanged(Flow flow, boolean oldValue, boolean newValue) {
+		for(FlowObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireDeterminateChanged(this, oldValue, newValue);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#isCancelable()
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#isCancelable()
 	 */
 	@Override
 	public boolean isCancelable(){
@@ -223,13 +224,13 @@ public abstract class AbstractProcess implements Process{
 	}
 	
 	private void fireCancelableChanged(boolean oldValue, boolean newValue) {
-		for(ProcessObverser obverser : obversers){
+		for(FlowObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireCancelableChanged(this, oldValue, newValue);
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#isCancel()
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#isCancel()
 	 */
 	@Override
 	public boolean isCancel(){
@@ -261,13 +262,13 @@ public abstract class AbstractProcess implements Process{
 	}
 
 	private void fireCanceled() {
-		for(ProcessObverser obverser : obversers){
+		for(FlowObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireCanceled(this);
 		}
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#isDone()
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#isDone()
 	 */
 	@Override
 	public boolean isDone(){
@@ -280,7 +281,7 @@ public abstract class AbstractProcess implements Process{
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#getMessage()
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#getMessage()
 	 */
 	@Override
 	public String getMessage(){
@@ -311,14 +312,14 @@ public abstract class AbstractProcess implements Process{
 	}
 	
 	private void fireMessageChanged(String oldValue, String newValue) {
-		for(ProcessObverser obverser : obversers){
+		for(FlowObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireMessageChanged(this, oldValue, newValue);
 		}
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#getThrowable()
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#getThrowable()
 	 */
 	@Override
 	public Throwable getThrowable(){
@@ -350,7 +351,7 @@ public abstract class AbstractProcess implements Process{
 	}
 	
 	private void fireThrowableChanged(Throwable oldValue, Throwable newValue) {
-		for(ProcessObverser obverser : obversers){
+		for(FlowObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireThrowableChanged(this, oldValue, newValue);
 		}
 	}
@@ -366,7 +367,7 @@ public abstract class AbstractProcess implements Process{
 	}
 
 	private void fireDone() {
-		for(ProcessObverser obverser : obversers){
+		for(FlowObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireDone(this);
 		}
 	}
@@ -411,7 +412,7 @@ public abstract class AbstractProcess implements Process{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#getObversers()
 	 */
 	@Override
-	public Set<ProcessObverser> getObversers() {
+	public Set<FlowObverser> getObversers() {
 		lock.readLock().lock();
 		try{
 			return obversers;
@@ -425,7 +426,7 @@ public abstract class AbstractProcess implements Process{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#addObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean addObverser(ProcessObverser obverser) {
+	public boolean addObverser(FlowObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.add(obverser);
@@ -439,7 +440,7 @@ public abstract class AbstractProcess implements Process{
 	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#removeObverser(com.dwarfeng.dutil.basic.prog.Obverser)
 	 */
 	@Override
-	public boolean removeObverser(ProcessObverser obverser) {
+	public boolean removeObverser(FlowObverser obverser) {
 		lock.writeLock().lock();
 		try{
 			return obversers.remove(obverser);
@@ -464,7 +465,7 @@ public abstract class AbstractProcess implements Process{
 
 	/*
 	 *  (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Process#waitFinished()
+	 * @see com.dwarfeng.tp.core.model.struct.Flow#waitFinished()
 	 */
 	@Override
 	public void waitFinished() throws InterruptedException {

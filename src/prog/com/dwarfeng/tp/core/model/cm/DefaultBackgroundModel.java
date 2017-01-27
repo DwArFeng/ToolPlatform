@@ -12,9 +12,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.Condition;
 
 import com.dwarfeng.tp.core.model.obv.BackgroundObverser;
-import com.dwarfeng.tp.core.model.obv.ProcessObverser;
+import com.dwarfeng.tp.core.model.obv.FlowObverser;
 import com.dwarfeng.tp.core.model.struct.NumberedThreadFactory;
-import com.dwarfeng.tp.core.model.struct.Process;
+import com.dwarfeng.tp.core.model.struct.Flow;
 
 /**
  * 默认后台模型。
@@ -28,20 +28,20 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("background");
 	
 	private final Condition condition = lock.writeLock().newCondition();
-	private final Set<Process> processes = new HashSet<>();
-	private final Queue<Process> finishedProcesses = new ArrayDeque<>();
-	private final ProcessObverser processObverser = new ProcessObverser() {
+	private final Set<Flow> flows = new HashSet<>();
+	private final Queue<Flow> finishedFlows = new ArrayDeque<>();
+	private final FlowObverser flowObverser = new FlowObverser() {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireTotleProgressChanged(com.dwarfeng.tp.core.model.struct.Process, int, int)
+		 * @see com.dwarfeng.tp.core.model.obv.FlowObverser#fireTotleProgressChanged(com.dwarfeng.tp.core.model.struct.Flow, int, int)
 		 */
 		@Override
-		public void fireTotleProgressChanged(Process process, int oldValue, int newValue) {
+		public void fireTotleProgressChanged(Flow flow, int oldValue, int newValue) {
 			lock.writeLock().lock();
 			try{
 				for(BackgroundObverser obverser : obversers){
-					if(Objects.nonNull(obverser)) obverser.fireProcessTotleProgressChanged(process, oldValue, newValue);
+					if(Objects.nonNull(obverser)) obverser.fireFlowTotleProgressChanged(flow, oldValue, newValue);
 				}
 			}finally {
 				lock.writeLock().unlock();
@@ -50,14 +50,14 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireThrowableChanged(com.dwarfeng.tp.core.model.struct.Process, java.lang.Throwable, java.lang.Throwable)
+		 * @see com.dwarfeng.tp.core.model.obv.FlowObverser#fireThrowableChanged(com.dwarfeng.tp.core.model.struct.Flow, java.lang.Throwable, java.lang.Throwable)
 		 */
 		@Override
-		public void fireThrowableChanged(Process process, Throwable oldValue, Throwable newValue) {
+		public void fireThrowableChanged(Flow flow, Throwable oldValue, Throwable newValue) {
 			lock.writeLock().lock();
 			try{
 				for(BackgroundObverser obverser : obversers){
-					if(Objects.nonNull(obverser)) obverser.fireProcessThrowableChanged(process, oldValue, newValue);
+					if(Objects.nonNull(obverser)) obverser.fireFlowThrowableChanged(flow, oldValue, newValue);
 				}
 			}finally {
 				lock.writeLock().unlock();
@@ -66,14 +66,14 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireCancelableChanged(com.dwarfeng.tp.core.model.struct.Process, boolean, boolean)
+		 * @see com.dwarfeng.tp.core.model.obv.FlowObverser#fireCancelableChanged(com.dwarfeng.tp.core.model.struct.Flow, boolean, boolean)
 		 */
 		@Override
-		public void fireCancelableChanged(Process process, boolean oldValue, boolean newValue) {
+		public void fireCancelableChanged(Flow flow, boolean oldValue, boolean newValue) {
 			lock.writeLock().lock();
 			try{
 				for(BackgroundObverser obverser : obversers){
-					if(Objects.nonNull(obverser)) obverser.fireProcessCancelableChanged(process, oldValue, newValue);
+					if(Objects.nonNull(obverser)) obverser.fireFlowCancelableChanged(flow, oldValue, newValue);
 				}
 			}finally {
 				lock.writeLock().unlock();
@@ -82,14 +82,14 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireProgressChanged(com.dwarfeng.tp.core.model.struct.Process, int, int)
+		 * @see com.dwarfeng.tp.core.model.obv.FlowObverser#fireProgressChanged(com.dwarfeng.tp.core.model.struct.Flow, int, int)
 		 */
 		@Override
-		public void fireProgressChanged(Process process, int oldValue, int newValue) {
+		public void fireProgressChanged(Flow flow, int oldValue, int newValue) {
 			lock.writeLock().lock();
 			try{
 				for(BackgroundObverser obverser : obversers){
-					if(Objects.nonNull(obverser)) obverser.fireProcessProgressChanged(process, oldValue, newValue);
+					if(Objects.nonNull(obverser)) obverser.fireFlowProgressChanged(flow, oldValue, newValue);
 				}
 			}finally {
 				lock.writeLock().unlock();
@@ -98,14 +98,14 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireMessageChanged(com.dwarfeng.tp.core.model.struct.Process, java.lang.String, java.lang.String)
+		 * @see com.dwarfeng.tp.core.model.obv.FlowObverser#fireMessageChanged(com.dwarfeng.tp.core.model.struct.Flow, java.lang.String, java.lang.String)
 		 */
 		@Override
-		public void fireMessageChanged(Process process, String oldValue, String newValue) {
+		public void fireMessageChanged(Flow flow, String oldValue, String newValue) {
 			lock.writeLock().lock();
 			try{
 				for(BackgroundObverser obverser : obversers){
-					if(Objects.nonNull(obverser)) obverser.fireProcessMessageChanged(process, oldValue, newValue);
+					if(Objects.nonNull(obverser)) obverser.fireFlowMessageChanged(flow, oldValue, newValue);
 				}
 			}finally {
 				lock.writeLock().unlock();
@@ -114,16 +114,16 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireDone(com.dwarfeng.tp.core.model.struct.Process)
+		 * @see com.dwarfeng.tp.core.model.obv.FlowObverser#fireDone(com.dwarfeng.tp.core.model.struct.Flow)
 		 */
 		@Override
-		public void fireDone(Process process) {
+		public void fireDone(Flow flow) {
 			lock.writeLock().lock();
 			try{
-				finishedProcesses.offer(process);
+				finishedFlows.offer(flow);
 				condition.signalAll();
 				for(BackgroundObverser obverser : obversers){
-					if(Objects.nonNull(obverser)) obverser.fireProcessDone(process);
+					if(Objects.nonNull(obverser)) obverser.fireFlowDone(flow);
 				}
 			}finally {
 				lock.writeLock().unlock();
@@ -132,14 +132,14 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireDeterminateChanged(com.dwarfeng.tp.core.model.struct.Process, boolean, boolean)
+		 * @see com.dwarfeng.tp.core.model.obv.FlowObverser#fireDeterminateChanged(com.dwarfeng.tp.core.model.struct.Flow, boolean, boolean)
 		 */
 		@Override
-		public void fireDeterminateChanged(Process process, boolean oldValue, boolean newValue) {
+		public void fireDeterminateChanged(Flow flow, boolean oldValue, boolean newValue) {
 			lock.writeLock().lock();
 			try{
 				for(BackgroundObverser obverser : obversers){
-					if(Objects.nonNull(obverser)) obverser.fireProcessDeterminateChanged(process, oldValue, newValue);
+					if(Objects.nonNull(obverser)) obverser.fireFlowDeterminateChanged(flow, oldValue, newValue);
 				}
 			}finally {
 				lock.writeLock().unlock();
@@ -148,14 +148,14 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ProcessObverser#fireCanceled(com.dwarfeng.tp.core.model.struct.Process)
+		 * @see com.dwarfeng.tp.core.model.obv.FlowObverser#fireCanceled(com.dwarfeng.tp.core.model.struct.Flow)
 		 */
 		@Override
-		public void fireCanceled(Process process) {
+		public void fireCanceled(Flow flow) {
 			lock.writeLock().lock();
 			try{
 				for(BackgroundObverser obverser : obversers){
-					if(Objects.nonNull(obverser)) obverser.fireProcessCanceled(process);
+					if(Objects.nonNull(obverser)) obverser.fireFlowCanceled(flow);
 				}
 			}finally {
 				lock.writeLock().unlock();
@@ -174,29 +174,29 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.cm.BackgroundModel#submit(com.dwarfeng.tp.core.model.struct.Process)
+	 * @see com.dwarfeng.tp.core.model.cm.BackgroundModel#submit(com.dwarfeng.tp.core.model.struct.Flow)
 	 */
 	@Override
-	public boolean submit(Process process) {
+	public boolean submit(Flow flow) {
 		lock.writeLock().lock();
 		try{
 			if(es.isShutdown()) return false;
-			if(Objects.isNull(process)) return false;
-			if(processes.contains(process)) return false;
+			if(Objects.isNull(flow)) return false;
+			if(flows.contains(flow)) return false;
 			
-			process.addObverser(processObverser);
-			processes.add(process);
-			es.submit(process);
-			fireProcessAdded(process);
+			flow.addObverser(flowObverser);
+			flows.add(flow);
+			es.submit(flow);
+			fireFlowAdded(flow);
 			return true;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void fireProcessAdded(Process process) {
+	private void fireFlowAdded(Flow flow) {
 		for(BackgroundObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireProcessAdded(process);
+			if(Objects.nonNull(obverser)) obverser.fireFlowAdded(flow);
 		}
 	}
 
@@ -205,14 +205,14 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	 * @see com.dwarfeng.tp.core.model.cm.BackgroundModel#submitAll(java.util.Collection)
 	 */
 	@Override
-	public boolean submitAll(Collection<? extends Process> c) {
+	public boolean submitAll(Collection<? extends Flow> c) {
 		Objects.requireNonNull(c, "入口参数 c 不能为 nul。");
 		
 		lock.writeLock().lock();
 		try{
 			boolean aFlag = false;
-			for(Process process : c){
-				if(submit(process)) aFlag = true;
+			for(Flow flow : c){
+				if(submit(flow)) aFlag = true;
 			}
 			return aFlag;
 		}finally {
@@ -222,13 +222,13 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.cm.BackgroundModel#contains(com.dwarfeng.tp.core.model.struct.Process)
+	 * @see com.dwarfeng.tp.core.model.cm.BackgroundModel#contains(com.dwarfeng.tp.core.model.struct.Flow)
 	 */
 	@Override
-	public boolean contains(Process process) {
+	public boolean contains(Flow flow) {
 		lock.readLock().lock();
 		try{
-			return processes.contains(process);
+			return flows.contains(flow);
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -239,12 +239,12 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	 * @see com.dwarfeng.tp.core.model.cm.BackgroundModel#containsAll(java.util.Collection)
 	 */
 	@Override
-	public boolean containsAll(Collection<Process> c) {
+	public boolean containsAll(Collection<Flow> c) {
 		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
 		
 		lock.readLock().lock();
 		try{
-			return processes.containsAll(c);
+			return flows.containsAll(c);
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -258,7 +258,7 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	public boolean isEmpty() {
 		lock.readLock().lock();
 		try{
-			return processes.isEmpty();
+			return flows.isEmpty();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -271,10 +271,10 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	 * @return 该后台模型的过程迭代器。
 	 */
 	@Override
-	public Iterator<Process> iterator() {
+	public Iterator<Flow> iterator() {
 		lock.readLock().lock();
 		try{
-			return processes.iterator();
+			return flows.iterator();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -288,7 +288,7 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	public boolean hasFinished() {
 		lock.readLock().lock();
 		try{
-			return !finishedProcesses.isEmpty();
+			return !finishedFlows.isEmpty();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -299,29 +299,29 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	 * @see com.dwarfeng.tp.core.model.cm.BackgroundModel#take()
 	 */
 	@Override
-	public Process takeFinished() throws InterruptedException {
+	public Flow takeFinished() throws InterruptedException {
 		lock.writeLock().lock();
 		try{
-			while(finishedProcesses.isEmpty()){
+			while(finishedFlows.isEmpty()){
 				condition.await();
 			}
-			Process process = finishedProcesses.peek();
-			remove(process);
-			return process;
+			Flow flow = finishedFlows.peek();
+			remove(flow);
+			return flow;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void remove(Process process) {
-		finishedProcesses.remove(process);
-		processes.remove(process);
-		fireProcessRemoved(process);
+	private void remove(Flow flow) {
+		finishedFlows.remove(flow);
+		flows.remove(flow);
+		fireFlowRemoved(flow);
 	}
 
-	private void fireProcessRemoved(Process process) {
+	private void fireFlowRemoved(Flow flow) {
 		for(BackgroundObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireProcessRemoved(process);
+			if(Objects.nonNull(obverser)) obverser.fireFlowRemoved(flow);
 		}
 	}
 
@@ -333,10 +333,10 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	public boolean clearFinished() {
 		lock.writeLock().lock();
 		try{
-			if(finishedProcesses.isEmpty()) return false;
+			if(finishedFlows.isEmpty()) return false;
 			
-			for(Process process : finishedProcesses){
-				remove(process);
+			for(Flow flow : finishedFlows){
+				remove(flow);
 			}
 			return true;
 		}finally {

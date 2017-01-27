@@ -63,6 +63,13 @@ public interface ToolInfo {
 	public String getToolClass() throws ProcessException;
 	
 	/**
+	 * 获取工具类的信息类名。
+	 * @return 工具类的信息类名。
+	 * @throws ProcessException 过程异常。
+	 */
+	public String getInfoClass() throws ProcessException;
+	
+	/**
 	 * 获取工具的主文件（jar包）名称。
 	 * <p> 文件名称为jar包的文件名，不可带上路径。
 	 * @return 工具的主文件（jar包）名称。

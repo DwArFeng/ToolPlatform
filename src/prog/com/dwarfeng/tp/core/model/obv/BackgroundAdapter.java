@@ -1,6 +1,6 @@
 package com.dwarfeng.tp.core.model.obv;
 
-import com.dwarfeng.tp.core.model.struct.Process;
+import com.dwarfeng.tp.core.model.struct.Flow;
 
 /**
  * 后台模型观察器适配器。
@@ -10,24 +10,24 @@ import com.dwarfeng.tp.core.model.struct.Process;
 public abstract class BackgroundAdapter implements BackgroundObverser {
 
 	@Override
-	public void fireProcessProgressChanged(Process process, int oldValue, int newValue) {}
+	public void fireFlowProgressChanged(Flow flow, int oldValue, int newValue) {}
 	@Override
-	public void fireProcessTotleProgressChanged(Process process, int oldValue, int newValue) {}
+	public void fireFlowTotleProgressChanged(Flow flow, int oldValue, int newValue) {}
 	@Override
-	public void fireProcessDeterminateChanged(Process process, boolean oldValue, boolean newValue) {}
+	public void fireFlowDeterminateChanged(Flow flow, boolean oldValue, boolean newValue) {}
 	@Override
-	public void fireProcessMessageChanged(Process process, String oldValue, String newValue) {
-	}@Override
-	public void fireProcessThrowableChanged(Process process, Throwable oldValue, Throwable newValue) {}
+	public void fireFlowMessageChanged(Flow flow, String oldValue, String newValue) {}
 	@Override
-	public void fireProcessCancelableChanged(Process process, boolean oldValue, boolean newValue) {}
+	public void fireFlowThrowableChanged(Flow flow, Throwable oldValue, Throwable newValue) {}
 	@Override
-	public void fireProcessCanceled(Process process) {}
+	public void fireFlowCancelableChanged(Flow flow, boolean oldValue, boolean newValue) {}
 	@Override
-	public void fireProcessDone(Process process) {}
+	public void fireFlowCanceled(Flow flow) {}
 	@Override
-	public void fireProcessAdded(Process process) {}
+	public void fireFlowDone(Flow flow) {}
 	@Override
-	public void fireProcessRemoved(Process process) {}
+	public void fireFlowAdded(Flow flow) {}
+	@Override
+	public void fireFlowRemoved(Flow flow) {}
 	
 }

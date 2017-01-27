@@ -9,7 +9,7 @@ import com.dwarfeng.tp.core.model.cm.BackgroundModel;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public interface FinishedProcessTaker extends ExternalReadWriteThreadSafe, MutilangSupported{
+public interface FinishedFlowTaker extends ExternalReadWriteThreadSafe, MutilangSupported{
 
 	/**
 	 * 获取该完成过程取出器持有的记录器。

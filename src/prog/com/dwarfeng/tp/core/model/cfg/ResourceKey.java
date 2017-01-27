@@ -28,7 +28,7 @@ public enum ResourceKey implements Name{
 	TOOL_INFO("tool.info"),
 	
 	/**¹¤¾ß¿â*/
-	TOOL_LIBS("tool.libs"),
+	TOOL_LIB("tool.lib"),
 	
 	
 	;

@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.view.struct;
 
 import java.awt.Component;
+import java.util.Locale;
 
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 
@@ -12,5 +13,5 @@ import com.dwarfeng.tp.core.model.struct.MutilangSupported;
  */
 public interface MutilangSupportedGuiController<T extends Component & MutilangSupported> 
 extends GuiController<T>, MutilangSupported{
-
+	
 }

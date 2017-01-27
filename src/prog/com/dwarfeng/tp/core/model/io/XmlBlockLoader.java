@@ -1,7 +1,10 @@
 package com.dwarfeng.tp.core.model.io;
 
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -15,7 +18,7 @@ import com.dwarfeng.tp.core.model.cm.BlockModel;
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-public class XmlBlockLoader extends StreamLoader implements Loader<BlockModel> {
+public class XmlBlockLoader extends StreamLoader<BlockModel> {
 
 	/**
 	 * 新实例。
@@ -44,7 +47,20 @@ public class XmlBlockLoader extends StreamLoader implements Loader<BlockModel> {
 				in.close();
 			}
 			
-			//TODO 实现根元素的解析算法。
+			List<?> keyList = root.elements("key");
+			for(Object obj1 : keyList){
+				Element key = (Element) obj1;
+				List<?> dictionaryList = key.elements("dictionary");
+				
+				String keyValue = key.attributeValue("value");
+				Set<String> dictionarySet = new HashSet<>();
+				for(Object obj2 : dictionaryList){
+					Element dictionary = (Element) obj2;
+					dictionarySet.add(dictionary.attributeValue("value"));
+				}
+				
+				blockModel.put(keyValue, dictionarySet);
+			}
 			
 		}catch (Exception e) {
 			throw new LoadFailedException("无法向指定的库模型中读取流中的数据", e);

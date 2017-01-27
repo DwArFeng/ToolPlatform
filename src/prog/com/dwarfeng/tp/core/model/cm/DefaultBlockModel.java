@@ -31,6 +31,13 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	
 	/**
 	 * 新实例。
+	 */
+	public DefaultBlockModel() {
+		this(new HashMap<>());
+	}
+	
+	/**
+	 * 新实例。
 	 * @param map 默认的映射关系。
 	 */
 	public DefaultBlockModel(Map<String, Set<String>> map) {

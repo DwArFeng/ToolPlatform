@@ -6,12 +6,12 @@ import java.io.InputStream;
 import java.util.Objects;
 
 /**
- * 流记读取器。
+ * 流读取器。
  * <p> 用流实现的读取器。
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public abstract class StreamLoader implements Closeable{
+public abstract class StreamLoader<T> implements Closeable, Loader<T>{
 	
 	/**输入流。*/
 	protected final InputStream in;

@@ -15,9 +15,9 @@ import com.dwarfeng.tp.core.util.ToolPlatformUtil;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
+public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 	
-	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("finished_process_taker");
+	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("finished_flow_taker");
 	
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	private final BackgroundModel backgroundModel;
@@ -31,15 +31,15 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 		public void run() {
 			while(runFlag){
 				try {
-					Process process = backgroundModel.takeFinished();
-					String message = process.getMessage();
-					Throwable throwable = process.getThrowable();
+					Flow flow = backgroundModel.takeFinished();
+					String message = flow.getMessage();
+					Throwable throwable = flow.getThrowable();
 					String format = "%s_%s";
 					String str = null;
 					if(Objects.isNull(throwable)){
 						lock.readLock().lock();
 						try{
-							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_1.getName());
+							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_1.getName());
 						}finally {
 							lock.readLock().unlock();
 						}
@@ -47,7 +47,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 					}else{
 						lock.readLock().lock();
 						try{
-							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_2.getName());
+							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_2.getName());
 						}finally {
 							lock.readLock().unlock();
 						}
@@ -58,12 +58,12 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 						String str = null;
 						lock.readLock().lock();
 						try{
-							str = mutilang.getString(LoggerStringKey.FinishedProcessTaker_3.getName());
+							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
 						}catch (Exception e1) {
 							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
-							str = tempMutilang.getString(LoggerStringKey.FinishedProcessTaker_4.getName());
+							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_4.getName());
 							logger.warn(str, e1);
-							str = tempMutilang.getString(LoggerStringKey.FinishedProcessTaker_3.getName());
+							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
 						}
 						logger.warn(str, e);
 					}
@@ -83,7 +83,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 	 * @param backgroundModel 指定的后台模型。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public DefaultFinishedProcessTaker(BackgroundModel backgroundModel) {
+	public DefaultFinishedFlowTaker(BackgroundModel backgroundModel) {
 		this(backgroundModel, ToolPlatformUtil.newDefaultLogger(), ToolPlatformUtil.newDefaultLoggerMutilang());
 	}
 	
@@ -94,7 +94,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 	 * @param mutilang 指定的多语言接口。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public DefaultFinishedProcessTaker(BackgroundModel backgroundModel, Logger logger, Mutilang mutilang) {
+	public DefaultFinishedFlowTaker(BackgroundModel backgroundModel, Logger logger, Mutilang mutilang) {
 		Objects.requireNonNull(backgroundModel, "入口参数 backgroundModel 不能为 null。");
 		Objects.requireNonNull(logger, "入口参数 logger 不能为 null。");
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
@@ -117,7 +117,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.FinishedProcessTaker#getLogger()
+	 * @see com.dwarfeng.tp.core.model.struct.FinishedFlowTaker#getLogger()
 	 */
 	@Override
 	public Logger getLogger() {
@@ -131,7 +131,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.FinishedProcessTaker#setLogger(com.dwarfeng.tp.core.model.struct.Logger)
+	 * @see com.dwarfeng.tp.core.model.struct.FinishedFlowTaker#setLogger(com.dwarfeng.tp.core.model.struct.Logger)
 	 */
 	@Override
 	public boolean setLogger(Logger logger) {
@@ -149,7 +149,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.FinishedProcessTaker#getBackground()
+	 * @see com.dwarfeng.tp.core.model.struct.FinishedFlowTaker#getBackgroundModel()
 	 */
 	@Override
 	public BackgroundModel getBackgroundModel() {
@@ -163,7 +163,7 @@ public class DefaultFinishedProcessTaker implements FinishedProcessTaker {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.FinishedProcessTaker#shutdown()
+	 * @see com.dwarfeng.tp.core.model.struct.FinishedFlowTaker#shutdown()
 	 */
 	@Override
 	public void shutdown() {
