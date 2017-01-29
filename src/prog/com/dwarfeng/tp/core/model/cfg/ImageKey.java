@@ -3,26 +3,18 @@ package com.dwarfeng.tp.core.model.cfg;
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.struct.DefaultName;
 
-/**
- * 程序的字符串键。
- * <p> 该字符串键枚举记录了程序中所用到的所有字符串的键。
- * @author  DwArFeng
- * @since 0.0.0-alpha
- */
-public enum LabelStringKey implements Name{
+public enum ImageKey implements Name {
 	
-	MainFrame_1(new DefaultName("MainFrame.1")),
-	MainFrame_2(new DefaultName("MainFrame.2")),
-	
-	JTpconsole_1(new DefaultName("JTpconsole.1")),
-	JTpconsole_2(new DefaultName("JTpconsole.2")),
-	JTpconsole_3(new DefaultName("JTpconsole.3")),
-	
+	ImaLoadFailed(new DefaultName("/com/dwarfeng/tp/resource/image/img-load-failed.png")),
+	MainFrame_Icon(new DefaultName("/com/dwarfeng/tp/resource/image/icon.png")),
+	Console(new DefaultName("/com/dwarfeng/tp/resource/image/console.png")),
+	SelectAll(new DefaultName("/com/dwarfeng/tp/resource/image/select-all.png")),
+	ClearScreen(new DefaultName("/com/dwarfeng/tp/resource/image/clear-screen.png")),
 	;
 
 	private Name name;
 	
-	private LabelStringKey(Name name) {
+	private ImageKey(Name name) {
 		this.name = name;
 	}
 	

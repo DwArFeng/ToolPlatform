@@ -3,6 +3,7 @@ package com.dwarfeng.tp.core.control;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -12,6 +13,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
+import org.apache.logging.log4j.core.LoggerContext;
 
 import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.mea.TimeMeasurer;
@@ -27,7 +30,6 @@ import com.dwarfeng.tp.core.control.act.FlowProvider;
 import com.dwarfeng.tp.core.control.act.UiObverserProvider;
 import com.dwarfeng.tp.core.model.cfg.BlockKey;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cfg.ModalConfig;
 import com.dwarfeng.tp.core.model.cfg.ResourceKey;
@@ -105,6 +107,9 @@ public final class ToolPlatform {
 			.buildVersion('A')
 			.build();
 	
+	/**程序的实例列表，用于持有引用*/
+	private static final Set<ToolPlatform> INSTANCES  = Collections.synchronizedSet(new HashSet<>());
+	
 	/**程序的界面观察器提供器*/
 	private final UiObverserProvider uiObverserProvider = new InnerUiObverserProvider();
 	/**程序的过程提供器*/
@@ -122,6 +127,7 @@ public final class ToolPlatform {
 	public ToolPlatform() {
 		this.manager = new Manager();
 		this.state = new AtomicReference<RuntimeState>(RuntimeState.NOT_START);
+		INSTANCES.add(this);
 	}
 	
 	/**
@@ -554,7 +560,6 @@ public final class ToolPlatform {
 					
 					//加载程序的资源模型
 					info(LoggerStringKey.ToolPlatform_FlowProvider_3);
-					manager.getResourceModel().clear();
 					XmlResourceLoader resourceLoader = null;
 					try{
 						resourceLoader = new XmlResourceLoader(ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/paths.xml"));
@@ -567,7 +572,6 @@ public final class ToolPlatform {
 					
 					//加载程序中的记录器模型。
 					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
-					manager.getLoggerModel().clear();
 					if(manager.getLoggerModel().getLoggerContext() != null){
 						manager.getLoggerModel().getLoggerContext().stop();
 					}
@@ -593,7 +597,6 @@ public final class ToolPlatform {
 					
 					//加载记录器多语言配置。
 					info(LoggerStringKey.ToolPlatform_FlowProvider_7);
-					manager.getLoggerMutilangModel().clear();
 					XmlMutilangLoader loggerMutilangLoader = null;
 					try{
 						loggerMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LOGGER_SETTING).openInputStream());
@@ -645,7 +648,6 @@ public final class ToolPlatform {
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_13);
 					}
-					manager.getBlockModel().clear();
 					XmlBlockLoader blockLoader = null;
 					try{
 						blockLoader = new XmlBlockLoader(ToolPlatformUtil.newBlockDictionary());
@@ -661,7 +663,6 @@ public final class ToolPlatform {
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_9);
 					}
-					manager.getLabelMutilangModel().clear();
 					XmlMutilangLoader labelMutilangLoader = null;
 					try{
 						labelMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LABEL_SETTING).openInputStream());
@@ -707,7 +708,6 @@ public final class ToolPlatform {
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_12);
 					}
-					manager.getLibraryModel().clear();
 					XmlLibraryLoader libraryLoader = null;
 					try{
 						libraryLoader = new XmlLibraryLoader(getResource(ResourceKey.TOOL_LIB).openInputStream());
@@ -728,16 +728,47 @@ public final class ToolPlatform {
 					if(splashFlag){
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_11);
 					}
-					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+					ToolPlatformUtil.invokeAndWaitInEventQueue(new Runnable() {
 						@Override
 						public void run() {
 							manager.getMainFrameController().newInstance();
+						}
+					});
+					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+						@Override
+						public void run() {
 							manager.getMainFrameController().setHeight(manager.getModalConfigModel().getMainFrameStartupHeight());
 							manager.getMainFrameController().setWidth(manager.getModalConfigModel().getMainFrameStartupWidth());
 							manager.getMainFrameController().setExtendedState(manager.getModalConfigModel().getMainFrameStartupExtendedState());
 							manager.getMainFrameController().setLocationRelativeTo(null);
 						}
 					});
+					
+					//重新加载LoggerModel;
+					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
+					manager.getLoggerModel().getLoggerContext().close();
+					if(manager.getLoggerModel().getLoggerContext() != null){
+						manager.getLoggerModel().getLoggerContext().stop();
+					}
+					loggerLoader = null;
+					try{
+						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
+						loggerLoader.load(manager.getLoggerModel());
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+						getResource(ResourceKey.LOGGER_SETTING).reset();
+						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
+						loggerLoader.load(manager.getLoggerModel());
+					}finally {
+						if(Objects.nonNull(loggerLoader)){
+							loggerLoader.close();
+						}
+					}
+					try{
+						manager.getLoggerModel().update();
+					}catch (ProcessException e) {
+						warn(LoggerStringKey.Update_Logger_1, e);
+					}
 					
 					//等待启动窗口到达指定的时间后，令其消失。
 					if(splashFlag){
@@ -754,6 +785,8 @@ public final class ToolPlatform {
 							}
 						});
 					}
+					
+					
 					
 					//显示启动界面
 					ToolPlatformUtil.invokeInEventQueue(new Runnable() {

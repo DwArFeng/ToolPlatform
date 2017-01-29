@@ -1,5 +1,6 @@
 package com.dwarfeng.tp.core.util;
 
+import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +14,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +24,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.control.ToolPlatform;
+import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.struct.Logger;
@@ -72,6 +75,20 @@ public final class ToolPlatformUtil {
 		
 		defaultLoggerMutilangInfo = new InnerMutilangInfo(mutilangLabel, loggerMutilangDefaultMap);
 		defaultLabelMutilangInfo = new InnerMutilangInfo(mutilangLabel, labelMutilangDefaultMap);
+	}
+	
+	public final static Image getImage(ImageKey imageKey){
+		Objects.requireNonNull(imageKey, "入口参数 imageKey 不能为 null。");
+		
+		try {
+			return ImageIO.read(ToolPlatform.class.getResource(imageKey.getName()));
+		} catch (IOException e) {
+			try {
+				return ImageIO.read(ToolPlatform.class.getResource(ImageKey.ImaLoadFailed.getName()));
+			} catch (IOException e1) {
+				return null;
+			}
+		}
 	}
 	
 	/**

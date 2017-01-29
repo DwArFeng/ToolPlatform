@@ -7,13 +7,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,13 +22,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
 import com.dwarfeng.dutil.basic.gui.swing.JAdjustableBorderPanel;
+import com.dwarfeng.dutil.basic.gui.swing.JExconsole;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
-import com.dwarfeng.tp.core.control.ToolPlatform;
+import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
+import java.awt.ComponentOrientation;
 
 /**
  * 程序的主界面。
@@ -44,10 +47,18 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 * 所有与多语言有关的对象
 	 */
 	private final TitledBorder north_border;
+	private final JTabbedPane southTabbedPane;
+	
+	/*
+	 * 其它final域
+	 */
+	private final JTpconsole console;
+	private final InputStream sysIn = System.in;
+	private final PrintStream sysOut = System.out;
+	private final PrintStream sysErr = System.err;
 	
 	/**多语言接口*/
 	private Mutilang mutilang;
-	
 	/**
 	 * 新实例。
 	 */
@@ -75,12 +86,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 			}
 		});
 		
-		try {
-			setIconImage(ImageIO.read(ToolPlatform.class.getResource("/com/dwarfeng/tp/resource/image/icon.png")));
-		} catch (IOException ignore) {
-			//图片资源在包内部，不可能抛出异常。
-		}
-		
+		setIconImage(ToolPlatformUtil.getImage(ImageKey.MainFrame_Icon));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		JAdjustableBorderPanel adjustableBorderPanel = new JAdjustableBorderPanel();
@@ -95,23 +101,31 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		getContentPane().add(adjustableBorderPanel, BorderLayout.CENTER);
 		
 		JAdjustableBorderPanel adjustableBorderPanel_1 = new JAdjustableBorderPanel();
+		adjustableBorderPanel_1.setSouthPreferredValue(200);
 		adjustableBorderPanel_1.setSeperatorColor(new Color(30, 144, 255));
 		adjustableBorderPanel_1.setNorthSeparatorEnabled(false);
 		adjustableBorderPanel_1.setSouthEnabled(true);
 		adjustableBorderPanel_1.setSeperatorThickness(5);
 		adjustableBorderPanel.add(adjustableBorderPanel_1, BorderLayout.CENTER);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		adjustableBorderPanel_1.add(tabbedPane, BorderLayout.SOUTH);
+		southTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		southTabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		adjustableBorderPanel_1.add(southTabbedPane, BorderLayout.SOUTH);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_1, null);
+		console = new JTpconsole();
+		southTabbedPane.addTab(
+				getLabel(LabelStringKey.MainFrame_2),
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Console)), 
+				console, null);
+		System.setIn(console.in);
+		System.setOut(console.out);
+		System.setErr(console.out);
 		
 		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_2, null);
+		southTabbedPane.addTab("New tab", null, panel_2, null);
 		
 		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_3, null);
+		southTabbedPane.addTab("New tab", null, panel_3, null);
 		
 		JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
 		adjustableBorderPanel_1.add(tabbedPane_2, BorderLayout.CENTER);
@@ -163,6 +177,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		if(Objects.equals(mutilang, this.mutilang)) return false;
 		this.mutilang = mutilang;
 		north_border.setTitle(getLabel(LabelStringKey.MainFrame_1));
+		southTabbedPane.setTitleAt(0, getLabel(LabelStringKey.MainFrame_2));
 		return true;
 	}
 
@@ -200,6 +215,19 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	@Override
 	public void clearObverser() {
 		obversers.clear();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.Window#dispose()
+	 */
+	@Override
+	public void dispose() {
+		console.dispose();
+		System.setIn(sysIn);
+		System.setOut(sysOut);
+		System.setErr(sysErr);
+		super.dispose();
 	}
 	
 	private String getLabel(LabelStringKey labelStringKey){

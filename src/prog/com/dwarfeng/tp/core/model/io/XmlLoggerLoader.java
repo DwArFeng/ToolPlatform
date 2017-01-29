@@ -10,6 +10,7 @@ import org.apache.logging.log4j.core.config.ConfigurationSource;
 import org.apache.logging.log4j.core.config.Configurator;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
+import com.dwarfeng.dutil.basic.io.StreamLoader;
 import com.dwarfeng.tp.core.model.cm.LoggerModel;
 import com.dwarfeng.tp.core.model.struct.DefaultLoggerInfo;
 
