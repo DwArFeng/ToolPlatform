@@ -14,18 +14,16 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import org.apache.logging.log4j.core.LoggerContext;
-
 import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.mea.TimeMeasurer;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
+import com.dwarfeng.dutil.basic.prog.RuntimeState;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
 import com.dwarfeng.dutil.develop.cfg.ConfigAdapter;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
-import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigLoader;
-import com.dwarfeng.dutil.develop.cfg.io.StreamConfigLoader;
+import com.dwarfeng.dutil.develop.cfg.io.PropConfigLoader;
 import com.dwarfeng.tp.core.control.act.FlowProvider;
 import com.dwarfeng.tp.core.control.act.UiObverserProvider;
 import com.dwarfeng.tp.core.model.cfg.BlockKey;
@@ -67,7 +65,6 @@ import com.dwarfeng.tp.core.model.struct.Flow;
 import com.dwarfeng.tp.core.model.struct.LibraryKeyChecker;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
-import com.dwarfeng.tp.core.model.struct.RuntimeState;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.gui.MainFrame;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
@@ -268,7 +265,10 @@ public final class ToolPlatform {
 			 */
 			@Override
 			protected MainFrame subNewInstance() {
-				MainFrame mainFrame = new MainFrame(labelMutilangModel.getMutilang());
+				MainFrame mainFrame = new MainFrame(
+						labelMutilangModel.getMutilang(),
+						backgroundModel
+				);
 				mainFrame.addObverser(uiObverserProvider.getMainFrameProvider());
 				return mainFrame;
 			}
@@ -529,6 +529,15 @@ public final class ToolPlatform {
 				setMessage(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
 			}
 			
+			/**
+			 * 格式化设置信息。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @param args format 参数。
+			 */
+			protected void formatMessage(LoggerStringKey loggerStringKey, Object... args){
+				setMessage(String.format(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()),args));	
+			}
+			
 		}
 		
 		private final class InitializeFlow extends InnerAbstractFlow{
@@ -560,6 +569,7 @@ public final class ToolPlatform {
 					
 					//加载程序的资源模型
 					info(LoggerStringKey.ToolPlatform_FlowProvider_3);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_3);
 					XmlResourceLoader resourceLoader = null;
 					try{
 						resourceLoader = new XmlResourceLoader(ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/paths.xml"));
@@ -572,6 +582,7 @@ public final class ToolPlatform {
 					
 					//加载程序中的记录器模型。
 					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_5);
 					if(manager.getLoggerModel().getLoggerContext() != null){
 						manager.getLoggerModel().getLoggerContext().stop();
 					}
@@ -597,6 +608,7 @@ public final class ToolPlatform {
 					
 					//加载记录器多语言配置。
 					info(LoggerStringKey.ToolPlatform_FlowProvider_7);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_7);
 					XmlMutilangLoader loggerMutilangLoader = null;
 					try{
 						loggerMutilangLoader = new XmlMutilangLoader(getResource(ResourceKey.MUTILANG_LOGGER_SETTING).openInputStream());
@@ -619,14 +631,15 @@ public final class ToolPlatform {
 					
 					//加载程序的核心配置。
 					info(LoggerStringKey.ToolPlatform_FlowProvider_6);
-					StreamConfigLoader coreConfigLoader = null;
+					message(LoggerStringKey.ToolPlatform_FlowProvider_6);
+					PropConfigLoader coreConfigLoader = null;
 					try{
-						coreConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_CORE).openInputStream());
+						coreConfigLoader = new PropConfigLoader(getResource(ResourceKey.CONFIGURATION_CORE).openInputStream());
 						coreConfigLoader.load(manager.getCoreConfigModel());
 					}catch (IOException e) {
 						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
 						getResource(ResourceKey.CONFIGURATION_CORE).reset();
-						coreConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_CORE).openInputStream());
+						coreConfigLoader = new PropConfigLoader(getResource(ResourceKey.CONFIGURATION_CORE).openInputStream());
 						coreConfigLoader.load(manager.getCoreConfigModel());
 					}finally {
 						if(Objects.nonNull(coreConfigLoader)){
@@ -639,12 +652,14 @@ public final class ToolPlatform {
 					TimeMeasurer tm = new TimeMeasurer();
 					if(splashFlag){
 						info(LoggerStringKey.ToolPlatform_FlowProvider_8);
+						message(LoggerStringKey.ToolPlatform_FlowProvider_8);
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_8);
 						tm.start();
 					}
 					
 					//加载阻挡模型字典
 					info(LoggerStringKey.ToolPlatform_FlowProvider_13);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_13);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_13);
 					}
@@ -660,6 +675,7 @@ public final class ToolPlatform {
 					
 					//加载标签多语言配置。
 					info(LoggerStringKey.ToolPlatform_FlowProvider_9);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_9);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_9);
 					}
@@ -685,17 +701,18 @@ public final class ToolPlatform {
 					
 					//加载不可见模态模型
 					info(LoggerStringKey.ToolPlatform_FlowProvider_10);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_10);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_10);
 					}
-					StreamConfigLoader modalConfigLoader = null;
+					PropConfigLoader modalConfigLoader = null;
 					try{
-						modalConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_MODAL).openInputStream());
+						modalConfigLoader = new PropConfigLoader(getResource(ResourceKey.CONFIGURATION_MODAL).openInputStream());
 						modalConfigLoader.load(manager.getModalConfigModel());
 					}catch (IOException e) {
 						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
 						getResource(ResourceKey.CONFIGURATION_MODAL).reset();
-						modalConfigLoader = new PropertiesConfigLoader(getResource(ResourceKey.CONFIGURATION_MODAL).openInputStream());
+						modalConfigLoader = new PropConfigLoader(getResource(ResourceKey.CONFIGURATION_MODAL).openInputStream());
 						modalConfigLoader.load(manager.getModalConfigModel());
 					}finally{
 						if(Objects.nonNull(modalConfigLoader)){
@@ -705,6 +722,7 @@ public final class ToolPlatform {
 					
 					//加载库模型
 					info(LoggerStringKey.ToolPlatform_FlowProvider_12);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_12);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_12);
 					}
@@ -725,6 +743,7 @@ public final class ToolPlatform {
 					
 					//唤起主界面
 					info(LoggerStringKey.ToolPlatform_FlowProvider_11);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_11);
 					if(splashFlag){
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_11);
 					}
@@ -746,6 +765,7 @@ public final class ToolPlatform {
 					
 					//重新加载LoggerModel;
 					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_5);
 					manager.getLoggerModel().getLoggerContext().close();
 					if(manager.getLoggerModel().getLoggerContext() != null){
 						manager.getLoggerModel().getLoggerContext().stop();
@@ -844,6 +864,7 @@ public final class ToolPlatform {
 					
 					//读取库文件
 					info(LoggerStringKey.ToolPlatform_FlowProvider_14);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_14);
 					manager.getLibraryModel().clear();
 					XmlLibraryLoader libraryLoader = null;
 					try{
@@ -888,6 +909,7 @@ public final class ToolPlatform {
 					
 					//开始构造条件
 					info(LoggerStringKey.ToolPlatform_FlowProvider_17);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_17);
 					
 					Set<String> keys = new HashSet<>();
 					ReadWriteLock modelLock = manager.getLibraryModel().getLock();
@@ -922,6 +944,7 @@ public final class ToolPlatform {
 					
 					//设置过程是可以确定进度的，并确定进度
 					setTotleProgress(manager.getLibraryModel().size());
+					setCancelable(true);
 					setDeterminate(true);
 					
 					//开始循环检查
@@ -929,6 +952,7 @@ public final class ToolPlatform {
 						if(isCancel()) return;
 						if(libraryChecker.nonValid(key)){
 							formatInfo(LoggerStringKey.ToolPlatform_FlowProvider_18, key);
+							formatMessage(LoggerStringKey.ToolPlatform_FlowProvider_18, key);
 							manager.getLibraryModel().remove(key);
 						}
 						setProgress(getProgress() + 1);

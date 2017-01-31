@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root dir="attributes/mutilang/logger" >
-	<!--使用如下的格式：<info language="zh" country="CN" variant="" label="简体中文" file="zh_CN.properties"></info>-->
+<root dir="attributes/tool/cache" >
+	<!--
+	使用如下的格式：
+		<tool>
+			<strs url="XXXX-XXXX-XXXX-XXXX"/>
+			<icon_s url="XXXX-XXXX-XXXX-XXXX"/>
+			<icon_m url="XXXX-XXXX-XXXX-XXXX"/>
+			<icon_l url="XXXX-XXXX-XXXX-XXXX">
+			
+		</tool>
+	-->
 </root>

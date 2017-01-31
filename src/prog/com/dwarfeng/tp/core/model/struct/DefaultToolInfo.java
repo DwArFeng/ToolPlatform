@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import com.dwarfeng.dutil.basic.cna.ArrayUtil;
 import com.dwarfeng.dutil.basic.prog.Version;
+import com.dwarfeng.tp.core.model.cfg.ToolImageType;
 
 /**
  * 默认工具信息。

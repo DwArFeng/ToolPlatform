@@ -2,6 +2,7 @@ package com.dwarfeng.tp.core.view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,15 +23,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
 import com.dwarfeng.dutil.basic.gui.swing.JAdjustableBorderPanel;
-import com.dwarfeng.dutil.basic.gui.swing.JExconsole;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
+import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
-import java.awt.ComponentOrientation;
 
 /**
  * 程序的主界面。
@@ -48,31 +48,35 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 */
 	private final TitledBorder north_border;
 	private final JTabbedPane southTabbedPane;
+	private final JTabbedPane centerTabbedPane;
+	private final JTpconsole console;
+	private final JBackgroundPanel backgroundPanel;
+	private final JLibraryPanel libraryPanel;
 	
 	/*
 	 * 其它final域
 	 */
-	private final JTpconsole console;
 	private final InputStream sysIn = System.in;
 	private final PrintStream sysOut = System.out;
 	private final PrintStream sysErr = System.err;
 	
 	/**多语言接口*/
 	private Mutilang mutilang;
+	
 	/**
 	 * 新实例。
 	 */
 	public MainFrame() {
-		this(ToolPlatformUtil.newDefaultLabelMutilang());
+		this(ToolPlatformUtil.newDefaultLabelMutilang(), null);
 	}
 	
 	/**
 	 * 新实例。
 	 * @param mutilang 指定的多语言接口。
 	 */
-	public MainFrame(Mutilang mutilang) {
+	public MainFrame(Mutilang mutilang, BackgroundModel backgroundModel) {
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
-		
+
 		this.mutilang = mutilang;
 		
 		addWindowListener(new WindowAdapter() {
@@ -112,7 +116,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		southTabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		adjustableBorderPanel_1.add(southTabbedPane, BorderLayout.SOUTH);
 		
-		console = new JTpconsole();
+		console = new JTpconsole(mutilang);
 		southTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_2),
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Console)), 
@@ -121,17 +125,26 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		System.setOut(console.out);
 		System.setErr(console.out);
 		
-		JPanel panel_2 = new JPanel();
-		southTabbedPane.addTab("New tab", null, panel_2, null);
+		backgroundPanel = new JBackgroundPanel(backgroundModel);
+		southTabbedPane.addTab(
+				getLabel(LabelStringKey.MainFrame_3),
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Progress)), 
+				backgroundPanel, null);
 		
 		JPanel panel_3 = new JPanel();
 		southTabbedPane.addTab("New tab", null, panel_3, null);
 		
-		JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
-		adjustableBorderPanel_1.add(tabbedPane_2, BorderLayout.CENTER);
+		centerTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		adjustableBorderPanel_1.add(centerTabbedPane, BorderLayout.CENTER);
 		
 		JPanel panel_4 = new JPanel();
-		tabbedPane_2.addTab("New tab", null, panel_4, null);
+		centerTabbedPane.addTab("New tab", null, panel_4, null);
+		
+		libraryPanel = new JLibraryPanel();
+		centerTabbedPane.addTab(
+				getLabel(LabelStringKey.MainFrame_5),
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Library)), 
+				libraryPanel, null);
 		
 		JPanel panel = new JPanel();
 		
@@ -178,6 +191,9 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		this.mutilang = mutilang;
 		north_border.setTitle(getLabel(LabelStringKey.MainFrame_1));
 		southTabbedPane.setTitleAt(0, getLabel(LabelStringKey.MainFrame_2));
+		southTabbedPane.setTitleAt(1, getLabel(LabelStringKey.MainFrame_3));
+		centerTabbedPane.setTitleAt(1, getLabel(LabelStringKey.MainFrame_5));
+		console.setMutilang(mutilang);
 		return true;
 	}
 

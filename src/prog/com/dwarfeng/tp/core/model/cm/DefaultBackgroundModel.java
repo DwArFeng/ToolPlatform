@@ -11,9 +11,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.Condition;
 
+import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
 import com.dwarfeng.tp.core.model.obv.BackgroundObverser;
 import com.dwarfeng.tp.core.model.obv.FlowObverser;
-import com.dwarfeng.tp.core.model.struct.NumberedThreadFactory;
 import com.dwarfeng.tp.core.model.struct.Flow;
 
 /**

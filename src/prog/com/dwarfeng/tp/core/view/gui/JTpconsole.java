@@ -23,8 +23,10 @@ import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 public final class JTpconsole extends JExconsole implements MutilangSupported{
 	
+	private static final long serialVersionUID = 8510072604515358830L;
+	
 	/**右键菜单*/
-	private JPopupMenu popup;
+	private InnerPopupMenu popup;
 	/**多语言接口*/
 	private Mutilang mutilang;
 	
@@ -37,7 +39,9 @@ public final class JTpconsole extends JExconsole implements MutilangSupported{
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
 		
 		this.mutilang = mutilang;
-		
+		popup.selectAllMenuItem.setText(getLabel(LabelStringKey.JTpconsole_1));
+		popup.cleanScreenMenuItem.setText(getLabel(LabelStringKey.JTpconsole_2));
+		popup.lineWrapMenuItem.setText(getLabel(LabelStringKey.JTpconsole_3));
 	}
 	
 	/*
@@ -65,7 +69,13 @@ public final class JTpconsole extends JExconsole implements MutilangSupported{
 	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
-		//TODO
+		Objects.requireNonNull(mutilang , "入口参数 mutilang 不能为 null。");
+		
+		if(Objects.equals(mutilang, this.mutilang)) return false;
+		this.mutilang = mutilang;
+		popup.selectAllMenuItem.setText(getLabel(LabelStringKey.JTpconsole_1));
+		popup.cleanScreenMenuItem.setText(getLabel(LabelStringKey.JTpconsole_2));
+		popup.lineWrapMenuItem.setText(getLabel(LabelStringKey.JTpconsole_3));
 		return true;
 	}
 
@@ -75,6 +85,8 @@ public final class JTpconsole extends JExconsole implements MutilangSupported{
 	
 	
 	private final class InnerPopupMenu extends JPopupMenu{
+		
+		private static final long serialVersionUID = -1693165914880793618L;
 		
 		private final JMenuItem selectAllMenuItem;
 		private final JMenuItem cleanScreenMenuItem;
@@ -129,7 +141,7 @@ public final class JTpconsole extends JExconsole implements MutilangSupported{
 			addSeparator();
 			
 			lineWrapMenuItem = new JCheckBoxMenuItem("");
-			lineWrapMenuItem.setIcon(null);
+			lineWrapMenuItem.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.LineWrap)));
 			lineWrapMenuItem.setMnemonic('W');
 			lineWrapMenuItem.addActionListener(new ActionListener() {
 				@Override

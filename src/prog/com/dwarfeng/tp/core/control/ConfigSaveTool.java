@@ -7,8 +7,7 @@ import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
 import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
-import com.dwarfeng.dutil.develop.cfg.io.PropertiesConfigSaver;
-import com.dwarfeng.dutil.develop.cfg.io.StreamConfigSaver;
+import com.dwarfeng.dutil.develop.cfg.io.PropConfigSaver;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
 import com.dwarfeng.tp.core.model.cfg.ModalConfig;
 
@@ -24,9 +23,9 @@ final class ConfigSaveTool {
 		ConfigModel modalConfigModel = new DefaultConfigModel(ModalConfig.values());
 		File file = new File("src\\prog\\com\\dwarfeng\\tp\\resource\\defaultres\\configuration\\core.properties");
 		FileUtil.createFileIfNotExists(file);
-		StreamConfigSaver saver = null;
+		PropConfigSaver saver = null;
 		try{
-			saver = new PropertiesConfigSaver(new FileOutputStream(file));
+			saver = new PropConfigSaver(new FileOutputStream(file));
 			saver.save(coreConfigModel);
 		}finally {
 			saver.close();
@@ -36,7 +35,7 @@ final class ConfigSaveTool {
 		FileUtil.createFileIfNotExists(file);
 		saver = null;
 		try{
-			saver = new PropertiesConfigSaver(new FileOutputStream(file));
+			saver = new PropConfigSaver(new FileOutputStream(file));
 			saver.save(modalConfigModel);
 		}finally {
 			saver.close();

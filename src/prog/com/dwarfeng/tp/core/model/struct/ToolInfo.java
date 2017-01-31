@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.util.Locale;
 
 import com.dwarfeng.dutil.basic.prog.Version;
+import com.dwarfeng.tp.core.model.cfg.ToolImageType;
 
 /**
  * 工具信息。

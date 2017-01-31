@@ -1,4 +1,4 @@
-package com.dwarfeng.tp.core.model.struct;
+package com.dwarfeng.tp.core.model.cfg;
 
 /**
  * 工具的图片类型。
@@ -8,13 +8,13 @@ package com.dwarfeng.tp.core.model.struct;
 public enum ToolImageType {
 
 	/**小图标*/
-	ICON_SMALL(16,16),
+	ICON_SMALL(32,32),
 	
 	/**中等图标*/
-	ICON_MEDIUM(32,32),
+	ICON_MEDIUM(64,64),
 	
 	/**大图标*/
-	ICON_LARGE(64,64),
+	ICON_LARGE(128,128),
 	
 	;
 	

@@ -10,6 +10,13 @@ public enum ImageKey implements Name {
 	Console(new DefaultName("/com/dwarfeng/tp/resource/image/console.png")),
 	SelectAll(new DefaultName("/com/dwarfeng/tp/resource/image/select-all.png")),
 	ClearScreen(new DefaultName("/com/dwarfeng/tp/resource/image/clear-screen.png")),
+	LineWrap(new DefaultName("/com/dwarfeng/tp/resource/image/line-wrap.png")),
+	Canceled(new DefaultName("/com/dwarfeng/tp/resource/image/canceled.png")),
+	Processing(new DefaultName("/com/dwarfeng/tp/resource/image/processing.png")),
+	Done(new DefaultName("/com/dwarfeng/tp/resource/image/done.png")),
+	Progress(new DefaultName("/com/dwarfeng/tp/resource/image/progress.png")),
+	Library(new DefaultName("/com/dwarfeng/tp/resource/image/library.png")),
+
 	;
 
 	private Name name;
