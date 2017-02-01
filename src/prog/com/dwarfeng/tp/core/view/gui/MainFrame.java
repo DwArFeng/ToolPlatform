@@ -31,6 +31,7 @@ import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
+import java.awt.Insets;
 
 /**
  * 程序的主界面。
@@ -105,7 +106,6 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		getContentPane().add(adjustableBorderPanel, BorderLayout.CENTER);
 		
 		JAdjustableBorderPanel adjustableBorderPanel_1 = new JAdjustableBorderPanel();
-		adjustableBorderPanel_1.setSouthPreferredValue(200);
 		adjustableBorderPanel_1.setSeperatorColor(new Color(30, 144, 255));
 		adjustableBorderPanel_1.setNorthSeparatorEnabled(false);
 		adjustableBorderPanel_1.setSouthEnabled(true);
@@ -131,14 +131,14 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Progress)), 
 				backgroundPanel, null);
 		
-		JPanel panel_3 = new JPanel();
-		southTabbedPane.addTab("New tab", null, panel_3, null);
-		
 		centerTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		adjustableBorderPanel_1.add(centerTabbedPane, BorderLayout.CENTER);
 		
 		JPanel panel_4 = new JPanel();
-		centerTabbedPane.addTab("New tab", null, panel_4, null);
+		centerTabbedPane.addTab(
+				getLabel(LabelStringKey.MainFrame_4),
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Tool)), 
+				panel_4, null);
 		
 		libraryPanel = new JLibraryPanel();
 		centerTabbedPane.addTab(
@@ -146,21 +146,28 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Library)), 
 				libraryPanel, null);
 		
+		JPanel panel_1 = new JPanel();
+		centerTabbedPane.addTab(
+				getLabel(LabelStringKey.MainFrame_6),
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Runtime)), 
+				panel_1, null);
+		
 		JPanel panel = new JPanel();
 		
 		north_border = new TitledBorder(null, getLabel(LabelStringKey.MainFrame_1), TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0));
 		panel.setBorder(north_border);
 		adjustableBorderPanel.add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{30, 0};
+		gbl_panel.columnWidths = new int[]{30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{30, 0};
-		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setPreferredSize(new Dimension(30, 30));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 0;
@@ -168,6 +175,8 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 		adjustableBorderPanel.add(tabbedPane_1, BorderLayout.SOUTH);
+		
+		//pack();
 	}
 
 	/*

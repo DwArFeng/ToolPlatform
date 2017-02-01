@@ -54,6 +54,7 @@ import com.dwarfeng.tp.core.model.io.XmlLibraryLoader;
 import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
 import com.dwarfeng.tp.core.model.io.XmlMutilangLoader;
 import com.dwarfeng.tp.core.model.io.XmlResourceLoader;
+import com.dwarfeng.tp.core.model.io.XmlToolInfoLoader;
 import com.dwarfeng.tp.core.model.obv.LoggerAdapter;
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 import com.dwarfeng.tp.core.model.obv.MutilangAdapter;
@@ -444,24 +445,28 @@ public final class ToolPlatform {
 			/**
 			 * 新实例。
 			 * @param blockKey 阻挡键, 不能为 <code>null</code>。
+			 * @param initMessage 初始的信息，不能为 <code>null</code>。
 			 * @throws NullPointerException 入口参数为 <code>null</code>。
 			 */
-			public InnerAbstractFlow(BlockKey blockKey) {
-				this(blockKey, 0, 0, false, false);
+			public InnerAbstractFlow(BlockKey blockKey, String initMessage) {
+				this(blockKey, initMessage, 0, 0, false, false);
 			}
 			
 			/**
 			 * 新实例。
 			 * @param blockKey 阻挡键，不能为 <code>null</code>。
+			 * @param initMessage 初始的信息，不能为 <code>null</code>。
 			 * @param progress 当前进度。
 			 * @param totleProgress 总进度。
 			 * @param determinateFlag 是否为进度已知的流程。
 			 * @param cancelableFlag 是否能够被取消。
 			 */
-			public InnerAbstractFlow(BlockKey blockKey, int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag ){
+			public InnerAbstractFlow(BlockKey blockKey, String initMessage, int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag ){
 				super(progress, totleProgress, determinateFlag, cancelableFlag);
 				Objects.requireNonNull(blockKey, "入口参数 blockKey 不能为 null。");
+				Objects.requireNonNull(initMessage, "入口参数 initMessage 不能为 null。");
 				this.blockKey = blockKey.getName();
+				setMessage(initMessage);
 			}
 
 			/*
@@ -484,13 +489,33 @@ public final class ToolPlatform {
 			 * <p> 该方法不允许抛出任何异常。
 			 */
 			protected abstract void subProcess();
+			
+			/**
+			 * 返回指定的记录器键所对应的字符串。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @return 记录器键对应的字符串。
+			 */
+			protected String getLabel(LoggerStringKey loggerStringKey){
+				return manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName());
+			}
 
+			/**
+			 * 返回指定记录器键的 format 字符串。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @param args 指定的 format 参数。
+			 * @return 指定的记录器键的 format 字符串。
+			 */
+			protected String formatLabel(LoggerStringKey loggerStringKey, Object... args){
+				return String.format(manager.getLoggerMutilangModel().getMutilang().getString(
+						loggerStringKey.getName()),args);
+			}
+			
 			/**
 			 * 向记录器中输入一条INFO类信息。
 			 * @param loggerStringKey 指定的记录器键。
 			 */
 			protected void info(LoggerStringKey loggerStringKey){
-				manager.getLoggerModel().getLogger().info(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
+				manager.getLoggerModel().getLogger().info(getLabel(loggerStringKey));
 			}
 
 			/**
@@ -499,8 +524,7 @@ public final class ToolPlatform {
 			 * @param args format参数。
 			 */
 			protected void formatInfo(LoggerStringKey loggerStringKey, Object... args){
-				manager.getLoggerModel().getLogger().info(String.format(manager.getLoggerMutilangModel().getMutilang().getString(
-						loggerStringKey.getName()),args));	
+				manager.getLoggerModel().getLogger().info(formatLabel(loggerStringKey, args));	
 			}
 
 			/**
@@ -509,7 +533,7 @@ public final class ToolPlatform {
 			 * @param throwable 指定的可抛出对象。
 			 */
 			protected void warn(LoggerStringKey loggerStringKey, Throwable throwable){
-				manager.getLoggerModel().getLogger().warn(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()), throwable);
+				manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey), throwable);
 			}
 
 			/**
@@ -526,7 +550,7 @@ public final class ToolPlatform {
 			 * @param loggerStringKey 指定的记录器键。
 			 */
 			protected void message(LoggerStringKey loggerStringKey){
-				setMessage(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()));
+				setMessage(getLabel(loggerStringKey));
 			}
 			
 			/**
@@ -535,7 +559,7 @@ public final class ToolPlatform {
 			 * @param args format 参数。
 			 */
 			protected void formatMessage(LoggerStringKey loggerStringKey, Object... args){
-				setMessage(String.format(manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName()),args));	
+				setMessage(formatLabel(loggerStringKey, args));	
 			}
 			
 		}
@@ -543,7 +567,7 @@ public final class ToolPlatform {
 		private final class InitializeFlow extends InnerAbstractFlow{
 			
 			public InitializeFlow() {
-				super(BlockKey.INITIALIZE);
+				super(BlockKey.INITIALIZE, "");
 			}
 
 			/*
@@ -741,6 +765,27 @@ public final class ToolPlatform {
 						}
 					}
 					
+					//加载工具信息模型
+					info(LoggerStringKey.ToolPlatform_FlowProvider_22);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_22);
+					if (splashFlag) {
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_22);
+					}
+					XmlToolInfoLoader toolInfoLoader = null;
+					try{
+						toolInfoLoader = new XmlToolInfoLoader(getResource(ResourceKey.TOOL_INFO).openInputStream());
+						toolInfoLoader.load(manager.getToolInfoModel());
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+						getResource(ResourceKey.TOOL_INFO).reset();
+						toolInfoLoader = new XmlToolInfoLoader(getResource(ResourceKey.TOOL_INFO).openInputStream());
+						toolInfoLoader.load(manager.getToolInfoModel());
+					}finally{
+						if(Objects.nonNull(toolInfoLoader)){
+							toolInfoLoader.close();
+						}
+					}
+					
 					//唤起主界面
 					info(LoggerStringKey.ToolPlatform_FlowProvider_11);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_11);
@@ -848,7 +893,7 @@ public final class ToolPlatform {
 		private final class LoadLibFlow extends InnerAbstractFlow{
 			
 			public LoadLibFlow() {
-				super(BlockKey.LOAD_LIB);
+				super(BlockKey.LOAD_LIB, manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_14.getName()));
 			}
 
 			/*
@@ -893,7 +938,7 @@ public final class ToolPlatform {
 		private final class CheckLibFlow extends InnerAbstractFlow{
 
 			public CheckLibFlow() {
-				super(BlockKey.CHECK_LIB);
+				super(BlockKey.CHECK_LIB,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_17.getName()));
 			}
 			
 			/*

@@ -6,7 +6,6 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JProgressBar;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
@@ -15,9 +14,7 @@ import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.UIManager;
 
 public class JBackgroundItem extends JPanel {
 	

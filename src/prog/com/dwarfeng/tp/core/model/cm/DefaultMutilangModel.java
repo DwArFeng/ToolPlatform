@@ -508,7 +508,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 			mutilangLock.lock();
 			try{
 				if(! supportedKeys.contains(key)){
-					throw new IllegalArgumentException("该多语言接口不支持此键");
+					throw new IllegalArgumentException("多语言接口-不支持此键");
 				}
 				return mutilangMap.getOrDefault(key, defaultValue);
 			}finally {

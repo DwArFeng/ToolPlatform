@@ -16,6 +16,8 @@ public enum ImageKey implements Name {
 	Done(new DefaultName("/com/dwarfeng/tp/resource/image/done.png")),
 	Progress(new DefaultName("/com/dwarfeng/tp/resource/image/progress.png")),
 	Library(new DefaultName("/com/dwarfeng/tp/resource/image/library.png")),
+	Tool(new DefaultName("/com/dwarfeng/tp/resource/image/tool.png")),
+	Runtime(new DefaultName("/com/dwarfeng/tp/resource/image/runtime.png")),
 
 	;
 

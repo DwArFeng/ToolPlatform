@@ -1,8 +1,6 @@
 package com.dwarfeng.tp.core.view.struct;
 
 import java.awt.Component;
-import java.util.Locale;
-
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 
 /**

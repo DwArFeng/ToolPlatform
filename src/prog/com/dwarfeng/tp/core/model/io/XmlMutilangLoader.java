@@ -3,7 +3,6 @@ package com.dwarfeng.tp.core.model.io;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import org.dom4j.Element;
@@ -13,6 +12,7 @@ import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.io.StreamLoader;
 import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.struct.DefaultMutilangInfo;
+import com.dwarfeng.tp.core.util.LocaleUtil;
 
 /**
  * xml多语言模型读取器。
@@ -63,23 +63,18 @@ public final class XmlMutilangLoader extends StreamLoader<MutilangModel> {
 			@SuppressWarnings("unchecked")
 			List<Element> mutilangInfos = (List<Element>)root.elements("info");
 			for(Element mutilangInfo : mutilangInfos){
-				String language = mutilangInfo.attributeValue("language");
-				String country = mutilangInfo.attributeValue("country");
-				String variant = mutilangInfo.attributeValue("variant");
+				String locale = mutilangInfo.attributeValue("locale");
 				String label = mutilangInfo.attributeValue("label");
 				String filePath = mutilangInfo.attributeValue("file");
 				
 				if(
-						Objects.nonNull(language) &&
-						Objects.nonNull(country) &&
-						Objects.nonNull(variant) &&
+						Objects.nonNull(locale) &&
 						Objects.nonNull(label) &&
 						Objects.nonNull(filePath)
 						){
-					Locale locale = new Locale(language, country, variant);
 					
 					File targetFile = new File(dir, filePath);
-					mutilangModel.put(locale, new DefaultMutilangInfo(label, targetFile));
+					mutilangModel.put(LocaleUtil.parseLocale(locale), new DefaultMutilangInfo(label, targetFile));
 				}
 			}
 			

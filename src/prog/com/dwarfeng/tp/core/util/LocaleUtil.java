@@ -2,7 +2,8 @@ package com.dwarfeng.tp.core.util;
 
 import java.util.Locale;
 import java.util.Objects;
-import java.util.StringTokenizer;
+
+import com.dwarfeng.dutil.basic.str.FactoriesByString;
 
 /**
  * 地区常用方法。
@@ -21,13 +22,7 @@ public final class LocaleUtil {
 		Objects.requireNonNull(s, "入口参数 s 不能为 null。");
 		
 		if(s.equals("")) return null;
-		
-		StringTokenizer tokenizer = new StringTokenizer(s, "_");
-		String language = tokenizer.hasMoreTokens()? tokenizer.nextToken() : "";
-		String country = tokenizer.hasMoreTokens()? tokenizer.nextToken() : "";
-		String variant  = tokenizer.hasMoreTokens()? tokenizer.nextToken() : "";
-		
-		return new Locale(language, country, variant);
+		return FactoriesByString.newLocale(s);
 	}
 	
 	//禁止外部实例化
