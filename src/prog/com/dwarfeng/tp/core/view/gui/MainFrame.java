@@ -25,8 +25,11 @@ import javax.swing.border.TitledBorder;
 import com.dwarfeng.dutil.basic.gui.swing.JAdjustableBorderPanel;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
+import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
+import com.dwarfeng.tp.core.model.cm.LibraryModel;
+import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
@@ -53,6 +56,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private final JTpconsole console;
 	private final JBackgroundPanel backgroundPanel;
 	private final JLibraryPanel libraryPanel;
+	private final JToolInfoPanel toolInfoPanel;
 	
 	/*
 	 * 其它final域
@@ -63,19 +67,21 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	
 	/**多语言接口*/
 	private Mutilang mutilang;
+
+
 	
 	/**
 	 * 新实例。
 	 */
 	public MainFrame() {
-		this(ToolPlatformUtil.newDefaultLabelMutilang(), null);
+		this(ToolPlatformUtil.newDefaultLabelMutilang(), null, null, null);
 	}
 	
 	/**
 	 * 新实例。
 	 * @param mutilang 指定的多语言接口。
 	 */
-	public MainFrame(Mutilang mutilang, BackgroundModel backgroundModel) {
+	public MainFrame(Mutilang mutilang, BackgroundModel backgroundModel, ToolInfoModel toolInfoModel, LibraryModel libraryModel) {
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
 
 		this.mutilang = mutilang;
@@ -91,7 +97,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 			}
 		});
 		
-		setIconImage(ToolPlatformUtil.getImage(ImageKey.MainFrame_Icon));
+		setIconImage(ToolPlatformUtil.getImage(ImageKey.MAINFRAME_ICON, ImageSize.ICON_SUPER_LARGE));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		JAdjustableBorderPanel adjustableBorderPanel = new JAdjustableBorderPanel();
@@ -119,7 +125,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		console = new JTpconsole(mutilang);
 		southTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_2),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Console)), 
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.CONSOLE, ImageSize.ICON_SMALL)), 
 				console, null);
 		System.setIn(console.in);
 		System.setOut(console.out);
@@ -128,28 +134,28 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		backgroundPanel = new JBackgroundPanel(backgroundModel);
 		southTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_3),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Progress)), 
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.PROGRESS, ImageSize.ICON_SMALL)), 
 				backgroundPanel, null);
 		
 		centerTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		adjustableBorderPanel_1.add(centerTabbedPane, BorderLayout.CENTER);
 		
-		JPanel panel_4 = new JPanel();
+		toolInfoPanel = new JToolInfoPanel(toolInfoModel);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_4),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Tool)), 
-				panel_4, null);
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.TOOL, ImageSize.ICON_SMALL)), 
+				toolInfoPanel, null);
 		
-		libraryPanel = new JLibraryPanel();
+		libraryPanel = new JLibraryPanel(libraryModel);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_5),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Library)), 
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.LIBRARY, ImageSize.ICON_SMALL)), 
 				libraryPanel, null);
 		
 		JPanel panel_1 = new JPanel();
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_6),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Runtime)), 
+				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.RUNTIME, ImageSize.ICON_SMALL)), 
 				panel_1, null);
 		
 		JPanel panel = new JPanel();
@@ -248,7 +254,11 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 */
 	@Override
 	public void dispose() {
+		setVisible(false);
 		console.dispose();
+		backgroundPanel.dispose();
+		toolInfoPanel.dispose();
+		libraryPanel.dispose();
 		System.setIn(sysIn);
 		System.setOut(sysOut);
 		System.setErr(sysErr);

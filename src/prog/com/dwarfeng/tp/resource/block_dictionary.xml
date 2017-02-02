@@ -10,4 +10,7 @@
 		<dictionary value="initialize"/>
 		<dictionary value="load_lib"/>
 	</key>
+		<key value="load_toolinfo">
+		<dictionary value="initialize"/>
+	</key>
 </root>

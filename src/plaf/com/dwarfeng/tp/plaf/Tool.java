@@ -7,7 +7,7 @@ import java.util.Map;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.str.Name;
-import com.dwarfeng.tp.core.model.cfg.ToolImageType;
+import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.plaf.core.FileManager;
 import com.dwarfeng.tp.plaf.core.ToolObverser;
 import com.dwarfeng.tp.plaf.core.ToolStopMode;
@@ -29,7 +29,7 @@ public interface Tool extends ObverserSet<ToolObverser>, Name{
 	 * @return 工具中指定类型的图片。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public Image getImage(ToolImageType type);
+	public Image getImage(ImageSize type);
 	
 	/**
 	 * 获取软件的版本。

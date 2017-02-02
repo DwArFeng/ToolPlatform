@@ -7,7 +7,6 @@ import java.util.Objects;
 
 import com.dwarfeng.dutil.basic.cna.ArrayUtil;
 import com.dwarfeng.dutil.basic.prog.Version;
-import com.dwarfeng.tp.core.model.cfg.ToolImageType;
 
 /**
  * 安全工具信息。
@@ -15,11 +14,11 @@ import com.dwarfeng.tp.core.model.cfg.ToolImageType;
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-final class SafeToolInfo implements ToolInfo {
+public final class SafeToolInfo implements ToolInfo {
 	
-	private final Map<ToolImageType, Image> imageMap;
+	private final Image image;
 	private final Version version;
-	private final Map<Locale, String> description;
+	private final Map<Locale, String> descriptionMap;
 	private final String[] authors;
 	private final String toolClass;
 	private final String infoClass;
@@ -38,10 +37,9 @@ final class SafeToolInfo implements ToolInfo {
 	 * @param toolFile 工具指定的文件名称。
 	 * @param toolLibs 工具的库文件列表。
 	 * @throws NullPointerException 入口参数为 <code>null</code>，或其数组中包含 <code>null</code>元素。
-	 * @throws IllegalArgumentException 图片映射不全（没有全部包含 ToolImageType 中的所有项）。
 	 */
 	public SafeToolInfo(
-			Map<ToolImageType, Image> imageMap, 
+			Image image, 
 			Version version, 
 			Map<Locale, String> description,
 			String[] authors,
@@ -49,7 +47,7 @@ final class SafeToolInfo implements ToolInfo {
 			String infoClass,
 			String toolFile, 
 			String[] toolLibs) {
-		Objects.requireNonNull(imageMap, "入口参数 imageMap 不能为 null。");
+		Objects.requireNonNull(image, "入口参数 image 不能为 null。");
 		Objects.requireNonNull(version, "入口参数 version 不能为 null。");
 		Objects.requireNonNull(description, "入口参数 description 不能为 null。");
 		ArrayUtil.requireNotContainsNull(authors, "入口参数 authors 不能为 null，也不能包含 null 元素。");
@@ -57,29 +55,24 @@ final class SafeToolInfo implements ToolInfo {
 		Objects.requireNonNull(infoClass, "入口参数 infoClass 不能为 null。");
 		Objects.requireNonNull(toolFile, "入口参数 toolFile 不能为 null。");
 		ArrayUtil.requireNotContainsNull(toolLibs, "入口参数 toolLibs 不能为 null，也不能包含 null 元素。");
-		for(ToolImageType type : imageMap.keySet()){
-			if(!imageMap.containsKey(type)){
-				throw new IllegalArgumentException("imageMap 中的键必须包含所有 ToolImageType。");
-			}
-		}
 		
-		this.imageMap = imageMap;
+		this.image = image;
 		this.version = version;
-		this.description = description;
+		this.descriptionMap = description;
 		this.authors = authors;
 		this.toolClass = toolClass;
 		this.infoClass = infoClass;
 		this.toolFile = toolFile;
 		this.toolLibs = toolLibs;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getImage(com.dwarfeng.tp.core.model.struct.ToolImageType)
+	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getImage()
 	 */
 	@Override
-	public Image getImage(ToolImageType type) {
-		return imageMap.get(type);
+	public Image getImage() throws ProcessException {
+		return image;
 	}
 
 	/*
@@ -93,11 +86,24 @@ final class SafeToolInfo implements ToolInfo {
 
 	/*
 	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getDescriptionMap()
+	 */
+	@Override
+	public Map<Locale, String> getDescriptionMap() throws ProcessException {
+		return descriptionMap;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getDescription(java.util.Locale)
 	 */
 	@Override
 	public String getDescription(Locale locale) {
-		return description.getOrDefault(locale, description.get(null));
+		if(! descriptionMap.containsKey(null)){
+			return descriptionMap.getOrDefault(locale, "");
+		}else{
+			return descriptionMap.getOrDefault(locale, descriptionMap.get(null));
+		}
 	}
 
 	/*

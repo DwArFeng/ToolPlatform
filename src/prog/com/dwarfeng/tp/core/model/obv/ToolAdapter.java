@@ -7,7 +7,7 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public abstract class ToolAdapter implements ToolObverser {
+public abstract class ToolAdapter implements ToolInfoObverser {
 
 	@Override
 	public void fireEntryAdded(String name, ToolInfo info) {}

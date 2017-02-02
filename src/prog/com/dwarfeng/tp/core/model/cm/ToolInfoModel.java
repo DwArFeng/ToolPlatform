@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
-import com.dwarfeng.tp.core.model.obv.ToolObverser;
+import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
@@ -13,6 +13,6 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-public interface ToolInfoModel extends Map<String, ToolInfo>, ObverserSet<ToolObverser>, ExternalReadWriteThreadSafe{
+public interface ToolInfoModel extends Map<String, ToolInfo>, ObverserSet<ToolInfoObverser>, ExternalReadWriteThreadSafe{
 	
 }

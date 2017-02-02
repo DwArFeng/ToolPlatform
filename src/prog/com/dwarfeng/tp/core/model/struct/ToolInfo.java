@@ -2,9 +2,8 @@ package com.dwarfeng.tp.core.model.struct;
 
 import java.awt.Image;
 import java.util.Locale;
-
+import java.util.Map;
 import com.dwarfeng.dutil.basic.prog.Version;
-import com.dwarfeng.tp.core.model.cfg.ToolImageType;
 
 /**
  * 工具信息。
@@ -13,15 +12,13 @@ import com.dwarfeng.tp.core.model.cfg.ToolImageType;
  * @since 0.0.0-alpha
  */
 public interface ToolInfo {
-
+	
 	/**
 	 * 返回工具中指定类型的图片。
-	 * @param type 图片类型。
 	 * @return 工具中指定类型的图片。
-	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 * @throws ProcessException 过程异常。
 	 */
-	public Image getImage(ToolImageType type) throws ProcessException;
+	public Image getImage() throws ProcessException;
 	
 	/**
 	 * 返回工具的版本。
@@ -29,6 +26,13 @@ public interface ToolInfo {
 	 * @throws ProcessException 过程异常。
 	 */
 	public Version getVersion() throws ProcessException;
+	
+	/**
+	 * 获取工具中的语言-描述映射。
+	 * @return 工具中的语言-描述映射。
+	 * @throws ProcessException 过程异常。
+	 */
+	public Map<Locale, String> getDescriptionMap() throws ProcessException;
 	
 	/**
 	 * TODO 是否要以 Doucument 的形式来返回描述？？

@@ -26,5 +26,11 @@ public interface FlowProvider {
 	 * @return 新的检查库的过程。
 	 */
 	public Flow newCheckLibFlow();
-
+	
+	/**
+	 * 获取一个新的读取工具信息的过程。
+	 * @return 新的读取工具信息的过程。
+	 */
+	public Flow newLoadToolInfoFlow();
+	
 }

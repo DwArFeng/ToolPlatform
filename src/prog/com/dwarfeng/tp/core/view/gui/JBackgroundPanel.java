@@ -94,7 +94,7 @@ public class JBackgroundPanel extends JPanel {
 					int index = listModel.indexOf(flow);
 					JBackgroundItem progressItem = progressItems.get(index);
 					progressItem.setTotleProgress(newValue);
-					flowList.repaint();
+					listModel.set(index, flow);
 				}
 			});
 		}
@@ -127,7 +127,7 @@ public class JBackgroundPanel extends JPanel {
 					int index = listModel.indexOf(flow);
 					JBackgroundItem progressItem = progressItems.get(index);
 					progressItem.setProgress(newValue);
-					flowList.repaint();
+					listModel.set(index, flow);
 				}
 			});
 		}
@@ -144,7 +144,7 @@ public class JBackgroundPanel extends JPanel {
 					int index = listModel.indexOf(flow);
 					JBackgroundItem progressItem = progressItems.get(index);
 					progressItem.setMesssge(newValue);
-					flowList.repaint();
+					listModel.set(index, flow);
 				}
 			});
 		}
@@ -161,7 +161,7 @@ public class JBackgroundPanel extends JPanel {
 					int index = listModel.indexOf(flow);
 					JBackgroundItem progressItem = progressItems.get(index);
 					progressItem.setDone(true);
-					flowList.repaint();
+					listModel.set(index, flow);
 				}
 			});
 		}
@@ -178,7 +178,7 @@ public class JBackgroundPanel extends JPanel {
 					int index = listModel.indexOf(flow);
 					JBackgroundItem progressItem = progressItems.get(index);
 					progressItem.setDeterminate(newValue);
-					flowList.repaint();
+					listModel.set(index, flow);
 				}
 			});
 		}
@@ -195,7 +195,7 @@ public class JBackgroundPanel extends JPanel {
 					int index = listModel.indexOf(flow);
 					JBackgroundItem progressItem = progressItems.get(index);
 					progressItem.setCancel(true);
-					flowList.repaint();
+					listModel.set(index, flow);
 				}
 			});
 		}
@@ -212,7 +212,7 @@ public class JBackgroundPanel extends JPanel {
 					int index = listModel.indexOf(flow);
 					JBackgroundItem progressItem = progressItems.get(index);
 					progressItem.setCancelable(newValue);
-					flowList.repaint();
+					listModel.set(index, flow);
 				}
 			});
 		}
@@ -258,6 +258,7 @@ public class JBackgroundPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(null);
 		add(scrollPane, BorderLayout.CENTER);
 		
 		flowList = new JList<>();

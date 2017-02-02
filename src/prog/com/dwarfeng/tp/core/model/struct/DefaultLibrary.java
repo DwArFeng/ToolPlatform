@@ -106,7 +106,7 @@ public final class DefaultLibrary implements Library {
 	 * @see com.dwarfeng.tp.core.model.struct.Library#getURL()
 	 */
 	@Override
-	public URL getURL() throws ProcessException {
+	public URL getURL(){
 		return url;
 	}
 

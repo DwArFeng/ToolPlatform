@@ -5,23 +5,26 @@ package com.dwarfeng.tp.core.model.cfg;
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-public enum ToolImageType {
+public enum ImageSize {
 
 	/**小图标*/
-	ICON_SMALL(32,32),
+	ICON_SMALL(16,16),
 	
 	/**中等图标*/
-	ICON_MEDIUM(64,64),
+	ICON_MEDIUM(32,32),
 	
 	/**大图标*/
-	ICON_LARGE(128,128),
+	ICON_LARGE(48,48),
+	
+	/**程序用超大图标*/
+	ICON_SUPER_LARGE(128,128),
 	
 	;
 	
 	private final int height;
 	private final int width;
 	
-	private ToolImageType(int height, int width) {
+	private ImageSize(int height, int width) {
 		this.height = height;
 		this.width = width;
 	}

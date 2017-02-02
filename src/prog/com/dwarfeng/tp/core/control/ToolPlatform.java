@@ -1,10 +1,13 @@
 package com.dwarfeng.tp.core.control;
 
+import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
@@ -66,6 +69,8 @@ import com.dwarfeng.tp.core.model.struct.Flow;
 import com.dwarfeng.tp.core.model.struct.LibraryKeyChecker;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
+import com.dwarfeng.tp.core.model.struct.SafeToolInfo;
+import com.dwarfeng.tp.core.model.struct.ToolInfo;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.gui.MainFrame;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
@@ -268,7 +273,9 @@ public final class ToolPlatform {
 			protected MainFrame subNewInstance() {
 				MainFrame mainFrame = new MainFrame(
 						labelMutilangModel.getMutilang(),
-						backgroundModel
+						backgroundModel,
+						toolInfoModel,
+						libraryModel
 				);
 				mainFrame.addObverser(uiObverserProvider.getMainFrameProvider());
 				return mainFrame;
@@ -302,6 +309,14 @@ public final class ToolPlatform {
 			loggerModel.addObverser(loggerObverser);
 			loggerMutilangModel.addObverser(loggerMutilangObverser);
 			coreConfigModel.addObverser(coreConfigObverser);
+			
+			try {
+				loggerMutilangModel.update();
+				labelMutilangModel.update();
+			} catch (ProcessException e) {
+				//未初始化之前，多语言模型使用的是固化在程序中的数据，不可能出现异常。
+				e.printStackTrace();
+			}
 		}
 		
 		
@@ -431,7 +446,14 @@ public final class ToolPlatform {
 			return new CheckLibFlow();
 		}
 
-		
+
+		@Override
+		public Flow newLoadToolInfoFlow() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
 		/**
 		 * 内部抽象过程。
 		 * <p> 定义常用的内部用方法。
@@ -567,7 +589,7 @@ public final class ToolPlatform {
 		private final class InitializeFlow extends InnerAbstractFlow{
 			
 			public InitializeFlow() {
-				super(BlockKey.INITIALIZE, "");
+				super(BlockKey.INITIALIZE, manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_3.getName()));
 			}
 
 			/*
@@ -767,23 +789,55 @@ public final class ToolPlatform {
 					
 					//加载工具信息模型
 					info(LoggerStringKey.ToolPlatform_FlowProvider_22);
-					message(LoggerStringKey.ToolPlatform_FlowProvider_22);
+					ToolInfoModel tempToolInfoModel = new DefaultToolInfoModel();
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_22);
 					}
+					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_22);
 					XmlToolInfoLoader toolInfoLoader = null;
 					try{
 						toolInfoLoader = new XmlToolInfoLoader(getResource(ResourceKey.TOOL_INFO).openInputStream());
-						toolInfoLoader.load(manager.getToolInfoModel());
+						toolInfoLoader.load(tempToolInfoModel);
 					}catch (IOException e) {
 						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
 						getResource(ResourceKey.TOOL_INFO).reset();
 						toolInfoLoader = new XmlToolInfoLoader(getResource(ResourceKey.TOOL_INFO).openInputStream());
-						toolInfoLoader.load(manager.getToolInfoModel());
+						toolInfoLoader.load(tempToolInfoModel);
 					}finally{
 						if(Objects.nonNull(toolInfoLoader)){
 							toolInfoLoader.close();
 						}
+					}
+					
+					next:
+					for(String name : tempToolInfoModel.keySet()){
+						ToolInfo unsafeToolInfo = tempToolInfoModel.get(name);
+						
+						Image image;
+						Version version;
+						Map<Locale, String> descriptions;
+						String[] authors;
+						String toolClass;
+						String infoClass;
+						String toolFile;
+						String[] toolLibs;
+						try{
+							image = unsafeToolInfo.getImage();
+							version = unsafeToolInfo.getVersion();
+							descriptions = unsafeToolInfo.getDescriptionMap();
+							authors = unsafeToolInfo.getAuthors();
+							toolClass = unsafeToolInfo.getToolClass();
+							infoClass = unsafeToolInfo.getInfoClass();
+							toolFile = unsafeToolInfo.getToolFile();
+							toolLibs = unsafeToolInfo.getToolLibs();
+						}catch (ProcessException e) {
+							warn(LoggerStringKey.ToolPlatform_FlowProvider_26, e);
+							continue next;
+						}
+
+						SafeToolInfo safeToolInfo = new SafeToolInfo(image, version, descriptions, authors, toolClass, infoClass, toolFile, toolLibs);
+						manager.getToolInfoModel().put(name, safeToolInfo);
 					}
 					
 					//唤起主界面
@@ -1011,6 +1065,91 @@ public final class ToolPlatform {
 			}
 			
 		}
+		private final class LoadToolInfoFlow extends InnerAbstractFlow{
+
+			public LoadToolInfoFlow() {
+				super(BlockKey.LOAD_TOOLINFO,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_22.getName()));
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
+			 */
+			@Override
+			protected void subProcess() {
+				try{
+					if(getState() != RuntimeState.RUNNING){
+						throw new IllegalStateException("程序还未启动或已经结束");
+					}
+					
+					//加载工具信息模型
+					info(LoggerStringKey.ToolPlatform_FlowProvider_22);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_22);
+					
+					ToolInfoModel tempToolInfoModel = new DefaultToolInfoModel();
+					XmlToolInfoLoader toolInfoLoader = null;
+					try{
+						toolInfoLoader = new XmlToolInfoLoader(getResource(ResourceKey.TOOL_INFO).openInputStream());
+						toolInfoLoader.load(tempToolInfoModel);
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+						getResource(ResourceKey.TOOL_INFO).reset();
+						toolInfoLoader = new XmlToolInfoLoader(getResource(ResourceKey.TOOL_INFO).openInputStream());
+						toolInfoLoader.load(tempToolInfoModel);
+					}finally{
+						if(Objects.nonNull(toolInfoLoader)){
+							toolInfoLoader.close();
+						}
+					}
+					
+					//解析工具信息
+					info(LoggerStringKey.ToolPlatform_FlowProvider_23);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_23);
+					setTotleProgress(tempToolInfoModel.keySet().size());
+					setDeterminate(true);
+					
+					manager.toolInfoModel.clear();
+					next:
+					for(String name : tempToolInfoModel.keySet()){
+						ToolInfo unsafeToolInfo = tempToolInfoModel.get(name);
+						
+						Image image;
+						Version version;
+						Map<Locale, String> descriptionMap;
+						String[] authors;
+						String toolClass;
+						String infoClass;
+						String toolFile;
+						String[] toolLibs;
+						try{
+							image = unsafeToolInfo.getImage();
+							version = unsafeToolInfo.getVersion();
+							descriptionMap = unsafeToolInfo.getDescriptionMap();
+							authors = unsafeToolInfo.getAuthors();
+							toolClass = unsafeToolInfo.getToolClass();
+							infoClass = unsafeToolInfo.getInfoClass();
+							toolFile = unsafeToolInfo.getToolFile();
+							toolLibs = unsafeToolInfo.getToolLibs();
+						}catch (ProcessException e) {
+							warn(LoggerStringKey.ToolPlatform_FlowProvider_26, e);
+							continue next;
+						}finally {
+							setProgress(getProgress() + 1);
+						}
+
+						SafeToolInfo safeToolInfo = new SafeToolInfo(image, version, descriptionMap, authors, toolClass, infoClass, toolFile, toolLibs);
+						manager.getToolInfoModel().put(name, safeToolInfo);
+					}
+					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_24);
+					
+				}catch (Exception e) {
+					message(LoggerStringKey.ToolPlatform_FlowProvider_25);
+				}
+			}
+			
+		}
+	
 	}
 	
 	private final class InnerUiObverserProvider implements UiObverserProvider{

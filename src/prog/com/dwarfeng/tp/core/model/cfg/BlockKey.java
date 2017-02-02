@@ -13,6 +13,7 @@ public enum BlockKey implements Name{
 	INITIALIZE(new DefaultName("initialize")),
 	LOAD_LIB(new DefaultName("load_lib")),
 	CHECK_LIB(new DefaultName("check_lib")),
+	LOAD_TOOLINFO(new DefaultName("load_toolinfo"));
 	
 	;
 

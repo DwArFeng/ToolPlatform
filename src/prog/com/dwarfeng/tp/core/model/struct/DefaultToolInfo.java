@@ -20,7 +20,6 @@ import org.dom4j.io.SAXReader;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
-import com.dwarfeng.tp.core.model.cfg.ToolImageType;
 import com.dwarfeng.tp.core.util.LocaleUtil;
 
 /**
@@ -33,55 +32,31 @@ import com.dwarfeng.tp.core.util.LocaleUtil;
 public final class DefaultToolInfo implements ToolInfo {
 	
 	private final File stringFile;
-	private final File imageFile_s;
-	private final File imageFile_m;
-	private final File imageFile_l;
+	private final File imageFile;
 
 	/**
 	 * 新实例
 	 * @param stringFile 文本文件。
-	 * @param imageFile_s 小图片文件。
+	 * @param imageFile 小图片文件。
 	 * @param imageFile_m 中图片文件。
 	 * @param imageFile_l 大图片文件。
 	 */
-	public DefaultToolInfo(File stringFile, File imageFile_s, File imageFile_m, File imageFile_l) {
+	public DefaultToolInfo(File stringFile, File imageFile) {
 		Objects.requireNonNull(stringFile, "入口参数 stringFile 不能为 null。");
-		Objects.requireNonNull(imageFile_s, "入口参数 imageFile_s 不能为 null。");
-		Objects.requireNonNull(imageFile_m, "入口参数 imageFile_m 不能为 null。");
-		Objects.requireNonNull(imageFile_l, "入口参数 imageFile_l 不能为 null。");
+		Objects.requireNonNull(imageFile, "入口参数 imageFile_s 不能为 null。");
 
 		this.stringFile = stringFile;
-		this.imageFile_s = imageFile_s;
-		this.imageFile_m = imageFile_m;
-		this.imageFile_l = imageFile_l;
+		this.imageFile = imageFile;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getImage(com.dwarfeng.tp.core.model.cfg.ToolImageType)
+	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getImage()
 	 */
 	@Override
-	public Image getImage(ToolImageType type) throws ProcessException {
+	public Image getImage() throws ProcessException {
 		try{
-			switch (type) {
-			case ICON_LARGE:
-				return ImageIO.read(imageFile_l).getScaledInstance(
-						ToolImageType.ICON_LARGE.getWidth(),
-						ToolImageType.ICON_LARGE.getHeight(), 
-						Image.SCALE_DEFAULT);
-			case ICON_MEDIUM:
-				return ImageIO.read(imageFile_m).getScaledInstance(
-						ToolImageType.ICON_MEDIUM.getWidth(),
-						ToolImageType.ICON_MEDIUM.getHeight(), 
-						Image.SCALE_DEFAULT);
-			case ICON_SMALL:
-				return ImageIO.read(imageFile_s).getScaledInstance(
-						ToolImageType.ICON_SMALL.getWidth(),
-						ToolImageType.ICON_SMALL.getHeight(), 
-						Image.SCALE_DEFAULT);
-			default:
-				return null;
-			}
+			return ImageIO.read(imageFile);
 		}catch (Exception e) {
 			throw new ProcessException("工具信息-读取图片失败", e);
 		}
@@ -125,7 +100,7 @@ public final class DefaultToolInfo implements ToolInfo {
 			}
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getDescription(java.util.Locale)
@@ -139,12 +114,12 @@ public final class DefaultToolInfo implements ToolInfo {
 			return descriptionMap.getOrDefault(locale, descriptionMap.get(null));
 		}
 	}
-	
-	/**
-	 * 获取全部的语言与描述的映射。
-	 * @return 语言与描述的映射。
-	 * @throws ProcessException 过程异常
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.ToolInfo#getDescriptionMap()
 	 */
+	@Override
 	public Map<Locale, String> getDescriptionMap() throws ProcessException{
 		InputStream in = null;
 		try{

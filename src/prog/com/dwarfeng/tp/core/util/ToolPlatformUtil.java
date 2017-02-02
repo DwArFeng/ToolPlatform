@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.util;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -25,6 +26,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
+import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.struct.Logger;
@@ -77,18 +79,55 @@ public final class ToolPlatformUtil {
 		defaultLabelMutilangInfo = new InnerMutilangInfo(mutilangLabel, labelMutilangDefaultMap);
 	}
 	
-	public final static Image getImage(ImageKey imageKey){
+	/**
+	 * 获取指定图片键对应的图片。
+	 * <p> 图片将被调整到指定的大小。
+	 * @param imageKey 指定的图片键。
+	 * @param imageSize 图片的大小。
+	 * @return 指定的图片键对应的图片。
+	 */
+	public final static Image getImage(ImageKey imageKey, ImageSize imageSize){
 		Objects.requireNonNull(imageKey, "入口参数 imageKey 不能为 null。");
-		
+		Objects.requireNonNull(imageSize, "入口参数 imageSize 不能为 null。");
+
 		try {
-			return ImageIO.read(ToolPlatform.class.getResource(imageKey.getName()));
+			BufferedImage image = ImageIO.read(ToolPlatform.class.getResource(imageKey.getName()));
+			int width = imageSize.getWidth();
+			int height = imageSize.getHeight();
+			if(image.getHeight() == height && image.getWidth() == width){
+				return image;
+			}else{
+				return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+			}
 		} catch (IOException e) {
 			try {
-				return ImageIO.read(ToolPlatform.class.getResource(ImageKey.ImaLoadFailed.getName()));
+				BufferedImage image = ImageIO.read(ToolPlatform.class.getResource(ImageKey.IMG_LOAD_FAILED.getName()));
+				int width = imageSize.getWidth();
+				int height = imageSize.getHeight();
+				if(image.getHeight() == height && image.getWidth() == width){
+					return image;
+				}else{
+					return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+				}
 			} catch (IOException e1) {
 				return null;
 			}
 		}
+	}
+	
+	/**
+	 * 获取指定图片按照指定大小缩放而来的图片。
+	 * @param image 指定的图片。
+	 * @param imageSize 需要缩放到的大小。
+	 * @return 缩放后的新图片。
+	 */
+	public final static Image scaleImage(Image image, ImageSize imageSize){
+		Objects.requireNonNull(image, "入口参数 image 不能为 null。");
+		Objects.requireNonNull(imageSize, "入口参数 imageSize 不能为 null。");
+
+		int width = imageSize.getWidth();
+		int height = imageSize.getHeight();
+		return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 	}
 	
 	/**

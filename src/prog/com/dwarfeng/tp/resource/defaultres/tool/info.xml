@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root dir="attributes/tool/cache" >
+<root dir="attributes/cache" >
 	<!--
 	使用如下的格式：
 		<tool name="XXX">
 			<strs url="XXXX-XXXX-XXXX-XXXX"/>
-			<img_s url="XXXX-XXXX-XXXX-XXXX"/>
-			<img_m url="XXXX-XXXX-XXXX-XXXX"/>
-			<img_l url="XXXX-XXXX-XXXX-XXXX">
+			<img url="XXXX-XXXX-XXXX-XXXX"/>
 			strs文件应该使用如下格式：
 				<?xml version="1.0" encoding="UTF-8"?>
 				<root>
 					<version  typ="BETA" fst="0" snd="0" trd="1" bdate="20170131" bchar="A"/>
 					<description locale="">
 						其中是描述的文字。
-					<description>
+					</description>
 					<description locale="">
 						locale=""的是默认描述文本。
-					<description>
+					</description>
 					<author value="rae"/>
 					<author value="DwArFeng"/>
 					<lib value="dutil..."/>

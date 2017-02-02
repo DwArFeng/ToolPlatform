@@ -60,10 +60,8 @@ public class XmlToolInfoLoader extends StreamLoader<ToolInfoModel> {
 				try{
 					String name = toolinfo.attributeValue("name");
 					File strs = new File(dir, toolinfo.element("strs").attributeValue("url"));
-					File img_s = new File(dir, toolinfo.element("img_s").attributeValue("url"));
-					File img_m = new File(dir, toolinfo.element("img_m").attributeValue("url"));
-					File img_l = new File(dir, toolinfo.element("img_l").attributeValue("url"));
-					toolInfoModel.put(name, new DefaultToolInfo(strs, img_s, img_m, img_l));
+					File img = new File(dir, toolinfo.element("img").attributeValue("url"));
+					toolInfoModel.put(name, new DefaultToolInfo(strs, img));
 				}catch (Exception e) {
 					continue next;
 				}

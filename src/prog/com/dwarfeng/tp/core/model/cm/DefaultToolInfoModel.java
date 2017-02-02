@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import com.dwarfeng.tp.core.model.obv.ToolObverser;
+import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
@@ -119,13 +119,13 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	}
 	
 	private void fireEntryAdded(String name, ToolInfo info) {
-		for(ToolObverser obverser : obversers){
+		for(ToolInfoObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireEntryAdded(name, info);
 		}
 	}
 
 	private void fireEntryChanged(String name, ToolInfo oldOne, ToolInfo newOne) {
-		for(ToolObverser obverser : obversers){
+		for(ToolInfoObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireEntryChanged(name, oldOne, newOne);
 		}
 	}
@@ -150,7 +150,7 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	}
 	
 	private void fireEntryRemoved(String name) {
-		for(ToolObverser obverser : obversers){
+		for(ToolInfoObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireEntryRemoved(name);
 		}
 	}
@@ -189,7 +189,7 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	}
 
 	private void fireCleared() {
-		for(ToolObverser obverser : obversers){
+		for(ToolInfoObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireCleared();
 		}
 	}

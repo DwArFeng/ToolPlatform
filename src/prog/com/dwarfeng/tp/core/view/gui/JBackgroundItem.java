@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JProgressBar;
 
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
+import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 import java.awt.Insets;
@@ -120,12 +121,12 @@ public class JBackgroundItem extends JPanel {
 		progressBar.setIndeterminate(! determinateFlag);
 		cancelButton.setEnabled(cancelable);
 		if(cancelFlag){
-			iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Canceled)));
+			iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.CANCELED, ImageSize.ICON_SMALL)));
 		}else{
 			if(doneFlag){
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Done)));
+				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
 			}else{
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Processing)));
+				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
 			}
 		}
 		messageLabel.setText(message);
@@ -211,12 +212,12 @@ public class JBackgroundItem extends JPanel {
 	public void setCancel(boolean aFlag){
 		cancleFlag = aFlag;
 		if(aFlag){
-			iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Canceled)));
+			iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.CANCELED, ImageSize.ICON_SMALL)));
 		}else{
 			if(doneFlag){
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Done)));
+				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
 			}else{
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Processing)));
+				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
 			}
 		}
 	}
@@ -237,9 +238,9 @@ public class JBackgroundItem extends JPanel {
 		doneFlag = aFlag;
 		if(!cancleFlag){
 			if(aFlag){
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Done)));
+				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
 			}else{
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.Processing)));
+				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
 			}
 		}
 	}
