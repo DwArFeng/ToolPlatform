@@ -1,12 +1,15 @@
 package com.dwarfeng.tp.core.model.cm;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
+import com.dwarfeng.tp.core.model.struct.ReadOnlyExecutorService;
 
 /**
  * 抽象工具运行时模型。
@@ -21,6 +24,27 @@ public abstract class AbstractToolRuntimeModel implements ToolRuntimeModel {
 	protected final Set<ToolRuntimeObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	/**模型的同步读写锁。*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
+	/**模型的执行器服务*/
+	protected final ExecutorService es;
+	
+	/**
+	 * 新实例。
+	 * @param es 指定的执行器服务。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
+	 */
+	public AbstractToolRuntimeModel(ExecutorService es) {
+		Objects.requireNonNull(es, "入口参数 es 不能为 null。");
+		this.es = es;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#getExecutorService()
+	 */
+	@Override
+	public ExecutorService getExecutorService() {
+		return new ReadOnlyExecutorService(es);
+	}
 	
 	/*
 	 * (non-Javadoc)

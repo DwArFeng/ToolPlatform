@@ -78,5 +78,4 @@ public interface RunningTool extends Name, ObverserSet<RunningToolObverser>{
 	 */
 	public RuntimeState getRuntimeState();
 	
-	
 }

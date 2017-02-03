@@ -1,5 +1,7 @@
 package com.dwarfeng.tp.core.model.cm;
 
+import java.util.concurrent.ExecutorService;
+
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
@@ -14,11 +16,32 @@ import com.dwarfeng.tp.core.model.struct.RunningTool;
 public interface ToolRuntimeModel extends ExternalReadWriteThreadSafe, ObverserSet<ToolRuntimeObverser>, Iterable<RunningTool>{
 
 	/**
+	 * 返回该后台模型中用于处理过程的执行器服务。
+	 * <p> 注意：返回的执行器服务仅应该用于查询状态，调用其其它方法会抛出 {@link UnsupportedOperationException}。
+	 * @return 后台模型中的执行器服务。
+	 */
+	public ExecutorService getExecutorService();
+	
+	/**
 	 * 向模型中添加指定的运行中工具。
+	 * <p> 向模型中添加的运行中工具必须是还没有运行的工具。
 	 * @param runningTool 指定的运行中工具。
 	 * @return 该操作是否对模型产生了变更。
 	 */
 	public boolean add(RunningTool runningTool);
+	
+	/**
+	 * 返回该模型是否拒绝新的运行中工具被添加。
+	 * @return 该模型是否拒绝新的运行中工具被添加。
+	 */
+	public boolean isAddRejected();
+	
+	/**
+	 * 设置该模型是否拒绝新的运行中工具被添加。
+	 * @param aFlag 是否拒绝新的运行中工具被添加。
+	 * @return 该操作是否对模型造成了改变。
+	 */
+	public boolean setAddRejected(boolean aFlag);
 	
 	/**
 	 * 返回模型中是否存在名称为指定值的运行中工具。
@@ -64,4 +87,10 @@ public interface ToolRuntimeModel extends ExternalReadWriteThreadSafe, ObverserS
 	 * @return 该方法是否改变了模型本身。
 	 */
 	public boolean clearExited();
+	
+	/**
+	 * 关闭该工具运行时模型。
+	 * <p> 工具运行时模型被关闭后，会拒绝所有运行时工具的添加；对于已经添加过的工具，则什么也不做。
+	 */
+	public void shutdown();
 }

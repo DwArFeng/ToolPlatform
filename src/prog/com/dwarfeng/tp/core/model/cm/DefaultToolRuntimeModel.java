@@ -7,13 +7,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.Condition;
 
+import com.dwarfeng.dutil.basic.prog.RuntimeState;
+import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
 import com.dwarfeng.tp.core.model.obv.RunningToolObverser;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
 
 public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
+	
+	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("tool_runtime");
+
 	
 	private final Condition condition = lock.writeLock().newCondition();
 	private final List<RunningTool> runningTools = new ArrayList<>();
@@ -56,6 +63,8 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 		}
 	};
 	
+	private boolean addRejectFlag = false;
+	
 	/**
 	 * 新实例。
 	 */
@@ -69,6 +78,7 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public DefaultToolRuntimeModel(Collection<RunningTool> c){
+		super(Executors.newCachedThreadPool(THREAD_FACTORY));
 		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
 		runningTools.addAll(c);
 		for(RunningTool runningTool : runningTools){
@@ -85,11 +95,15 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 		lock.writeLock().lock();
 		try{
 			if(Objects.isNull(runningTool)) return false;
+			if(addRejectFlag) return false;
+			if(! runningTool.getRuntimeState().equals(RuntimeState.NOT_START)) return false;
 			
 			runningTool.addObverser(runningToolObverser);
 			runningTools.add(runningTool);
 			runningToolNames.add(runningTool.getName());
 			fireFlowAdded(runningTool);
+			
+			es.submit(new InnerRunnable(runningTool));
 			return true;
 		}finally {
 			lock.writeLock().unlock();
@@ -243,6 +257,81 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 		}finally {
 			lock.readLock().unlock();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#isAddRejected()
+	 */
+	@Override
+	public boolean isAddRejected() {
+		lock.readLock().lock();
+		try{
+			return addRejectFlag;
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#setAddRejected(boolean)
+	 */
+	@Override
+	public boolean setAddRejected(boolean aFlag) {
+		lock.writeLock().lock();
+		try{
+			if(addRejectFlag == aFlag) return false;
+			addRejectFlag = aFlag;
+			fireAddRejectChanged(aFlag);
+			return true;
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+
+	private void fireAddRejectChanged(boolean newValue) {
+		for(ToolRuntimeObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireAddRejectChanged(newValue);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#shutdown()
+	 */
+	@Override
+	public void shutdown() {
+		lock.writeLock().lock();
+		try{
+			es.shutdown();
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+	
+	private static final class InnerRunnable implements Runnable{
+
+		private final RunningTool runningTool;
+		
+		public InnerRunnable(RunningTool runningTool) {
+			this.runningTool = runningTool;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {
+			try {
+				runningTool.start();
+			} catch (InterruptedException ignore) {
+				//中断即退出。
+				return;
+			}
+		}
+		
 	}
 
 }

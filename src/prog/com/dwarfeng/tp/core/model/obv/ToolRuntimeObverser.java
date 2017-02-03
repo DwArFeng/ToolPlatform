@@ -34,4 +34,10 @@ public interface ToolRuntimeObverser extends Obverser {
 	 */
 	public void fireRunningToolExited(RunningTool runningTool);
 	
+	/**
+	 * 通知模型中的拒绝添加标记改变。
+	 * @param newValue 拒绝添加标记的新值。
+	 */
+	public void fireAddRejectChanged(boolean newValue);
+	
 }
