@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
-import com.dwarfeng.dutil.basic.gui.swing.JAdjustableBorderPanel;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.ImageSize;
@@ -35,6 +34,7 @@ import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
 import java.awt.Insets;
+import javax.swing.JSplitPane;
 
 /**
  * 程序的主界面。
@@ -157,6 +157,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				getLabel(LabelStringKey.MainFrame_6),
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.RUNTIME, ImageSize.ICON_SMALL)), 
 				panel_1, null);
+		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
 		

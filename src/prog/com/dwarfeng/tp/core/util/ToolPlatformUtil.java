@@ -99,7 +99,7 @@ public final class ToolPlatformUtil {
 			}else{
 				return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			try {
 				BufferedImage image = ImageIO.read(ToolPlatform.class.getResource(ImageKey.IMG_LOAD_FAILED.getName()));
 				int width = imageSize.getWidth();
@@ -109,7 +109,7 @@ public final class ToolPlatformUtil {
 				}else{
 					return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 				}
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				return null;
 			}
 		}

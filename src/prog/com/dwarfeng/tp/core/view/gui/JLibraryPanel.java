@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.view.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.util.Objects;
 
 import javax.swing.DefaultListCellRenderer;
@@ -22,9 +23,11 @@ import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 public final class JLibraryPanel extends JPanel{
 	
 	private final JList<String> list;
-	
+	private final Image libraryIconImage;
+
 	private LibraryModel libraryModel;
 	private ImageSize libraryIconSize = ImageSize.ICON_MEDIUM;
+	
 
 	private final LibraryObverser libraryObverser = new LibraryAdapter() {
 
@@ -96,7 +99,7 @@ public final class JLibraryPanel extends JPanel{
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			String name = (String) value;
 			this.setText(name);
-			setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.LIBRARY_ICON, libraryIconSize)));
+			setIcon(new ImageIcon(ToolPlatformUtil.scaleImage(libraryIconImage, libraryIconSize)));
 			return this;
 		};
 	};
@@ -114,6 +117,8 @@ public final class JLibraryPanel extends JPanel{
 	 */
 	public JLibraryPanel(LibraryModel libraryModel) {
 		setLayout(new BorderLayout(0, 0));
+		
+		libraryIconImage = ToolPlatformUtil.getImage(ImageKey.LIBRARY_ICON, ImageSize.ICON_LARGE);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);

@@ -266,7 +266,7 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 
 	/**
 	 * 返回该后台模型的过程迭代器。
-	 * <p> 注意，该集合不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
+	 * <p> 注意，迭代器合不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
 	 * {@link #getLock()}进行外部同步。
 	 * @return 该后台模型的过程迭代器。
 	 */

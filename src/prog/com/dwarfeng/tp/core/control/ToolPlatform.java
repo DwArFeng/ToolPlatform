@@ -46,12 +46,14 @@ import com.dwarfeng.tp.core.model.cm.DefaultModalConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultMutilangModel;
 import com.dwarfeng.tp.core.model.cm.DefaultResourceModel;
 import com.dwarfeng.tp.core.model.cm.DefaultToolInfoModel;
+import com.dwarfeng.tp.core.model.cm.DefaultToolRuntimeModel;
 import com.dwarfeng.tp.core.model.cm.LibraryModel;
 import com.dwarfeng.tp.core.model.cm.LoggerModel;
 import com.dwarfeng.tp.core.model.cm.ModalConfigModel;
 import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
+import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
 import com.dwarfeng.tp.core.model.io.XmlBlockLoader;
 import com.dwarfeng.tp.core.model.io.XmlLibraryLoader;
 import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
@@ -204,6 +206,7 @@ public final class ToolPlatform {
 		private BackgroundModel backgroundModel = new DefaultBackgroundModel();
 		private LibraryModel libraryModel = new DefaultLibraryModel();
 		private BlockModel blockModel = new DefaultBlockModel();
+		private ToolRuntimeModel toolRuntimeModel = new DefaultToolRuntimeModel();
 		//structs
 		private FinishedFlowTaker finishedFlowTaker = new DefaultFinishedFlowTaker(backgroundModel);
 		//obvs
@@ -391,6 +394,13 @@ public final class ToolPlatform {
 		 */
 		public BlockModel getBlockModel(){
 			return blockModel;
+		}
+
+		/**
+		 * @return the toolRuntimeModel
+		 */
+		public ToolRuntimeModel getToolRuntimeModel() {
+			return toolRuntimeModel;
 		}
 
 		/**
