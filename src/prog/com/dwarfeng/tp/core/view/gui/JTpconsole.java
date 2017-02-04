@@ -22,7 +22,7 @@ import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
-public final class JTpconsole extends JExconsole implements MutilangSupported{
+final class JTpconsole extends JExconsole implements MutilangSupported{
 	
 	private static final long serialVersionUID = 8510072604515358830L;
 	

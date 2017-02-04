@@ -18,5 +18,11 @@ public interface MainFrameObverser extends Obverser{
 	 * 通知界面被激活。
 	 */
 	public void fireFireWindowActivated();
+
+	/**
+	 * 通知需要运行指定的工具。
+	 * @param name 工具的名称。
+	 */
+	public void fireRunTool(String name);
 	
 }

@@ -33,4 +33,11 @@ public interface FlowProvider {
 	 */
 	public Flow newLoadToolInfoFlow();
 	
+	/**
+	 *  获取一个新的运行工具的过程。
+	 * @param name 工具的名称。
+	 * @return 新的运行工具的过程。
+	 */
+	public Flow newRunToolFlow(String name);
+	
 }

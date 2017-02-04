@@ -2,6 +2,7 @@ package com.dwarfeng.tp.core.view.struct;
 
 import java.awt.Component;
 
+import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.view.gui.MainFrame;
 
 /**
@@ -59,4 +60,13 @@ public interface MainFrameController extends MutilangSupportedGuiController<Main
 	 * @return 该操作是否改变了控制器中的组件。
 	 */
 	public boolean setLocationRelativeTo(Component component);
+	
+	/**
+	 * 为指定的运行中工具指定输入流和输出流。
+	 * <p> 当且仅当入口参数不为 <code>null</code>，且输入当前的 toolRuntimeModel的时候，才能够指派成功。
+	 * <p> 该方法请不要在 <code>EventQueue</code> 线程中运行。
+	 * @param runningTool 指定的运行中工具。
+	 * @return 是否接受该指派。
+	 */
+	public boolean assignStream(RunningTool runningTool);
 }

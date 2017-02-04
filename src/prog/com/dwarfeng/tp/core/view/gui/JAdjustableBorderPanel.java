@@ -16,7 +16,6 @@ import javax.swing.border.LineBorder;
 
 import com.dwarfeng.dutil.basic.DwarfUtil;
 import com.dwarfeng.dutil.basic.StringFieldKey;
-import com.dwarfeng.dutil.basic.io.CT;
 
 /**
  * 可调整的边界布局面板。

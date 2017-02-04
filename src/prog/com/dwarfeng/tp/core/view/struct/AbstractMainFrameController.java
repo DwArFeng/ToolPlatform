@@ -3,6 +3,7 @@ package com.dwarfeng.tp.core.view.struct;
 import java.awt.Component;
 import java.util.Objects;
 
+import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.view.gui.MainFrame;
 
 /**
@@ -115,4 +116,19 @@ public abstract class AbstractMainFrameController extends AbstractMusuedGuiContr
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.view.struct.MainFrameController#assignStream(com.dwarfeng.tp.core.model.struct.RunningTool)
+	 */
+	@Override
+	public boolean assignStream(RunningTool runningTool) {
+		lock.writeLock().lock();
+		try{
+			if(Objects.isNull(this.component)) return false;
+			return this.component.assignStream(runningTool);
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+	
 }

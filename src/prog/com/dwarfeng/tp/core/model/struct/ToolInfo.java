@@ -14,8 +14,8 @@ import com.dwarfeng.dutil.basic.prog.Version;
 public interface ToolInfo {
 	
 	/**
-	 * 返回工具中指定类型的图片。
-	 * @return 工具中指定类型的图片。
+	 * 返回工具中的图片。
+	 * @return 工具中的图片。
 	 * @throws ProcessException 过程异常。
 	 */
 	public Image getImage() throws ProcessException;

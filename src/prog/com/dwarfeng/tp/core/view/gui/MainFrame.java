@@ -6,6 +6,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.InputStream;
@@ -29,12 +30,13 @@ import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 import com.dwarfeng.tp.core.model.cm.LibraryModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
+import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
+import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
-import java.awt.Insets;
-import javax.swing.JSplitPane;
+import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
 
 /**
  * 程序的主界面。
@@ -46,7 +48,6 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	/**观察器集合*/
 	private final Set<MainFrameObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	
-	
 	/*
 	 * 所有与多语言有关的对象
 	 */
@@ -57,7 +58,8 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private final JBackgroundPanel backgroundPanel;
 	private final JLibraryPanel libraryPanel;
 	private final JToolInfoPanel toolInfoPanel;
-	
+	private final JToolRuntimePanel toolRuntimePanel;
+
 	/*
 	 * 其它final域
 	 */
@@ -68,20 +70,36 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	/**多语言接口*/
 	private Mutilang mutilang;
 
+	/**其它面板的观察器*/
+	private ToolInfoPanelObverser toolInfoPanelObverser = new ToolInfoPanelObverser() {
+		
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser#fireRunTool(java.lang.String)
+		 */
+		@Override
+		public void fireRunTool(String name) {
+			MainFrame.this.fireRunTool(name);
+		}
+	};
 
-	
 	/**
 	 * 新实例。
 	 */
 	public MainFrame() {
-		this(ToolPlatformUtil.newDefaultLabelMutilang(), null, null, null);
+		this(ToolPlatformUtil.newDefaultLabelMutilang(), null, null, null, null);
 	}
 	
 	/**
 	 * 新实例。
 	 * @param mutilang 指定的多语言接口。
 	 */
-	public MainFrame(Mutilang mutilang, BackgroundModel backgroundModel, ToolInfoModel toolInfoModel, LibraryModel libraryModel) {
+	public MainFrame(Mutilang mutilang, 
+			BackgroundModel backgroundModel, 
+			ToolInfoModel toolInfoModel, 
+			LibraryModel libraryModel,
+			ToolRuntimeModel toolRuntimeModel
+			) {
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
 
 		this.mutilang = mutilang;
@@ -141,6 +159,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		adjustableBorderPanel_1.add(centerTabbedPane, BorderLayout.CENTER);
 		
 		toolInfoPanel = new JToolInfoPanel(toolInfoModel);
+		toolInfoPanel.addObverser(toolInfoPanelObverser);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_4),
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.TOOL, ImageSize.ICON_SMALL)), 
@@ -152,12 +171,11 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.LIBRARY, ImageSize.ICON_SMALL)), 
 				libraryPanel, null);
 		
-		JPanel panel_1 = new JPanel();
+		toolRuntimePanel = new JToolRuntimePanel(toolRuntimeModel);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_6),
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.RUNTIME, ImageSize.ICON_SMALL)), 
-				panel_1, null);
-		panel_1.setLayout(new BorderLayout(0, 0));
+				toolRuntimePanel, null);
 		
 		JPanel panel = new JPanel();
 		
@@ -249,6 +267,17 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		obversers.clear();
 	}
 	
+	/**
+	 * 为指定的运行中工具指定输入流和输出流。
+	 * <p> 当且仅当入口参数不为 <code>null</code>，且输入当前的 toolRuntimeModel的时候，才能够指派成功。
+	 * <p> 该方法请不要在 <code>EventQueue</code> 线程中运行。
+	 * @param runningTool 指定的运行中工具。
+	 * @return 是否接受该指派。
+	 */
+	public boolean assignStream(RunningTool runningTool) {
+		return toolRuntimePanel.assignStream(runningTool);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.awt.Window#dispose()
@@ -258,6 +287,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		setVisible(false);
 		console.dispose();
 		backgroundPanel.dispose();
+		toolInfoPanel.removeObverser(toolInfoPanelObverser);
 		toolInfoPanel.dispose();
 		libraryPanel.dispose();
 		System.setIn(sysIn);
@@ -279,6 +309,12 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private void fireFireWindowActivated() {
 		for(MainFrameObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireFireWindowActivated();
+		}
+	}
+
+	private void fireRunTool(String name) {
+		for(MainFrameObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireRunTool(name);
 		}
 	}
 

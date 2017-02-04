@@ -1,7 +1,10 @@
 package com.dwarfeng.tp.core.model.struct;
 
+import java.awt.Image;
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
@@ -15,6 +18,12 @@ import com.dwarfeng.tp.core.model.obv.RunningToolObverser;
  * @since 0.0.0-alpha
  */
 public interface RunningTool extends Name, ObverserSet<RunningToolObverser>{
+	
+	/**
+	 * 返回工具中的图片。
+	 * @return 工具中的图片。
+	 */
+	public Image getImage();
 	
 	/**
 	 * 获取用于转接工具输出流的输入流。
@@ -45,7 +54,7 @@ public interface RunningTool extends Name, ObverserSet<RunningToolObverser>{
 	 * @param out 指定的输出流。
 	 * @return 是否设置成功
 	 */
-	public boolean setOutputStream(OutputStream out);
+	public boolean setOutputStream(PrintStream out);
 	
 	/**
 	 * 锁定流。
@@ -77,5 +86,18 @@ public interface RunningTool extends Name, ObverserSet<RunningToolObverser>{
 	 * @return 该工具的运行时状态。
 	 */
 	public RuntimeState getRuntimeState();
+	
+	/**
+	 * 获取该运行中工具的工作目录。
+	 * @return 该运行中工具的工作目录。
+	 */
+	public File getDirectory();
+	
+	/**
+	 * 返回该运行中工具的退出代码。
+	 * <p> 对于某些实现，即使工具处于运行状态下，调用该方法仍然能够返回值——但是这样做毫无意义。
+	 * @return 该工具的退出代码。
+	 */
+	public int getExitCode();
 	
 }

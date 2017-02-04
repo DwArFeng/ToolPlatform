@@ -12,6 +12,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.Condition;
 
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
 import com.dwarfeng.tp.core.model.obv.RunningToolObverser;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
@@ -112,19 +113,19 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 
 	private void fireFlowAdded(RunningTool runningTool) {
 		for(ToolRuntimeObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireRunnintToolAdded(runningTool);
+			if(Objects.nonNull(obverser)) obverser.fireRunningToolAdded(runningTool);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#contains(java.lang.String)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#contains(com.dwarfeng.dutil.basic.str.Name)
 	 */
 	@Override
-	public boolean contains(String name) {
+	public boolean contains(Name name) {
 		lock.readLock().lock();
 		try{
-			return runningToolNames.contains(name);
+			return runningToolNames.contains(name.getName());
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -132,17 +133,17 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#numberOf(java.lang.String)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#numberOf(com.dwarfeng.dutil.basic.str.Name)
 	 */
 	@Override
-	public int numberOf(String name) {
+	public int numberOf(Name name) {
 		if(name == null) return 0;
 		
 		lock.readLock().lock();
 		try{
 			int count = 0;
 			for(String str : runningToolNames){
-				if(str.equals(name)) count ++;
+				if(str.equals(name.getName())) count ++;
 			}
 			return count;
 		}finally {

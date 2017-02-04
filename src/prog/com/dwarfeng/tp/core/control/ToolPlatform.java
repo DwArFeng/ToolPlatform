@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.control;
 
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -28,7 +29,6 @@ import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigLoader;
 import com.dwarfeng.tp.core.control.act.FlowProvider;
-import com.dwarfeng.tp.core.control.act.UiObverserProvider;
 import com.dwarfeng.tp.core.model.cfg.BlockKey;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
@@ -58,6 +58,7 @@ import com.dwarfeng.tp.core.model.io.XmlBlockLoader;
 import com.dwarfeng.tp.core.model.io.XmlLibraryLoader;
 import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
 import com.dwarfeng.tp.core.model.io.XmlMutilangLoader;
+import com.dwarfeng.tp.core.model.io.XmlPathGetter;
 import com.dwarfeng.tp.core.model.io.XmlResourceLoader;
 import com.dwarfeng.tp.core.model.io.XmlToolInfoLoader;
 import com.dwarfeng.tp.core.model.obv.LoggerAdapter;
@@ -66,11 +67,13 @@ import com.dwarfeng.tp.core.model.obv.MutilangAdapter;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 import com.dwarfeng.tp.core.model.struct.AbstractFlow;
 import com.dwarfeng.tp.core.model.struct.DefaultFinishedFlowTaker;
+import com.dwarfeng.tp.core.model.struct.DefaultRunningTool;
 import com.dwarfeng.tp.core.model.struct.FinishedFlowTaker;
 import com.dwarfeng.tp.core.model.struct.Flow;
 import com.dwarfeng.tp.core.model.struct.LibraryKeyChecker;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
+import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.model.struct.SafeToolInfo;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
@@ -115,8 +118,6 @@ public final class ToolPlatform {
 	/**程序的实例列表，用于持有引用*/
 	private static final Set<ToolPlatform> INSTANCES  = Collections.synchronizedSet(new HashSet<>());
 	
-	/**程序的界面观察器提供器*/
-	private final UiObverserProvider uiObverserProvider = new InnerUiObverserProvider();
 	/**程序的过程提供器*/
 	private final FlowProvider flowProvider = new InnerFlowProvider();
 	/**程序管理器*/
@@ -278,9 +279,10 @@ public final class ToolPlatform {
 						labelMutilangModel.getMutilang(),
 						backgroundModel,
 						toolInfoModel,
-						libraryModel
+						libraryModel,
+						toolRuntimeModel
 				);
-				mainFrame.addObverser(uiObverserProvider.getMainFrameProvider());
+				mainFrame.addObverser(mainFrameObverser);
 				return mainFrame;
 			}
 			
@@ -290,12 +292,46 @@ public final class ToolPlatform {
 			 */
 			@Override
 			protected void subDispose(MainFrame component) {
-				component.clearObverser();
+				component.removeObverser(mainFrameObverser);
 				component.dispose();
 			}
 		};
 		
 		
+		private final MainFrameObverser mainFrameObverser = new MainFrameObverser() {
+			
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireWindowClosing()
+			 */
+			@Override
+			public void fireWindowClosing() {
+				CT.trace("CLICKED");
+			}
+		
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireFireWindowActivated()
+			 */
+			@Override
+			public void fireFireWindowActivated() {
+				manager.getBackgroundModel().submit(flowProvider.newLoadLibFlow());
+				manager.getBackgroundModel().submit(flowProvider.newCheckLibFlow());
+				
+			}
+		
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireRunTool(java.lang.String)
+			 */
+			@Override
+			public void fireRunTool(String name) {
+				manager.getBackgroundModel().submit(flowProvider.newRunToolFlow(name));
+			}
+			
+		};
+
+
 		/**
 		 * 新的实例。
 		 */
@@ -456,11 +492,23 @@ public final class ToolPlatform {
 			return new CheckLibFlow();
 		}
 
-
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newLoadToolInfoFlow()
+		 */
 		@Override
 		public Flow newLoadToolInfoFlow() {
-			// TODO Auto-generated method stub
-			return null;
+			return new LoadToolInfoFlow();
+		}
+
+
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newRunToolFlow(java.lang.String)
+		 */
+		@Override
+		public Flow newRunToolFlow(String name) {
+			return new RunToolFlow(name);
 		}
 
 
@@ -1078,7 +1126,7 @@ public final class ToolPlatform {
 		private final class LoadToolInfoFlow extends InnerAbstractFlow{
 
 			public LoadToolInfoFlow() {
-				super(BlockKey.LOAD_TOOLINFO,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_22.getName()));
+				super(BlockKey.RUN_TOOL,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_22.getName()));
 			}
 
 			/*
@@ -1159,50 +1207,88 @@ public final class ToolPlatform {
 			}
 			
 		}
-	
-	}
-	
-	private final class InnerUiObverserProvider implements UiObverserProvider{
 		
-		public InnerUiObverserProvider() {
-			//TODO 补充
-		}
-		
-		private final MainFrameObverser mainFrameObverser = new MainFrameObverser() {
+		private final class RunToolFlow extends InnerAbstractFlow{
+
+			private final String name;
 			
-			/*
-			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireWindowClosing()
-			 */
-			@Override
-			public void fireWindowClosing() {
-				CT.trace("CLICKED");
+			public RunToolFlow(String name) {
+				super(BlockKey.LOAD_TOOLINFO,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_27.getName()));
+				Objects.requireNonNull(name, "入口参数 name 不能为 null。");
+				this.name = name;
 			}
 
 			/*
 			 * (non-Javadoc)
-			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireFireWindowActivated()
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.InnerFlowProvider.InnerAbstractFlow#subProcess()
 			 */
 			@Override
-			public void fireFireWindowActivated() {
-				manager.getBackgroundModel().submit(flowProvider.newLoadLibFlow());
-				manager.getBackgroundModel().submit(flowProvider.newCheckLibFlow());
-				
+			protected void subProcess() {
+				try{
+					if(getState() != RuntimeState.RUNNING){
+						throw new IllegalStateException("程序还未启动或已经结束");
+					}
+					
+					XmlPathGetter pathGetter = null;
+					InputStream libCfg = null;
+					InputStream dataCfg = null;
+
+					try{
+						try{
+							libCfg =getResource(ResourceKey.TOOL_LIB).openInputStream();
+						}catch (IOException e) {
+							warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+							getResource(ResourceKey.TOOL_LIB).reset();
+							libCfg =getResource(ResourceKey.TOOL_LIB).openInputStream();
+						}
+						
+						try{
+							dataCfg =getResource(ResourceKey.TOOL_DATA).openInputStream();
+						}catch (IOException e) {
+							warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+							getResource(ResourceKey.TOOL_DATA).reset();
+							dataCfg =getResource(ResourceKey.TOOL_DATA).openInputStream();
+						}
+						
+						pathGetter = new XmlPathGetter(libCfg, dataCfg);
+						
+					}finally {
+						if(Objects.nonNull(libCfg)){
+							libCfg.close();
+						}
+						if(Objects.nonNull(dataCfg)){
+							dataCfg.close();
+						}
+					}
+
+					ToolInfo toolInfo = manager.getToolInfoModel().get(name);
+					
+					String[] libNames = toolInfo.getToolLibs();
+					String[] libPaths = new String[libNames.length];
+					for(int i = 0 ; i < libPaths.length ; i ++){
+						libPaths[i] = pathGetter.getLibraryPath(libNames[i]);
+					}
+					
+					Image image = toolInfo.getImage();
+					String jarPath = pathGetter.getToolFilePath(toolInfo.getToolFile());
+					String entryClass = toolInfo.getToolClass();
+					File directory = pathGetter.getToolDirectory(name);
+					
+					RunningTool runningTool = new DefaultRunningTool(image, name, libPaths, jarPath, entryClass, directory);
+					
+					manager.getToolRuntimeModel().add(runningTool);
+					manager.getMainFrameController().assignStream(runningTool);
+					runningTool.lockStream();
+					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_28);
+					
+				}catch (Exception e) {
+					message(LoggerStringKey.ToolPlatform_FlowProvider_29);
+				}
 			}
 			
-		};
-
-		
-		
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.control.act.UiObverserProvider#getMainFrameProvider()
-		 */
-		@Override
-		public MainFrameObverser getMainFrameProvider() {
-			return mainFrameObverser;
 		}
-		
+	
 	}
 	
 }

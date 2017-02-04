@@ -30,6 +30,8 @@ public enum ResourceKey implements Name{
 	/**工具库*/
 	TOOL_LIB("tool.lib"),
 	
+	/**工具数据*/
+	TOOL_DATA("tool.data"),
 	
 	;
 

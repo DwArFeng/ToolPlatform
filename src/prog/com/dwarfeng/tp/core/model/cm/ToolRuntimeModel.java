@@ -3,6 +3,7 @@ package com.dwarfeng.tp.core.model.cm;
 import java.util.concurrent.ExecutorService;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
@@ -48,14 +49,14 @@ public interface ToolRuntimeModel extends ExternalReadWriteThreadSafe, ObverserS
 	 * @param name 指定的名称。
 	 * @return 是否存在名称为指定值的运行中工具。
 	 */
-	public boolean contains(String name);
+	public boolean contains(Name name);
 	
 	/**
 	 * 返回模型中指定名称的运行中工具存在的数量。
 	 * @param name 指定的名称。
 	 * @return 名称为指定值的运行中工具存在的数量。
 	 */
-	public int numberOf(String name);
+	public int numberOf(Name name);
 	
 	/**
 	 * 返回模型中的运行中工具数量。

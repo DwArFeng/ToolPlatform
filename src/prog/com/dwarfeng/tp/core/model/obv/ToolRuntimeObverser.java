@@ -14,7 +14,7 @@ public interface ToolRuntimeObverser extends Obverser {
 	 * 通知指定的运行中工具被添加。
 	 * @param runningTool 指定的运行中工具。
 	 */
-	public void fireRunnintToolAdded(RunningTool runningTool);
+	public void fireRunningToolAdded(RunningTool runningTool);
 
 	/**
 	 * 通知指定的运行中工具被移除。

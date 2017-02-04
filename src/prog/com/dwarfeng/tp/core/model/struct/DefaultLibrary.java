@@ -21,7 +21,6 @@ public final class DefaultLibrary implements Library {
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 	private final URL url; 
-	
 	/**
 	 * 新实例。
 	 * @param url 指定的 url。
@@ -109,6 +108,5 @@ public final class DefaultLibrary implements Library {
 	public URL getURL(){
 		return url;
 	}
-
 
 }

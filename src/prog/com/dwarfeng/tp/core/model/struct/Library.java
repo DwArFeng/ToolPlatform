@@ -46,6 +46,4 @@ public interface Library extends ExternalReadWriteThreadSafe{
 	 */
 	public URL getURL() throws ProcessException;
 	
-	
-	
 }
