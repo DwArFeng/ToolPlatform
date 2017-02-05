@@ -275,7 +275,7 @@ public final class ToolPlatform {
 				}
 				manager.getLoggerModel().update();
 			}catch (LoadFailedException | IOException | ProcessException e) {
-				//e.printStackTrace();
+				e.printStackTrace();
 				logInvalid = true;
 			}
 	
