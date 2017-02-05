@@ -15,6 +15,7 @@ public enum BlockKey implements Name{
 	CHECK_LIB(new DefaultName("check_lib")),
 	LOAD_TOOLINFO(new DefaultName("load_toolinfo")),
 	RUN_TOOL(new DefaultName("run_tool")),
+	CLOSING(new DefaultName("closing")),
 	;
 
 	private Name name;

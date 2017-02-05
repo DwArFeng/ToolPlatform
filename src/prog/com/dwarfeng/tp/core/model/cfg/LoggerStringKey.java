@@ -48,10 +48,21 @@ public enum LoggerStringKey implements Name{
 	ToolPlatform_FlowProvider_27(new DefaultName("ToolPlatform.FlowProvider.27")),
 	ToolPlatform_FlowProvider_28(new DefaultName("ToolPlatform.FlowProvider.28")),
 	ToolPlatform_FlowProvider_29(new DefaultName("ToolPlatform.FlowProvider.29")),
+	ToolPlatform_FlowProvider_30(new DefaultName("ToolPlatform.FlowProvider.30")),
+	ToolPlatform_FlowProvider_31(new DefaultName("ToolPlatform.FlowProvider.31")),
+	ToolPlatform_FlowProvider_32(new DefaultName("ToolPlatform.FlowProvider.32")),
 
 	Update_LoggerMutilang_1(new DefaultName("Update.LoggerMutilang.1")),
 	Update_LabelMutilang_1(new DefaultName("Update.LabelMutilang.1")),
 	Update_Logger_1(new DefaultName("Update.Logger.1")),
+
+	ToolPlatform_Exitor_1(new DefaultName("ToolPlatform.Exitor.1")),
+	ToolPlatform_Exitor_2(new DefaultName("ToolPlatform.Exitor.2")),
+	ToolPlatform_Exitor_3(new DefaultName("ToolPlatform.Exitor.3")),
+	ToolPlatform_Exitor_4(new DefaultName("ToolPlatform.Exitor.4")),
+	ToolPlatform_Exitor_5(new DefaultName("ToolPlatform.Exitor.5")),
+	ToolPlatform_Exitor_6(new DefaultName("ToolPlatform.Exitor.6")),
+	ToolPlatform_Exitor_7(new DefaultName("ToolPlatform.Exitor.7")),
 
 	;
 

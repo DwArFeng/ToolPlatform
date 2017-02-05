@@ -5,17 +5,24 @@
 	<key value="load_lib">
 		<dictionary value="initialize"/>
 		<dictionary value="check_lib"/>
+		<dictionary value="closing"/>
 	</key>
 	<key value="check_lib">
 		<dictionary value="initialize"/>
 		<dictionary value="load_lib"/>
+		<dictionary value="closing"/>
 	</key>
 	<key value="load_toolinfo">
 		<dictionary value="initialize"/>
+		<dictionary value="closing"/>
 	</key>
 	<key value="run_tool">
 		<dictionary value="initialize"/>
 		<dictionary value="check_lib"/>
 		<dictionary value="load_lib"/>
+		<dictionary value="closing"/>
+	</key>
+	<key value="closing">
+		<dictionary value="initialize"/>
 	</key>
 </root>

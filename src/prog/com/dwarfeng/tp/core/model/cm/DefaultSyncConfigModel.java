@@ -222,7 +222,7 @@ public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 		try{
 			return delegate.getValidValue(configKey);
 		}finally {
-			lock.readLock().lock();
+			lock.readLock().unlock();
 		}
 	}
 

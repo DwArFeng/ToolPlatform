@@ -247,7 +247,6 @@ public class JToolRuntimePanel extends JPanel{
 	/**
 	 * 为指定的运行中工具指定输入流和输出流。
 	 * <p> 当且仅当入口参数不为 <code>null</code>，且输入当前的 toolRuntimeModel的时候，才能够指派成功。
-	 * <p> 该方法请不要在 <code>EventQueue</code> 线程中运行。
 	 * @param runningTool 指定的运行中工具。
 	 * @return 是否接受该指派。
 	 */
@@ -256,16 +255,7 @@ public class JToolRuntimePanel extends JPanel{
 		if(Objects.isNull(toolRuntimeModel)) return false;
 		if(! toolRuntimeModel.contains(runningTool)) return false;
 		
-		TpconsoleGenerator tg = new TpconsoleGenerator();
-		try {
-			ToolPlatformUtil.invokeAndWaitInEventQueue(tg);
-		} catch (InvocationTargetException ignore) {
-			//不可能抛出此异常。
-		} catch (InterruptedException ignore) {
-			//中断也要按照基本法。
-		}
-		
-		JTpconsole console = tg.console;
+		JTpconsole console = new JTpconsole();
 		runningTool.setInputStream(console.in);
 		runningTool.setOutputStream(console.out);
 		toolConsoleMap.put(runningTool, console);
@@ -282,20 +272,6 @@ public class JToolRuntimePanel extends JPanel{
 			console.dispose();
 		}
 		toolConsoleMap.clear();
-	}
-	
-	private static final class TpconsoleGenerator implements Runnable{
-
-		public JTpconsole console = null;
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-			console = new JTpconsole();
-		}
-		
 	}
 
 }
