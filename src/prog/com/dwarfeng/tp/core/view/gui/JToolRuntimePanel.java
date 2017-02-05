@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -19,8 +18,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.dwarfeng.dutil.basic.gui.swing.JExconsole;
 import com.dwarfeng.dutil.basic.gui.swing.MuaListModel;
+import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeAdapter;
@@ -44,7 +43,12 @@ public class JToolRuntimePanel extends JPanel{
 		 */
 		@Override
 		public void fireRunningToolAdded(RunningTool runningTool) {
-			listModel.add(runningTool);
+			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+				@Override
+				public void run() {
+					listModel.add(runningTool);
+				}
+			});
 		}
 
 		/*
@@ -53,9 +57,36 @@ public class JToolRuntimePanel extends JPanel{
 		 */
 		@Override
 		public void fireRunningToolRemoved(RunningTool runningTool) {
-			listModel.remove(runningTool);
-			//TODO 之后的工作台也要一并移除。
+			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+				@Override
+				public void run() {
+					listModel.remove(runningTool);
+					JTpconsole console = toolConsoleMap.get(runningTool);
+					console.dispose();
+					if(((BorderLayout) consoleContainer.getLayout()).getLayoutComponent(consoleContainer, BorderLayout.CENTER).equals(console)){
+						consoleContainer.removeAll();
+						consoleContainer.repaint();
+					}
+				}
+			});
 		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.obv.ToolRuntimeAdapter#fireRunningToolExited(com.dwarfeng.tp.core.model.struct.RunningTool)
+		 */
+		@Override
+		public void fireRunningToolExited(RunningTool runningTool) {
+			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+				@Override
+				public void run() {
+					JTpconsole console = toolConsoleMap.get(runningTool);
+					if(Objects.nonNull(console)){
+						console.input("\n");
+					}
+				}
+			});
+		};
 		
 	};
 	private final MuaListModel<RunningTool> listModel = new MuaListModel<>();
@@ -101,6 +132,7 @@ public class JToolRuntimePanel extends JPanel{
 		add(adjustableBorderPanel, BorderLayout.CENTER);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(null);
 		adjustableBorderPanel.add(scrollPane, BorderLayout.WEST);
 		
 		list = new JList<>();
@@ -110,7 +142,7 @@ public class JToolRuntimePanel extends JPanel{
 				if(!e.getValueIsAdjusting()){
 					int leadIndex;
 					consoleContainer.removeAll();
-					if((leadIndex = list.getSelectionModel().getLeadSelectionIndex()) >= 0){
+					if((leadIndex = list.getSelectionModel().getLeadSelectionIndex()) >= 0 && listModel.size() > 0){
 						RunningTool runningTool = listModel.get(leadIndex);
 						JTpconsole console = toolConsoleMap.get(runningTool);
 						if(console == null){
@@ -207,7 +239,7 @@ public class JToolRuntimePanel extends JPanel{
 		
 		if(Objects.nonNull(this.toolRuntimeModel)){
 			this.toolRuntimeModel.removeObverser(toolRuntimeObverser);
-			for(JExconsole console : toolConsoleMap.values()){
+			for(JTpconsole console : toolConsoleMap.values()){
 				console.dispose();
 			}
 			toolConsoleMap.clear();
@@ -266,9 +298,14 @@ public class JToolRuntimePanel extends JPanel{
 	 * 释放资源。
 	 */
 	public void dispose(){
-		listModel.clear();
+		try{
+			listModel.clear();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		consoleContainer.removeAll();
 		for(JTpconsole console : toolConsoleMap.values()){
+			CT.trace("dispose");
 			console.dispose();
 		}
 		toolConsoleMap.clear();

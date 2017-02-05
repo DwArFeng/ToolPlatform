@@ -324,9 +324,11 @@ public class DefaultRunningTool implements RunningTool{
 		try{
 			if(Objects.nonNull(process)){
 				process.destroy();
+			}else{
+				setExitCode(-12453);
+				setRuntimeState(RuntimeState.ENDED);
+				fireExited();
 			}
-			setRuntimeState(RuntimeState.ENDED);
-			fireExited();
 		}finally {
 			lock.writeLock().unlock();
 		}
@@ -458,7 +460,10 @@ public class DefaultRunningTool implements RunningTool{
 			while(! getRuntimeState().equals(RuntimeState.ENDED)){
 				if(Objects.isNull(scanner)) break;
 				try{
-					String nextLine = scanner.next() + "\n";
+					String nextLine = scanner.nextLine() + "\n";
+					if(getRuntimeState().equals(RuntimeState.ENDED)){
+						break;
+					}
 					if(Objects.nonNull(process)){
 						process.getOutputStream().write(nextLine.getBytes());
 						process.getOutputStream().flush();

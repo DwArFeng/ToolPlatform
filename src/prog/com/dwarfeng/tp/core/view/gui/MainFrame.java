@@ -284,14 +284,15 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	@Override
 	public void dispose() {
 		setVisible(false);
+		System.setIn(sysIn);
+		System.setOut(sysOut);
+		System.setErr(sysErr);
 		console.dispose();
 		backgroundPanel.dispose();
 		toolInfoPanel.removeObverser(toolInfoPanelObverser);
 		toolInfoPanel.dispose();
 		libraryPanel.dispose();
-		System.setIn(sysIn);
-		System.setOut(sysOut);
-		System.setErr(sysErr);
+		toolRuntimePanel.dispose();
 		super.dispose();
 	}
 	

@@ -259,10 +259,6 @@ public final class ToolPlatform {
 			
 			//ÖØÐÂ¼ÓÔØLoggerModel;
 			XmlLoggerLoader loggerLoader = null;
-			if(manager.getLoggerModel().getLoggerContext() != null){
-				manager.getLoggerModel().getLoggerContext().stop();
-			}
-			
 			boolean logInvalid = false;
 			try{
 				try{
@@ -279,7 +275,7 @@ public final class ToolPlatform {
 				}
 				manager.getLoggerModel().update();
 			}catch (LoadFailedException | IOException | ProcessException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				logInvalid = true;
 			}
 	
