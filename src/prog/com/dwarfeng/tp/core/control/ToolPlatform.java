@@ -259,10 +259,6 @@ public final class ToolPlatform {
 			
 			//ÖØÐÂ¼ÓÔØLoggerModel;
 			XmlLoggerLoader loggerLoader = null;
-			if(manager.getLoggerModel().getLoggerContext() != null){
-				manager.getLoggerModel().getLoggerContext().stop();
-			}
-			
 			boolean logInvalid = false;
 			try{
 				try{
