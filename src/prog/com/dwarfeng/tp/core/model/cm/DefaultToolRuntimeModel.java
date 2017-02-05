@@ -181,6 +181,20 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 
 	/*
 	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#hasNotExited()
+	 */
+	@Override
+	public boolean hasNotExited() {
+		lock.readLock().lock();
+		try{
+			return runningTools.size() - exitedRunningTools.size() > 0;
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#hasExited()
 	 */
 	@Override

@@ -71,6 +71,12 @@ public interface ToolRuntimeModel extends ExternalReadWriteThreadSafe, ObverserS
 	public boolean isEmpty();
 	
 	/**
+	 * 返回该模型中是否包含没有退出（没有启动和正在运行）的工具
+	 * @return 是否包含没有退出的工具。
+	 */
+	public boolean hasNotExited();
+	
+	/**
 	 * 返回该模型中是否包含已经退出的运行中工具。
 	 * @return 是否包含已经完成的运行中工具。
 	 */

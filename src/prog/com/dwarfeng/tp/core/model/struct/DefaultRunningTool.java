@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +20,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
 import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
 import com.dwarfeng.tp.core.model.obv.RunningToolObverser;
@@ -310,7 +308,6 @@ public class DefaultRunningTool implements RunningTool{
 		cpsb.append(jarPath);
 		cmdLine.add(cpsb.toString());
 		cmdLine.add(entryClass);
-		CT.trace(Arrays.toString(cmdLine.toArray(new String[0])));
 		return cmdLine;
 	}
 

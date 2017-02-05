@@ -40,4 +40,10 @@ public interface FlowProvider {
 	 */
 	public Flow newRunToolFlow(String name);
 	
+	/**
+	 * 获取一个新的关闭窗口的过程。
+	 * @return 新的关闭窗口的过程。
+	 */
+	public Flow newClosingFlow();
+	
 }
