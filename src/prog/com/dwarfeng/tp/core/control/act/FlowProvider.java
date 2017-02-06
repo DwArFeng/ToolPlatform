@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.control.act;
 
 import com.dwarfeng.tp.core.model.struct.Flow;
+import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
  * 过程提供器。
@@ -35,11 +36,11 @@ public interface FlowProvider {
 	
 	/**
 	 *  获取一个新的运行工具的过程。
-	 * @param name 工具的名称。
+	 * @param toolInfo 指定的工具。
 	 * @return 新的运行工具的过程。
 	 */
-	public Flow newRunToolFlow(String name);
-	
+	public Flow newRunToolFlow(ToolInfo toolInfo);
+
 	/**
 	 * 获取一个新的关闭窗口的过程。
 	 * @return 新的关闭窗口的过程。

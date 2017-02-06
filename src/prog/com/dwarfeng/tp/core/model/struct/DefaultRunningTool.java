@@ -37,8 +37,8 @@ public class DefaultRunningTool implements RunningTool{
 	private ReadWriteLock lock = new ReentrantReadWriteLock();
 	private Condition startCondition = lock.writeLock().newCondition();
 
-	private final Image image;
 	private final String name;
+	private final Image image;
 	private final String[] libraries;
 	private final String jarPath;
 	private final String entryClass;
@@ -61,16 +61,16 @@ public class DefaultRunningTool implements RunningTool{
 	 * @param jarPath
 	 * @param entryClass
 	 */
-	public DefaultRunningTool(Image image, String name, String[] libraries, String jarPath, String entryClass, File directory) {
-		Objects.requireNonNull(image, "入口参数 image 不能为 null。");
+	public DefaultRunningTool(String name, Image image, String[] libraries, String jarPath, String entryClass, File directory) {
 		Objects.requireNonNull(name, "入口参数 name 不能为 null。");
+		Objects.requireNonNull(image, "入口参数 image 不能为 null。");
 		Objects.requireNonNull(libraries, "入口参数 libraries 不能为 null。");
 		Objects.requireNonNull(jarPath, "入口参数 jarPath 不能为 null。");
 		Objects.requireNonNull(entryClass, "入口参数 entryClass 不能为 null。");
 		Objects.requireNonNull(directory, "入口参数 directory 不能为 null。");
 
-		this.image = image;
 		this.name = name;
+		this.image = image;
 		this.libraries = libraries;
 		this.jarPath = jarPath;
 		this.entryClass = entryClass;

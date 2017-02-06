@@ -1,6 +1,5 @@
 package com.dwarfeng.tp.core.model.struct;
 
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,15 +19,16 @@ public final class DefaultLibrary implements Library {
 	private final Set<LibraryClassLoader> references = new HashSet<>();
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	
-	private final URL url; 
+	private final String name;
+	
 	/**
 	 * 新实例。
-	 * @param url 指定的 url。
+	 * @param name 指定的名称。
 	 * @throws NullPointerException 入口参数为 null。
 	 */
-	public DefaultLibrary(URL url) {
-		Objects.requireNonNull(url, "入口参数 url 不能为 null。");
-		this.url = url;
+	public DefaultLibrary(String name) {
+		Objects.requireNonNull(name, "入口参数 name 不能为 null。");
+		this.name = name;
 	}
 	
 	/*
@@ -70,6 +70,15 @@ public final class DefaultLibrary implements Library {
 
 	/*
 	 * (non-Javadoc)
+	 * @see com.dwarfeng.dutil.basic.str.Name#getName()
+	 */
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see com.dwarfeng.tp.core.model.struct.Library#reference(com.dwarfeng.tp.core.model.io.LibraryClassLoader)
 	 */
 	@Override
@@ -98,15 +107,6 @@ public final class DefaultLibrary implements Library {
 		}finally {
 			lock.writeLock().unlock();
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.Library#getURL()
-	 */
-	@Override
-	public URL getURL(){
-		return url;
 	}
 
 }

@@ -1,6 +1,9 @@
 package com.dwarfeng.tp.core.view.gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
@@ -19,20 +22,15 @@ import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
 import com.dwarfeng.tp.core.model.obv.ToolInfoAdapter;
 import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
-import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 
 public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelObverser>{
 	
 	/**¹Û²ìÆ÷¼¯ºÏ*/
 	private final Set<ToolInfoPanelObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
-	private final JList<String> list;
+	private final JList<ToolInfo> list;
 	
 	private ToolInfoModel toolInfoModel;
 	private ImageSize toolInfoIconSize = ImageSize.ICON_MEDIUM;
@@ -41,46 +39,31 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ToolAdapter#fireEntryAdded(java.lang.String, com.dwarfeng.tp.core.model.struct.ToolInfo)
+		 * @see com.dwarfeng.tp.core.model.obv.ToolInfoAdapter#fireToolInfoAdded(com.dwarfeng.tp.core.model.struct.ToolInfo)
 		 */
 		@Override
-		public void fireEntryAdded(String name, ToolInfo info) {
+		public void fireToolInfoAdded(ToolInfo toolInfo) {
 			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 				@Override
 				public void run() {
-					listModel.add(name);
+					listModel.add(toolInfo);
 				}
 			});
-		}
-
+		};
+		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ToolAdapter#fireEntryRemoved(java.lang.String)
+		 * @see com.dwarfeng.tp.core.model.obv.ToolInfoAdapter#fireToolInfoRemoved(com.dwarfeng.tp.core.model.struct.ToolInfo)
 		 */
 		@Override
-		public void fireEntryRemoved(String name) {
+		public void fireToolInfoRemoved(ToolInfo toolInfo) {
 			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 				@Override
 				public void run() {
-					listModel.remove(name);
+					listModel.remove(toolInfo);
 				}
 			});
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.ToolAdapter#fireEntryChanged(java.lang.String, com.dwarfeng.tp.core.model.struct.ToolInfo, com.dwarfeng.tp.core.model.struct.ToolInfo)
-		 */
-		@Override
-		public void fireEntryChanged(String name, ToolInfo oldOne, ToolInfo newOne) {
-			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
-				@Override
-				public void run() {
-					int index = listModel.indexOf(name);
-					listModel.set(index, name);
-				}
-			});
-		}
+		};
 
 		/*
 		 * (non-Javadoc)
@@ -97,7 +80,7 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 		}
 		
 	};
-	private final MuaListModel<String> listModel = new MuaListModel<>();
+	private final MuaListModel<ToolInfo> listModel = new MuaListModel<>();
 	private final ListCellRenderer<Object> listRenderer = new DefaultListCellRenderer(){
 		
 		private static final long serialVersionUID = 8956658572067462043L;
@@ -109,11 +92,9 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 		@Override
 		public java.awt.Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-			String name = (String) value;
-			this.setText(name);
-			try {
-				setIcon(new ImageIcon(ToolPlatformUtil.scaleImage(toolInfoModel.get(name).getImage(), toolInfoIconSize)));
-			} catch (ProcessException ignore) {}
+			ToolInfo toolInfo = (ToolInfo) value;
+			this.setText(toolInfo.getName());
+			setIcon(new ImageIcon(ToolPlatformUtil.scaleImage(toolInfo.getImage(), toolInfoIconSize)));
 			return this;
 		}
 		
@@ -194,8 +175,8 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 			toolInfoModel.addObverser(toolObverser);
 			toolInfoModel.getLock().readLock().lock();
 			try{
-				for(String name : toolInfoModel.keySet()){
-					listModel.add(name);
+				for(ToolInfo toolInfo : toolInfoModel){
+					listModel.add(toolInfo);
 				}
 			}finally {
 				toolInfoModel.getLock().readLock().unlock();
@@ -225,8 +206,8 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 			toolInfoModel.addObverser(toolObverser);
 			toolInfoModel.getLock().readLock().lock();
 			try{
-				for(String name : toolInfoModel.keySet()){
-					listModel.add(name);
+				for(ToolInfo toolInfo : toolInfoModel){
+					listModel.add(toolInfo);
 				}
 			}finally {
 				toolInfoModel.getLock().readLock().unlock();
@@ -296,9 +277,9 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 		obversers.clear();
 	}
 
-	private void fireRunTool(String name) {
+	private void fireRunTool(ToolInfo toolInfo) {
 		for(ToolInfoPanelObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireRunTool(name);
+			if(Objects.nonNull(obverser)) obverser.fireRunTool(toolInfo);
 		}
 	}
 	

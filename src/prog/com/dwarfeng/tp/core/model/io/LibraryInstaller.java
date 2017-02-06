@@ -83,7 +83,7 @@ public class LibraryInstaller implements Installer<LibraryModel>, Closeable {
 				}
 			}
 			
-			libraryModel.put(name, new DefaultLibrary(libFile.toURI().toURL()));
+			libraryModel.add(new DefaultLibrary(name));
 		}catch (Exception e) {
 			throw new ProcessException("无法安装指定的库：" + name);
 		}

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -21,19 +22,23 @@ import javax.swing.event.ListSelectionListener;
 import com.dwarfeng.dutil.basic.gui.swing.MuaListModel;
 import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.tp.core.model.cfg.ImageSize;
+import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeAdapter;
 import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
+import com.dwarfeng.tp.core.model.struct.Mutilang;
+import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
-public class JToolRuntimePanel extends JPanel{
+public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 	
 	private final JList<RunningTool> list;
 	private final JToolRuntimeConsoleContainer consoleContainer;
 
 	private ToolRuntimeModel toolRuntimeModel;
 	private ImageSize toolInfoIconSize = ImageSize.ICON_MEDIUM;
+	private Mutilang mutilang;
 	
 	private final ToolRuntimeObverser toolRuntimeObverser = new ToolRuntimeAdapter() {
 		
@@ -63,7 +68,7 @@ public class JToolRuntimePanel extends JPanel{
 					listModel.remove(runningTool);
 					JTpconsole console = toolConsoleMap.get(runningTool);
 					console.dispose();
-					if(((BorderLayout) consoleContainer.getLayout()).getLayoutComponent(consoleContainer, BorderLayout.CENTER).equals(console)){
+					if(Objects.nonNull(console) && console.equals(((BorderLayout) consoleContainer.getLayout()).getLayoutComponent(consoleContainer, BorderLayout.CENTER))){
 						consoleContainer.removeAll();
 						consoleContainer.repaint();
 					}
@@ -82,6 +87,7 @@ public class JToolRuntimePanel extends JPanel{
 				public void run() {
 					JTpconsole console = toolConsoleMap.get(runningTool);
 					if(Objects.nonNull(console)){
+						console.out.println(formatLabel(LabelStringKey.JToolRuntimePanel_1, Calendar.getInstance().getTime(), runningTool.getExitCode()));
 						console.input("\n");
 					}
 				}
@@ -113,14 +119,18 @@ public class JToolRuntimePanel extends JPanel{
 	 * 新实例。
 	 */
 	public JToolRuntimePanel() {
-		this(null);
+		this(ToolPlatformUtil.newDefaultLabelMutilang(), null);
 	}
 	
 	/**
 	 * 新实例。
 	 * @param toolRuntimeModel
 	 */
-	public JToolRuntimePanel(ToolRuntimeModel toolRuntimeModel) {
+	public JToolRuntimePanel(Mutilang mutilang, ToolRuntimeModel toolRuntimeModel) {
+		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
+		
+		this.mutilang = mutilang;
+		
 		setLayout(new BorderLayout(0, 0));
 
 		this.toolRuntimeModel = toolRuntimeModel;
@@ -276,6 +286,31 @@ public class JToolRuntimePanel extends JPanel{
 		list.repaint();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.MutilangSupported#getMutilang()
+	 */
+	@Override
+	public Mutilang getMutilang() {
+		return this.mutilang;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.MutilangSupported#setMutilang(com.dwarfeng.tp.core.model.struct.Mutilang)
+	 */
+	@Override
+	public boolean setMutilang(Mutilang mutilang) {
+		Objects.requireNonNull(mutilang , "入口参数 mutilang 不能为 null。");
+		
+		if(Objects.equals(mutilang, this.mutilang)) return false;
+		this.mutilang = mutilang;
+		for(JTpconsole console : toolConsoleMap.values()){
+			console.setMutilang(mutilang);
+		}
+		return true;
+	}
+	
 	/**
 	 * 为指定的运行中工具指定输入流和输出流。
 	 * <p> 当且仅当入口参数不为 <code>null</code>，且输入当前的 toolRuntimeModel的时候，才能够指派成功。
@@ -305,10 +340,17 @@ public class JToolRuntimePanel extends JPanel{
 		}
 		consoleContainer.removeAll();
 		for(JTpconsole console : toolConsoleMap.values()){
-			CT.trace("dispose");
 			console.dispose();
 		}
 		toolConsoleMap.clear();
+	}
+
+//	private String getLabel(LabelStringKey labelStringKey){
+//		return mutilang.getString(labelStringKey.getName());
+//	}
+	
+	private String formatLabel(LabelStringKey labelStringKey, Object... args){
+		return String.format(mutilang.getString(labelStringKey.getName()), args);
 	}
 
 }

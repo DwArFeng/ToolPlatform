@@ -45,7 +45,7 @@ public abstract class AbstractLibraryModel implements LibraryModel {
 	public boolean addObverser(LibraryObverser obverser) {
 		lock.writeLock().lock();
 		try{
-			return obversers.addAll(obversers);
+			return obversers.add(obverser);
 		}finally {
 			lock.writeLock().unlock();
 		}

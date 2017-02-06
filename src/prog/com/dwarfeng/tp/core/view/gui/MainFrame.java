@@ -34,6 +34,7 @@ import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
+import com.dwarfeng.tp.core.model.struct.ToolInfo;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
 import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
@@ -75,11 +76,11 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser#fireRunTool(java.lang.String)
+		 * @see com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser#fireRunTool(com.dwarfeng.tp.core.model.struct.ToolInfo)
 		 */
 		@Override
-		public void fireRunTool(String name) {
-			MainFrame.this.fireRunTool(name);
+		public void fireRunTool(ToolInfo toolInfo) {
+			MainFrame.this.fireRunTool(toolInfo);
 		}
 	};
 
@@ -171,7 +172,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.LIBRARY, ImageSize.ICON_SMALL)), 
 				libraryPanel, null);
 		
-		toolRuntimePanel = new JToolRuntimePanel(toolRuntimeModel);
+		toolRuntimePanel = new JToolRuntimePanel(mutilang, toolRuntimeModel);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_6),
 				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.RUNTIME, ImageSize.ICON_SMALL)), 
@@ -312,9 +313,9 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		}
 	}
 
-	private void fireRunTool(String name) {
+	private void fireRunTool(ToolInfo toolInfo) {
 		for(MainFrameObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireRunTool(name);
+			if(Objects.nonNull(obverser)) obverser.fireRunTool(toolInfo);
 		}
 	}
 

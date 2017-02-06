@@ -1,12 +1,11 @@
 package com.dwarfeng.tp.core.model.cm;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
@@ -19,169 +18,90 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
  */
 public final class DefaultToolInfoModel extends AbstractToolInfoModel implements ToolInfoModel {
 	
-	private final Map<String, ToolInfo> delegate = new HashMap<>();
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#size()
+	private final Set<ToolInfo> toolInfos = new HashSet<>();
+	private final Set<String> toolInfoNames = new HashSet<>();
+	
+	/**
+	 * 新实例。
 	 */
-	@Override
-	public int size() {
-		lock.readLock().lock();
-		try{
-			return delegate.size();
-		}finally {
-			lock.readLock().unlock();
-		}
+	public DefaultToolInfoModel() {
+		this(new HashSet<>());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#isEmpty()
+	
+	/**
+	 * 新实例。
+	 * @param c 指定的初始值。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	@Override
-	public boolean isEmpty() {
-		lock.readLock().lock();
-		try{
-			return delegate.isEmpty();
-		}finally{
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#containsKey(java.lang.Object)
-	 */
-	@Override
-	public boolean containsKey(Object key) {
-		lock.readLock().lock();
-		try{
-			return delegate.containsKey(key);
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#containsValue(java.lang.Object)
-	 */
-	@Override
-	public boolean containsValue(Object value) {
-		lock.readLock().lock();
-		try{
-			return delegate.containsKey(value);
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#get(java.lang.Object)
-	 */
-	@Override
-	public ToolInfo get(Object key) {
-		lock.readLock().lock();
-		try{
-			return delegate.get(key);
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
-	 */
-	@Override
-	public ToolInfo put(String key, ToolInfo value) {
-		Objects.requireNonNull(key, "入口参数 key 不能为 null。");
-		Objects.requireNonNull(value, "入口参数 value 不能为 null。");
-		
-		lock.writeLock().lock();
-		try{
-			boolean changeFlag = containsKey(key);
-			ToolInfo oldValue = get(key);	//Maybe null
-			ToolInfo dejavu = delegate.put(key, value);
-			
-			if(changeFlag){
-				fireEntryChanged(key, oldValue, value);
-			}else{
-				fireEntryAdded(key, value);
-			}
-			
-			return dejavu;
-		}finally {
-			lock.writeLock().unlock();
+	public DefaultToolInfoModel(Set<ToolInfo> c){
+		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
+		toolInfos.addAll(c);
+		for(ToolInfo toolInfo : toolInfos){
+			toolInfoNames.add(toolInfo.getName());
 		}
 	}
 	
-	private void fireEntryAdded(String name, ToolInfo info) {
-		for(ToolInfoObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireEntryAdded(name, info);
-		}
-	}
-
-	private void fireEntryChanged(String name, ToolInfo oldOne, ToolInfo newOne) {
-		for(ToolInfoObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireEntryChanged(name, oldOne, newOne);
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see java.util.Map#remove(java.lang.Object)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#add(com.dwarfeng.tp.core.model.struct.ToolInfo)
 	 */
 	@Override
-	public ToolInfo remove(Object key) {
+	public boolean add(ToolInfo toolInfo) {
 		lock.writeLock().lock();
 		try{
-			boolean removeFlag = containsKey(key);
-			ToolInfo dejavu = delegate.remove(key);
-			if(removeFlag){
-				fireEntryRemoved((String) key);
-			}
-			return dejavu;
-		}finally {
-			lock.writeLock().unlock();
-		}
-	}
-	
-	private void fireEntryRemoved(String name) {
-		for(ToolInfoObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireEntryRemoved(name);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#putAll(java.util.Map)
-	 */
-	@Override
-	public void putAll(Map<? extends String, ? extends ToolInfo> m) {
-		Objects.requireNonNull(m, "入口参数 m 不能为 null。");
-		
-		lock.writeLock().lock();
-		try{
-			for(Map.Entry<? extends String, ? extends ToolInfo> entry : m.entrySet()){
-				put(entry.getKey(), entry.getValue());
-			}
+			if(Objects.isNull(toolInfo)) return false;
+			if(toolInfoNames.contains(toolInfo.getName())) return false;
+			
+			toolInfos.add(toolInfo);
+			toolInfoNames.add(toolInfo.getName());
+			fireToolInfoAdded(toolInfo);
+			
+			return true;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
+	private void fireToolInfoAdded(ToolInfo toolInfo) {
+		for(ToolInfoObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireToolInfoAdded(toolInfo);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * @see java.util.Map#clear()
+	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#remove(com.dwarfeng.tp.core.model.struct.ToolInfo)
+	 */
+	@Override
+	public boolean remove(ToolInfo toolInfo) {
+		lock.writeLock().lock();
+		try{
+			if(! toolInfos.contains(toolInfo)) return false;
+			toolInfos.remove(toolInfo);
+			toolInfoNames.remove(toolInfo.getName());
+			fireToolInfoRemoved(toolInfo);
+			return true;
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+
+	private void fireToolInfoRemoved(ToolInfo toolInfo) {
+		for(ToolInfoObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireToolInfoRemoved(toolInfo);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#clear()
 	 */
 	@Override
 	public void clear() {
 		lock.writeLock().lock();
 		try{
-			delegate.clear();
+			toolInfos.clear();
+			toolInfoNames.clear();
 			fireCleared();
 		}finally {
 			lock.writeLock().unlock();
@@ -193,50 +113,61 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 			if(Objects.nonNull(obverser)) obverser.fireCleared();
 		}
 	}
-	
-	/**
-	 * 返回该模型的键集合。
-	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
-	 * {@link #getLock()}进行外部同步。
-	 * @return 模型的键集合。
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#size()
 	 */
 	@Override
-	public Set<String> keySet() {
+	public int size() {
 		lock.readLock().lock();
 		try{
-			return Collections.unmodifiableSet(delegate.keySet());
+			return toolInfos.size();
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		lock.readLock().lock();
+		try{
+			return toolInfos.isEmpty();
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#contains(com.dwarfeng.dutil.basic.str.Name)
+	 */
+	@Override
+	public boolean contains(Name name) {
+		lock.readLock().lock();
+		try{
+			if(Objects.isNull(name)) return false;
+			return toolInfoNames.contains(name.getName());
 		}finally {
 			lock.readLock().unlock();
 		}
 	}
 
 	/**
-	 * 返回该模型的值集合。
+	 * 返回该工具信息模型的过程迭代器。
 	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
 	 * {@link #getLock()}进行外部同步。
-	 * @return 模型的值集合。
+	 * @return 该工具信息模型的过程迭代器。
 	 */
 	@Override
-	public Collection<ToolInfo> values() {
+	public Iterator<ToolInfo> iterator() {
 		lock.readLock().lock();
 		try{
-			return Collections.unmodifiableCollection(delegate.values());
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-	
-	/**
-	 * 返回该模型的入口集合。
-	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
-	 * {@link #getLock()}进行外部同步。
-	 * @return 模型的入口集合。
-	 */
-	@Override
-	public Set<java.util.Map.Entry<String, ToolInfo>> entrySet() {
-		lock.readLock().lock();
-		try{
-			return Collections.unmodifiableSet(delegate.entrySet());
+			return toolInfos.iterator();
 		}finally {
 			lock.readLock().unlock();
 		}

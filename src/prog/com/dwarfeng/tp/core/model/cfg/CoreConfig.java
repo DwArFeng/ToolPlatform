@@ -27,8 +27,10 @@ public enum CoreConfig implements ConfigEntry{
 	STARTUP_SPLASH_ISSHOW("startup.splash.isshow", "TRUE", new BooleanConfigChecker()),
 	
 	/**在启动的时候显示闪现窗格的时间*/
-	STARTUP_SHPLASH_DURATION("startup.splash.duration", "2000", new IntegerConfigChecker(0, Integer.MAX_VALUE));
+	STARTUP_SHPLASH_DURATION("startup.splash.duration", "2000", new IntegerConfigChecker(0, Integer.MAX_VALUE)),
 	
+	/**是否自动取出已经结束的工具*/
+	RUNNINGTOOL_AUTOTAKE("runningtool.autotake", "FALSE", new BooleanConfigChecker()),
 	;
 	
 	private final ConfigEntry configEntry;

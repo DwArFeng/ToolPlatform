@@ -8,13 +8,11 @@ import com.dwarfeng.tp.core.model.struct.Library;
  * @since 0.0.0-alpha
  */
 public abstract class LibraryAdapter implements LibraryObverser{
-
+	
 	@Override
-	public void fireEntryAdded(String key, Library value) {}
+	public void fireLibraryAdded(Library library) {}
 	@Override
-	public void fireEntryRemoved(String key) {}
-	@Override
-	public void fireEntryChanged(String key, Library oldValue, Library newValue) {}
+	public void fireLibraryRemoved(Library library) {}
 	@Override
 	public void fireCleared() {}
 

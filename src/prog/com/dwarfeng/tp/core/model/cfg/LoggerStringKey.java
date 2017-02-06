@@ -16,6 +16,10 @@ public enum LoggerStringKey implements Name{
 	FinishedFlowTaker_3(new DefaultName("FinishedFlowTaker.3")),
 	FinishedFlowTaker_4(new DefaultName("FinishedFlowTaker.4")),
 	
+	ExitToolRuntimeTaker_1(new DefaultName("ExitToolRuntimeTaker.1")),
+	ExitToolRuntimeTaker_2(new DefaultName("ExitToolRuntimeTaker.2")),
+	ExitToolRuntimeTaker_3(new DefaultName("ExitToolRuntimeTaker.3")),
+
 	ToolPlatform_Manager_1(new DefaultName("ToolPlatform.Manager.1")),
 	ToolPlatform_Manager_2(new DefaultName("ToolPlatform.Manager.2")),
 	

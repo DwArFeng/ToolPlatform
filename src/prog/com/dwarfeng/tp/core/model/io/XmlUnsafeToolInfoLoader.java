@@ -4,23 +4,24 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.io.StreamLoader;
-import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
-import com.dwarfeng.tp.core.model.struct.DefaultToolInfo;
+import com.dwarfeng.tp.core.model.struct.DefaultUnsafeToolInfo;
+import com.dwarfeng.tp.core.model.struct.UnsafeToolInfo;
 
-public class XmlToolInfoLoader extends StreamLoader<ToolInfoModel> {
+public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 
 	/**
 	 * 新实例。
 	 * @param in 指定的输入流。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public XmlToolInfoLoader(InputStream in) {
+	public XmlUnsafeToolInfoLoader(InputStream in) {
 		super(in);
 		// TODO Auto-generated constructor stub
 	}
@@ -30,8 +31,8 @@ public class XmlToolInfoLoader extends StreamLoader<ToolInfoModel> {
 	 * @see com.dwarfeng.dutil.basic.prog.Loader#load(java.lang.Object)
 	 */
 	@Override
-	public void load(ToolInfoModel toolInfoModel) throws LoadFailedException {
-		Objects.requireNonNull(toolInfoModel, "入口参数 toolInfoModel 不能为 null。");
+	public void load(Set<UnsafeToolInfo> unsafeToolInfos) throws LoadFailedException {
+		Objects.requireNonNull(unsafeToolInfos, "入口参数 unsafeToolInfos 不能为 null。");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -61,7 +62,7 @@ public class XmlToolInfoLoader extends StreamLoader<ToolInfoModel> {
 					String name = toolinfo.attributeValue("name");
 					File strs = new File(dir, toolinfo.element("strs").attributeValue("url"));
 					File img = new File(dir, toolinfo.element("img").attributeValue("url"));
-					toolInfoModel.put(name, new DefaultToolInfo(strs, img));
+					unsafeToolInfos.add(new DefaultUnsafeToolInfo(name, strs, img));
 				}catch (Exception e) {
 					continue next;
 				}

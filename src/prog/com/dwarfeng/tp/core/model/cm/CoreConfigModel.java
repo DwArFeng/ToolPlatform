@@ -33,5 +33,11 @@ public interface CoreConfigModel extends SyncConfigModel {
 	 * @return 程序启动时启动窗口的最短显示时间。
 	 */
 	public int getStartupSplashDuration();
+	
+	/**
+	 * 获取程序是否自动取出完成的运行中工具。
+	 * @return 程序是否自动取出完成的运行中工具。
+	 */
+	public boolean isRunningToolAutoTake();
 
 }

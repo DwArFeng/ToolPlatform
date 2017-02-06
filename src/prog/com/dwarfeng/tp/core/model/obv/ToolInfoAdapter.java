@@ -10,11 +10,9 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
 public abstract class ToolInfoAdapter implements ToolInfoObverser {
 
 	@Override
-	public void fireEntryAdded(String name, ToolInfo info) {}
+	public void fireToolInfoAdded(ToolInfo toolInfo) {}
 	@Override
-	public void fireEntryRemoved(String name) {}
-	@Override
-	public void fireEntryChanged(String name, ToolInfo oldOne, ToolInfo newOne) {}
+	public void fireToolInfoRemoved(ToolInfo toolInfo) {}
 	@Override
 	public void fireCleared() {}
 	

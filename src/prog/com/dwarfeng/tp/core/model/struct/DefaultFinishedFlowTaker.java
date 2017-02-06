@@ -154,12 +154,7 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 	 */
 	@Override
 	public BackgroundModel getBackgroundModel() {
-		lock.readLock().lock();
-		try{
-			return this.backgroundModel;
-		}finally {
-			lock.readLock().unlock();
-		}
+		return this.backgroundModel;
 	}
 
 	/*

@@ -22,6 +22,8 @@ public enum LabelStringKey implements Name{
 	JTpconsole_2(new DefaultName("JTpconsole.2")),
 	JTpconsole_3(new DefaultName("JTpconsole.3")),
 	
+	JToolRuntimePanel_1(new DefaultName("JToolRuntimePanel.1")),
+	
 	;
 
 	private Name name;

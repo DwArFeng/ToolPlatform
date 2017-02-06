@@ -9,6 +9,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
+import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
  * 通过读取XML配置来实现的路径获得器。
@@ -64,11 +65,11 @@ public class XmlPathGetter implements PathGetter {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.io.PathGetter#getToolDirectory(java.lang.String)
+	 * @see com.dwarfeng.tp.core.model.io.PathGetter#getToolDirectory(com.dwarfeng.tp.core.model.struct.ToolInfo)
 	 */
 	@Override
-	public File getToolDirectory(String name) {
-		return new File(new File(dataDir, name + File.separator).getAbsolutePath());
+	public File getToolDirectory(ToolInfo toolInfo) {
+		return new File(new File(dataDir, toolInfo.getName() + File.separator).getAbsolutePath());
 	}
 
 }

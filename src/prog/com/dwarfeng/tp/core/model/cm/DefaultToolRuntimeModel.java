@@ -229,6 +229,7 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 	private void remove(RunningTool runningTool) {
 		exitedRunningTools.remove(runningTool);
 		int index = runningTools.indexOf(runningTool);
+		runningTools.remove(runningTool);
 		runningToolNames.remove(index);
 		fireFlowRemoved(runningTool);
 	}
@@ -259,10 +260,10 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 	}
 
 	/**
-	 * 返回该后台模型的过程迭代器。
+	 * 返回该工具运行时模型的过程迭代器。
 	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
 	 * {@link #getLock()}进行外部同步。
-	 * @return 该后台模型的过程迭代器。
+	 * @return 该工具运行时模型的过程迭代器。
 	 */
 	@Override
 	public Iterator<RunningTool> iterator() {

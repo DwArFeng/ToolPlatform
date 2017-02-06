@@ -25,7 +25,7 @@ import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 public final class JLibraryPanel extends JPanel{
 	
-	private final JList<String> list;
+	private final JList<Library> list;
 	private final Image libraryIconImage;
 
 	private LibraryModel libraryModel;
@@ -33,45 +33,34 @@ public final class JLibraryPanel extends JPanel{
 	
 
 	private final LibraryObverser libraryObverser = new LibraryAdapter() {
+		
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.obv.LibraryObverser#fireLibraryAdded(com.dwarfeng.tp.core.model.struct.Library)
+		 */
+		@Override
+		public void fireLibraryAdded(Library library) {
+			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+				@Override
+				public void run() {
+					listModel.add(library);
+				}
+			});
+		};
 
 		/*
 		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.LibraryAdapter#fireEntryAdded(java.lang.String, com.dwarfeng.tp.core.model.struct.Library)
+		 * @see com.dwarfeng.tp.core.model.obv.LibraryObverser#fireLibraryRemoved(com.dwarfeng.tp.core.model.struct.Library)
 		 */
 		@Override
-		public void fireEntryAdded(String key, Library value) {
+		public void fireLibraryRemoved(Library library) {
 			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 				@Override
 				public void run() {
-					listModel.add(key);
+					listModel.remove(library);
 				}
 			});
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.obv.LibraryAdapter#fireEntryRemoved(java.lang.String)
-		 */
-		@Override
-		public void fireEntryRemoved(String key) {
-			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
-				@Override
-				public void run() {
-					listModel.remove(key);
-				}
-			});
-		}
-
-		@Override
-		public void fireEntryChanged(String key, Library oldValue, Library newValue) {
-			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
-				@Override
-				public void run() {
-					int index = listModel.indexOf(key);
-					listModel.set(index, key);
-				}
-			});
-		}
+		};
 
 		/*
 		 * (non-Javadoc)
@@ -88,7 +77,7 @@ public final class JLibraryPanel extends JPanel{
 		}
 		
 	};
-	private final MuaListModel<String> listModel = new MuaListModel<>();
+	private final MuaListModel<Library> listModel = new MuaListModel<>();
 	private final ListCellRenderer<Object> listRenderer = new DefaultListCellRenderer(){
 		
 		private static final long serialVersionUID = 7784575243309713143L;
@@ -100,8 +89,8 @@ public final class JLibraryPanel extends JPanel{
 		@Override
 		public java.awt.Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-			String name = (String) value;
-			this.setText(name);
+			Library library = (Library) value;
+			this.setText(library.getName());
 			setIcon(new ImageIcon(ToolPlatformUtil.scaleImage(libraryIconImage, libraryIconSize)));
 			return this;
 		};
@@ -179,8 +168,8 @@ public final class JLibraryPanel extends JPanel{
 			libraryModel.addObverser(libraryObverser);
 			libraryModel.getLock().readLock().lock();
 			try{
-				for(String name : libraryModel.keySet()){
-					listModel.add(name);
+				for(Library library : libraryModel){
+					listModel.add(library);
 				}
 			}finally {
 				libraryModel.getLock().readLock().unlock();
@@ -210,8 +199,8 @@ public final class JLibraryPanel extends JPanel{
 			libraryModel.addObverser(libraryObverser);
 			libraryModel.getLock().readLock().lock();
 			try{
-				for(String name : libraryModel.keySet()){
-					listModel.add(name);
+				for(Library library : libraryModel){
+					listModel.add(library);
 				}
 			}finally {
 				libraryModel.getLock().readLock().unlock();

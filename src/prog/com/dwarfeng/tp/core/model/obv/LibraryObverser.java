@@ -11,25 +11,16 @@ import com.dwarfeng.tp.core.model.struct.Library;
 public interface LibraryObverser extends Obverser {
 
 	/**
-	 * 通知入口被添加。
-	 * @param key 指定的键。
-	 * @param value 指定的值。
+	 * 通知模型中添加了指定的库。
+	 * @param library 指定的库。
 	 */
-	public void fireEntryAdded(String key, Library value);
+	public void fireLibraryAdded(Library library);
 	
 	/**
-	 * 通知入口被移除。
-	 * @param key 指定的键。
+	 * 通知模型中移除了指定的库。
+	 * @param library 指定的库。
 	 */
-	public void fireEntryRemoved(String key);
-	
-	/**
-	 * 通知入口被更改。
-	 * @param key 指定的键。
-	 * @param oldValue 旧的值。
-	 * @param newValue 新的值。
-	 */
-	public void fireEntryChanged(String key, Library oldValue, Library newValue);
+	public void fireLibraryRemoved(Library library);
 	
 	/**
 	 * 通知模型被清除。

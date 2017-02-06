@@ -1,7 +1,6 @@
 package com.dwarfeng.tp.core.model.struct;
 
-import java.net.URL;
-
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.io.LibraryClassLoader;
 
@@ -11,7 +10,7 @@ import com.dwarfeng.tp.core.model.io.LibraryClassLoader;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-public interface Library extends ExternalReadWriteThreadSafe{
+public interface Library extends ExternalReadWriteThreadSafe, Name{
 	
 	/**
 	 * 获取该库是否被持有引用。
@@ -38,12 +37,5 @@ public interface Library extends ExternalReadWriteThreadSafe{
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public void removeReference(LibraryClassLoader libraryClassLoader);
-	
-	/**
-	 * 获取该库指向的URL。
-	 * @return 该库指向的URL。
-	 * @throws ProcessException 过程异常。
-	 */
-	public URL getURL() throws ProcessException;
 	
 }

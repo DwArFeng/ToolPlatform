@@ -1,11 +1,11 @@
 package com.dwarfeng.tp.core.model.cm;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.LibraryObverser;
 import com.dwarfeng.tp.core.model.struct.Library;
 
@@ -18,187 +18,91 @@ import com.dwarfeng.tp.core.model.struct.Library;
  */
 public final class DefaultLibraryModel extends AbstractLibraryModel {
 	
-	private final Map<String, Library> delegate = new HashMap<>();
-
+	private final Set<Library> librarys = new HashSet<>();
+	private final Set<String> libraryNames = new HashSet<>();
+	
 	/**
 	 * 新实例。
 	 */
 	public DefaultLibraryModel() {
-		this(new HashMap<>());
+		this(new HashSet<>());
 	}
 	
 	/**
 	 * 新实例。
-	 * @param map 指定的初始值。
+	 * @param c 指定的初始值。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public DefaultLibraryModel(Map<String, Library> map) {
-		Objects.requireNonNull(map, "入口参数 map 不能为 null");
-		delegate.putAll(map);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#size()
-	 */
-	@Override
-	public int size() {
-		lock.readLock().lock();
-		try{
-			return delegate.size();
-		}finally {
-			lock.readLock().unlock();
+	public DefaultLibraryModel(Set<Library> c){
+		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
+		librarys.addAll(c);
+		for(Library library : librarys){
+			libraryNames.add(library.getName());
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * @see java.util.Map#isEmpty()
+	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#add(com.dwarfeng.tp.core.model.struct.Library)
 	 */
 	@Override
-	public boolean isEmpty() {
-		lock.readLock().lock();
-		try{
-			return delegate.isEmpty();
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#containsKey(java.lang.Object)
-	 */
-	@Override
-	public boolean containsKey(Object key) {
-		lock.readLock().lock();
-		try{
-			return delegate.containsKey(key);
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#containsValue(java.lang.Object)
-	 */
-	@Override
-	public boolean containsValue(Object value) {
-		lock.readLock().lock();
-		try{
-			return delegate.containsValue(value);
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#get(java.lang.Object)
-	 */
-	@Override
-	public Library get(Object key) {
-		lock.readLock().lock();
-		try{
-			return delegate.get(key);
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
-	 */
-	@Override
-	public Library put(String key, Library value) {
-		Objects.requireNonNull(key, "入口参数 key 不能为 null。");
-		Objects.requireNonNull(value, "入口参数 value 不能为 null。");
-		
+	public boolean add(Library library) {
 		lock.writeLock().lock();
 		try{
-			boolean changeFlag = containsKey(key);
-			Library oldValue = get(key);	//Maybe null
-			Library dejavu = delegate.put(key, value);
+			if(Objects.isNull(library)) return false;
+			if(libraryNames.contains(library.getName())) return false;
 			
-			if(changeFlag){
-				fireEntryChanged(key, oldValue, value);
-			}else{
-				fireEntryAdded(key, value);
-			}
+			librarys.add(library);
+			libraryNames.add(library.getName());
+			fireLibraryAdded(library);
 			
-			return dejavu;
+			return true;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void fireEntryAdded(String key, Library value) {
+	private void fireLibraryAdded(Library library) {
 		for(LibraryObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireEntryAdded(key, value);
-		}
-	}
-
-	private void fireEntryChanged(String key, Library oldValue, Library newValue) {
-		for(LibraryObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireEntryChanged(key, oldValue, newValue);
+			if(Objects.nonNull(obverser)) obverser.fireLibraryAdded(library);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see java.util.Map#remove(java.lang.Object)
+	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#remove(com.dwarfeng.tp.core.model.struct.Library)
 	 */
 	@Override
-	public Library remove(Object key) {
+	public boolean remove(Library library) {
 		lock.writeLock().lock();
 		try{
-			boolean removeFlag = containsKey(key);
-			Library dejavu = delegate.remove(key);
-			if(removeFlag){
-				fireEntryRemoved((String) key);
-			}
-			return dejavu;
+			if(! librarys.contains(library)) return false;
+			librarys.remove(library);
+			libraryNames.remove(library.getName());
+			fireLibraryRemoved(library);
+			return true;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 
-	private void fireEntryRemoved(String key) {
+	private void fireLibraryRemoved(Library library) {
 		for(LibraryObverser obverser : obversers){
-			if(Objects.nonNull(obverser)) obverser.fireEntryRemoved(key);
+			if(Objects.nonNull(obverser)) obverser.fireLibraryRemoved(library);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see java.util.Map#putAll(java.util.Map)
-	 */
-	@Override
-	public void putAll(Map<? extends String, ? extends Library> m) {
-		Objects.requireNonNull(m, "入口参数 m 不能为 null。");
-		
-		lock.writeLock().lock();
-		try{
-			for(Map.Entry<? extends String, ? extends Library> entry : m.entrySet()){
-				put(entry.getKey(), entry.getValue());
-			}
-		}finally {
-			lock.writeLock().unlock();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Map#clear()
+	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#clear()
 	 */
 	@Override
 	public void clear() {
 		lock.writeLock().lock();
 		try{
+			librarys.clear();
+			libraryNames.clear();
 			fireCleared();
-			delegate.clear();
 		}finally {
 			lock.writeLock().unlock();
 		}
@@ -210,49 +114,60 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 		}
 	}
 
-	/**
-	 * 返回该模型的键集合。
-	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
-	 * {@link #getLock()}进行外部同步。
-	 * @return 模型的键集合。
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#size()
 	 */
 	@Override
-	public Set<String> keySet() {
+	public int size() {
 		lock.readLock().lock();
 		try{
-			return delegate.keySet();
+			return librarys.size();
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		lock.readLock().lock();
+		try{
+			return librarys.isEmpty();
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#contains(com.dwarfeng.dutil.basic.str.Name)
+	 */
+	@Override
+	public boolean contains(Name name) {
+		lock.readLock().lock();
+		try{
+			if(Objects.isNull(name)) return false;
+			return libraryNames.contains(name.getName());
 		}finally {
 			lock.readLock().unlock();
 		}
 	}
 
 	/**
-	 * 返回该模型的值集合。
+	 * 返回该库模型的过程迭代器。
 	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
 	 * {@link #getLock()}进行外部同步。
-	 * @return 模型的值集合。
+	 * @return 该库模型的过程迭代器。
 	 */
 	@Override
-	public Collection<Library> values() {
+	public Iterator<Library> iterator() {
 		lock.readLock().lock();
 		try{
-			return delegate.values();
-		}finally {
-			lock.readLock().unlock();
-		}
-	}
-
-	/**
-	 * 返回该模型的入口集合。
-	 * <p> 注意，该迭代器不是线程安全的，如果要实现线程安全，请使模型中提供的读写锁
-	 * {@link #getLock()}进行外部同步。
-	 * @return 模型的入口集合。
-	 */
-	@Override
-	public Set<java.util.Map.Entry<String, Library>> entrySet() {
-		lock.readLock().lock();
-		try{
-			return delegate.entrySet();
+			return librarys.iterator();
 		}finally {
 			lock.readLock().unlock();
 		}

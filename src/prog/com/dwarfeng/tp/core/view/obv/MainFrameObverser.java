@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.view.obv;
 
 import com.dwarfeng.dutil.basic.prog.Obverser;
+import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
  * 主界面观察器。
@@ -18,11 +19,11 @@ public interface MainFrameObverser extends Obverser{
 	 * 通知界面被激活。
 	 */
 	public void fireFireWindowActivated();
-
+	
 	/**
 	 * 通知需要运行指定的工具。
-	 * @param name 工具的名称。
+	 * @param toolInfo 指定的工具。
 	 */
-	public void fireRunTool(String name);
+	public void fireRunTool(ToolInfo toolInfo);
 	
 }

@@ -16,7 +16,7 @@ import com.dwarfeng.dutil.basic.io.LoadFailedException;
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-public final class LibraryKeyChecker implements Checker<String>{
+public final class LibraryKeyChecker implements Checker<Library>{
 	
 	private final File dir;
 	
@@ -51,8 +51,8 @@ public final class LibraryKeyChecker implements Checker<String>{
 	 * @see com.dwarfeng.tp.core.model.io.Checker#isValid(java.lang.Object)
 	 */
 	@Override
-	public boolean isValid(String obj) {
-		File file = new File(dir, obj + ".jar");
+	public boolean isValid(Library obj) {
+		File file = new File(dir, obj.getName() + ".jar");
 		return file.exists();
 	}
 

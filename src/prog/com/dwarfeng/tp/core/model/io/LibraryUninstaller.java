@@ -10,6 +10,7 @@ import org.dom4j.io.SAXReader;
 import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.tp.core.model.cm.LibraryModel;
+import com.dwarfeng.tp.core.model.struct.Library;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 
 /**
@@ -20,20 +21,20 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
 public final class LibraryUninstaller implements Uninstaller<LibraryModel> {
 	
 	private final InputStream config;
-	private final String name;
+	private final Library library;
 	
 	/**
 	 * 新实例。
 	 * @param config 配置文件的输入流。
-	 * @param name 库的名称。
+	 * @param library 库。
 	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public LibraryUninstaller(InputStream config, String name) {
+	public LibraryUninstaller(InputStream config, Library library) {
 		Objects.requireNonNull(config, "入口参数 config 不能为 null。");
-		Objects.requireNonNull(name, "入口参数 name 不能为 null。");
+		Objects.requireNonNull(library, "入口参数 name 不能为 null。");
 
 		this.config = config;
-		this.name = name;
+		this.library = library;
 	}
 
 	/*
@@ -60,12 +61,12 @@ public final class LibraryUninstaller implements Uninstaller<LibraryModel> {
 			}
 			
 			File dir = new File(rootDirStr);
-			File libFile = new File(dir, name + ".jar" );
+			File libFile = new File(dir, library.getName() + ".jar" );
 
-			libraryModel.remove(name);
+			libraryModel.remove(library);
 			FileUtil.deleteFile(libFile);
 		}catch(Exception e){
-			throw new ProcessException("无法卸载指定的库：" + name);
+			throw new ProcessException("无法卸载指定的库：" + library);
 		}
 	}
 

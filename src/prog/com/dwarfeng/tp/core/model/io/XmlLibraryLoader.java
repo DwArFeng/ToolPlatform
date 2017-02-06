@@ -2,13 +2,13 @@ package com.dwarfeng.tp.core.model.io;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Objects;
 
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.dwarfeng.dutil.basic.io.FileExtensionNameFiliter;
+import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.io.StreamLoader;
 import com.dwarfeng.dutil.basic.prog.Loader;
@@ -59,9 +59,8 @@ public class XmlLibraryLoader extends StreamLoader<LibraryModel> implements Load
 			File[] libs = dir.listFiles(new FileExtensionNameFiliter(".jar"));
 			
 			for(File lib : libs){
-				String key = lib.getName().substring(0, lib.getName().length()-4);
-				URL url = lib.toURI().toURL();
-				libraryModel.put(key, new DefaultLibrary(url));
+				String name = lib.getName().substring(0, lib.getName().length()-4);
+				libraryModel.add(new DefaultLibrary(name));
 			}
 			
 		}catch (Exception e) {

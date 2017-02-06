@@ -2,6 +2,8 @@ package com.dwarfeng.tp.core.model.io;
 
 import java.io.File;
 
+import com.dwarfeng.tp.core.model.struct.ToolInfo;
+
 /**
  * 路径获得器。
  * <p> 将指定的名字转换成路径。
@@ -26,8 +28,8 @@ public interface PathGetter {
 	
 	/**
 	 * 获取指定名称的工具的工作目录。
-	 * @param name 指定的工具名称。
-	 * @return 指定工具名称的工具的工作目录。
+	 * @param name 指定的工具。
+	 * @return 指定工具的工作目录。
 	 */
-	public File getToolDirectory(String name);
+	public File getToolDirectory(ToolInfo toolInfo);
 }

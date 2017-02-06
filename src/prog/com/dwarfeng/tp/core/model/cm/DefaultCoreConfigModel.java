@@ -76,4 +76,18 @@ public class DefaultCoreConfigModel extends DefaultSyncConfigModel implements Co
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.CoreConfigModel#isRunningToolAutoTake()
+	 */
+	@Override
+	public boolean isRunningToolAutoTake() {
+		lock.readLock().lock();
+		try{
+			return Boolean.parseBoolean(getValidValue(CoreConfig.RUNNINGTOOL_AUTOTAKE.getConfigKey()));
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
 }
