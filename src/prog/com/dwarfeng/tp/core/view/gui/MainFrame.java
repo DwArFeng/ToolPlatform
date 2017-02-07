@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Collections;
@@ -35,6 +36,7 @@ import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
+import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
 import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
@@ -67,7 +69,9 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private final InputStream sysIn = System.in;
 	private final PrintStream sysOut = System.out;
 	private final PrintStream sysErr = System.err;
-	
+	private final JAdjustableBorderPanel mainAdjPanel;
+	private final JAdjustableBorderPanel centerAdjPanel;
+
 	/**多语言接口*/
 	private Mutilang mutilang;
 
@@ -83,7 +87,13 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 			MainFrame.this.fireRunTool(toolInfo);
 		}
 	};
-
+	
+	/*
+	 * 其它非final域
+	 */
+	private int lastNormalHeight;
+	private int lastNormalWidth;
+	
 	/**
 	 * 新实例。
 	 */
@@ -105,6 +115,27 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 
 		this.mutilang = mutilang;
 		
+		addWindowStateListener(new WindowStateListener() {
+			@Override
+			public void windowStateChanged(WindowEvent e) {
+				int newState = e.getNewState();
+				int oldState = e.getOldState();
+				
+				if((newState & MAXIMIZED_HORIZ) == 0 && (oldState & MAXIMIZED_HORIZ) == 0){
+					lastNormalWidth = getWidth();
+				}
+				if((newState & MAXIMIZED_VERT) == 0 && (oldState & MAXIMIZED_VERT) == 0){
+					lastNormalHeight = getHeight();
+				}
+				if((newState & MAXIMIZED_HORIZ) == 0 && (oldState & MAXIMIZED_HORIZ) > 0){
+					setSize(lastNormalWidth, getHeight());
+				}
+				if((newState & MAXIMIZED_VERT) == 0 && (oldState & MAXIMIZED_VERT) > 0){
+					lastNormalHeight = getHeight();
+					setSize(getWidth(), lastNormalHeight);
+				}
+			}
+		});
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -116,73 +147,74 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 			}
 		});
 		
-		setIconImage(ToolPlatformUtil.getImage(ImageKey.MAINFRAME_ICON, ImageSize.ICON_SUPER_LARGE));
+		setIconImage(ImageUtil.getImage(ImageKey.MAINFRAME_ICON, ImageSize.ICON_SUPER_LARGE));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
-		JAdjustableBorderPanel adjustableBorderPanel = new JAdjustableBorderPanel();
-		adjustableBorderPanel.setSeperatorColor(new Color(100, 149, 237));
-		adjustableBorderPanel.setNorthMinValue(60);
-		adjustableBorderPanel.setNorthPreferredValue(60);
-		adjustableBorderPanel.setNorthSeparatorEnabled(false);
-		adjustableBorderPanel.setNorthEnabled(true);
-		adjustableBorderPanel.setSeperatorThickness(5);
-		adjustableBorderPanel.setWestEnabled(true);
-		adjustableBorderPanel.setEastEnabled(true);
-		getContentPane().add(adjustableBorderPanel, BorderLayout.CENTER);
+		mainAdjPanel = new JAdjustableBorderPanel();
+		mainAdjPanel.setSeperatorColor(new Color(100, 149, 237));
+		mainAdjPanel.setNorthMinValue(60);
+		mainAdjPanel.setNorthPreferredValue(60);
+		mainAdjPanel.setNorthSeparatorEnabled(false);
+		mainAdjPanel.setNorthEnabled(true);
+		mainAdjPanel.setSeperatorThickness(5);
+		mainAdjPanel.setWestEnabled(true);
+		mainAdjPanel.setEastEnabled(true);
+		getContentPane().add(mainAdjPanel, BorderLayout.CENTER);
 		
-		JAdjustableBorderPanel adjustableBorderPanel_1 = new JAdjustableBorderPanel();
-		adjustableBorderPanel_1.setSeperatorColor(new Color(30, 144, 255));
-		adjustableBorderPanel_1.setNorthSeparatorEnabled(false);
-		adjustableBorderPanel_1.setSouthEnabled(true);
-		adjustableBorderPanel_1.setSeperatorThickness(5);
-		adjustableBorderPanel.add(adjustableBorderPanel_1, BorderLayout.CENTER);
+		centerAdjPanel = new JAdjustableBorderPanel();
+		centerAdjPanel.setSouthPreferredValue(100);
+		centerAdjPanel.setSeperatorColor(new Color(30, 144, 255));
+		centerAdjPanel.setNorthSeparatorEnabled(false);
+		centerAdjPanel.setSouthEnabled(true);
+		centerAdjPanel.setSeperatorThickness(5);
+		mainAdjPanel.add(centerAdjPanel, BorderLayout.CENTER);
 		
 		southTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		southTabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		adjustableBorderPanel_1.add(southTabbedPane, BorderLayout.SOUTH);
+		centerAdjPanel.add(southTabbedPane, BorderLayout.SOUTH);
 		
 		console = new JTpconsole(mutilang);
 		southTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_2),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.CONSOLE, ImageSize.ICON_SMALL)), 
+				new ImageIcon(ImageUtil.getImage(ImageKey.CONSOLE, ImageSize.ICON_SMALL)), 
 				console, null);
-		System.setIn(console.in);
-		System.setOut(console.out);
-		System.setErr(console.out);
+//		System.setIn(console.in);
+//		System.setOut(console.out);
+//		System.setErr(console.out);
 		
 		backgroundPanel = new JBackgroundPanel(backgroundModel);
 		southTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_3),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.PROGRESS, ImageSize.ICON_SMALL)), 
+				new ImageIcon(ImageUtil.getImage(ImageKey.PROGRESS, ImageSize.ICON_SMALL)), 
 				backgroundPanel, null);
 		
 		centerTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		adjustableBorderPanel_1.add(centerTabbedPane, BorderLayout.CENTER);
+		centerAdjPanel.add(centerTabbedPane, BorderLayout.CENTER);
 		
 		toolInfoPanel = new JToolInfoPanel(toolInfoModel);
 		toolInfoPanel.addObverser(toolInfoPanelObverser);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_4),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.TOOL, ImageSize.ICON_SMALL)), 
+				new ImageIcon(ImageUtil.getImage(ImageKey.TOOL, ImageSize.ICON_SMALL)), 
 				toolInfoPanel, null);
 		
 		libraryPanel = new JLibraryPanel(libraryModel);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_5),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.LIBRARY, ImageSize.ICON_SMALL)), 
+				new ImageIcon(ImageUtil.getImage(ImageKey.LIBRARY, ImageSize.ICON_SMALL)), 
 				libraryPanel, null);
 		
 		toolRuntimePanel = new JToolRuntimePanel(mutilang, toolRuntimeModel);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_6),
-				new ImageIcon(ToolPlatformUtil.getImage(ImageKey.RUNTIME, ImageSize.ICON_SMALL)), 
+				new ImageIcon(ImageUtil.getImage(ImageKey.RUNTIME, ImageSize.ICON_SMALL)), 
 				toolRuntimePanel, null);
 		
 		JPanel panel = new JPanel();
 		
 		north_border = new TitledBorder(null, getLabel(LabelStringKey.MainFrame_1), TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0));
 		panel.setBorder(north_border);
-		adjustableBorderPanel.add(panel, BorderLayout.NORTH);
+		mainAdjPanel.add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{30, 0};
@@ -200,7 +232,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		panel.add(btnNewButton, gbc_btnNewButton);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		adjustableBorderPanel.add(tabbedPane_1, BorderLayout.SOUTH);
+		mainAdjPanel.add(tabbedPane_1, BorderLayout.SOUTH);
 		
 		//pack();
 	}
@@ -296,7 +328,70 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		toolRuntimePanel.dispose();
 		super.dispose();
 	}
+
+	/**
+	 * 获取南方面板的高度。
+	 * @return 南方面板的高度。
+	 */
+	public int getSouthHeight() {
+		return centerAdjPanel.getSouthPreferredValue();
+	}
+
+	/**
+	 * 设置南方面板的高度。
+	 * @param height 指定的高度。
+	 * @return 该操作是否改变了控制器中的组件。
+	 */
+	public boolean setSouthHeight(int height) {
+		centerAdjPanel.setSouthPreferredValue(height);
+		return true;
+	}
 	
+	/**
+	 * 获取主界面的最后的正常状态的宽度。
+	 * <p> 如果主界面还未初始化，则返回 <code>-1</code>。
+	 * @return 主界面的最后的正常状态的宽度。
+	 */
+	public int getLastNormalWidth() {
+		return lastNormalWidth;
+	}
+
+	/**
+	 * 设置主界面的最后的正常状态的宽度。
+	 * @param width 主界面的最后的正常状态的宽度。
+	 * @return 该操作是否对主界面造成了改变。
+	 */
+	public boolean setLastNormalWidth(int width) {
+		if((getExtendedState() & MAXIMIZED_HORIZ) == 0){
+			setSize(width, getHeight());
+		}
+		lastNormalWidth = width;
+		return true;
+	}
+
+	/**
+	 * 获取主界面最后的正常状态的高度。
+	 * <p> 如果主界面还未初始化，则返回 <code>-1</code>
+	 * @return 主界面最后的正常状态的高度。
+	 */
+	public int getLastNormalHeight() {
+		return lastNormalHeight;
+	}
+
+	/**
+	 * 设置主界面的最后的正常状态的高度。
+	 * @param height 主界面的最后的正常状态的高度。
+	 * @return 该操作是否对主界面造成了改变。
+	 */
+	public boolean setLastNormalHeight(int height) {
+		if((getExtendedState() & MAXIMIZED_VERT) == 0){
+			lastNormalHeight = getHeight();
+			setSize(getWidth(), height);
+		}
+		lastNormalHeight = height;
+		return true;
+	}
+
 	private String getLabel(LabelStringKey labelStringKey){
 		return mutilang.getString(labelStringKey.getName());
 	}

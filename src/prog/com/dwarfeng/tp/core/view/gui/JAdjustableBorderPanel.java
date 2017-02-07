@@ -372,7 +372,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			}
 		}
 		this.northEnabled = northEnabled;
-		updateUI();
+		if(northPan != null) northPan.revalidate();
 	}
 	/**
 	 * 获取北方控件的最小度量（高度）。
@@ -390,7 +390,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			northPan.setMinimumSize(new Dimension(0,northMinValue));
 		}
 		this.northMinValue = northMinValue;
-		updateUI();
+		if(northPan != null) northPan.revalidate();
 	}
 	/**
 	 * 获取南方布局是否被启用。
@@ -424,7 +424,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			}
 		}
 		this.southEnabled = southEnabled;
-		updateUI();
+		if(southPan != null) southPan.revalidate();
 	}
 	/**
 	 * 返回南方控件的最小度量（高度）。
@@ -442,7 +442,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			southPan.setMinimumSize(new Dimension(0, southMinValue));
 		}
 		this.southMinValue = southMinValue;
-		updateUI();
+		if(southPan != null) southPan.revalidate();
 	}
 	/**
 	 * 返回东方布局是否被启用。
@@ -476,7 +476,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			}
 		}
 		this.eastEnabled = eastEnabled;
-		updateUI();
+		if(eastPan != null) eastPan.revalidate();
 	}
 	/**
 	 * 获取东方布局的最小度量（宽度）。
@@ -494,7 +494,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			eastPan.setMinimumSize(new Dimension(eastMinValue, 0));
 		}
 		this.eastMinValue = eastMinValue;
-		updateUI();
+		if(eastPan != null) eastPan.revalidate();
 	}
 	/**
 	 * 获取西方布局是否被启用。
@@ -528,6 +528,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			}
 		}
 		this.westEnabled = westEnabled;
+		if(westPan != null) westPan.revalidate();
 	}
 	/**
 	 * 获取西方布局的最小度量（宽度）。
@@ -545,7 +546,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			westPan.setMinimumSize(new Dimension(westMinValue,0));
 		}
 		this.westMinValue = westMinValue;
-		updateUI();
+		if(westPan != null) westPan.revalidate();
 	}
 	
 	/**
@@ -568,7 +569,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			}
 		}
 		this.northSeparatorEnabled = northSeparatorEnabled;
-		updateUI();
+		if(northPan != null) northPan.repaint();
 	}
 	/**
 	 * 获取南方拖动条是否被禁用。
@@ -590,7 +591,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			}
 		}
 		this.southSeparatorEnabled = southSeparatorEnabled;
-		updateUI();
+		if(southPan != null) southPan.repaint();
 	}
 	/**
 	 * 返回东方拖动条是否被禁用。
@@ -612,6 +613,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			}
 		}
 		this.eastSeparatorEnabled = eastSeparatorEnabled;
+		if(eastPan != null) eastPan.repaint();
 	}
 	/**
 	 * 返回西方进度条是否被禁用。
@@ -633,7 +635,7 @@ public class JAdjustableBorderPanel extends JPanel{
 			}
 		}
 		this.westSeparatorEnabled = westSeparatorEnabled;
-		updateUI();
+		if(westPan != null) westPan.repaint();
 	}
 	/**
 	 * 返回北方控件的表现度量。
@@ -778,7 +780,10 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(southSeparator != null) southSeparator.setBackground(seperatorColor);
 		if(westSeparator != null) westSeparator.setBackground(seperatorColor);
 		if(eastSeparator != null) eastSeparator.setBackground(seperatorColor);
-		updateUI();
+		if(northPan != null) northPan.repaint();
+		if(southPan != null) southPan.repaint();
+		if(eastPan != null) eastPan.repaint();
+		if(westPan != null) westPan.repaint();
 	}
 	/**
 	 * 返回拖动条的粗细。
@@ -797,7 +802,10 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(southSeparator != null) southSeparator.setPreferredSize(new Dimension(this.seperatorThickness,this.seperatorThickness));
 		if(westSeparator != null) westSeparator.setPreferredSize(new Dimension(this.seperatorThickness,this.seperatorThickness));
 		if(eastSeparator != null) eastSeparator.setPreferredSize(new Dimension(this.seperatorThickness,this.seperatorThickness));
-		updateUI();
+		if(northPan != null) northPan.repaint();
+		if(southPan != null) southPan.repaint();
+		if(eastPan != null) eastPan.repaint();
+		if(westPan != null) westPan.repaint();
 	}
 	/**
 	 * 初始化时进行的调度。

@@ -6,7 +6,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
@@ -19,62 +18,7 @@ public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	private final Condition condition = lock.writeLock().newCondition();
 	private final ToolRuntimeModel toolRuntimeModel;
-	private final Thread thread = THREAD_FACTORY.newThread(new Runnable() {
-		
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-			next:
-			while(runFlag){
-				CT.trace(pauseFlag);
-				lock.writeLock().lock();
-				try{
-					while(pauseFlag){
-						try {
-							condition.await();
-						} catch (InterruptedException ignore) {
-							//继续执行
-						}
-						//如果是因为被关闭而执行，则直接退出线程。
-						if(!runFlag) return;
-					}
-				}finally {
-					lock.writeLock().unlock();
-				}
-				
-				try {
-					RunningTool runningTool = toolRuntimeModel.takeExited();
-					if(pauseFlag) continue next;
-					String format = null;
-					lock.readLock().lock();
-					try{
-						format = mutilang.getString(LoggerStringKey.ExitToolRuntimeTaker_1.getName());
-					}finally {
-						lock.readLock().unlock();
-					}
-					logger.info(String.format(format, runningTool.getName(), runningTool.getExitCode()));
-				
-				}catch (Exception e) {
-					if(!(e instanceof InterruptedException)){
-						String str = null;
-						try{
-							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
-						}catch (Exception e1) {
-							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
-							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_4.getName());
-							logger.warn(str, e1);
-							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
-						}
-						logger.warn(str, e);
-					}
-				}
-			}
-		}
-	});
-	
+	private final Thread thread = THREAD_FACTORY.newThread(new Taker());
 	
 	private Logger logger;
 	private Mutilang mutilang;
@@ -240,6 +184,75 @@ public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
 		}finally {
 			lock.writeLock().unlock();
 		}
+	}
+	
+	private boolean isRun(){
+		lock.readLock().lock();
+		try{
+			return runFlag;
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	private final class Taker implements Runnable{
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {
+			next:
+			while(isRun()){
+				try {
+					lock.writeLock().lock();
+					try{
+						while(isPause()){
+							condition.await();
+							//如果是因为被关闭而执行，则直接退出线程。
+							if(! isRun()) return;
+						}
+					}finally {
+						lock.writeLock().unlock();
+					}
+					
+					RunningTool runningTool = toolRuntimeModel.takeExited();
+					if(isPause()) continue next;
+					
+					String format = null;
+					String name = null;
+					int exitCode = 0;
+					lock.readLock().lock();
+					try{
+						format = mutilang.getString(LoggerStringKey.ExitToolRuntimeTaker_1.getName());
+						name = runningTool.getName();
+						exitCode = runningTool.getExitCode();
+					}finally {
+						lock.readLock().unlock();
+					}
+					logger.info(String.format(format, name, exitCode));
+				
+				}catch (Exception e) {
+					if(!(e instanceof InterruptedException)){
+						String str = null;
+						lock.readLock().lock();
+						try{
+							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
+						}catch (Exception e1) {
+							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
+							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_4.getName());
+							logger.warn(str, e1);
+							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
+						}finally {
+							lock.readLock().unlock();
+						}
+						logger.warn(str, e);
+					}
+				}
+			}
+		}
+		
 	}
 
 }

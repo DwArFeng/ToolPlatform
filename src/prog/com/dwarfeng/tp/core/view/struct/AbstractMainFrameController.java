@@ -18,11 +18,11 @@ public abstract class AbstractMainFrameController extends AbstractMusuedGuiContr
 	 * @see com.dwarfeng.tp.core.view.struct.MainFrameController#getHeight()
 	 */
 	@Override
-	public int getHeight() {
+	public int getLastNormalHeight() {
 		lock.readLock().lock();
 		try{
 			if(Objects.isNull(component)) return -1;
-			return component.getHeight();
+			return component.getLastNormalHeight();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -32,11 +32,11 @@ public abstract class AbstractMainFrameController extends AbstractMusuedGuiContr
 	 * @see com.dwarfeng.tp.core.view.struct.MainFrameController#getWidth()
 	 */
 	@Override
-	public int getWidth() {
+	public int getLastNormalWidth() {
 		lock.readLock().lock();
 		try{
 			if(Objects.isNull(component)) return -1;
-			return component.getWidth();
+			return component.getLastNormalWidth();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -46,12 +46,11 @@ public abstract class AbstractMainFrameController extends AbstractMusuedGuiContr
 	 * @see com.dwarfeng.tp.core.view.struct.MainFrameController#setHeight(int)
 	 */
 	@Override
-	public boolean setHeight(int height) {
+	public boolean setLastNormalHeight(int height) {
 		lock.writeLock().lock();
 		try{
 			if(Objects.isNull(component)) return false;
-			component.setSize(getWidth(), height);
-			return true;
+			return component.setLastNormalHeight(height);
 		}finally {
 			lock.writeLock().unlock();
 		}
@@ -61,12 +60,11 @@ public abstract class AbstractMainFrameController extends AbstractMusuedGuiContr
 	 * @see com.dwarfeng.tp.core.view.struct.MainFrameController#setWidth(int)
 	 */
 	@Override
-	public boolean setWidth(int width) {
+	public boolean setLastNormalWidth(int width) {
 		lock.writeLock().lock();
 		try{
 			if(Objects.isNull(component)) return false;
-			component.setSize(width, getHeight());
-			return true;
+			return component.setLastNormalWidth(width);
 		}finally {
 			lock.writeLock().unlock();
 		}
@@ -126,6 +124,36 @@ public abstract class AbstractMainFrameController extends AbstractMusuedGuiContr
 		try{
 			if(Objects.isNull(this.component)) return false;
 			return this.component.assignStream(runningTool);
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+
+	/* 
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.view.struct.MainFrameController#getSouthHeight()
+	 */
+	@Override
+	public int getSouthHeight() {
+		lock.readLock().lock();
+		try{
+			if(Objects.isNull(component)) return -1;
+			return component.getSouthHeight();
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.view.struct.MainFrameController#setSouthHeight(int)
+	 */
+	@Override
+	public boolean setSouthHeight(int height) {
+		lock.writeLock().lock();
+		try{
+			if(Objects.isNull(this.component)) return false;
+			return this.component.setSouthHeight(height);
 		}finally {
 			lock.writeLock().unlock();
 		}

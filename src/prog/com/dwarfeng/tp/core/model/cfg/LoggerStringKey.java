@@ -67,6 +67,9 @@ public enum LoggerStringKey implements Name{
 	ToolPlatform_Exitor_5(new DefaultName("ToolPlatform.Exitor.5")),
 	ToolPlatform_Exitor_6(new DefaultName("ToolPlatform.Exitor.6")),
 	ToolPlatform_Exitor_7(new DefaultName("ToolPlatform.Exitor.7")),
+	ToolPlatform_Exitor_8(new DefaultName("ToolPlatform.Exitor.8")),
+	ToolPlatform_Exitor_9(new DefaultName("ToolPlatform.Exitor.9")),
+	ToolPlatform_Exitor_10(new DefaultName("ToolPlatform.Exitor.10")),
 
 	;
 

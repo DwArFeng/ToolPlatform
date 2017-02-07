@@ -19,6 +19,7 @@ import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
+import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 final class JTpconsole extends JExconsole implements MutilangSupported{
@@ -96,7 +97,7 @@ final class JTpconsole extends JExconsole implements MutilangSupported{
 			super();
 			selectAllMenuItem = add(
 					new JMenuItemAction.Builder()
-					.icon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.SELECT_ALL, ImageSize.ICON_SMALL)))
+					.icon(new ImageIcon(ImageUtil.getImage(ImageKey.SELECT_ALL, ImageSize.ICON_SMALL)))
 					.name("")
 					.keyStorke(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK))
 					.mnemonic('A')
@@ -118,7 +119,7 @@ final class JTpconsole extends JExconsole implements MutilangSupported{
 			
 			cleanScreenMenuItem = add(
 					new JMenuItemAction.Builder()
-					.icon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.CLEAR_SCREEN, ImageSize.ICON_SMALL)))
+					.icon(new ImageIcon(ImageUtil.getImage(ImageKey.CLEAR_SCREEN, ImageSize.ICON_SMALL)))
 					.name("")
 					.keyStorke(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK))
 					.mnemonic('E')
@@ -141,7 +142,7 @@ final class JTpconsole extends JExconsole implements MutilangSupported{
 			addSeparator();
 			
 			lineWrapMenuItem = new JCheckBoxMenuItem("");
-			lineWrapMenuItem.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.LINEWRAP, ImageSize.ICON_SMALL)));
+			lineWrapMenuItem.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.LINEWRAP, ImageSize.ICON_SMALL)));
 			lineWrapMenuItem.setMnemonic('W');
 			lineWrapMenuItem.addActionListener(new ActionListener() {
 				@Override

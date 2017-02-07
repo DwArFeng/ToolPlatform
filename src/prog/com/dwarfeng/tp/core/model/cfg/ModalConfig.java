@@ -22,7 +22,10 @@ public enum ModalConfig implements ConfigEntry {
 	STARTUP_MAINFRAME_HEIGHT("startup.mainframe.height", "600", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
 	
 	/**界面在启动时候的拓展状态*/
-	STARTUP_MAINFRAME_EXTENDEDSTATE("startup.mainframe.extendedstate", "0", new IntegerConfigChecker());
+	STARTUP_MAINFRAME_EXTENDEDSTATE("startup.mainframe.extendedstate", "0", new IntegerConfigChecker()),
+	
+	/**界面在踢动时的南方面板高度*/
+	STARTUP_MAINFRAME_SOUTHHEIGHT("startup.mainframe.southhtight", "100", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
 	
 	;
 

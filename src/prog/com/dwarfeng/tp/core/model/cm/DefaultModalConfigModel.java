@@ -59,4 +59,18 @@ public class DefaultModalConfigModel extends DefaultSyncConfigModel implements M
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ModalConfigModel#getMainFrameStartupSouthHeight()
+	 */
+	@Override
+	public int getMainFrameStartupSouthHeight() {
+		lock.readLock().lock();
+		try{
+			return Integer.parseInt(getValidValue(ModalConfig.STARTUP_MAINFRAME_SOUTHHEIGHT.getConfigKey()));
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
 }

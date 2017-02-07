@@ -1,21 +1,9 @@
 package com.dwarfeng.tp.core.util;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,16 +11,9 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.ConfigurationSource;
 import org.apache.logging.log4j.core.config.Configurator;
 
-import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.control.ToolPlatform;
-import com.dwarfeng.tp.core.model.cfg.ImageKey;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
-import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
-import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
 import com.dwarfeng.tp.core.model.struct.Logger;
-import com.dwarfeng.tp.core.model.struct.LoggerInfo;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
-import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 
 /**
@@ -41,94 +22,6 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
  * @since 0.0.0-alpha
  */
 public final class ToolPlatformUtil {
-	
-	private final static Set<LoggerInfo> defaultLoggerInfos;
-	private final static String mutilangLabel = "简体中文";
-	private final static MutilangInfo defaultMutilangInfo = new InnerMutilangInfo(mutilangLabel, new HashMap<>());
-	private final static String missingString = "!文本缺失";
-	private final static ResourceBundle loggerMutilangResourceBundle = ResourceBundle.getBundle(
-			"com.dwarfeng.tp.resource.defaultres.mutilang.logger.default");
-	private final static ResourceBundle labelMutilangResourceBundle = ResourceBundle.getBundle(
-			"com.dwarfeng.tp.resource.defaultres.mutilang.label.default");
-	private final static MutilangInfo defaultLoggerMutilangInfo;
-	private final static MutilangInfo defaultLabelMutilangInfo;
-	
-	static{
-		
-		defaultLoggerInfos = new HashSet<>(Arrays.asList(new LoggerInfo[]{new InnerLoggerInfo("std.all")}));
-		
-		Map<String, String> loggerMutilangDefaultMap = new HashMap<>();
-		for(Name name : LoggerStringKey.values()){
-			try{
-				loggerMutilangDefaultMap.put(name.getName(), loggerMutilangResourceBundle.getString(name.getName()));
-			}catch (MissingResourceException e) {
-				loggerMutilangDefaultMap.put(name.getName(), missingString);
-			}
-		}
-		
-		Map<String, String> labelMutilangDefaultMap = new HashMap<>();
-		for(Name name : LabelStringKey.values()){
-			try{
-				labelMutilangDefaultMap.put(name.getName(), labelMutilangResourceBundle.getString(name.getName()));
-			}catch (MissingResourceException e) {
-				labelMutilangDefaultMap.put(name.getName(), missingString);
-			}
-		}
-		
-		defaultLoggerMutilangInfo = new InnerMutilangInfo(mutilangLabel, loggerMutilangDefaultMap);
-		defaultLabelMutilangInfo = new InnerMutilangInfo(mutilangLabel, labelMutilangDefaultMap);
-	}
-	
-	/**
-	 * 获取指定图片键对应的图片。
-	 * <p> 图片将被调整到指定的大小。
-	 * @param imageKey 指定的图片键。
-	 * @param imageSize 图片的大小。
-	 * @return 指定的图片键对应的图片。
-	 */
-	public final static Image getImage(ImageKey imageKey, ImageSize imageSize){
-		Objects.requireNonNull(imageKey, "入口参数 imageKey 不能为 null。");
-		Objects.requireNonNull(imageSize, "入口参数 imageSize 不能为 null。");
-
-		try {
-			BufferedImage image = ImageIO.read(ToolPlatform.class.getResource(imageKey.getName()));
-			int width = imageSize.getWidth();
-			int height = imageSize.getHeight();
-			if(image.getHeight() == height && image.getWidth() == width){
-				return image;
-			}else{
-				return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-			}
-		} catch (Exception e) {
-			try {
-				BufferedImage image = ImageIO.read(ToolPlatform.class.getResource(ImageKey.IMG_LOAD_FAILED.getName()));
-				int width = imageSize.getWidth();
-				int height = imageSize.getHeight();
-				if(image.getHeight() == height && image.getWidth() == width){
-					return image;
-				}else{
-					return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-				}
-			} catch (Exception e1) {
-				return null;
-			}
-		}
-	}
-	
-	/**
-	 * 获取指定图片按照指定大小缩放而来的图片。
-	 * @param image 指定的图片。
-	 * @param imageSize 需要缩放到的大小。
-	 * @return 缩放后的新图片。
-	 */
-	public final static Image scaleImage(Image image, ImageSize imageSize){
-		Objects.requireNonNull(image, "入口参数 image 不能为 null。");
-		Objects.requireNonNull(imageSize, "入口参数 imageSize 不能为 null。");
-
-		int width = imageSize.getWidth();
-		int height = imageSize.getHeight();
-		return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-	}
 	
 	/**
 	 * 获取一个新的阻挡字典指示的输入流。
@@ -149,68 +42,6 @@ public final class ToolPlatformUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return (LoggerContext) LogManager.getContext();
-		}
-	}
-	
-	/**
-	 * 获取默认的记录器名称集合。
-	 * @return 默认的记录器名称集合。
-	 */
-	public final static Set<LoggerInfo> getDefaultLoggerInfos(){
-		return defaultLoggerInfos;
-	}
-	
-	public final static MutilangInfo getDefaultMutilangInfo(){
-		return defaultMutilangInfo;
-	}
-	
-	/**
-	 * 获取文本缺失字段。
-	 * @return 文本缺失字段。
-	 */
-	public final static String getDefaultMissingString(){
-		return missingString;
-	}
-	
-	/**
-	 * 获取默认的记录器多语言信息。
-	 * @return 默认的记录器多语言信息。
-	 */
-	public final static MutilangInfo getDefaultLoggerMutilangInfo(){
-		return defaultLoggerMutilangInfo;
-	}
-	
-	/**
-	 * 获取默认的标签多语言信息。
-	 * @return 默认的标签多语言信息。
-	 */
-	public final static MutilangInfo getDefaultLabelMutilangInfo(){
-		return defaultLabelMutilangInfo;
-	}
-	
-	/**
-	 * 获取记录器多语言接口的支持键集合。
-	 * @return 记录器多语言接口的支持键集合。
-	 */
-	public static Set<String> getLoggerMutilangSupportedKeys() {
-		try {
-			return Collections.unmodifiableSet(defaultLoggerMutilangInfo.getMutilangMap().keySet());
-		} catch (ProcessException ignore) {
-			//不会抛出异常
-			return null;
-		}
-	}
-
-	/**
-	 * 获取标签多语言接口的支持键集合。
-	 * @return 标签多语言接口的支持键集合。
-	 */
-	public static Set<String> getLabelMutilangSupportedKeys() {
-		try {
-			return Collections.unmodifiableSet(defaultLabelMutilangInfo.getMutilangMap().keySet());
-		} catch (ProcessException ignore) {
-			//不会抛出异常
-			return null;
 		}
 	}
 	
@@ -292,16 +123,13 @@ public final class ToolPlatformUtil {
 		@Override
 		public String getString(String key) {
 			try {
-				if(! defaultLoggerMutilangInfo.getMutilangMap().containsKey(key)){
+				if(! Constants.getDefaultLoggerMutilangInfo().getMutilangMap().containsKey(key)){
 					throw new IllegalArgumentException("此多语言接口不支持该键");
 				}
+				return Constants.getDefaultLoggerMutilangInfo().getMutilangMap().getOrDefault(key, Constants.getDefaultMissingString());
 			} catch (ProcessException ignore) {
 				//不会抛出异常
-			}
-			try{
-				return loggerMutilangResourceBundle.getString(key);
-			}catch (MissingResourceException e) {
-				return missingString;
+				return Constants.getDefaultMissingString();
 			}
 		}
 		
@@ -322,16 +150,13 @@ public final class ToolPlatformUtil {
 		@Override
 		public String getString(String key) {
 			try {
-				if(! defaultLabelMutilangInfo.getMutilangMap().containsKey(key)){
+				if(! Constants.getDefaultLabelMutilangInfo().getMutilangMap().containsKey(key)){
 					throw new IllegalArgumentException("此多语言接口不支持该键");
 				}
+				return Constants.getDefaultLabelMutilangInfo().getMutilangMap().getOrDefault(key, Constants.getDefaultMissingString());
 			} catch (ProcessException ignore) {
 				//不会抛出异常
-			}
-			try{
-				return labelMutilangResourceBundle.getString(key);
-			}catch (MissingResourceException e) {
-				return missingString;
+				return Constants.getDefaultMissingString();
 			}
 		}
 		
@@ -363,72 +188,6 @@ public final class ToolPlatformUtil {
 		public void fatal(String message, Throwable t) {}
 		
 	}
-
-	/**
-	 * 内部多语言信息。
-	 * <p> 多语言信息的内部实现。
-	 * @author  DwArFeng
-	 * @since 0.0.0-alpha
-	 */
-	private static final class InnerMutilangInfo implements MutilangInfo {
-		
-		private final String label;
-		private final Map<String, String> mutilangMap;
-		
-		public InnerMutilangInfo(String label, Map<String, String> mutilangMap) {
-			Objects.requireNonNull(label, "入口参数 label 不能为 null。");
-			Objects.requireNonNull(mutilangMap, "入口参数 mutilangMap 不能为 null。");
-			
-			this.label = label;
-			this.mutilangMap = mutilangMap;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.MutilangInfo#getLabel()
-		 */
-		@Override
-		public String getLabel() {
-			return this.label;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.MutilangAttribute#getMutilangMap()
-		 */
-		@Override
-		public Map<String, String> getMutilangMap() {
-			return Collections.unmodifiableMap(mutilangMap);
-		}
-
-	}
-	
-	/**
-	 * 内部记录器信息。
-	 * <p> 记录器信息的内部实现。
-	 * @author DwArFeng
-	 * @since 0.0.0-alpha
-	 */
-	private static final class InnerLoggerInfo implements LoggerInfo{
-
-		private final String name;
-		
-		public InnerLoggerInfo(String name) {
-			Objects.requireNonNull(name, "入口参数 name 不能为 null。");
-			this.name = name;
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.model.struct.LoggerInfo#getName()
-		 */
-		@Override
-		public String getName() {
-			return name;
-		}
-		
-	}
-
 
 	//禁止外部实例化
 	private ToolPlatformUtil(){}

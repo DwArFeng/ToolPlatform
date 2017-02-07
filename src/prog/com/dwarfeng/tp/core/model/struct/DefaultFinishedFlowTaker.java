@@ -22,56 +22,7 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 	
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	private final BackgroundModel backgroundModel;
-	private final Thread thread = THREAD_FACTORY.newThread(new Runnable() {
-		
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-			while(runFlag){
-				try {
-					Flow flow = backgroundModel.takeFinished();
-					String message = flow.getMessage();
-					Throwable throwable = flow.getThrowable();
-					String format = "%s_%s";
-					String str = null;
-					if(Objects.isNull(throwable)){
-						lock.readLock().lock();
-						try{
-							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_1.getName());
-						}finally {
-							lock.readLock().unlock();
-						}
-						logger.info(String.format(format, str, message));
-					}else{
-						lock.readLock().lock();
-						try{
-							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_2.getName());
-						}finally {
-							lock.readLock().unlock();
-						}
-						logger.warn(String.format(format, str, message), throwable);
-					}
-				}catch (Exception e) {
-					if(!(e instanceof InterruptedException)){
-						String str = null;
-						lock.readLock().lock();
-						try{
-							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
-						}catch (Exception e1) {
-							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
-							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_4.getName());
-							logger.warn(str, e1);
-							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
-						}
-						logger.warn(str, e);
-					}
-				}
-			}
-		}
-	});
+	private final Thread thread = THREAD_FACTORY.newThread(new Taker());
 	
 	
 	private Logger logger;
@@ -202,6 +153,73 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 		}finally {
 			lock.writeLock().unlock();
 		}
+	}
+	
+	private boolean isRun(){
+		lock.readLock().lock();
+		try{
+			return runFlag;
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	private final class Taker implements Runnable{
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {
+			while(isRun()){
+				try {
+					Flow flow = backgroundModel.takeFinished();
+					
+					//获取数据。
+					String message = flow.getMessage();
+					Throwable throwable = null;
+					String format = null;
+					String str = null;
+					Logger logger;
+					
+					lock.readLock().lock();
+					try{
+						throwable = flow.getThrowable();
+						format = "%s_%s";
+						str = Objects.isNull(throwable) ?
+								mutilang.getString(LoggerStringKey.FinishedFlowTaker_1.getName()) :
+								mutilang.getString(LoggerStringKey.FinishedFlowTaker_2.getName());
+						logger = DefaultFinishedFlowTaker.this.logger;
+					}finally {
+						lock.readLock().unlock();
+					}
+	
+					if(Objects.isNull(throwable)){
+						logger.info(String.format(format, str, message));
+					}else{
+						logger.warn(String.format(format, str, message), throwable);
+					}
+				}catch (Exception e) {
+					if(!(e instanceof InterruptedException)){
+						String str = null;
+						lock.readLock().lock();
+						try{
+							str = mutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
+						}catch (Exception e1) {
+							Mutilang tempMutilang = ToolPlatformUtil.newDefaultLoggerMutilang();
+							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_4.getName());
+							logger.warn(str, e1);
+							str = tempMutilang.getString(LoggerStringKey.FinishedFlowTaker_3.getName());
+						}finally {
+							lock.readLock().unlock();
+						}
+						logger.warn(str, e);
+					}
+				}
+			}
+		}
+		
 	}
 
 }

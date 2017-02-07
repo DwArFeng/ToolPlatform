@@ -2,9 +2,11 @@ package com.dwarfeng.tp.core.view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.dwarfeng.dutil.basic.gui.swing.MuaListModel;
-import com.dwarfeng.dutil.basic.io.CT;
+import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
@@ -29,12 +31,17 @@ import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
+import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 	
 	private final JList<RunningTool> list;
 	private final JToolRuntimeConsoleContainer consoleContainer;
+	private final Image notStartImage;
+	private final Image runningImage;
+	private final Image exitedImage;
+
 
 	private ToolRuntimeModel toolRuntimeModel;
 	private ImageSize toolInfoIconSize = ImageSize.ICON_MEDIUM;
@@ -78,6 +85,21 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 		
 		/*
 		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.model.obv.ToolRuntimeAdapter#fireRunningToolStarted(com.dwarfeng.tp.core.model.struct.RunningTool)
+		 */
+		@Override
+		public void fireRunningToolStarted(RunningTool runningTool) {
+			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+				@Override
+				public void run() {
+					int index = listModel.indexOf(runningTool);
+					listModel.set(index, runningTool);
+				}
+			});
+		};
+		
+		/*
+		 * (non-Javadoc)
 		 * @see com.dwarfeng.tp.core.model.obv.ToolRuntimeAdapter#fireRunningToolExited(com.dwarfeng.tp.core.model.struct.RunningTool)
 		 */
 		@Override
@@ -85,10 +107,27 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 				@Override
 				public void run() {
-					JTpconsole console = toolConsoleMap.get(runningTool);
+					int index = listModel.indexOf(runningTool);
+					listModel.set(index, runningTool);
+				}
+			});
+			JTpconsole console = toolConsoleMap.get(runningTool);
+			try {
+				ToolPlatformUtil.invokeAndWaitInEventQueue(new Runnable() {
+					@Override
+					public void run() {
+						console.input("\n");
+					}
+				});
+			} catch (InvocationTargetException | InterruptedException ignore) {
+				//不可能抛出异常。
+				//中断也要按照基本法。
+			}
+			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+				@Override
+				public void run() {
 					if(Objects.nonNull(console)){
 						console.out.println(formatLabel(LabelStringKey.JToolRuntimePanel_1, Calendar.getInstance().getTime(), runningTool.getExitCode()));
-						console.input("\n");
 					}
 				}
 			});
@@ -109,7 +148,20 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			RunningTool runningTool = (RunningTool) value;
 			this.setText(runningTool.getName());
-			setIcon(new ImageIcon(ToolPlatformUtil.scaleImage(runningTool.getImage(), toolInfoIconSize)));
+			Image toolIcon = runningTool.getImage();
+			Image stateIcon = null;
+			switch (runningTool.getRuntimeState()) {
+			case ENDED:
+				stateIcon = exitedImage;
+				break;
+			case NOT_START:
+				stateIcon = notStartImage;
+				break;
+			case RUNNING:
+				stateIcon = runningImage;
+				break;
+			}
+			setIcon(new ImageIcon(ImageUtil.overlayImage(toolIcon, stateIcon, toolInfoIconSize)));
 			return this;
 		}
 		
@@ -130,6 +182,10 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
 		
 		this.mutilang = mutilang;
+		
+		runningImage = ImageUtil.getImage(ImageKey.RUNNING, toolInfoIconSize);
+		notStartImage = ImageUtil.getImage(ImageKey.NOT_START, toolInfoIconSize);
+		exitedImage = ImageUtil.getImage(ImageKey.EXITED, toolInfoIconSize);
 		
 		setLayout(new BorderLayout(0, 0));
 

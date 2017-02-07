@@ -13,32 +13,32 @@ import com.dwarfeng.tp.core.view.gui.MainFrame;
 public interface MainFrameController extends MutilangSupportedGuiController<MainFrame>{
 	
 	/**
-	 * 获取主界面的高度。
+	 * 获取主界面最后的正常状态的高度。
 	 * <p> 如果主界面还未初始化，则返回 <code>-1</code>
-	 * @return 主界面的高度。
+	 * @return 主界面最后的正常状态的高度。
 	 */
-	public int getHeight();
+	public int getLastNormalHeight();
 	
 	/**
-	 * 获取主界面的宽度。
+	 * 获取主界面的最后的正常状态的宽度。
 	 * <p> 如果主界面还未初始化，则返回 <code>-1</code>。
-	 * @return 主界面的宽度。
+	 * @return 主界面的最后的正常状态的宽度。
 	 */
-	public int getWidth();
+	public int getLastNormalWidth();
 	
 	/**
-	 * 设置主界面的高度。
-	 * @param height 主界面的高度。
+	 * 设置主界面的最后的正常状态的高度。
+	 * @param height 主界面的最后的正常状态的高度。
 	 * @return 该操作是否对主界面造成了改变。
 	 */
-	public boolean setHeight(int height);
+	public boolean setLastNormalHeight(int height);
 	
 	/**
-	 * 设置主界面的宽度。
-	 * @param width 主界面的宽度。
+	 * 设置主界面的最后的正常状态的宽度。
+	 * @param width 主界面的最后的正常状态的宽度。
 	 * @return 该操作是否对主界面造成了改变。
 	 */
-	public boolean setWidth(int width);
+	public boolean setLastNormalWidth(int width);
 
 	/**
 	 * 获取主界面的扩展模式。
@@ -68,4 +68,17 @@ public interface MainFrameController extends MutilangSupportedGuiController<Main
 	 * @return 是否接受该指派。
 	 */
 	public boolean assignStream(RunningTool runningTool);
+	
+	/**
+	 * 获取南方面板的高度。
+	 * @return 南方面板的高度。
+	 */
+	public int getSouthHeight();
+	
+	/**
+	 * 设置南方面板的高度。
+	 * @param height 指定的高度。
+	 * @return 该操作是否改变了控制器中的组件。
+	 */
+	public boolean setSouthHeight(int height);
 }

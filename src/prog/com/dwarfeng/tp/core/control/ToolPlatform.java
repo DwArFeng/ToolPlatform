@@ -32,6 +32,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigAdapter;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigLoader;
+import com.dwarfeng.dutil.develop.cfg.io.PropConfigSaver;
 import com.dwarfeng.tp.core.control.act.FlowProvider;
 import com.dwarfeng.tp.core.model.cfg.BlockKey;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
@@ -84,6 +85,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultToolInfo;
 import com.dwarfeng.tp.core.model.struct.ExitedRunningToolTaker;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolInfo;
+import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.gui.MainFrame;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
@@ -241,7 +243,33 @@ public final class ToolPlatform {
 				
 			}
 			
-			//TODO 保存模态配置
+			//保存模态配置
+			info(LoggerStringKey.ToolPlatform_Exitor_8);
+			ModalConfigModel modalConfigModel = manager.getModalConfigModel();
+			MainFrameController mainFrameController = manager.getMainFrameController();
+			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_EXTENDEDSTATE.getConfigKey(), mainFrameController.getExtendedState() + "");
+			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_HEIGHT.getConfigKey(), mainFrameController.getLastNormalHeight() + "");
+			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_WIDTH.getConfigKey(), mainFrameController.getLastNormalWidth() + "");
+			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_SOUTHHEIGHT.getConfigKey(), mainFrameController.getSouthHeight() + "");
+
+			PropConfigSaver modalConfigSaver = null;
+			try{
+				try{
+					modalConfigSaver = new PropConfigSaver(getResource(ResourceKey.CONFIGURATION_MODAL).openOutputStream());
+					modalConfigSaver.save(manager.getModalConfigModel());
+				}catch (IOException e) {
+					warn(LoggerStringKey.ToolPlatform_Exitor_9, e);
+					getResource(ResourceKey.CONFIGURATION_MODAL).reset();
+					modalConfigSaver = new PropConfigSaver(getResource(ResourceKey.CONFIGURATION_MODAL).openOutputStream());
+					modalConfigSaver.save(manager.getModalConfigModel());
+				}finally{
+					if(Objects.nonNull(modalConfigSaver)){
+						modalConfigSaver.close();
+					}
+				}
+			}catch (Exception e) {
+				warn(LoggerStringKey.ToolPlatform_Exitor_10, e);
+			}
 			
 			//TODO 保存核心配置
 			
@@ -301,6 +329,11 @@ public final class ToolPlatform {
 			manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey));
 		}
 		
+		private void warn(LoggerStringKey loggerStringKey, Throwable e){
+			manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey), e);
+		}
+
+
 		private String getLabel(LoggerStringKey loggerStringKey){
 			return manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName());
 		}
@@ -344,12 +377,14 @@ public final class ToolPlatform {
 			@Override
 			public void fireUpdated() {
 				finishedFlowTaker.setLogger(loggerModel.getLogger());
+				exitedRunningToolTaker.setLogger(loggerModel.getLogger());
 			}
 		};
 		private MutilangObverser loggerMutilangObverser = new MutilangAdapter() {
 			@Override
 			public void fireUpdated() {
 				finishedFlowTaker.setMutilang(loggerMutilangModel.getMutilang());
+				exitedRunningToolTaker.setMutilang(loggerMutilangModel.getMutilang());
 			}
 		};
 		private ConfigObverser coreConfigObverser = new ConfigAdapter() {
@@ -463,12 +498,12 @@ public final class ToolPlatform {
 		public Manager() {
 			coreConfigModel.addAll(Arrays.asList(CoreConfig.values()));
 			modalConfigModel.addAll(Arrays.asList(ModalConfig.values()));
-			loggerMutilangModel.setDefaultMutilangInfo(ToolPlatformUtil.getDefaultLoggerMutilangInfo());
-			loggerMutilangModel.setDefaultValue(ToolPlatformUtil.getDefaultMissingString());
-			loggerMutilangModel.setSupportedKeys(ToolPlatformUtil.getLoggerMutilangSupportedKeys());
-			labelMutilangModel.setDefaultMutilangInfo(ToolPlatformUtil.getDefaultLabelMutilangInfo());
-			labelMutilangModel.setDefaultValue(ToolPlatformUtil.getDefaultMissingString());
-			labelMutilangModel.setSupportedKeys(ToolPlatformUtil.getLabelMutilangSupportedKeys());
+			loggerMutilangModel.setDefaultMutilangInfo(Constants.getDefaultLoggerMutilangInfo());
+			loggerMutilangModel.setDefaultValue(Constants.getDefaultMissingString());
+			loggerMutilangModel.setSupportedKeys(Constants.getLoggerMutilangSupportedKeys());
+			labelMutilangModel.setDefaultMutilangInfo(Constants.getDefaultLabelMutilangInfo());
+			labelMutilangModel.setDefaultValue(Constants.getDefaultMissingString());
+			labelMutilangModel.setSupportedKeys(Constants.getLabelMutilangSupportedKeys());
 			
 			loggerModel.addObverser(loggerObverser);
 			loggerMutilangModel.addObverser(loggerMutilangObverser);
@@ -949,7 +984,7 @@ public final class ToolPlatform {
 						warn(LoggerStringKey.Update_LabelMutilang_1, e);
 					}
 					
-					//加载不可见模态模型
+					//加载模态模型
 					info(LoggerStringKey.ToolPlatform_FlowProvider_10);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_10);
 					if (splashFlag) {
@@ -1059,9 +1094,10 @@ public final class ToolPlatform {
 					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 						@Override
 						public void run() {
-							manager.getMainFrameController().setHeight(manager.getModalConfigModel().getMainFrameStartupHeight());
-							manager.getMainFrameController().setWidth(manager.getModalConfigModel().getMainFrameStartupWidth());
+							manager.getMainFrameController().setLastNormalHeight(manager.getModalConfigModel().getMainFrameStartupHeight());
+							manager.getMainFrameController().setLastNormalWidth(manager.getModalConfigModel().getMainFrameStartupWidth());
 							manager.getMainFrameController().setExtendedState(manager.getModalConfigModel().getMainFrameStartupExtendedState());
+							manager.getMainFrameController().setSouthHeight(manager.getModalConfigModel().getMainFrameStartupSouthHeight());
 							manager.getMainFrameController().setLocationRelativeTo(null);
 						}
 					});

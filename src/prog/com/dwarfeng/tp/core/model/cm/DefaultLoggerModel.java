@@ -14,6 +14,7 @@ import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 import com.dwarfeng.tp.core.model.struct.Logger;
 import com.dwarfeng.tp.core.model.struct.LoggerInfo;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
+import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
@@ -34,7 +35,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 * ÐÂÊµÀý¡£
 	 */
 	public DefaultLoggerModel() {
-		this(ToolPlatformUtil.newDefaultLoggerContext(), ToolPlatformUtil.getDefaultLoggerInfos());
+		this(ToolPlatformUtil.newDefaultLoggerContext(), Constants.getDefaultLoggerInfos());
 	}
 	
 	/**

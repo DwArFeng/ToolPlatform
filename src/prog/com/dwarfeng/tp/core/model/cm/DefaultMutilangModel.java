@@ -15,7 +15,7 @@ import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
-import com.dwarfeng.tp.core.util.ToolPlatformUtil;
+import com.dwarfeng.tp.core.util.Constants;
 
 /**
  * 默认多语言模型。
@@ -39,7 +39,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 * 新实例。
 	 */
 	public DefaultMutilangModel(){
-		this(null, ToolPlatformUtil.getDefaultMutilangInfo(), ToolPlatformUtil.getDefaultMissingString());
+		this(null, Constants.getDefaultMutilangInfo(), Constants.getDefaultMissingString());
 	}
 	
 	/**

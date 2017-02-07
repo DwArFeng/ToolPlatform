@@ -1,21 +1,19 @@
 package com.dwarfeng.tp.core.view.gui;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import javax.swing.JProgressBar;
-
-import com.dwarfeng.tp.core.model.cfg.ImageKey;
-import com.dwarfeng.tp.core.model.cfg.ImageSize;
-import com.dwarfeng.tp.core.util.ToolPlatformUtil;
-
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
-import java.awt.Dimension;
+import com.dwarfeng.tp.core.model.cfg.ImageKey;
+import com.dwarfeng.tp.core.model.cfg.ImageSize;
+import com.dwarfeng.tp.core.util.ImageUtil;
 
 public class JBackgroundItem extends JPanel {
 	
@@ -121,12 +119,12 @@ public class JBackgroundItem extends JPanel {
 		progressBar.setIndeterminate(! determinateFlag);
 		cancelButton.setEnabled(cancelable);
 		if(cancelFlag){
-			iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.CANCELED, ImageSize.ICON_SMALL)));
+			iconLabel.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.CANCELED, ImageSize.ICON_SMALL)));
 		}else{
 			if(doneFlag){
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
+				iconLabel.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
 			}else{
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
+				iconLabel.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
 			}
 		}
 		messageLabel.setText(message);
@@ -212,12 +210,12 @@ public class JBackgroundItem extends JPanel {
 	public void setCancel(boolean aFlag){
 		cancleFlag = aFlag;
 		if(aFlag){
-			iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.CANCELED, ImageSize.ICON_SMALL)));
+			iconLabel.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.CANCELED, ImageSize.ICON_SMALL)));
 		}else{
 			if(doneFlag){
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
+				iconLabel.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
 			}else{
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
+				iconLabel.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
 			}
 		}
 	}
@@ -238,9 +236,9 @@ public class JBackgroundItem extends JPanel {
 		doneFlag = aFlag;
 		if(!cancleFlag){
 			if(aFlag){
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
+				iconLabel.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.DONE, ImageSize.ICON_SMALL)));
 			}else{
-				iconLabel.setIcon(new ImageIcon(ToolPlatformUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
+				iconLabel.setIcon(new ImageIcon(ImageUtil.getImage(ImageKey.PROCESSING, ImageSize.ICON_SMALL)));
 			}
 		}
 	}

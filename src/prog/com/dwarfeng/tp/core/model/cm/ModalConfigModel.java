@@ -25,4 +25,9 @@ public interface ModalConfigModel extends SyncConfigModel {
 	 */
 	public int getMainFrameStartupExtendedState();
 
+	/**
+	 * 获取主界面的初始化南方面板高度。
+	 * @return 主界面的初始化南方面板高度。
+	 */
+	public int getMainFrameStartupSouthHeight();
 }

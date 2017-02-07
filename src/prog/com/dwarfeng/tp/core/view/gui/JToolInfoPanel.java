@@ -23,6 +23,7 @@ import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
 import com.dwarfeng.tp.core.model.obv.ToolInfoAdapter;
 import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
+import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
 
@@ -94,7 +95,7 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			ToolInfo toolInfo = (ToolInfo) value;
 			this.setText(toolInfo.getName());
-			setIcon(new ImageIcon(ToolPlatformUtil.scaleImage(toolInfo.getImage(), toolInfoIconSize)));
+			setIcon(new ImageIcon(ImageUtil.scaleImage(toolInfo.getImage(), toolInfoIconSize)));
 			return this;
 		}
 		
