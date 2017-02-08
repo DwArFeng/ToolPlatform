@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -74,6 +77,8 @@ import com.dwarfeng.tp.core.model.struct.AbstractFlow;
 import com.dwarfeng.tp.core.model.struct.DefaultExitedRunningToolTaker;
 import com.dwarfeng.tp.core.model.struct.DefaultFinishedFlowTaker;
 import com.dwarfeng.tp.core.model.struct.DefaultRunningTool;
+import com.dwarfeng.tp.core.model.struct.DefaultToolInfo;
+import com.dwarfeng.tp.core.model.struct.ExitedRunningToolTaker;
 import com.dwarfeng.tp.core.model.struct.FinishedFlowTaker;
 import com.dwarfeng.tp.core.model.struct.Flow;
 import com.dwarfeng.tp.core.model.struct.Library;
@@ -81,8 +86,6 @@ import com.dwarfeng.tp.core.model.struct.LibraryKeyChecker;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
-import com.dwarfeng.tp.core.model.struct.DefaultToolInfo;
-import com.dwarfeng.tp.core.model.struct.ExitedRunningToolTaker;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolInfo;
 import com.dwarfeng.tp.core.util.Constants;
@@ -112,7 +115,6 @@ public final class ToolPlatform {
 	public static void main(String[] args) throws ProcessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		new ToolPlatform().start();
-		CT.trace("线程 main 结束！");
 	}
 	
 	/**程序的版本*/
@@ -127,16 +129,20 @@ public final class ToolPlatform {
 	
 	/**程序的实例列表，用于持有引用*/
 	private static final Set<ToolPlatform> INSTANCES  = Collections.synchronizedSet(new HashSet<>());
+	/**工具平台的进程工厂*/
 	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("tool_platform");
 	
 	/**程序的过程提供器*/
 	private final FlowProvider flowProvider = new InnerFlowProvider();
+	/**程序的退出钩子提供器*/
+	private final ShutdownHookProvider shutdownHookProvider = new ShutdownHookProvider();
+	/**程序被中止时的钩子*/
+	private final Map<String, Thread> shutdownHooks = Collections.synchronizedMap(new HashMap<>());
+
 	/**程序管理器*/
 	private final Manager manager;
 	/**程序的状态*/
 	private final AtomicReference<RuntimeState> state;
-
-	
 	
 	/**
 	 * 新实例。
@@ -144,6 +150,8 @@ public final class ToolPlatform {
 	public ToolPlatform() {
 		this.manager = new Manager();
 		this.state = new AtomicReference<RuntimeState>(RuntimeState.NOT_START);
+		
+		//为自己保留引用。
 		INSTANCES.add(this);
 	}
 	
@@ -195,164 +203,19 @@ public final class ToolPlatform {
 		THREAD_FACTORY.newThread(new Exitor()).start();
 	}
 	
-	private final class Exitor implements Runnable{
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-			//停止后台模型和工具运行时模型。
-			info(LoggerStringKey.ToolPlatform_Exitor_3);
-			manager.getBackgroundModel().shutdown();
-			manager.getToolRuntimeModel().shutdown();
-			manager.getFinishedFlowTaker().shutdown();
-			manager.getExitedRunningToolTaker().shutdown();
-			
-			//等待50毫秒，此时后台模型和工具运行时模型中的执行器应该会自然终结。
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException ignore) {
-				//中断也要按照基本法。
-			}
-			
-			boolean waitFlag = false;
-			if(! manager.getBackgroundModel().getExecutorService().isTerminated()){
-				warn(LoggerStringKey.ToolPlatform_Exitor_1);
-				waitFlag = true;
-			}
-			if(! manager.getToolRuntimeModel().getExecutorService().isTerminated()){
-				warn(LoggerStringKey.ToolPlatform_Exitor_2);
-				waitFlag = true;
-			}
-			
-			if(waitFlag){
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException ignore) {
-					//中断也要按照基本法。
-				}
-				
-				if(! manager.getBackgroundModel().getExecutorService().isTerminated()){
-					warn(LoggerStringKey.ToolPlatform_Exitor_4);
-				}
-				if(! manager.getToolRuntimeModel().getExecutorService().isTerminated()){
-					warn(LoggerStringKey.ToolPlatform_Exitor_5);
-				}
-				
-			}
-			
-			//保存模态配置
-			info(LoggerStringKey.ToolPlatform_Exitor_8);
-			ModalConfigModel modalConfigModel = manager.getModalConfigModel();
-			MainFrameController mainFrameController = manager.getMainFrameController();
-			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_EXTENDEDSTATE.getConfigKey(), mainFrameController.getExtendedState() + "");
-			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_HEIGHT.getConfigKey(), mainFrameController.getLastNormalHeight() + "");
-			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_WIDTH.getConfigKey(), mainFrameController.getLastNormalWidth() + "");
-			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_SOUTHHEIGHT.getConfigKey(), mainFrameController.getSouthHeight() + "");
-
-			PropConfigSaver modalConfigSaver = null;
-			try{
-				try{
-					modalConfigSaver = new PropConfigSaver(getResource(ResourceKey.CONFIGURATION_MODAL).openOutputStream());
-					modalConfigSaver.save(manager.getModalConfigModel());
-				}catch (IOException e) {
-					warn(LoggerStringKey.ToolPlatform_Exitor_9, e);
-					getResource(ResourceKey.CONFIGURATION_MODAL).reset();
-					modalConfigSaver = new PropConfigSaver(getResource(ResourceKey.CONFIGURATION_MODAL).openOutputStream());
-					modalConfigSaver.save(manager.getModalConfigModel());
-				}finally{
-					if(Objects.nonNull(modalConfigSaver)){
-						modalConfigSaver.close();
-					}
-				}
-			}catch (Exception e) {
-				warn(LoggerStringKey.ToolPlatform_Exitor_10, e);
-			}
-			
-			//TODO 保存核心配置
-			
-			//释放界面
-			info(LoggerStringKey.ToolPlatform_Exitor_6);
-			if(manager.getLoggerModel().getLoggerContext() != null){
-				manager.getLoggerModel().getLoggerContext().stop();
-			}
-			try {
-				ToolPlatformUtil.invokeAndWaitInEventQueue(new Runnable() {
-					@Override
-					public void run() {
-						manager.getMainFrameController().dispose();
-					}
-				});
-			} catch (InvocationTargetException ignore) {
-			} catch (InterruptedException ignore) {
-				//中断也要按照基本法。
-			}
-			
-			//重新加载LoggerModel;
-			XmlLoggerLoader loggerLoader = null;
-			boolean logInvalid = false;
-			try{
-				try{
-					loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
-					loggerLoader.load(manager.getLoggerModel());
-				}catch (IOException e) {
-					getResource(ResourceKey.LOGGER_SETTING).reset();
-					loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
-					loggerLoader.load(manager.getLoggerModel());
-				}finally {
-					if(Objects.nonNull(loggerLoader)){
-						loggerLoader.close();
-					}
-				}
-				manager.getLoggerModel().update();
-			}catch (LoadFailedException | IOException | ProcessException e) {
-				e.printStackTrace();
-				logInvalid = true;
-			}
-	
-			//释放模型
-			if(! logInvalid){
-				info(LoggerStringKey.ToolPlatform_Exitor_7);
-			}
-			manager.dispose();
-			
-		}
-		
-
-		private void info(LoggerStringKey loggerStringKey){
-			manager.getLoggerModel().getLogger().info(getLabel(loggerStringKey));
-		}
-
-		private void warn(LoggerStringKey loggerStringKey){
-			manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey));
-		}
-		
-		private void warn(LoggerStringKey loggerStringKey, Throwable e){
-			manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey), e);
-		}
-
-
-		private String getLabel(LoggerStringKey loggerStringKey){
-			return manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName());
-		}
-
-		/**
-		 * 获取指定键对应的资源。
-		 * @param resourceKey 指定的键。
-		 * @return 指定的键对应的资源。
-		 */
-		private Resource getResource(ResourceKey resourceKey){
-			return manager.getResourceModel().get(resourceKey.getName());
-		}
-		
+	private boolean putShutdownHook(String key, Runnable runnable){
+		if(shutdownHooks.containsKey(key)) return false;
+		Thread hook = THREAD_FACTORY.newThread(runnable);
+		shutdownHooks.put(key, hook);
+		Runtime.getRuntime().addShutdownHook(hook);
+		return true;
 	}
 	
-	
-	
-	
-	
+	private boolean removeShutdownHook(String key){
+		if(! shutdownHooks.containsKey(key)) return false;
+		Thread hook = shutdownHooks.remove(key);
+		return Runtime.getRuntime().removeShutdownHook(hook);
+	}
 	
 	
 	private final class Manager{
@@ -699,7 +562,7 @@ public final class ToolPlatform {
 		 * @author DwArFeng
 		 * @since 0.0.0-alpha
 		 */
-		private abstract class InnerAbstractFlow extends AbstractFlow{
+		private abstract class AbstractInnerFlow extends AbstractFlow{
 			
 			private final String blockKey;
 			
@@ -709,7 +572,7 @@ public final class ToolPlatform {
 			 * @param initMessage 初始的信息，不能为 <code>null</code>。
 			 * @throws NullPointerException 入口参数为 <code>null</code>。
 			 */
-			public InnerAbstractFlow(BlockKey blockKey, String initMessage) {
+			public AbstractInnerFlow(BlockKey blockKey, String initMessage) {
 				this(blockKey, initMessage, 0, 0, false, false);
 			}
 			
@@ -722,7 +585,7 @@ public final class ToolPlatform {
 			 * @param determinateFlag 是否为进度已知的流程。
 			 * @param cancelableFlag 是否能够被取消。
 			 */
-			public InnerAbstractFlow(BlockKey blockKey, String initMessage, int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag ){
+			public AbstractInnerFlow(BlockKey blockKey, String initMessage, int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag ){
 				super(progress, totleProgress, determinateFlag, cancelableFlag);
 				Objects.requireNonNull(blockKey, "入口参数 blockKey 不能为 null。");
 				Objects.requireNonNull(initMessage, "入口参数 initMessage 不能为 null。");
@@ -825,7 +688,7 @@ public final class ToolPlatform {
 			
 		}
 		
-		private final class InitializeFlow extends InnerAbstractFlow{
+		private final class InitializeFlow extends AbstractInnerFlow{
 			
 			public InitializeFlow() {
 				super(BlockKey.INITIALIZE, manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_3.getName()));
@@ -1005,6 +868,55 @@ public final class ToolPlatform {
 						}
 					}
 					
+					//唤起主界面
+					info(LoggerStringKey.ToolPlatform_FlowProvider_11);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_11);
+					if(splashFlag){
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_11);
+					}
+					ToolPlatformUtil.invokeAndWaitInEventQueue(new Runnable() {
+						@Override
+						public void run() {
+							manager.getMainFrameController().newInstance();
+						}
+					});
+					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+						@Override
+						public void run() {
+							manager.getMainFrameController().setLastNormalHeight(manager.getModalConfigModel().getMainFrameStartupHeight());
+							manager.getMainFrameController().setLastNormalWidth(manager.getModalConfigModel().getMainFrameStartupWidth());
+							manager.getMainFrameController().setExtendedState(manager.getModalConfigModel().getMainFrameStartupExtendedState());
+							manager.getMainFrameController().setSouthHeight(manager.getModalConfigModel().getMainFrameStartupSouthHeight());
+							manager.getMainFrameController().setLocationRelativeTo(null);
+						}
+					});
+					
+					//重新加载LoggerModel;
+					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_5);
+					if(manager.getLoggerModel().getLoggerContext() != null){
+						manager.getLoggerModel().getLoggerContext().stop();
+					}
+					loggerLoader = null;
+					try{
+						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
+						loggerLoader.load(manager.getLoggerModel());
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+						getResource(ResourceKey.LOGGER_SETTING).reset();
+						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
+						loggerLoader.load(manager.getLoggerModel());
+					}finally {
+						if(Objects.nonNull(loggerLoader)){
+							loggerLoader.close();
+						}
+					}
+					try{
+						manager.getLoggerModel().update();
+					}catch (ProcessException e) {
+						warn(LoggerStringKey.Update_Logger_1, e);
+					}
+					
 					//加载库模型
 					info(LoggerStringKey.ToolPlatform_FlowProvider_12);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_12);
@@ -1079,54 +991,14 @@ public final class ToolPlatform {
 						manager.getToolInfoModel().add(toolInfo);
 					}
 					
-					//唤起主界面
-					info(LoggerStringKey.ToolPlatform_FlowProvider_11);
-					message(LoggerStringKey.ToolPlatform_FlowProvider_11);
-					if(splashFlag){
-						splash(LoggerStringKey.ToolPlatform_FlowProvider_11);
+					//TODO 注册退出束钩子
+					info(LoggerStringKey.ToolPlatform_FlowProvider_33);
+					if (splashFlag) {
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_33);
 					}
-					ToolPlatformUtil.invokeAndWaitInEventQueue(new Runnable() {
-						@Override
-						public void run() {
-							manager.getMainFrameController().newInstance();
-						}
-					});
-					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
-						@Override
-						public void run() {
-							manager.getMainFrameController().setLastNormalHeight(manager.getModalConfigModel().getMainFrameStartupHeight());
-							manager.getMainFrameController().setLastNormalWidth(manager.getModalConfigModel().getMainFrameStartupWidth());
-							manager.getMainFrameController().setExtendedState(manager.getModalConfigModel().getMainFrameStartupExtendedState());
-							manager.getMainFrameController().setSouthHeight(manager.getModalConfigModel().getMainFrameStartupSouthHeight());
-							manager.getMainFrameController().setLocationRelativeTo(null);
-						}
-					});
 					
-					//重新加载LoggerModel;
-					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
-					message(LoggerStringKey.ToolPlatform_FlowProvider_5);
-					if(manager.getLoggerModel().getLoggerContext() != null){
-						manager.getLoggerModel().getLoggerContext().stop();
-					}
-					loggerLoader = null;
-					try{
-						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
-						loggerLoader.load(manager.getLoggerModel());
-					}catch (IOException e) {
-						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
-						getResource(ResourceKey.LOGGER_SETTING).reset();
-						loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
-						loggerLoader.load(manager.getLoggerModel());
-					}finally {
-						if(Objects.nonNull(loggerLoader)){
-							loggerLoader.close();
-						}
-					}
-					try{
-						manager.getLoggerModel().update();
-					}catch (ProcessException e) {
-						warn(LoggerStringKey.Update_Logger_1, e);
-					}
+					putShutdownHook("destroy_runningtool", shutdownHookProvider.newDestroyRunningToolRunnable());
+					putShutdownHook("remove_reference", shutdownHookProvider.newRemoveReferenceRunnable());
 					
 					//等待启动窗口到达指定的时间后，令其消失。
 					if(splashFlag){
@@ -1183,7 +1055,7 @@ public final class ToolPlatform {
 			
 		}
 
-		private final class LoadLibFlow extends InnerAbstractFlow{
+		private final class LoadLibFlow extends AbstractInnerFlow{
 			
 			public LoadLibFlow() {
 				super(BlockKey.LOAD_LIB, manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_14.getName()));
@@ -1232,7 +1104,7 @@ public final class ToolPlatform {
 			
 		}
 		
-		private final class CheckLibFlow extends InnerAbstractFlow{
+		private final class CheckLibFlow extends AbstractInnerFlow{
 
 			public CheckLibFlow() {
 				super(BlockKey.CHECK_LIB,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_17.getName()));
@@ -1310,7 +1182,7 @@ public final class ToolPlatform {
 			}
 			
 		}
-		private final class LoadToolInfoFlow extends InnerAbstractFlow{
+		private final class LoadToolInfoFlow extends AbstractInnerFlow{
 
 			public LoadToolInfoFlow() {
 				super(BlockKey.RUN_TOOL,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_22.getName()));
@@ -1397,7 +1269,7 @@ public final class ToolPlatform {
 			
 		}
 		
-		private final class RunToolFlow extends InnerAbstractFlow{
+		private final class RunToolFlow extends AbstractInnerFlow{
 
 			private final ToolInfo toolInfo;
 			
@@ -1497,7 +1369,7 @@ public final class ToolPlatform {
 			
 		}
 		
-		private final class WindowClosingFlow extends InnerAbstractFlow{
+		private final class WindowClosingFlow extends AbstractInnerFlow{
 
 			public WindowClosingFlow() {
 				super(BlockKey.CLOSING,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_30.getName()));
@@ -1537,5 +1409,301 @@ public final class ToolPlatform {
 		}
 	
 	}
+	
+
+
+
+
+
+
+
+	private final class Exitor implements Runnable{
+	
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {
+			//解除注册工具钩子
+			info(LoggerStringKey.ToolPlatform_Exitor_11);
+			removeShutdownHook("destroy_runningtool");
+			
+			//停止后台模型和工具运行时模型。
+			info(LoggerStringKey.ToolPlatform_Exitor_3);
+			manager.getBackgroundModel().shutdown();
+			manager.getToolRuntimeModel().shutdown();
+			manager.getFinishedFlowTaker().shutdown();
+			manager.getExitedRunningToolTaker().shutdown();
+			
+			//等待50毫秒，此时后台模型和工具运行时模型中的执行器应该会自然终结。
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException ignore) {
+				//中断也要按照基本法。
+			}
+			
+			boolean waitFlag = false;
+			if(! manager.getBackgroundModel().getExecutorService().isTerminated()){
+				warn(LoggerStringKey.ToolPlatform_Exitor_1);
+				waitFlag = true;
+			}
+			if(! manager.getToolRuntimeModel().getExecutorService().isTerminated()){
+				warn(LoggerStringKey.ToolPlatform_Exitor_2);
+				waitFlag = true;
+			}
+			
+			if(waitFlag){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException ignore) {
+					//中断也要按照基本法。
+				}
+				
+				if(! manager.getBackgroundModel().getExecutorService().isTerminated()){
+					warn(LoggerStringKey.ToolPlatform_Exitor_4);
+				}
+				if(! manager.getToolRuntimeModel().getExecutorService().isTerminated()){
+					warn(LoggerStringKey.ToolPlatform_Exitor_5);
+				}
+				
+			}
+			
+			//保存模态配置
+			info(LoggerStringKey.ToolPlatform_Exitor_8);
+			ModalConfigModel modalConfigModel = manager.getModalConfigModel();
+			MainFrameController mainFrameController = manager.getMainFrameController();
+			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_EXTENDEDSTATE.getConfigKey(), mainFrameController.getExtendedState() + "");
+			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_HEIGHT.getConfigKey(), mainFrameController.getLastNormalHeight() + "");
+			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_WIDTH.getConfigKey(), mainFrameController.getLastNormalWidth() + "");
+			modalConfigModel.setCurrentValue(ModalConfig.STARTUP_MAINFRAME_SOUTHHEIGHT.getConfigKey(), mainFrameController.getSouthHeight() + "");
+	
+			PropConfigSaver modalConfigSaver = null;
+			try{
+				try{
+					modalConfigSaver = new PropConfigSaver(getResource(ResourceKey.CONFIGURATION_MODAL).openOutputStream());
+					modalConfigSaver.save(manager.getModalConfigModel());
+				}catch (IOException e) {
+					warn(LoggerStringKey.ToolPlatform_Exitor_9, e);
+					getResource(ResourceKey.CONFIGURATION_MODAL).reset();
+					modalConfigSaver = new PropConfigSaver(getResource(ResourceKey.CONFIGURATION_MODAL).openOutputStream());
+					modalConfigSaver.save(manager.getModalConfigModel());
+				}finally{
+					if(Objects.nonNull(modalConfigSaver)){
+						modalConfigSaver.close();
+					}
+				}
+				
+				//
+			}catch (Exception e) {
+				warn(LoggerStringKey.ToolPlatform_Exitor_10, e);
+			}
+			
+			//TODO 保存核心配置
+			
+			//释放界面
+			info(LoggerStringKey.ToolPlatform_Exitor_6);
+			if(manager.getLoggerModel().getLoggerContext() != null){
+				manager.getLoggerModel().getLoggerContext().stop();
+			}
+			try {
+				ToolPlatformUtil.invokeAndWaitInEventQueue(new Runnable() {
+					@Override
+					public void run() {
+						manager.getMainFrameController().dispose();
+					}
+				});
+			} catch (InvocationTargetException ignore) {
+			} catch (InterruptedException ignore) {
+				//中断也要按照基本法。
+			}
+			
+			//重新加载LoggerModel;
+			XmlLoggerLoader loggerLoader = null;
+			boolean logInvalid = false;
+			try{
+				try{
+					loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
+					loggerLoader.load(manager.getLoggerModel());
+				}catch (IOException e) {
+					getResource(ResourceKey.LOGGER_SETTING).reset();
+					loggerLoader = new XmlLoggerLoader(getResource(ResourceKey.LOGGER_SETTING).openInputStream());
+					loggerLoader.load(manager.getLoggerModel());
+				}finally {
+					if(Objects.nonNull(loggerLoader)){
+						loggerLoader.close();
+					}
+				}
+				manager.getLoggerModel().update();
+			}catch (LoadFailedException | IOException | ProcessException e) {
+				e.printStackTrace();
+				logInvalid = true;
+			}
+	
+			//释放模型
+			if(! logInvalid){
+				info(LoggerStringKey.ToolPlatform_Exitor_7);
+			}
+			manager.dispose();
+			
+			//解除对象的引用并移除钩子
+			INSTANCES.remove(ToolPlatform.this);
+			if(! logInvalid){
+				info(LoggerStringKey.ToolPlatform_Exitor_12);
+			}
+			removeShutdownHook("remove_reference");
+
+		}
+		
+	
+		private void info(LoggerStringKey loggerStringKey){
+			manager.getLoggerModel().getLogger().info(getLabel(loggerStringKey));
+		}
+	
+		private void warn(LoggerStringKey loggerStringKey){
+			manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey));
+		}
+		
+		private void warn(LoggerStringKey loggerStringKey, Throwable e){
+			manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey), e);
+		}
+	
+	
+		private String getLabel(LoggerStringKey loggerStringKey){
+			return manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName());
+		}
+	
+		/**
+		 * 获取指定键对应的资源。
+		 * @param resourceKey 指定的键。
+		 * @return 指定的键对应的资源。
+		 */
+		private Resource getResource(ResourceKey resourceKey){
+			return manager.getResourceModel().get(resourceKey.getName());
+		}
+		
+	}
+
+
+
+
+
+
+
+	private final class ShutdownHookProvider{
+		
+		/**
+		 * 返回一个新的销毁运行工具可运行对象。
+		 * @return 新的销毁工具可运行对象。
+		 */
+		public Runnable newDestroyRunningToolRunnable(){
+			return new DestroyRunningToolRunnable();
+		}
+		
+		/**
+		 * 返回一个新的移除引用可运行对象。
+		 * @return 新的移除引用可运行对象。
+		 */
+		public Runnable newRemoveReferenceRunnable(){
+			return new RemoveReferenceRunnable();
+		}
+		
+		private abstract class AbstractInnerRunnable implements Runnable{
+
+			/**
+			 * 返回指定的记录器键所对应的字符串。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @return 记录器键对应的字符串。
+			 */
+			protected String getLabel(LoggerStringKey loggerStringKey){
+				return manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName());
+			}
+
+			/**
+			 * 返回指定记录器键的 format 字符串。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @param args 指定的 format 参数。
+			 * @return 指定的记录器键的 format 字符串。
+			 */
+			protected String formatLabel(LoggerStringKey loggerStringKey, Object... args){
+				return String.format(manager.getLoggerMutilangModel().getMutilang().getString(
+						loggerStringKey.getName()),args);
+			}
+
+			/**
+			 * 向记录器中输入一条INFO类信息。
+			 * @param loggerStringKey 指定的记录器键。
+			 */
+			protected void info(LoggerStringKey loggerStringKey){
+				manager.getLoggerModel().getLogger().info(getLabel(loggerStringKey));
+			}
+
+			/**
+			 * 向记录器中format一条INFO类信息。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @param args format参数。
+			 */
+			protected void formatInfo(LoggerStringKey loggerStringKey, Object... args){
+				manager.getLoggerModel().getLogger().info(formatLabel(loggerStringKey, args));	
+			}
+
+			/**
+			 * 向记录器中输入一条WARN类信息。
+			 * @param loggerStringKey 指定的记录器键。
+			 * @param throwable 指定的可抛出对象。
+			 */
+			protected void warn(LoggerStringKey loggerStringKey, Throwable throwable){
+				manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey), throwable);
+			}
+			
+		}
+
+		private final class DestroyRunningToolRunnable extends AbstractInnerRunnable{
+		
+			/*
+			 * (non-Javadoc)
+			 * @see java.lang.Runnable#run()
+			 */
+			@Override
+			public void run() {
+				CT.trace("1233");
+				info(LoggerStringKey.ToolPlatform_ShutdownHookProvider_1);
+				
+				ReadWriteLock lock = manager.getToolRuntimeModel().getLock();
+				List<RunningTool> runningTools = new ArrayList<>();
+				lock.readLock().lock();
+				try{
+					for(RunningTool runningTool : manager.getToolRuntimeModel()){
+						runningTools.add(runningTool);
+					}
+				}finally {
+					lock.readLock().unlock();
+				}
+				for(RunningTool runningTool : runningTools){
+					if(! runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
+						runningTool.destroy();
+					}
+				}
+			}
+			
+		}
+
+		private class RemoveReferenceRunnable extends AbstractInnerRunnable {
+		
+			/*
+			 * (non-Javadoc)
+			 * @see java.lang.Runnable#run()
+			 */
+			@Override
+			public void run() {
+				info(LoggerStringKey.ToolPlatform_ShutdownHookProvider_1);
+
+				INSTANCES.remove(ToolPlatform.this);
+			}
+		
+		}
+		
+	}
+	
 	
 }

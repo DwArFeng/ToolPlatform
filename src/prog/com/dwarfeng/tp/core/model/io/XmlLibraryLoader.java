@@ -55,6 +55,10 @@ public class XmlLibraryLoader extends StreamLoader<LibraryModel> implements Load
 			}
 			
 			File dir = new File(rootDirStr);
+			
+			//如果文件夹不存在，则不存在任何库
+			if(! dir.exists()) return;
+			
 			File[] libs = dir.listFiles(new FileExtensionNameFiliter(".jar"));
 			
 			for(File lib : libs){

@@ -40,12 +40,23 @@ import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
 import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import java.awt.Rectangle;
+import javax.swing.border.LineBorder;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
 
 /**
  * 程序的主界面。
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
+@SuppressWarnings("unused")
 public final class MainFrame extends JFrame implements MutilangSupported, ObverserSet<MainFrameObverser>{
 	
 	/**观察器集合*/
@@ -93,6 +104,18 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 */
 	private int lastNormalHeight;
 	private int lastNormalWidth;
+	private JTabbedPane tabbedPane;
+	private JPanel panel_1;
+	private JButton btnNewButton_1;
+	private JPopupMenu popupMenu;
+	private JMenuItem mntmNewMenuItem;
+	private JMenuItem menuItem;
+	private JMenuItem menuItem_1;
+	private JMenuItem menuItem_2;
+	private JMenuItem menuItem_3;
+	private JMenuItem menuItem_4;
+	private JMenuItem menuItem_5;
+	private JMenuItem menuItem_6;
 	
 	/**
 	 * 新实例。
@@ -178,9 +201,10 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				getLabel(LabelStringKey.MainFrame_2),
 				new ImageIcon(ImageUtil.getImage(ImageKey.CONSOLE, ImageSize.ICON_SMALL)), 
 				console, null);
-//		System.setIn(console.in);
-//		System.setOut(console.out);
-//		System.setErr(console.out);
+		
+		System.setIn(console.in);
+		System.setOut(console.out);
+		System.setErr(console.out);
 		
 		backgroundPanel = new JBackgroundPanel(backgroundModel);
 		southTabbedPane.addTab(
@@ -216,9 +240,9 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		panel.setBorder(north_border);
 		mainAdjPanel.add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWidths = new int[]{30, 540, 30, 0};
 		gbl_panel.rowHeights = new int[]{30, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
@@ -231,8 +255,62 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		gbc_btnNewButton.gridy = 0;
 		panel.add(btnNewButton, gbc_btnNewButton);
 		
+		btnNewButton_1 = new JButton("");
+		btnNewButton_1.setBorder(null);
+		btnNewButton_1.setSize(new Dimension(30, 30));
+		btnNewButton_1.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnNewButton_1.setIcon(new ImageIcon(MainFrame.class.getResource("/com/dwarfeng/tp/resource/image/menu.png")));
+		btnNewButton_1.setRolloverEnabled(false);
+		btnNewButton_1.setBounds(new Rectangle(0, 0, 30, 30));
+		btnNewButton_1.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnNewButton_1.setIconTextGap(0);
+		btnNewButton_1.setOpaque(true);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_1.setPreferredSize(new Dimension(30, 30));
+		
+		popupMenu = new JPopupMenu();
+		addPopup(btnNewButton_1, popupMenu);
+		
+		menuItem_6 = new JMenuItem("New menu item");
+		popupMenu.add(menuItem_6);
+		
+		menuItem_5 = new JMenuItem("New menu item");
+		popupMenu.add(menuItem_5);
+		
+		menuItem_4 = new JMenuItem("New menu item");
+		popupMenu.add(menuItem_4);
+		
+		menuItem_3 = new JMenuItem("New menu item");
+		popupMenu.add(menuItem_3);
+		
+		menuItem_2 = new JMenuItem("New menu item");
+		popupMenu.add(menuItem_2);
+		
+		menuItem_1 = new JMenuItem("New menu item");
+		popupMenu.add(menuItem_1);
+		
+		menuItem = new JMenuItem("New menu item");
+		popupMenu.add(menuItem);
+		
+		mntmNewMenuItem = new JMenuItem("New menu item");
+		popupMenu.add(mntmNewMenuItem);
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
+		gbc_btnNewButton_1.gridx = 2;
+		gbc_btnNewButton_1.gridy = 0;
+		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 		mainAdjPanel.add(tabbedPane_1, BorderLayout.SOUTH);
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		mainAdjPanel.add(tabbedPane, BorderLayout.WEST);
+		
+		panel_1 = new JPanel();
+		tabbedPane.addTab("New tab", null, panel_1, null);
 		
 		//pack();
 	}
@@ -414,4 +492,21 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		}
 	}
 
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
 }
