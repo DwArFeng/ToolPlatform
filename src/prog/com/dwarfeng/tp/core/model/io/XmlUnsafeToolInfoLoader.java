@@ -14,6 +14,12 @@ import com.dwarfeng.dutil.basic.io.StreamLoader;
 import com.dwarfeng.tp.core.model.struct.DefaultUnsafeToolInfo;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolInfo;
 
+/**
+ * xml不安全工具信息读取器。
+ * <p> 使用 xml 读取不安全工具信息。
+ * @author DwArFeng
+ * @since 0.0.0-alpha
+ */
 public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 
 	/**
@@ -23,7 +29,6 @@ public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 	 */
 	public XmlUnsafeToolInfoLoader(InputStream in) {
 		super(in);
-		// TODO Auto-generated constructor stub
 	}
 
 	/*

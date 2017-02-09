@@ -1,7 +1,9 @@
 package com.dwarfeng.tp.core.model.cm;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,8 +20,7 @@ import com.dwarfeng.tp.core.model.struct.Library;
  */
 public final class DefaultLibraryModel extends AbstractLibraryModel {
 	
-	private final Set<Library> librarys = new HashSet<>();
-	private final Set<String> libraryNames = new HashSet<>();
+	private final Map<String, Library> libraryMap = new HashMap<>();
 	
 	/**
 	 * 新实例。
@@ -35,10 +36,20 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	 */
 	public DefaultLibraryModel(Set<Library> c){
 		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
-		librarys.addAll(c);
-		for(Library library : librarys){
-			libraryNames.add(library.getName());
+		for(Library library : c){
+			notFireAdd(library);
 		}
+	}
+	
+	/**
+	 * 添加指定的库，但不通知，也不线程安全。
+	 * @param library 指定的库。
+	 */
+	private void notFireAdd(Library library){
+		if(Objects.isNull(library)) return;
+		if(libraryMap.containsKey(library.getName())) return;
+		
+		libraryMap.put(library.getName(), library);
 	}
 	
 	/*
@@ -50,10 +61,9 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 		lock.writeLock().lock();
 		try{
 			if(Objects.isNull(library)) return false;
-			if(libraryNames.contains(library.getName())) return false;
+			if(libraryMap.containsKey(library.getName())) return false;
 			
-			librarys.add(library);
-			libraryNames.add(library.getName());
+			libraryMap.put(library.getName(), library);
 			fireLibraryAdded(library);
 			
 			return true;
@@ -76,9 +86,8 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	public boolean remove(Library library) {
 		lock.writeLock().lock();
 		try{
-			if(! librarys.contains(library)) return false;
-			librarys.remove(library);
-			libraryNames.remove(library.getName());
+			if(! libraryMap.containsKey(library)) return false;
+			libraryMap.remove(library.getName());
 			fireLibraryRemoved(library);
 			return true;
 		}finally {
@@ -100,8 +109,7 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	public void clear() {
 		lock.writeLock().lock();
 		try{
-			librarys.clear();
-			libraryNames.clear();
+			libraryMap.clear();
 			fireCleared();
 		}finally {
 			lock.writeLock().unlock();
@@ -122,7 +130,7 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	public int size() {
 		lock.readLock().lock();
 		try{
-			return librarys.size();
+			return libraryMap.size();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -136,7 +144,7 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	public boolean isEmpty() {
 		lock.readLock().lock();
 		try{
-			return librarys.isEmpty();
+			return libraryMap.isEmpty();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -151,7 +159,22 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 		lock.readLock().lock();
 		try{
 			if(Objects.isNull(name)) return false;
-			return libraryNames.contains(name.getName());
+			return libraryMap.containsKey(name.getName());
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#get(java.lang.String)
+	 */
+	@Override
+	public Library get(String name) {
+		lock.readLock().lock();
+		try{
+			if(Objects.isNull(name)) return null;
+			return libraryMap.get(name);
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -167,7 +190,7 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	public Iterator<Library> iterator() {
 		lock.readLock().lock();
 		try{
-			return librarys.iterator();
+			return libraryMap.values().iterator();
 		}finally {
 			lock.readLock().unlock();
 		}

@@ -36,7 +36,6 @@ import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigLoader;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigSaver;
-import com.dwarfeng.tp.core.control.act.FlowProvider;
 import com.dwarfeng.tp.core.model.cfg.BlockKey;
 import com.dwarfeng.tp.core.model.cfg.CoreConfig;
 import com.dwarfeng.tp.core.model.cfg.LoggerStringKey;
@@ -133,7 +132,7 @@ public final class ToolPlatform {
 	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("tool_platform");
 	
 	/**程序的过程提供器*/
-	private final FlowProvider flowProvider = new InnerFlowProvider();
+	private final FlowProvider flowProvider = new FlowProvider();
 	/**程序的退出钩子提供器*/
 	private final ShutdownHookProvider shutdownHookProvider = new ShutdownHookProvider();
 	/**程序被中止时的钩子*/
@@ -499,58 +498,53 @@ public final class ToolPlatform {
 		
 	}
 	
-	private final class InnerFlowProvider implements FlowProvider{
+	private final class FlowProvider{
 
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newInitializeFlow()
+		/**
+		 * 获取一个新的程序初始化时使用的过程。
+		 * @return 新的程序初始化时使用的后台过程。
 		 */
-		@Override
 		public Flow newInitializeFlow() {
 			return new InitializeFlow();
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newLoadLibFlow()
+		/**
+		 * 获取一个新的读取库的过程。
+		 * @return 新的读取库的过程。
 		 */
-		@Override
 		public Flow newLoadLibFlow() {
 			return new LoadLibFlow();
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newCheckLibFlow()
+		/**
+		 * 获取一个新的检查库的过程。
+		 * @return 新的检查库的过程。
 		 */
-		@Override
 		public Flow newCheckLibFlow() {
 			return new CheckLibFlow();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newLoadToolInfoFlow()
+		/**
+		 * 获取一个新的读取工具信息的过程。
+		 * @return 新的读取工具信息的过程。
 		 */
-		@Override
 		public Flow newLoadToolInfoFlow() {
 			return new LoadToolInfoFlow();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newRunToolFlow(com.dwarfeng.tp.core.model.struct.ToolInfo)
+		/**
+		 *  获取一个新的运行工具的过程。
+		 * @param toolInfo 指定的工具。
+		 * @return 新的运行工具的过程。
 		 */
-		@Override
 		public Flow newRunToolFlow(ToolInfo toolInfo) {
 			return new RunToolFlow(toolInfo);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see com.dwarfeng.tp.core.control.act.FlowProvider#newWindowClosingFlow()
+		/**
+		 * 获取一个新的关闭窗口的过程。
+		 * @return 新的关闭窗口的过程。
 		 */
-		@Override
 		public Flow newClosingFlow() {
 			return new WindowClosingFlow();
 		}
@@ -1334,6 +1328,8 @@ public final class ToolPlatform {
 					String jarPath = pathGetter.getToolFilePath(toolInfo.getToolFile());
 					String entryClass = toolInfo.getToolClass();
 					File directory = pathGetter.getToolDirectory(toolInfo);
+					
+					if(! directory.exists()) directory.mkdirs();
 					
 					RunningTool runningTool = new DefaultRunningTool(toolInfo.getName(), image, libPaths, jarPath, entryClass, directory);
 					

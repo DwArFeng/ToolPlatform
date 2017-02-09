@@ -8,4 +8,5 @@
 	<info key="tool.info" path="attributes/tool/info.xml" default="/com/dwarfeng/tp/resource/defaultres/tool/info.xml"></info>
 	<info key="tool.lib" path="attributes/tool/lib.xml" default="/com/dwarfeng/tp/resource/defaultres/tool/lib.xml"></info>
 	<info key="tool.data" path="attributes/tool/data.xml" default="/com/dwarfeng/tp/resource/defaultres/tool/data.xml"></info>
+	<info key="tool.history" path="attributes/tool/history.xml" default="/com/dwarfeng/tp/resource/defaultres/tool/history.xml"></info>
 </root>

@@ -56,7 +56,6 @@ import javax.swing.JMenuItem;
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
-@SuppressWarnings("unused")
 public final class MainFrame extends JFrame implements MutilangSupported, ObverserSet<MainFrameObverser>{
 	
 	/**¹Û²ìÆ÷¼¯ºÏ*/
@@ -310,7 +309,10 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		mainAdjPanel.add(tabbedPane, BorderLayout.WEST);
 		
 		panel_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_1, null);
+		tabbedPane.addTab(
+				getLabel(LabelStringKey.MainFrame_7),
+				new ImageIcon(ImageUtil.getImage(ImageKey.HISTORY, ImageSize.ICON_SMALL)), 
+				panel_1, null);
 		
 		//pack();
 	}

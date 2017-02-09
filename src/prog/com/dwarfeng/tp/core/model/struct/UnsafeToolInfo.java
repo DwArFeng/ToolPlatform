@@ -9,6 +9,7 @@ import com.dwarfeng.dutil.basic.str.Name;
 
 /**
  * 不安全工具信息。
+ * TODO 在将来，这个类将不继承 Name 接口，取而代之的是可能返回异常的 getName();
  * <p> 该工具信息返回工具信息的属性，但是有可能抛出异常，速度也比工具信息要慢。
  * @author DwArFeng
  * @since 0.0.0-alpha

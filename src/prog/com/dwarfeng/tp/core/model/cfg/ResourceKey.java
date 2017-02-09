@@ -33,6 +33,9 @@ public enum ResourceKey implements Name{
 	/**工具数据*/
 	TOOL_DATA("tool.data"),
 	
+	/**工具历史*/
+	TOOL_HISTORY("tool.history"),
+	
 	;
 
 	private final String name;

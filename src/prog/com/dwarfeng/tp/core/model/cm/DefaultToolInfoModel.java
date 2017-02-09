@@ -1,7 +1,9 @@
 package com.dwarfeng.tp.core.model.cm;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,15 +13,14 @@ import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
  * 默认工具信息模型。
- * <p> 工具模型的默认实现。
+ * <p> 工具信息模型的默认实现。
  * <p> 该模型中的数据的读写均是线程安全的。
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public final class DefaultToolInfoModel extends AbstractToolInfoModel implements ToolInfoModel {
 	
-	private final Set<ToolInfo> toolInfos = new HashSet<>();
-	private final Set<String> toolInfoNames = new HashSet<>();
+	private final Map<String, ToolInfo> toolInfoMap = new HashMap<>();
 	
 	/**
 	 * 新实例。
@@ -35,10 +36,20 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	 */
 	public DefaultToolInfoModel(Set<ToolInfo> c){
 		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
-		toolInfos.addAll(c);
-		for(ToolInfo toolInfo : toolInfos){
-			toolInfoNames.add(toolInfo.getName());
+		for(ToolInfo toolInfo : c){
+			notFireAdd(toolInfo);
 		}
+	}
+	
+	/**
+	 * 添加指定的工具信息，但不通知，也不线程安全。
+	 * @param toolInfo 指定的工具信息。
+	 */
+	private void notFireAdd(ToolInfo toolInfo){
+		if(Objects.isNull(toolInfo)) return;
+		if(toolInfoMap.containsKey(toolInfo.getName())) return;
+		
+		toolInfoMap.put(toolInfo.getName(), toolInfo);
 	}
 	
 	/*
@@ -50,10 +61,9 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 		lock.writeLock().lock();
 		try{
 			if(Objects.isNull(toolInfo)) return false;
-			if(toolInfoNames.contains(toolInfo.getName())) return false;
+			if(toolInfoMap.containsKey(toolInfo.getName())) return false;
 			
-			toolInfos.add(toolInfo);
-			toolInfoNames.add(toolInfo.getName());
+			toolInfoMap.put(toolInfo.getName(), toolInfo);
 			fireToolInfoAdded(toolInfo);
 			
 			return true;
@@ -76,9 +86,9 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	public boolean remove(ToolInfo toolInfo) {
 		lock.writeLock().lock();
 		try{
-			if(! toolInfos.contains(toolInfo)) return false;
-			toolInfos.remove(toolInfo);
-			toolInfoNames.remove(toolInfo.getName());
+			if(Objects.isNull(toolInfo)) return false;
+			if(! toolInfoMap.containsKey(toolInfo.getName())) return false;
+			toolInfoMap.remove(toolInfo).getName();
 			fireToolInfoRemoved(toolInfo);
 			return true;
 		}finally {
@@ -100,8 +110,7 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	public void clear() {
 		lock.writeLock().lock();
 		try{
-			toolInfos.clear();
-			toolInfoNames.clear();
+			toolInfoMap.clear();
 			fireCleared();
 		}finally {
 			lock.writeLock().unlock();
@@ -122,7 +131,7 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	public int size() {
 		lock.readLock().lock();
 		try{
-			return toolInfos.size();
+			return toolInfoMap.size();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -136,7 +145,7 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	public boolean isEmpty() {
 		lock.readLock().lock();
 		try{
-			return toolInfos.isEmpty();
+			return toolInfoMap.isEmpty();
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -151,7 +160,22 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 		lock.readLock().lock();
 		try{
 			if(Objects.isNull(name)) return false;
-			return toolInfoNames.contains(name.getName());
+			return toolInfoMap.containsKey(name.getName());
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#get(java.lang.String)
+	 */
+	@Override
+	public ToolInfo get(String name) {
+		lock.readLock().lock();
+		try{
+			if(Objects.isNull(name)) return null;
+			return toolInfoMap.get(name);
 		}finally {
 			lock.readLock().unlock();
 		}
@@ -167,7 +191,7 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	public Iterator<ToolInfo> iterator() {
 		lock.readLock().lock();
 		try{
-			return toolInfos.iterator();
+			return toolInfoMap.values().iterator();
 		}finally {
 			lock.readLock().unlock();
 		}

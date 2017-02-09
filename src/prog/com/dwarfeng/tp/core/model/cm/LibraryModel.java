@@ -1,5 +1,7 @@
 package com.dwarfeng.tp.core.model.cm;
 
+import java.util.Objects;
+
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
@@ -51,5 +53,22 @@ public interface LibraryModel extends ExternalReadWriteThreadSafe, ObverserSet<L
 	 * @return 是否含有指定名称的库。
 	 */
 	public boolean contains(Name name);
+	
+	/**
+	 * 获取模型中指定名称的库。
+	 * @param name 指定的名称。
+	 * @return 模型中指定名称的库。
+	 */
+	public Library get(String name);
+	
+	/**
+	 * 获取模型中名称为指定名称接口的名称的库。
+	 * @param name 指定的名称接口。
+	 * @return 模型中名称为指定名称接口的名称的库。
+	 */
+	public default Library get(Name name){
+		if(Objects.isNull(name)) return null;
+		return get(name.getName());
+	}
 	
 }

@@ -17,6 +17,7 @@ public enum LabelStringKey implements Name{
 	MainFrame_4(new DefaultName("MainFrame.4")),
 	MainFrame_5(new DefaultName("MainFrame.5")),
 	MainFrame_6(new DefaultName("MainFrame.6")),
+	MainFrame_7(new DefaultName("MainFrame.7")),
 
 	JTpconsole_1(new DefaultName("JTpconsole.1")),
 	JTpconsole_2(new DefaultName("JTpconsole.2")),
