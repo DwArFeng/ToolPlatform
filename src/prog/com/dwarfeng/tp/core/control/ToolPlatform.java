@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -52,6 +53,7 @@ import com.dwarfeng.tp.core.model.cm.DefaultLoggerModel;
 import com.dwarfeng.tp.core.model.cm.DefaultModalConfigModel;
 import com.dwarfeng.tp.core.model.cm.DefaultMutilangModel;
 import com.dwarfeng.tp.core.model.cm.DefaultResourceModel;
+import com.dwarfeng.tp.core.model.cm.DefaultToolHistoryModel;
 import com.dwarfeng.tp.core.model.cm.DefaultToolInfoModel;
 import com.dwarfeng.tp.core.model.cm.DefaultToolRuntimeModel;
 import com.dwarfeng.tp.core.model.cm.LibraryModel;
@@ -59,6 +61,7 @@ import com.dwarfeng.tp.core.model.cm.LoggerModel;
 import com.dwarfeng.tp.core.model.cm.ModalConfigModel;
 import com.dwarfeng.tp.core.model.cm.MutilangModel;
 import com.dwarfeng.tp.core.model.cm.ResourceModel;
+import com.dwarfeng.tp.core.model.cm.ToolHistoryModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
 import com.dwarfeng.tp.core.model.io.XmlBlockLoader;
@@ -67,6 +70,7 @@ import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
 import com.dwarfeng.tp.core.model.io.XmlMutilangLoader;
 import com.dwarfeng.tp.core.model.io.XmlPathGetter;
 import com.dwarfeng.tp.core.model.io.XmlResourceLoader;
+import com.dwarfeng.tp.core.model.io.XmlUnsafeToolHistoryLoader;
 import com.dwarfeng.tp.core.model.io.XmlUnsafeToolInfoLoader;
 import com.dwarfeng.tp.core.model.obv.LoggerAdapter;
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
@@ -86,6 +90,7 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
+import com.dwarfeng.tp.core.model.struct.UnsafeToolHistory;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolInfo;
 import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
@@ -231,6 +236,7 @@ public final class ToolPlatform {
 		private LibraryModel libraryModel = new DefaultLibraryModel();
 		private BlockModel blockModel = new DefaultBlockModel();
 		private ToolRuntimeModel toolRuntimeModel = new DefaultToolRuntimeModel();
+		private ToolHistoryModel toolHistoryModel = new DefaultToolHistoryModel();
 		//structs
 		private FinishedFlowTaker finishedFlowTaker = new DefaultFinishedFlowTaker(backgroundModel);
 		private ExitedRunningToolTaker exitedRunningToolTaker = new DefaultExitedRunningToolTaker(toolRuntimeModel);
@@ -466,6 +472,14 @@ public final class ToolPlatform {
 		public ToolRuntimeModel getToolRuntimeModel() {
 			return toolRuntimeModel;
 		}
+
+		/**
+		 * @return the toolHistoryModel
+		 */
+		public ToolHistoryModel getToolHistoryModel() {
+			return toolHistoryModel;
+		}
+
 
 		/**
 		 * @return the finishedFlowTaker
@@ -940,7 +954,7 @@ public final class ToolPlatform {
 					
 					message(LoggerStringKey.ToolPlatform_FlowProvider_22);
 					XmlUnsafeToolInfoLoader toolInfoLoader = null;
-					Set<UnsafeToolInfo> unsafeToolInfos = new HashSet<>();
+					Set<UnsafeToolInfo> unsafeToolInfos = new LinkedHashSet<>();
 					try{
 						toolInfoLoader = new XmlUnsafeToolInfoLoader(getResource(ResourceKey.TOOL_INFO).openInputStream());
 						toolInfoLoader.load(unsafeToolInfos);
@@ -985,7 +999,30 @@ public final class ToolPlatform {
 						manager.getToolInfoModel().add(toolInfo);
 					}
 					
-					//TODO 注册退出束钩子
+					//TODO 加载工具历史
+					info(LoggerStringKey.ToolPlatform_FlowProvider_34);
+					if (splashFlag) {
+						splash(LoggerStringKey.ToolPlatform_FlowProvider_34);
+					}
+					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_34);
+					XmlUnsafeToolHistoryLoader toolHistoryLoader = null;
+					List<UnsafeToolHistory> unsafeToolHistories = new ArrayList<>();
+					try{
+						toolHistoryLoader = new XmlUnsafeToolHistoryLoader(getResource(ResourceKey.TOOL_HISTORY).openInputStream());
+						toolHistoryLoader.load(unsafeToolHistories);
+					}catch (IOException e) {
+						warn(LoggerStringKey.ToolPlatform_FlowProvider_4, e);
+						getResource(ResourceKey.TOOL_HISTORY).reset();
+						toolHistoryLoader = new XmlUnsafeToolHistoryLoader(getResource(ResourceKey.TOOL_HISTORY).openInputStream());
+						toolHistoryLoader.load(unsafeToolHistories);
+					}finally{
+						if(Objects.nonNull(toolHistoryLoader)){
+							toolHistoryLoader.close();
+						}
+					}
+					
+					//注册退出束钩子
 					info(LoggerStringKey.ToolPlatform_FlowProvider_33);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_33);

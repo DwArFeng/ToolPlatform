@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.dwarfeng.dutil.basic.prog.Version;
-import com.dwarfeng.dutil.basic.str.Name;
 
 /**
  * 不安全工具信息。
@@ -14,8 +13,15 @@ import com.dwarfeng.dutil.basic.str.Name;
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
-public interface UnsafeToolInfo extends Name{
+public interface UnsafeToolInfo{
 
+	/**
+	 * 获取工具的名称。
+	 * @return 工具的名称。
+	 * @throws ProcessException 过程异常。
+	 */
+	public String getName() throws ProcessException;
+	
 	/**
 	 * 返回工具中的图片。
 	 * @return 工具中的图片。

@@ -31,35 +31,38 @@ import com.dwarfeng.tp.core.util.LocaleUtil;
  */
 public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 	
-	private final String name;
 	private final File stringFile;
 	private final File imageFile;
 
 	/**
 	 * 新实例
-	 * @param name 不安全工具信息的名称。
 	 * @param stringFile 文本文件。
 	 * @param imageFile 小图片文件。
 	 * @param imageFile_m 中图片文件。
 	 * @param imageFile_l 大图片文件。
 	 */
-	public DefaultUnsafeToolInfo(String name, File stringFile, File imageFile) {
-		Objects.requireNonNull(name, "入口参数 name 不能为 null。");
-		Objects.requireNonNull(stringFile, "入口参数 stringFile 不能为 null。");
-		Objects.requireNonNull(imageFile, "入口参数 imageFile_s 不能为 null。");
-
-		this.name = name;
+	public DefaultUnsafeToolInfo(File stringFile, File imageFile) {
 		this.stringFile = stringFile;
 		this.imageFile = imageFile;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.dutil.basic.str.Name#getName()
+	 * @see com.dwarfeng.tp.core.model.struct.UnsafeToolInfo#getName()
 	 */
 	@Override
-	public String getName() {
-		return name;
+	public String getName() throws ProcessException {
+		InputStream in = null;
+		try{
+			in = new FileInputStream(stringFile);
+			SAXReader reader = new SAXReader();
+			Element name = reader.read(in).getRootElement().element("name");
+			String value = name.attributeValue("value");
+			if(Objects.isNull(value)) throw new NullPointerException();
+			return value;
+		}catch (Exception e) {
+			throw new ProcessException("工具信息-读取工具名称失败", e);
+		}
 	}
 
 	/* (non-Javadoc)

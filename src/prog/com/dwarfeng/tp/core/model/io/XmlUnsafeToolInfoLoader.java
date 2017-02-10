@@ -56,6 +56,8 @@ public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 			
 			File dir = new File(rootDirStr);
 			
+			if(! dir.exists()) dir.mkdirs();
+			
 			/*
 			 * 根据 dom4j 的相关说明，此处转换是安全的。
 			 */
@@ -64,10 +66,9 @@ public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 			next:
 			for(Element toolinfo : toolInfos){
 				try{
-					String name = toolinfo.attributeValue("name");
 					File strs = new File(dir, toolinfo.element("strs").attributeValue("url"));
 					File img = new File(dir, toolinfo.element("img").attributeValue("url"));
-					unsafeToolInfos.add(new DefaultUnsafeToolInfo(name, strs, img));
+					unsafeToolInfos.add(new DefaultUnsafeToolInfo(strs, img));
 				}catch (Exception e) {
 					continue next;
 				}

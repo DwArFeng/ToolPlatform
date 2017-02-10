@@ -1,5 +1,7 @@
 package com.dwarfeng.tp.core.model.cm;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -18,6 +20,35 @@ public class DefaultToolHistoryModel extends AbstractToolHistoryModel{
 	
 	private final LinkedList<ToolHistory> toolHistories= new LinkedList<>();
 	private int maxSize;
+	
+	/**
+	 * 新实例。
+	 */
+	public DefaultToolHistoryModel() {
+		this(100, new ArrayList<>());
+	}
+	
+	/**
+	 * 新实例。
+	 * @param maxSize 最大的存储大小。
+	 * @param c
+	 */
+	public DefaultToolHistoryModel(int maxSize, Collection<ToolHistory> c) {
+		Objects.requireNonNull(c, "入口参数 c 不能为 null。");
+		if(maxSize < 0) throw new IllegalArgumentException("maxSize 不能小于 0。");
+		this.maxSize = maxSize;
+		for(ToolHistory toolHistory : c){
+			notFireAdd(toolHistory);
+		}
+	}
+	
+	private void notFireAdd(ToolHistory toolHistory){
+		if(Objects.isNull(toolHistory)) return;
+		toolHistories.offer(toolHistory);
+		if(toolHistories.size() > maxSize){
+			toolHistories.poll();
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -31,6 +62,10 @@ public class DefaultToolHistoryModel extends AbstractToolHistoryModel{
 			int index = toolHistories.size();
 			boolean aFlag = toolHistories.offer(toolHistory);
 			if(aFlag) fireToolHistoryAdded(index, toolHistory);
+			if(toolHistories.size() > maxSize){
+				toolHistories.poll();
+				fireToolHistoryRemoved(index, toolHistory);
+			}
 			return aFlag;
 		}finally {
 			lock.writeLock().unlock();

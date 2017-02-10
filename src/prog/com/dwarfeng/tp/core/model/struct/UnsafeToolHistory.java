@@ -1,6 +1,5 @@
 package com.dwarfeng.tp.core.model.struct;
 
-import java.awt.Image;
 import java.util.Date;
 
 /**
@@ -19,18 +18,11 @@ public interface UnsafeToolHistory {
 	public String getName() throws ProcessException;
 	
 	/**
-	 * 返回工具历史中的图片。
-	 * @return 工具中的图片。
-	 * @throws ProcessException 过程异常。
-	 */
-	public Image getImage() throws ProcessException;
-	
-	/**
 	 * 获取工具的运行时间。
 	 * @return 工具的运行时间。
 	 * @throws ProcessException 过程异常。
 	 */
-	public Date getRunedTime() throws ProcessException;
+	public Date getRanTime() throws ProcessException;
 	
 	/**
 	 * 获取工具的结束时间。

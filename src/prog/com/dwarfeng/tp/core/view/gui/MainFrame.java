@@ -201,9 +201,9 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				new ImageIcon(ImageUtil.getImage(ImageKey.CONSOLE, ImageSize.ICON_SMALL)), 
 				console, null);
 		
-		System.setIn(console.in);
-		System.setOut(console.out);
-		System.setErr(console.out);
+//		System.setIn(console.in);
+//		System.setOut(console.out);
+//		System.setErr(console.out);
 		
 		backgroundPanel = new JBackgroundPanel(backgroundModel);
 		southTabbedPane.addTab(
