@@ -52,7 +52,17 @@ public interface LibraryModel extends ExternalReadWriteThreadSafe, ObverserSet<L
 	 * @param name 指定的名称。
 	 * @return 是否含有指定名称的库。
 	 */
-	public boolean contains(Name name);
+	public boolean contains(String name);
+	
+	/**
+	 * 返回该模型是否含有指定的名称的库。
+	 * @param name 指定的名称。
+	 * @return 是否含有指定名称的库。
+	 */
+	public default boolean contains(Name name){
+		if(Objects.isNull(name)) return false;
+		return contains(name.getName());
+	}
 	
 	/**
 	 * 获取模型中指定名称的库。

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.LibraryObverser;
 import com.dwarfeng.tp.core.model.struct.Library;
 
@@ -152,14 +151,14 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#contains(com.dwarfeng.dutil.basic.str.Name)
+	 * @see com.dwarfeng.tp.core.model.cm.LibraryModel#contains(java.lang.String)
 	 */
 	@Override
-	public boolean contains(Name name) {
+	public boolean contains(String name) {
 		lock.readLock().lock();
 		try{
 			if(Objects.isNull(name)) return false;
-			return libraryMap.containsKey(name.getName());
+			return libraryMap.containsKey(name);
 		}finally {
 			lock.readLock().unlock();
 		}

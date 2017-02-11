@@ -109,9 +109,9 @@ public final class JLibraryPanel extends JPanel{
 	 * @param libraryModel
 	 */
 	public JLibraryPanel(LibraryModel libraryModel) {
-		setLayout(new BorderLayout(0, 0));
-		
 		libraryIconImage = ImageUtil.getImage(ImageKey.LIBRARY_ICON, ImageSize.ICON_LARGE);
+		
+		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);

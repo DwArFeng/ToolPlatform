@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
@@ -153,14 +152,14 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#contains(com.dwarfeng.dutil.basic.str.Name)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolInfoModel#contains(java.lang.String)
 	 */
 	@Override
-	public boolean contains(Name name) {
+	public boolean contains(String name) {
 		lock.readLock().lock();
 		try{
 			if(Objects.isNull(name)) return false;
-			return toolInfoMap.containsKey(name.getName());
+			return toolInfoMap.containsKey(name);
 		}finally {
 			lock.readLock().unlock();
 		}
