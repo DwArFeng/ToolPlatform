@@ -23,6 +23,7 @@ public enum ImageKey implements Name {
 	NOT_START(new DefaultName("/com/dwarfeng/tp/resource/image/not-start.png")),
 	EXITED(new DefaultName("/com/dwarfeng/tp/resource/image/exited.png")),
 	HISTORY(new DefaultName("/com/dwarfeng/tp/resource/image/history.png")),
+	UNKNOWN(new DefaultName("/com/dwarfeng/tp/resource/image/unknown.png")),
 
 	;
 

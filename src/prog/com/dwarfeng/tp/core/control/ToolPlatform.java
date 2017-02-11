@@ -80,6 +80,7 @@ import com.dwarfeng.tp.core.model.struct.AbstractFlow;
 import com.dwarfeng.tp.core.model.struct.DefaultExitedRunningToolTaker;
 import com.dwarfeng.tp.core.model.struct.DefaultFinishedFlowTaker;
 import com.dwarfeng.tp.core.model.struct.DefaultRunningTool;
+import com.dwarfeng.tp.core.model.struct.DefaultToolHistory;
 import com.dwarfeng.tp.core.model.struct.DefaultToolInfo;
 import com.dwarfeng.tp.core.model.struct.ExitedRunningToolTaker;
 import com.dwarfeng.tp.core.model.struct.FinishedFlowTaker;
@@ -89,6 +90,7 @@ import com.dwarfeng.tp.core.model.struct.LibraryKeyChecker;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.model.struct.Resource;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
+import com.dwarfeng.tp.core.model.struct.ToolHistory;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolHistory;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolInfo;
@@ -308,7 +310,8 @@ public final class ToolPlatform {
 						backgroundModel,
 						toolInfoModel,
 						libraryModel,
-						toolRuntimeModel
+						toolRuntimeModel,
+						toolHistoryModel
 				);
 				mainFrame.addObverser(mainFrameObverser);
 				return mainFrame;
@@ -355,6 +358,15 @@ public final class ToolPlatform {
 			@Override
 			public void fireRunTool(ToolInfo toolInfo) {
 				manager.getBackgroundModel().submit(flowProvider.newRunToolFlow(toolInfo));
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#fireLogRunningTool(com.dwarfeng.tp.core.model.struct.RunningTool)
+			 */
+			@Override
+			public void fireLogRunningTool(RunningTool runningTool) {
+				manager.getBackgroundModel().submit(flowProvider.newLogRunningToolFlow(runningTool));
 			}
 			
 		};
@@ -547,6 +559,14 @@ public final class ToolPlatform {
 		}
 
 		/**
+		 * 获取一个新的关闭窗口的过程。
+		 * @return 新的关闭窗口的过程。
+		 */
+		public Flow newClosingFlow() {
+			return new WindowClosingFlow();
+		}
+
+		/**
 		 *  获取一个新的运行工具的过程。
 		 * @param toolInfo 指定的工具。
 		 * @return 新的运行工具的过程。
@@ -556,11 +576,12 @@ public final class ToolPlatform {
 		}
 
 		/**
-		 * 获取一个新的关闭窗口的过程。
-		 * @return 新的关闭窗口的过程。
+		 * 获取一个新的记录运行中工具流。
+		 * @param runningTool 指定的运行中工具。
+		 * @return 新的记录运行中工具流。
 		 */
-		public Flow newClosingFlow() {
-			return new WindowClosingFlow();
+		public Flow newLogRunningToolFlow(RunningTool runningTool) {
+			return new LogRunningToolFlow(runningTool);
 		}
 
 
@@ -1441,6 +1462,41 @@ public final class ToolPlatform {
 			
 		}
 	
+		private final class LogRunningToolFlow extends AbstractInnerFlow{
+			
+			private final RunningTool runningTool;
+
+			public LogRunningToolFlow(RunningTool runningTool) {
+				super(BlockKey.LOG_RUNNINGTOOL,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_35.getName()));
+				Objects.requireNonNull(runningTool, "入口参数 runningTool 不能为 null。");
+				this.runningTool = runningTool;
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#subProcess()
+			 */
+			@Override
+			protected void subProcess() {
+				try{
+					if(getState() != RuntimeState.RUNNING){
+						throw new IllegalStateException("程序还未启动或已经结束");
+					}
+					
+					info(LoggerStringKey.ToolPlatform_FlowProvider_35);
+					
+					ToolHistory toolHistory = new DefaultToolHistory(runningTool.getName(), runningTool.getRanDate(), runningTool.getExitedDate());
+					manager.getToolHistoryModel().offer(toolHistory);
+					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_36);
+					
+				}catch (Exception e) {
+					message(LoggerStringKey.ToolPlatform_FlowProvider_37);
+				}
+			}
+			
+		}
+		
 	}
 	
 

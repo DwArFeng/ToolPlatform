@@ -9,7 +9,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -50,6 +52,8 @@ public class DefaultRunningTool implements RunningTool{
 	private InputStream in = null;
 	private PrintStream out = null;
 	private boolean streamLockFlag = false;
+	private Date ranDate = new Date(0);
+	private Date exitedDate = new Date(0);
 	
 	private Process process = null;
 	private int exitCode;
@@ -267,6 +271,7 @@ public class DefaultRunningTool implements RunningTool{
 				THREAD_FACTORY.newThread(new InputProcessor()).start();
 				THREAD_FACTORY.newThread(new ExitedHandler()).start();
 				setRuntimeState(RuntimeState.RUNNING);
+				ranDate = Calendar.getInstance().getTime();
 				fireStarted();
 			}catch (Exception e) {
 				if(Objects.nonNull(out)){
@@ -274,6 +279,7 @@ public class DefaultRunningTool implements RunningTool{
 				}
 				setExitCode(-12452);
 				setRuntimeState(RuntimeState.ENDED);
+				exitedDate = Calendar.getInstance().getTime();
 				fireExited();
 			}
 		}finally {
@@ -327,6 +333,7 @@ public class DefaultRunningTool implements RunningTool{
 			}else{
 				setExitCode(-12453);
 				setRuntimeState(RuntimeState.ENDED);
+				exitedDate = Calendar.getInstance().getTime();
 				fireExited();
 			}
 		}finally {
@@ -391,6 +398,34 @@ public class DefaultRunningTool implements RunningTool{
 			this.exitCode = exitCode;
 		}finally {
 			lock.writeLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.RunningTool#getRanDate()
+	 */
+	@Override
+	public Date getRanDate() {
+		lock.readLock().lock();
+		try{
+			return ranDate;
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.RunningTool#getExitedDate()
+	 */
+	@Override
+	public Date getExitedDate() {
+		lock.readLock().lock();
+		try{
+			return exitedDate;
+		}finally {
+			lock.readLock().unlock();
 		}
 	}
 
@@ -504,6 +539,7 @@ public class DefaultRunningTool implements RunningTool{
 				process.waitFor();
 				setExitCode(process.exitValue());
 				setRuntimeState(RuntimeState.ENDED);
+				exitedDate = Calendar.getInstance().getTime();
 				fireExited();
 			} catch (InterruptedException ignore) {
 				//中断也要按照基本法

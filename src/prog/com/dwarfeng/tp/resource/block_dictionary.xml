@@ -25,4 +25,7 @@
 	<key value="closing">
 		<dictionary value="initialize"/>
 	</key>
+	<key value="log_runningtool">
+		<dictionary value="initialize"/>
+	</key>
 </root>

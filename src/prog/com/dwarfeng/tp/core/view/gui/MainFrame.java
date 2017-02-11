@@ -2,11 +2,17 @@ package com.dwarfeng.tp.core.view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -20,8 +26,11 @@ import java.util.WeakHashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
@@ -30,6 +39,7 @@ import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 import com.dwarfeng.tp.core.model.cm.LibraryModel;
+import com.dwarfeng.tp.core.model.cm.ToolHistoryModel;
 import com.dwarfeng.tp.core.model.cm.ToolInfoModel;
 import com.dwarfeng.tp.core.model.cm.ToolRuntimeModel;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
@@ -40,16 +50,7 @@ import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
 import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
-import java.awt.Rectangle;
-import javax.swing.border.LineBorder;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JMenuItem;
+import com.dwarfeng.tp.core.view.obv.ToolRuntimePanelObverser;
 
 /**
  * 程序的主界面。
@@ -72,6 +73,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private final JLibraryPanel libraryPanel;
 	private final JToolInfoPanel toolInfoPanel;
 	private final JToolRuntimePanel toolRuntimePanel;
+	private final JToolHistoryPanel toolHistoryPanel;
 
 	/*
 	 * 其它final域
@@ -86,7 +88,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private Mutilang mutilang;
 
 	/**其它面板的观察器*/
-	private ToolInfoPanelObverser toolInfoPanelObverser = new ToolInfoPanelObverser() {
+	private final ToolInfoPanelObverser toolInfoPanelObverser = new ToolInfoPanelObverser() {
 		
 		/*
 		 * (non-Javadoc)
@@ -97,6 +99,17 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 			MainFrame.this.fireRunTool(toolInfo);
 		}
 	};
+	private final ToolRuntimePanelObverser runtimePanelObverser = new ToolRuntimePanelObverser() {
+		
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.view.obv.ToolRuntimePanelObverser#fireLogRunningTool(com.dwarfeng.tp.core.model.struct.RunningTool)
+		 */
+		@Override
+		public void fireLogRunningTool(RunningTool runningTool) {
+			MainFrame.this.fireLogRunningTool(runningTool);
+		}
+	};
 	
 	/*
 	 * 其它非final域
@@ -104,7 +117,6 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private int lastNormalHeight;
 	private int lastNormalWidth;
 	private JTabbedPane tabbedPane;
-	private JPanel panel_1;
 	private JButton btnNewButton_1;
 	private JPopupMenu popupMenu;
 	private JMenuItem mntmNewMenuItem;
@@ -120,7 +132,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 * 新实例。
 	 */
 	public MainFrame() {
-		this(ToolPlatformUtil.newDefaultLabelMutilang(), null, null, null, null);
+		this(ToolPlatformUtil.newDefaultLabelMutilang(), null, null, null, null, null);
 	}
 	
 	/**
@@ -131,7 +143,8 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 			BackgroundModel backgroundModel, 
 			ToolInfoModel toolInfoModel, 
 			LibraryModel libraryModel,
-			ToolRuntimeModel toolRuntimeModel
+			ToolRuntimeModel toolRuntimeModel,
+			ToolHistoryModel toolHistoryModel
 			) {
 		Objects.requireNonNull(mutilang, "入口参数 mutilang 不能为 null。");
 
@@ -228,6 +241,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				libraryPanel, null);
 		
 		toolRuntimePanel = new JToolRuntimePanel(mutilang, toolRuntimeModel);
+		toolRuntimePanel.addObverser(runtimePanelObverser);
 		centerTabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_6),
 				new ImageIcon(ImageUtil.getImage(ImageKey.RUNTIME, ImageSize.ICON_SMALL)), 
@@ -308,11 +322,11 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		mainAdjPanel.add(tabbedPane, BorderLayout.WEST);
 		
-		panel_1 = new JPanel();
+		toolHistoryPanel = new JToolHistoryPanel(mutilang, toolHistoryModel, toolInfoModel);
 		tabbedPane.addTab(
 				getLabel(LabelStringKey.MainFrame_7),
 				new ImageIcon(ImageUtil.getImage(ImageKey.HISTORY, ImageSize.ICON_SMALL)), 
-				panel_1, null);
+				toolHistoryPanel, null);
 		
 		//pack();
 	}
@@ -341,6 +355,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		southTabbedPane.setTitleAt(1, getLabel(LabelStringKey.MainFrame_3));
 		centerTabbedPane.setTitleAt(1, getLabel(LabelStringKey.MainFrame_5));
 		console.setMutilang(mutilang);
+		toolHistoryPanel.setMutilang(mutilang);
 		return true;
 	}
 
@@ -405,7 +420,9 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		toolInfoPanel.removeObverser(toolInfoPanelObverser);
 		toolInfoPanel.dispose();
 		libraryPanel.dispose();
+		toolRuntimePanel.removeObverser(runtimePanelObverser);
 		toolRuntimePanel.dispose();
+		toolHistoryPanel.dispose();
 		super.dispose();
 	}
 
@@ -491,6 +508,12 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private void fireRunTool(ToolInfo toolInfo) {
 		for(MainFrameObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireRunTool(toolInfo);
+		}
+	}
+	
+	private void fireLogRunningTool(RunningTool runningTool){
+		for(MainFrameObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireLogRunningTool(runningTool);
 		}
 	}
 

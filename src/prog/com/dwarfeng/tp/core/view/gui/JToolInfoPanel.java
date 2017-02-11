@@ -36,7 +36,7 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 	private ToolInfoModel toolInfoModel;
 	private ImageSize toolInfoIconSize = ImageSize.ICON_MEDIUM;
 	
-	private final ToolInfoObverser toolObverser = new ToolInfoAdapter() {
+	private final ToolInfoObverser toolInfoObverser = new ToolInfoAdapter() {
 
 		/*
 		 * (non-Javadoc)
@@ -173,7 +173,7 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 		list.setCellRenderer(listRenderer);
 
 		if(Objects.nonNull(toolInfoModel)){
-			toolInfoModel.addObverser(toolObverser);
+			toolInfoModel.addObverser(toolInfoObverser);
 			toolInfoModel.getLock().readLock().lock();
 			try{
 				for(ToolInfo toolInfo : toolInfoModel){
@@ -201,10 +201,10 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 	 */
 	public void setToolInfoModel(ToolInfoModel toolInfoModel) {
 		if(Objects.nonNull(this.toolInfoModel)){
-			this.toolInfoModel.removeObverser(toolObverser);
+			this.toolInfoModel.removeObverser(toolInfoObverser);
 		}
 		if(Objects.nonNull(toolInfoModel)){
-			toolInfoModel.addObverser(toolObverser);
+			toolInfoModel.addObverser(toolInfoObverser);
 			toolInfoModel.getLock().readLock().lock();
 			try{
 				for(ToolInfo toolInfo : toolInfoModel){
@@ -239,7 +239,9 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 	 */
 	public void dispose(){
 		listModel.clear();
-		toolInfoModel.removeObverser(toolObverser);
+		if(Objects.nonNull(toolInfoModel)){
+			toolInfoModel.removeObverser(toolInfoObverser);
+		}
 	}
 
 	/*

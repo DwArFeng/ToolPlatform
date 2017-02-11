@@ -1,6 +1,7 @@
 package com.dwarfeng.tp.core.view.obv;
 
 import com.dwarfeng.dutil.basic.prog.Obverser;
+import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
@@ -25,5 +26,11 @@ public interface MainFrameObverser extends Obverser{
 	 * @param toolInfo 指定的工具。
 	 */
 	public void fireRunTool(ToolInfo toolInfo);
+	
+	/**
+	 * 记录指定运行中工具的运行日志。
+	 * @param runningTool 指定的运行中工具
+	 */
+	public void fireLogRunningTool(RunningTool runningTool);
 	
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Date;
 
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
@@ -99,5 +100,17 @@ public interface RunningTool extends Name, ObverserSet<RunningToolObverser>{
 	 * @return 该工具的退出代码。
 	 */
 	public int getExitCode();
+	
+	/**
+	 * 获取工具开始运行的日期。
+	 * @return 工具开始运行的日期。
+	 */
+	public Date getRanDate();
+	
+	/**
+	 * 获取工具结束运行的日期。
+	 * @return 工具结束运行的日期。
+	 */
+	public Date getExitedDate();
 	
 }

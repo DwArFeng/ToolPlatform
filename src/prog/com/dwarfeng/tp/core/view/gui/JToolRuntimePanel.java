@@ -7,10 +7,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
@@ -22,6 +24,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.dwarfeng.dutil.basic.gui.swing.MuaListModel;
+import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
@@ -31,18 +34,28 @@ import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
 import com.dwarfeng.tp.core.model.struct.Mutilang;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
+import com.dwarfeng.tp.core.util.DateUtil;
 import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
+import com.dwarfeng.tp.core.view.obv.ToolRuntimePanelObverser;
 
-public class JToolRuntimePanel extends JPanel implements MutilangSupported{
+public class JToolRuntimePanel extends JPanel implements MutilangSupported, ObverserSet<ToolRuntimePanelObverser>{
 	
+	/**观察器集合*/
+	private final Set<ToolRuntimePanelObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
+	
+	/*
+	 * final 域。
+	 */
 	private final JList<RunningTool> list;
 	private final JToolRuntimeConsoleContainer consoleContainer;
 	private final Image notStartImage;
 	private final Image runningImage;
 	private final Image exitedImage;
 
-
+	/*
+	 * 其它非 final 域。
+	 */
 	private ToolRuntimeModel toolRuntimeModel;
 	private ImageSize toolInfoIconSize = ImageSize.ICON_MEDIUM;
 	private Mutilang mutilang;
@@ -107,6 +120,7 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 				@Override
 				public void run() {
+					fireLogRunningTool(runningTool);
 					int index = listModel.indexOf(runningTool);
 					listModel.set(index, runningTool);
 				}
@@ -127,7 +141,7 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 				@Override
 				public void run() {
 					if(Objects.nonNull(console)){
-						console.out.println(formatLabel(LabelStringKey.JToolRuntimePanel_1, Calendar.getInstance().getTime(), runningTool.getExitCode()));
+						console.out.println(formatLabel(LabelStringKey.JToolRuntimePanel_1, DateUtil.formatDate(runningTool.getExitedDate()), runningTool.getExitCode()));
 					}
 				}
 			});
@@ -401,12 +415,54 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported{
 		toolConsoleMap.clear();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#getObversers()
+	 */
+	@Override
+	public Set<ToolRuntimePanelObverser> getObversers() {
+		return Collections.unmodifiableSet(obversers);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#addObverser(com.dwarfeng.dutil.basic.prog.Obverser)
+	 */
+	@Override
+	public boolean addObverser(ToolRuntimePanelObverser obverser) {
+		return obversers.add(obverser);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#removeObverser(com.dwarfeng.dutil.basic.prog.Obverser)
+	 */
+	@Override
+	public boolean removeObverser(ToolRuntimePanelObverser obverser) {
+		return obversers.remove(obverser);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.dutil.basic.prog.ObverserSet#clearObverser()
+	 */
+	@Override
+	public void clearObverser() {
+		obversers.clear();
+	}
+
 //	private String getLabel(LabelStringKey labelStringKey){
 //		return mutilang.getString(labelStringKey.getName());
 //	}
 	
 	private String formatLabel(LabelStringKey labelStringKey, Object... args){
 		return String.format(mutilang.getString(labelStringKey.getName()), args);
+	}
+	
+	private void fireLogRunningTool(RunningTool runningTool){
+		for(ToolRuntimePanelObverser obverser : obversers){
+			if(Objects.nonNull(obversers)) obverser.fireLogRunningTool(runningTool);
+		}
 	}
 
 }
