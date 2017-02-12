@@ -28,7 +28,8 @@ public enum LabelStringKey implements Name{
 	JToolHistoryPanel_1(new DefaultName("JToolHistoryPanel.1")),
 	JToolHistoryPanel_2(new DefaultName("JToolHistoryPanel.2")),
 	JToolHistoryPanel_3(new DefaultName("JToolHistoryPanel.3")),
-	
+	JToolHistoryPanel_4(new DefaultName("JToolHistoryPanel.4")),
+
 	;
 
 	private Name name;

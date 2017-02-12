@@ -214,9 +214,9 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				new ImageIcon(ImageUtil.getImage(ImageKey.CONSOLE, ImageSize.ICON_SMALL)), 
 				console, null);
 		
-//		System.setIn(console.in);
-//		System.setOut(console.out);
-//		System.setErr(console.out);
+		System.setIn(console.in);
+		System.setOut(console.out);
+		System.setErr(console.out);
 		
 		backgroundPanel = new JBackgroundPanel(backgroundModel);
 		southTabbedPane.addTab(
@@ -246,6 +246,12 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 				getLabel(LabelStringKey.MainFrame_6),
 				new ImageIcon(ImageUtil.getImage(ImageKey.RUNTIME, ImageSize.ICON_SMALL)), 
 				toolRuntimePanel, null);
+		
+		toolHistoryPanel = new JToolHistoryPanel(mutilang, toolHistoryModel, toolInfoModel);
+		centerTabbedPane.addTab(
+				getLabel(LabelStringKey.MainFrame_7),
+				new ImageIcon(ImageUtil.getImage(ImageKey.HISTORY, ImageSize.ICON_SMALL)), 
+				toolHistoryPanel, null);
 		
 		JPanel panel = new JPanel();
 		
@@ -321,12 +327,6 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		mainAdjPanel.add(tabbedPane, BorderLayout.WEST);
-		
-		toolHistoryPanel = new JToolHistoryPanel(mutilang, toolHistoryModel, toolInfoModel);
-		tabbedPane.addTab(
-				getLabel(LabelStringKey.MainFrame_7),
-				new ImageIcon(ImageUtil.getImage(ImageKey.HISTORY, ImageSize.ICON_SMALL)), 
-				toolHistoryPanel, null);
 		
 		//pack();
 	}

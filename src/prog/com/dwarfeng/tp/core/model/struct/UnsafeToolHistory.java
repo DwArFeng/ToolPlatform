@@ -18,17 +18,24 @@ public interface UnsafeToolHistory {
 	public String getName() throws ProcessException;
 	
 	/**
-	 * 获取工具的运行时间。
-	 * @return 工具的运行时间。
+	 * 获取工具的运行日期。
+	 * @return 工具的运行日期。
 	 * @throws ProcessException 过程异常。
 	 */
-	public Date getRanTime() throws ProcessException;
+	public Date getRanDate() throws ProcessException;
 	
 	/**
-	 * 获取工具的结束时间。
-	 * @return 工具的结束时间。
+	 * 获取工具的结束日期。
+	 * @return 工具的结束日期。
 	 * @throws ProcessException 过程异常。
 	 */
-	public Date getExitedTime() throws ProcessException;
+	public Date getExitedDate() throws ProcessException;
+	
+	/**
+	 * 获取工具的退出代码。
+	 * @return 工具的退出代码。
+	 * @throws ProcessException 过程异常。
+	 */
+	public int getExitedCode() throws ProcessException;
 	
 }

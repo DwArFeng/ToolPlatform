@@ -35,7 +35,7 @@ public class XmlUnsafeToolHistoryLoader extends StreamLoader<List<UnsafeToolHist
 	 */
 	@Override
 	public void load(List<UnsafeToolHistory> unsafeToolHistories) throws LoadFailedException {
-		Objects.requireNonNull(unsafeToolHistories, "入口参数 unsafeToolInfos 不能为 null。");
+		Objects.requireNonNull(unsafeToolHistories, "入口参数 unsafeToolHistories 不能为 null。");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -57,16 +57,17 @@ public class XmlUnsafeToolHistoryLoader extends StreamLoader<List<UnsafeToolHist
 			for(Element history : histories){
 				try{
 					String name = history.attributeValue("name");
-					String ranTimeStr = history.attributeValue("run_time");
-					String exitedTimeStr = history.attributeValue("exit_time");
-					unsafeToolHistories.add(new DefaultUnsafeToolHistory(name, ranTimeStr, exitedTimeStr));
+					String ranDateStr = history.attributeValue("ran_date");
+					String exitedDateStr = history.attributeValue("exited_date");
+					String exitedCodeStr = history.attributeValue("exited_code");
+					unsafeToolHistories.add(new DefaultUnsafeToolHistory(name, ranDateStr, exitedDateStr, exitedCodeStr));
 				}catch (Exception e) {
 					continue next;
 				}
 			}
 			
 		}catch (Exception e) {
-			throw new LoadFailedException("工具信息模型读取器-无法向指定的工具信息模型中读取流中的数据", e);
+			throw new LoadFailedException("不安全工具历史读取器-无法向指定的不安全工具历史列表中读取流中的数据", e);
 		}
 
 	}

@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -70,6 +71,7 @@ import com.dwarfeng.tp.core.model.io.XmlLoggerLoader;
 import com.dwarfeng.tp.core.model.io.XmlMutilangLoader;
 import com.dwarfeng.tp.core.model.io.XmlPathGetter;
 import com.dwarfeng.tp.core.model.io.XmlResourceLoader;
+import com.dwarfeng.tp.core.model.io.XmlToolHistorySaver;
 import com.dwarfeng.tp.core.model.io.XmlUnsafeToolHistoryLoader;
 import com.dwarfeng.tp.core.model.io.XmlUnsafeToolInfoLoader;
 import com.dwarfeng.tp.core.model.obv.LoggerAdapter;
@@ -1043,6 +1045,26 @@ public final class ToolPlatform {
 						}
 					}
 					
+					next:
+					for(UnsafeToolHistory unsafeToolHistory : unsafeToolHistories){
+						String name;
+						Date ranDate;
+						Date exitedDate;
+						int exitedCode;
+						try{
+							name = unsafeToolHistory.getName();
+							ranDate = unsafeToolHistory.getRanDate();
+							exitedDate = unsafeToolHistory.getExitedDate();
+							exitedCode = unsafeToolHistory.getExitedCode();
+						}catch (ProcessException e) {
+							warn(LoggerStringKey.ToolPlatform_FlowProvider_38, e);
+							continue next;
+						}
+
+						ToolHistory toolHistory = new DefaultToolHistory(name, ranDate, exitedDate, exitedCode);
+						manager.getToolHistoryModel().offer(toolHistory);
+					}
+					
 					//注册退出束钩子
 					info(LoggerStringKey.ToolPlatform_FlowProvider_33);
 					if (splashFlag) {
@@ -1485,7 +1507,13 @@ public final class ToolPlatform {
 					
 					info(LoggerStringKey.ToolPlatform_FlowProvider_35);
 					
-					ToolHistory toolHistory = new DefaultToolHistory(runningTool.getName(), runningTool.getRanDate(), runningTool.getExitedDate());
+					ToolHistory toolHistory = new DefaultToolHistory(
+							runningTool.getName(),
+							runningTool.getRanDate(), 
+							runningTool.getExitedDate(),
+							runningTool.getExitCode()
+					);
+					
 					manager.getToolHistoryModel().offer(toolHistory);
 					
 					message(LoggerStringKey.ToolPlatform_FlowProvider_36);
@@ -1589,6 +1617,28 @@ public final class ToolPlatform {
 			}
 			
 			//TODO 保存核心配置
+			
+			//保存工具运行历史
+			info(LoggerStringKey.ToolPlatform_Exitor_13);
+			XmlToolHistorySaver toolHistorySaver = null;
+			try{
+				try{
+					toolHistorySaver = new XmlToolHistorySaver(getResource(ResourceKey.TOOL_HISTORY).openOutputStream());
+					toolHistorySaver.save(manager.getToolHistoryModel());
+				}catch (IOException e) {
+					warn(LoggerStringKey.ToolPlatform_Exitor_9, e);
+					getResource(ResourceKey.TOOL_HISTORY).reset();
+					toolHistorySaver = new XmlToolHistorySaver(getResource(ResourceKey.TOOL_HISTORY).openOutputStream());
+					toolHistorySaver.save(manager.getToolHistoryModel());
+				}finally{
+					if(Objects.nonNull(toolHistorySaver)){
+						toolHistorySaver.close();
+					}
+				}
+				
+			}catch (Exception e) {
+				warn(LoggerStringKey.ToolPlatform_Exitor_14, e);
+			}
 			
 			//释放界面
 			info(LoggerStringKey.ToolPlatform_Exitor_6);

@@ -12,19 +12,22 @@ import java.util.Objects;
 public final class DefaultUnsafeToolHistory implements UnsafeToolHistory {
 	
 	private final String name;
-	private final String ranTimeStr;
-	private final String exitedTimeStr;
+	private final String ranDateStr;
+	private final String exitedDateStr;
+	private final String exitedCodeStr;
 	
 	/**
 	 * 新实例。
 	 * @param name 指定的名称。
-	 * @param ranTimeStr 指定的运行时间字符串。
-	 * @param exitedTimeStr 指定的退出时间字符串。
+	 * @param ranDateStr 指定的运行日期字符串。
+	 * @param exitedDateStr 指定的退出日期字符串。
+	 * @param exitedCodeStr 指定的退出代码字符串。
 	 */
-	public DefaultUnsafeToolHistory(String name, String ranTimeStr, String exitedTimeStr) {
+	public DefaultUnsafeToolHistory(String name, String ranDateStr, String exitedDateStr, String exitedCodeStr) {
 		this.name = name;
-		this.ranTimeStr = ranTimeStr;
-		this.exitedTimeStr = exitedTimeStr;
+		this.ranDateStr = ranDateStr;
+		this.exitedDateStr = exitedDateStr;
+		this.exitedCodeStr = exitedCodeStr;
 	}
 
 	/*
@@ -43,13 +46,13 @@ public final class DefaultUnsafeToolHistory implements UnsafeToolHistory {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.UnsafeToolHistory#getRanTime()
+	 * @see com.dwarfeng.tp.core.model.struct.UnsafeToolHistory#getRanDate()
 	 */
 	@Override
-	public Date getRanTime() throws ProcessException {
+	public Date getRanDate() throws ProcessException {
 		try{
-			if(Objects.isNull(ranTimeStr)) throw new NullPointerException();
-			long l = Long.parseLong(ranTimeStr);
+			if(Objects.isNull(ranDateStr)) throw new NullPointerException();
+			long l = Long.parseLong(ranDateStr);
 			return new Date(l);
 		}catch (Exception e) {
 			throw new ProcessException("工具信息-读取开始工具名称失败", e);
@@ -58,14 +61,29 @@ public final class DefaultUnsafeToolHistory implements UnsafeToolHistory {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.UnsafeToolHistory#getExitedTime()
+	 * @see com.dwarfeng.tp.core.model.struct.UnsafeToolHistory#getExitedDate()
 	 */
 	@Override
-	public Date getExitedTime() throws ProcessException {
+	public Date getExitedDate() throws ProcessException {
 		try{
-			if(Objects.isNull(ranTimeStr)) throw new NullPointerException();
-			long l = Long.parseLong(exitedTimeStr);
+			if(Objects.isNull(exitedDateStr)) throw new NullPointerException();
+			long l = Long.parseLong(exitedDateStr);
 			return new Date(l);
+		}catch (Exception e) {
+			throw new ProcessException("工具信息-读取结束工具名称失败", e);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.UnsafeToolHistory#getExitedCode()
+	 */
+	@Override
+	public int getExitedCode() throws ProcessException {
+		try{
+			if(Objects.isNull(exitedCodeStr)) throw new NullPointerException();
+			int exitCode = Integer.parseInt(exitedCodeStr);
+			return exitCode;
 		}catch (Exception e) {
 			throw new ProcessException("工具信息-读取结束工具名称失败", e);
 		}

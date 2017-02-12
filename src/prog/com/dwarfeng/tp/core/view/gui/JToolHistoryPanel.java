@@ -1,7 +1,11 @@
 package com.dwarfeng.tp.core.view.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,7 +16,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
@@ -48,7 +51,20 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	private ToolHistoryModel toolHistoryModel;
 	private ToolInfoModel toolInfoModel;
 	
-	private final DefaultTableModel tableModel = new DefaultTableModel();
+	private final DefaultTableModel tableModel = new DefaultTableModel(){
+		
+		private static final long serialVersionUID = -5018361256651102316L;
+
+		/*
+		 * (non-Javadoc)
+		 * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int)
+		 */
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		};
+		
+	};
 
 	private final ToolHistoryObverser toolHistoryObverser = new ToolHistoryAdapter() {
 
@@ -60,7 +76,13 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 				@Override
 				public void run() {
-					tableModel.insertRow(index, new Object[]{toolHistory.getName(), toolHistory.getRanTime(), toolHistory.getExitedTime()});
+					tableModel.insertRow(index, new Object[]{
+							toolHistory.getName(),
+							toolHistory.getRanDate(),
+							toolHistory.getExitedDate(),
+							toolHistory.getExitedCode()
+							}
+					);
 				}
 			});
 		}
@@ -141,6 +163,11 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 		@Override
 		public java.awt.Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			if((int) tableModel.getValueAt(row, 3) != 0){
+				setForeground(Color.RED);
+			}else{
+				setForeground(null);
+			}
 			switch (column) {
 			case 0:
 				String name = (String) value;
@@ -160,6 +187,11 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 				setIcon(null);
 				Date exitedDate = (Date) value;
 			    setText(DateUtil.formatDate(exitedDate));
+				break;
+			case 3:
+				setIcon(null);
+				int exitedCode = (Integer)value;
+			    setText(exitedCode + "");
 				break;
 			}
 			return this;
@@ -190,12 +222,46 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 		add(scrollPane);
 		
 		table = new JTable();
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		table.setFillsViewportHeight(true);
+		table.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int mouseRowIndex = table.rowAtPoint(e.getPoint());
+				if(mouseRowIndex == -1){
+					table.getSelectionModel().clearSelection();
+					table.getSelectionModel().setAnchorSelectionIndex(-1);
+					table.getSelectionModel().setLeadSelectionIndex(-1);
+				}
+			}
+		});
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int mouseRowIndex = table.rowAtPoint(e.getPoint());
+				if(mouseRowIndex == -1){
+					table.getSelectionModel().clearSelection();
+					table.getSelectionModel().setAnchorSelectionIndex(-1);
+					table.getSelectionModel().setLeadSelectionIndex(-1);
+				}
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int mouseRowIndex = table.rowAtPoint(e.getPoint());
+				if(mouseRowIndex == -1){
+					table.getSelectionModel().clearSelection();
+					table.getSelectionModel().setAnchorSelectionIndex(-1);
+					table.getSelectionModel().setLeadSelectionIndex(-1);
+				}
+			}
+		});
 		table.getTableHeader().setReorderingAllowed(false);
 		
 		tableModel.setColumnIdentifiers(new String[]{
 				getLabel(LabelStringKey.JToolHistoryPanel_1),
 				getLabel(LabelStringKey.JToolHistoryPanel_2),
 				getLabel(LabelStringKey.JToolHistoryPanel_3),
+				getLabel(LabelStringKey.JToolHistoryPanel_4),
 		});
 		
 		table.setModel(tableModel);
@@ -216,7 +282,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 			toolHistoryModel.getLock().readLock().lock();
 			try{
 				for(ToolHistory toolHistory : toolHistoryModel){
-					tableModel.addRow(new Object[]{toolHistory.getName(), toolHistory.getRanTime(), toolHistory.getExitedTime()});
+					tableModel.addRow(new Object[]{toolHistory.getName(), toolHistory.getRanDate(), toolHistory.getExitedDate()});
 				}
 			}finally {
 				toolHistoryModel.getLock().readLock().unlock();
@@ -287,7 +353,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 			toolHistoryModel.getLock().readLock().lock();
 			try{
 				for(ToolHistory toolHistory : toolHistoryModel){
-					tableModel.addRow(new Object[]{toolHistory.getName(), toolHistory.getRanTime(), toolHistory.getExitedTime()});
+					tableModel.addRow(new Object[]{toolHistory.getName(), toolHistory.getRanDate(), toolHistory.getExitedDate()});
 				}
 			}finally {
 				toolHistoryModel.getLock().readLock().unlock();
@@ -349,7 +415,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	 * ÊÍ·Å×ÊÔ´¡£
 	 */
 	public void dispose(){
-		tableModel.setDataVector(new Objects[0][3], new Object[3]);
+		tableModel.setDataVector(new Objects[0][4], new Object[4]);
 		if(Objects.nonNull(toolHistoryModel)){
 			toolHistoryModel.removeObverser(toolHistoryObverser);
 		}

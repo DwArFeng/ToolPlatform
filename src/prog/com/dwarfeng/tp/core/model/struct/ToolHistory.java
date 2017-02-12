@@ -12,15 +12,21 @@ import com.dwarfeng.dutil.basic.str.Name;
 public interface ToolHistory extends Name{
 	
 	/**
-	 * 获取工具的运行时间。
-	 * @return 工具的运行时间。
+	 * 获取工具的运行日期。
+	 * @return 工具的运行日期。
 	 */
-	public Date getRanTime();
+	public Date getRanDate();
 	
 	/**
-	 * 获取工具的结束时间。
-	 * @return 工具的结束时间。
+	 * 获取工具的结束日期。
+	 * @return 工具的结束日期。
 	 */
-	public Date getExitedTime();
+	public Date getExitedDate();
+	
+	/**
+	 * 获取工具的退出代码。
+	 * @return 工具的退出代码。
+	 */
+	public int getExitedCode();
 	
 }

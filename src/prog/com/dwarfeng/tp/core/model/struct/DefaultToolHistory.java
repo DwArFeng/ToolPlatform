@@ -13,23 +13,26 @@ import java.util.Objects;
 public final class DefaultToolHistory implements ToolHistory{
 	
 	private final String name;
-	private final Date ranTime;
+	private final Date ranDate;
 	private final Date exitedDate;
+	private final int exitedCode;
 	
 	/**
 	 * 新实例
 	 * @param name 指定的名称。
-	 * @param ranTime 指定的运行时间。
-	 * @param exitedDate 指定的退出时间。
+	 * @param ranDate 指定的运行日期。
+	 * @param exitedDate 指定的退出日期。
+	 * @param exitedCode 退出代码。
 	 */
-	public DefaultToolHistory(String name, Date ranTime, Date exitedDate) {
+	public DefaultToolHistory(String name, Date ranDate, Date exitedDate, int exitedCode) {
 		Objects.requireNonNull(name, "入口参数 name 不能为 null。");
-		Objects.requireNonNull(ranTime, "入口参数 ranTime 不能为 null。");
+		Objects.requireNonNull(ranDate, "入口参数 ranDate 不能为 null。");
 		Objects.requireNonNull(exitedDate, "入口参数 exitedDate 不能为 null。");
 
 		this.name = name;
-		this.ranTime = ranTime;
+		this.ranDate = ranDate;
 		this.exitedDate = exitedDate;
+		this.exitedCode = exitedCode;
 	}
 
 	/*
@@ -43,20 +46,29 @@ public final class DefaultToolHistory implements ToolHistory{
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.ToolHistory#getRanTime()
+	 * @see com.dwarfeng.tp.core.model.struct.ToolHistory#getRanDate()
 	 */
 	@Override
-	public Date getRanTime() {
-		return ranTime;
+	public Date getRanDate() {
+		return ranDate;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.dwarfeng.tp.core.model.struct.ToolHistory#getExitedTime()
+	 * @see com.dwarfeng.tp.core.model.struct.ToolHistory#getExitedDate()
 	 */
 	@Override
-	public Date getExitedTime() {
+	public Date getExitedDate() {
 		return exitedDate;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.struct.ToolHistory#getExitedCode()
+	 */
+	@Override
+	public int getExitedCode() {
+		return exitedCode;
 	}
 
 }
