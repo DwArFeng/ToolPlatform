@@ -90,6 +90,14 @@ public interface ToolRuntimeModel extends ExternalReadWriteThreadSafe, ObverserS
 	public RunningTool takeExited() throws InterruptedException;
 	
 	/**
+	 * 移除指定的运行中工具。
+	 * <p> 只有当工具已经结束运行时，才能从模型中移除。
+	 * @param runningTool 指定的运行中工具。
+	 * @return 该操作是否改变了模型本身。
+	 */
+	public boolean remove(RunningTool runningTool);
+
+	/**
 	 * 清除模型中所有的已经退出的运行中工具。
 	 * @return 该方法是否改变了模型本身。
 	 */

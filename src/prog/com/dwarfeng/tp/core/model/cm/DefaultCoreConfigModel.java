@@ -90,4 +90,18 @@ public class DefaultCoreConfigModel extends DefaultSyncConfigModel implements Co
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.CoreConfigModel#getToolHistoryMaxSize()
+	 */
+	@Override
+	public int getToolHistoryMaxSize() {
+		lock.readLock().lock();
+		try{
+			return Integer.parseInt(getValidValue(CoreConfig.TOOLHISTORY_MAXSIZE.getConfigKey()));
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
+
 }

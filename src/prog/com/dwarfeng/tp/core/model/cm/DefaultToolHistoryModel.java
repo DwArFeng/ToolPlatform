@@ -59,12 +59,12 @@ public class DefaultToolHistoryModel extends AbstractToolHistoryModel{
 		lock.writeLock().lock();
 		try{
 			if(Objects.isNull(toolHistory)) return false;
-			int index = toolHistories.size();
 			boolean aFlag = toolHistories.offer(toolHistory);
-			if(aFlag) fireToolHistoryAdded(index, toolHistory);
-			if(toolHistories.size() > maxSize){
+			if(aFlag) fireToolHistoryAdded(0, toolHistory);
+			int i;
+			if((i = toolHistories.size()) > maxSize){
 				toolHistories.poll();
-				fireToolHistoryRemoved(index, toolHistory);
+				fireToolHistoryRemoved(i - 1, toolHistory);
 			}
 			return aFlag;
 		}finally {
@@ -89,9 +89,10 @@ public class DefaultToolHistoryModel extends AbstractToolHistoryModel{
 			if(Objects.isNull(toolHistory)) return false;
 			toolHistories.add(index, toolHistory);
 			fireToolHistoryAdded(index, toolHistory);
-			if(toolHistories.size() > maxSize){
+			int i;
+			if((i = toolHistories.size()) > maxSize){
 				toolHistories.poll();
-				fireToolHistoryRemoved(index, toolHistory);
+				fireToolHistoryRemoved(i - 1, toolHistory);
 			}
 			return true;
 		}finally {
@@ -157,12 +158,17 @@ public class DefaultToolHistoryModel extends AbstractToolHistoryModel{
 	 */
 	@Override
 	public boolean setMaxSize(int size) {
-		lock.writeLock().unlock();
+		lock.writeLock().lock();
 		try{
 			if(size < 0) return false;
 			int oldValue = this.maxSize;
 			this.maxSize = size;
 			fireMaxSizeChanged(oldValue, size);
+			int i;
+			while((i = toolHistories.size()) > size){
+				ToolHistory toolHistory = toolHistories.poll();
+				fireToolHistoryRemoved(i - 1, toolHistory);
+			}
 			return true;
 		}finally {
 			lock.writeLock().unlock();

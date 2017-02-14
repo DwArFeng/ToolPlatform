@@ -33,6 +33,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.ImageSize;
@@ -108,6 +109,15 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 		@Override
 		public void fireLogRunningTool(RunningTool runningTool) {
 			MainFrame.this.fireLogRunningTool(runningTool);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see com.dwarfeng.tp.core.view.obv.ToolRuntimePanelObverser#removeExitedRunningTool(com.dwarfeng.tp.core.model.struct.RunningTool)
+		 */
+		@Override
+		public void fireRemoveExitedRunningTool(RunningTool runningTool) {
+			MainFrame.this.fireRemoveExitedRunningTool(runningTool);
 		}
 	};
 	
@@ -514,6 +524,12 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private void fireLogRunningTool(RunningTool runningTool){
 		for(MainFrameObverser obverser : obversers){
 			if(Objects.nonNull(obverser)) obverser.fireLogRunningTool(runningTool);
+		}
+	}
+	
+	private void fireRemoveExitedRunningTool(RunningTool runningTool){
+		for(MainFrameObverser obverser : obversers){
+			if(Objects.nonNull(obverser)) obverser.fireRemoveExitedRunningTool(runningTool);
 		}
 	}
 

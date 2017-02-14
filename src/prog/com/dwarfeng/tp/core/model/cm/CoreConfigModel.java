@@ -39,5 +39,11 @@ public interface CoreConfigModel extends SyncConfigModel {
 	 * @return 程序是否自动取出完成的运行中工具。
 	 */
 	public boolean isRunningToolAutoTake();
+	
+	/**
+	 * 获取工具历史模型的最大记录数量。
+	 * @return 工具历史模型的最大记录数量。
+	 */
+	public int getToolHistoryMaxSize();
 
 }

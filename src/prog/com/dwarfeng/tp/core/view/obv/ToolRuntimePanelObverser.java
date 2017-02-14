@@ -15,5 +15,11 @@ public interface ToolRuntimePanelObverser extends Obverser {
 	 * @param runningTool 指定的运行中工具
 	 */
 	public void fireLogRunningTool(RunningTool runningTool);
+	
+	/**
+	 * 移除指定的已经退出的运行中工具。
+	 * @param runningTool 指定的运行中工具。
+	 */
+	public void fireRemoveExitedRunningTool(RunningTool runningTool);
 
 }

@@ -28,4 +28,7 @@
 	<key value="log_runningtool">
 		<dictionary value="initialize"/>
 	</key>
+	<key value="remove_exited_runningtool">
+		<dictionary value="initialize"/>
+	</key>
 </root>

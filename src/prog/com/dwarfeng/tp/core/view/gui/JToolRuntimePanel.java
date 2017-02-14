@@ -3,12 +3,15 @@ package com.dwarfeng.tp.core.view.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -16,15 +19,21 @@ import java.util.WeakHashMap;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.dwarfeng.dutil.basic.gui.swing.JMenuItemAction;
 import com.dwarfeng.dutil.basic.gui.swing.MuaListModel;
 import com.dwarfeng.dutil.basic.prog.ObverserSet;
+import com.dwarfeng.dutil.basic.prog.RuntimeState;
 import com.dwarfeng.tp.core.model.cfg.ImageKey;
 import com.dwarfeng.tp.core.model.cfg.ImageSize;
 import com.dwarfeng.tp.core.model.cfg.LabelStringKey;
@@ -38,6 +47,8 @@ import com.dwarfeng.tp.core.util.DateUtil;
 import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 import com.dwarfeng.tp.core.view.obv.ToolRuntimePanelObverser;
+import com.dwarfeng.tp.core.view.struct.JListMouseListener4Selection;
+import com.dwarfeng.tp.core.view.struct.JListMouseMotionListener4Selection;
 
 public class JToolRuntimePanel extends JPanel implements MutilangSupported, ObverserSet<ToolRuntimePanelObverser>{
 	
@@ -48,10 +59,13 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	 * final 域。
 	 */
 	private final JList<RunningTool> list;
+	private final JListPopupMenu listPopup;
 	private final JToolRuntimeConsoleContainer consoleContainer;
 	private final Image notStartImage;
 	private final Image runningImage;
 	private final Image exitedImage;
+	private final Image removeImage;
+	private final Image clearImage;
 
 	/*
 	 * 其它非 final 域。
@@ -145,6 +159,23 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 					}
 				}
 			});
+			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
+				@Override
+				public void run() {
+					int leadIndex;
+					if((leadIndex = list.getSelectionModel().getLeadSelectionIndex()) >= 0 &&
+							listModel.size() > 0 &&
+							list.getSelectionModel().isSelectedIndex(leadIndex)
+					){
+						RunningTool runningTool = listModel.get(leadIndex);
+						if(runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
+							removeButton.setEnabled(true);
+						}else{
+							removeButton.setEnabled(false);
+						}
+					}
+				}
+			});
 		};
 		
 	};
@@ -181,6 +212,8 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 		
 	};
 	private final Map<RunningTool, JTpconsole> toolConsoleMap = new HashMap<>();
+	private JButton removeButton;
+	private JButton clearButton;
 	/**
 	 * 新实例。
 	 */
@@ -200,7 +233,9 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 		runningImage = ImageUtil.getImage(ImageKey.RUNNING, toolInfoIconSize);
 		notStartImage = ImageUtil.getImage(ImageKey.NOT_START, toolInfoIconSize);
 		exitedImage = ImageUtil.getImage(ImageKey.EXITED, toolInfoIconSize);
-		
+		removeImage = ImageUtil.getImage(ImageKey.REMOVE, ImageSize.ICON_SMALL);
+		clearImage = ImageUtil.getImage(ImageKey.CLEAR, ImageSize.ICON_SMALL);
+
 		setLayout(new BorderLayout(0, 0));
 
 		this.toolRuntimeModel = toolRuntimeModel;
@@ -220,38 +255,40 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if(!e.getValueIsAdjusting()){
-					int leadIndex;
+					//清空工作台区域
 					consoleContainer.removeAll();
-					if((leadIndex = list.getSelectionModel().getLeadSelectionIndex()) >= 0 && listModel.size() > 0){
+					
+					//确定选择的下标
+					int leadIndex;
+					if((leadIndex = list.getSelectionModel().getLeadSelectionIndex()) >= 0 &&
+							listModel.size() > 0 &&
+							list.getSelectionModel().isSelectedIndex(leadIndex)
+					){
+						//显示控制台
 						RunningTool runningTool = listModel.get(leadIndex);
 						JTpconsole console = toolConsoleMap.get(runningTool);
-						if(console == null){
-							consoleContainer.repaint();
-						}else{
+						if(Objects.nonNull(console)){
 							consoleContainer.add(console, BorderLayout.CENTER);
 							console.revalidate();
-							consoleContainer.repaint();
+						}
+						//根据情况更改removeButton是否启用
+						if(runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
+							removeButton.setEnabled(true);
+						}else{
+							removeButton.setEnabled(false);
 						}
 					}else{
-						consoleContainer.repaint();
+						removeButton.setEnabled(false);
 					}
+					consoleContainer.repaint();
 				}
 			}
 		});
-		list.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				int mouseIndex = list.locationToIndex(e.getPoint());
-				if(mouseIndex != -1){
-					mouseIndex = list.getCellBounds(mouseIndex, mouseIndex).contains(e.getPoint()) ? mouseIndex : -1;
-				}
-				if(mouseIndex == -1){
-					list.getSelectionModel().clearSelection();
-					list.getSelectionModel().setAnchorSelectionIndex(-1);
-					list.getSelectionModel().setLeadSelectionIndex(-1);
-				}
-			}
-		});
+		list.addMouseMotionListener(new JListMouseMotionListener4Selection(list));
+		list.addMouseListener(new JListMouseListener4Selection(list));
+		
+		listPopup = new JListPopupMenu();
+		
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -259,10 +296,10 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 				if(mouseIndex != -1){
 					mouseIndex = list.getCellBounds(mouseIndex, mouseIndex).contains(e.getPoint()) ? mouseIndex : -1;
 				}
-				if(mouseIndex == -1){
-					list.getSelectionModel().clearSelection();
-					list.getSelectionModel().setAnchorSelectionIndex(-1);
-					list.getSelectionModel().setLeadSelectionIndex(-1);
+				if (e.isPopupTrigger() && mouseIndex >= 0) {
+					RunningTool runningTool = listModel.get(mouseIndex);
+					listPopup.adjust(runningTool);
+					listPopup.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
 			@Override
@@ -271,10 +308,10 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 				if(mouseIndex != -1){
 					mouseIndex = list.getCellBounds(mouseIndex, mouseIndex).contains(e.getPoint()) ? mouseIndex : -1;
 				}
-				if(mouseIndex == -1){
-					list.getSelectionModel().clearSelection();
-					list.getSelectionModel().setAnchorSelectionIndex(-1);
-					list.getSelectionModel().setLeadSelectionIndex(-1);
+				if (e.isPopupTrigger() && mouseIndex >= 0) {
+					RunningTool runningTool = listModel.get(mouseIndex);
+					listPopup.adjust(runningTool);
+					listPopup.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
 		});
@@ -285,6 +322,60 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 		
 		consoleContainer = new JToolRuntimeConsoleContainer();
 		adjustableBorderPanel.add(consoleContainer, BorderLayout.CENTER);
+		
+		JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
+		add(toolBar, BorderLayout.NORTH);
+		
+		removeButton = new JButton();
+		removeButton.setToolTipText(getLabel(LabelStringKey.JToolRuntimePanel_3));
+		removeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int leadIndex;
+				if((leadIndex = list.getSelectionModel().getLeadSelectionIndex()) >= 0 &&
+						listModel.size() > 0 &&
+						list.getSelectionModel().isSelectedIndex(leadIndex)
+				){
+					RunningTool runningTool = listModel.get(leadIndex);
+					if(runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
+						fireRemoveExitedRunningTool(runningTool);
+						removeButton.setEnabled(false);
+						list.getSelectionModel().setValueIsAdjusting(false);
+						list.getSelectionModel().clearSelection();
+						list.getSelectionModel().setLeadSelectionIndex(0);
+						list.getSelectionModel().setAnchorSelectionIndex(0);
+					}
+				}
+			}
+		});
+		removeButton.setEnabled(false);
+		removeButton.setIconTextGap(0);
+		removeButton.setBorder(null);
+		removeButton.setIcon(new ImageIcon(removeImage));
+		toolBar.add(removeButton);
+		
+		clearButton = new JButton();
+		clearButton.setToolTipText(getLabel(LabelStringKey.JToolRuntimePanel_4));
+		clearButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				List<RunningTool> runningTools = new ArrayList<>(listModel);
+				for(RunningTool runningTool : runningTools){
+					if(runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
+						fireRemoveExitedRunningTool(runningTool);
+					}
+				}
+				removeButton.setEnabled(false);
+				list.getSelectionModel().clearSelection();
+				list.getSelectionModel().setLeadSelectionIndex(-1);
+				list.getSelectionModel().setAnchorSelectionIndex(-1);
+			}
+		});
+		clearButton.setIconTextGap(0);
+		clearButton.setBorder(null);
+		clearButton.setIcon(new ImageIcon(clearImage));
+		toolBar.add(clearButton);
 		
 		if(Objects.nonNull(toolRuntimeModel)){
 			toolRuntimeModel.addObverser(toolRuntimeObverser);
@@ -378,6 +469,8 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 		for(JTpconsole console : toolConsoleMap.values()){
 			console.setMutilang(mutilang);
 		}
+		removeButton.setToolTipText(getLabel(LabelStringKey.JToolRuntimePanel_3));
+		clearButton.setToolTipText(getLabel(LabelStringKey.JToolRuntimePanel_4));
 		return true;
 	}
 	
@@ -451,9 +544,9 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 		obversers.clear();
 	}
 
-//	private String getLabel(LabelStringKey labelStringKey){
-//		return mutilang.getString(labelStringKey.getName());
-//	}
+	private String getLabel(LabelStringKey labelStringKey){
+		return mutilang.getString(labelStringKey.getName());
+	}
 	
 	private String formatLabel(LabelStringKey labelStringKey, Object... args){
 		return String.format(mutilang.getString(labelStringKey.getName()), args);
@@ -463,6 +556,43 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 		for(ToolRuntimePanelObverser obverser : obversers){
 			if(Objects.nonNull(obversers)) obverser.fireLogRunningTool(runningTool);
 		}
+	}
+	private void fireRemoveExitedRunningTool(RunningTool runningTool){
+		for(ToolRuntimePanelObverser obverser : obversers){
+			if(Objects.nonNull(obversers)) obverser.fireRemoveExitedRunningTool(runningTool);
+		}
+	}
+	
+	private final class JListPopupMenu extends JPopupMenu{
+		
+		private final JMenuItem removeMenuItem;
+		
+		private RunningTool runningTool;
+		
+		public JListPopupMenu() {
+			removeMenuItem = add(new JMenuItemAction.Builder()
+					.name(JToolRuntimePanel.this.getLabel(LabelStringKey.JToolRuntimePanel_2))
+					.icon(new ImageIcon(removeImage))
+					.mnemonic('E')
+					.listener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							fireRemoveExitedRunningTool(runningTool);
+						}
+					})
+					.build()
+			);
+		}
+		
+		public void adjust(RunningTool runningTool){
+			this.runningTool = runningTool;
+			if(runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
+				removeMenuItem.setEnabled(true);
+			}else{
+				removeMenuItem.setEnabled(false);
+			}
+		}
+		
 	}
 
 }

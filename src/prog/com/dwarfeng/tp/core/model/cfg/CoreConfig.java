@@ -31,6 +31,10 @@ public enum CoreConfig implements ConfigEntry{
 	
 	/**是否自动取出已经结束的工具*/
 	RUNNINGTOOL_AUTOTAKE("runningtool.autotake", "FALSE", new BooleanConfigChecker()),
+	
+	/**工具历史的最大记录数量*/
+	TOOLHISTORY_MAXSIZE("toolhistory.maxsize", "100", new IntegerConfigChecker(0, Integer.MAX_VALUE));
+	
 	;
 	
 	private final ConfigEntry configEntry;

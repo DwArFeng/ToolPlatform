@@ -17,6 +17,7 @@ public enum BlockKey implements Name{
 	RUN_TOOL(new DefaultName("run_tool")),
 	CLOSING(new DefaultName("closing")),
 	LOG_RUNNINGTOOL(new DefaultName("log_runningtool")),
+	REMOVE_EXITED_RUNNINGTOOL(new DefaultName("remove_exited_runningtool")),
 	;
 
 	private Name name;

@@ -2,9 +2,6 @@ package com.dwarfeng.tp.core.view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.util.Objects;
 
 import javax.swing.DefaultListCellRenderer;
@@ -23,6 +20,8 @@ import com.dwarfeng.tp.core.model.obv.LibraryObverser;
 import com.dwarfeng.tp.core.model.struct.Library;
 import com.dwarfeng.tp.core.util.ImageUtil;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
+import com.dwarfeng.tp.core.view.struct.JListMouseListener4Selection;
+import com.dwarfeng.tp.core.view.struct.JListMouseMotionListener4Selection;
 
 public final class JLibraryPanel extends JPanel{
 	
@@ -118,46 +117,8 @@ public final class JLibraryPanel extends JPanel{
 		add(scrollPane, BorderLayout.CENTER);
 		
 		list = new JList<>();
-		list.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				int mouseIndex = list.locationToIndex(e.getPoint());
-				if(mouseIndex != -1){
-					mouseIndex = list.getCellBounds(mouseIndex, mouseIndex).contains(e.getPoint()) ? mouseIndex : -1;
-				}
-				if(mouseIndex == -1){
-					list.getSelectionModel().clearSelection();
-					list.getSelectionModel().setAnchorSelectionIndex(-1);
-					list.getSelectionModel().setLeadSelectionIndex(-1);
-				}
-			}
-		});
-		list.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				int mouseIndex = list.locationToIndex(e.getPoint());
-				if(mouseIndex != -1){
-					mouseIndex = list.getCellBounds(mouseIndex, mouseIndex).contains(e.getPoint()) ? mouseIndex : -1;
-				}
-				if(mouseIndex == -1){
-					list.getSelectionModel().clearSelection();
-					list.getSelectionModel().setAnchorSelectionIndex(-1);
-					list.getSelectionModel().setLeadSelectionIndex(-1);
-				}
-			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				int mouseIndex = list.locationToIndex(e.getPoint());
-				if(mouseIndex != -1){
-					mouseIndex = list.getCellBounds(mouseIndex, mouseIndex).contains(e.getPoint()) ? mouseIndex : -1;
-				}
-				if(mouseIndex == -1){
-					list.getSelectionModel().clearSelection();
-					list.getSelectionModel().setAnchorSelectionIndex(-1);
-					list.getSelectionModel().setLeadSelectionIndex(-1);
-				}
-			}
-		});
+		list.addMouseMotionListener(new JListMouseMotionListener4Selection(list));
+		list.addMouseListener(new JListMouseListener4Selection(list));
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		list.setVisibleRowCount(0);
 		scrollPane.setViewportView(list);

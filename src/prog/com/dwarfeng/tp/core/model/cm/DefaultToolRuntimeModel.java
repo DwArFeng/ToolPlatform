@@ -219,14 +219,32 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 				condition.await();
 			}
 			RunningTool runningTool = exitedRunningTools.peek();
-			remove(runningTool);
+			innerRemove(runningTool);
 			return runningTool;
 		}finally {
 			lock.writeLock().unlock();
 		}
 	}
 	
-	private void remove(RunningTool runningTool) {
+	/*
+	 * (non-Javadoc)
+	 * @see com.dwarfeng.tp.core.model.cm.ToolRuntimeModel#remove(com.dwarfeng.tp.core.model.struct.RunningTool)
+	 */
+	@Override
+	public boolean remove(RunningTool runningTool) {
+		lock.writeLock().lock();
+		try{
+			if(Objects.isNull(runningTool)) return false;
+			if(! runningTool.getRuntimeState().equals(RuntimeState.ENDED)) return false;
+			if(! contains(runningTool)) return false;
+			innerRemove(runningTool);
+			return true;
+		}finally {
+			lock.writeLock().unlock();
+		}
+	}
+	
+	private void innerRemove(RunningTool runningTool) {
 		exitedRunningTools.remove(runningTool);
 		int index = runningTools.indexOf(runningTool);
 		runningTools.remove(runningTool);
@@ -251,7 +269,7 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 			if(exitedRunningTools.isEmpty()) return false;
 			
 			for(RunningTool runningTool : exitedRunningTools){
-				remove(runningTool);
+				innerRemove(runningTool);
 			}
 			return true;
 		}finally {

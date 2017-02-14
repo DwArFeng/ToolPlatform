@@ -25,7 +25,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import com.dwarfeng.dutil.basic.io.CT;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.mea.TimeMeasurer;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
@@ -275,6 +274,10 @@ public final class ToolPlatform {
 					exitedRunningToolTaker.setPause(! coreConfigModel.isRunningToolAutoTake());
 				}
 				
+				if(configKey.equals(CoreConfig.TOOLHISTORY_MAXSIZE.getConfigKey())){
+					toolHistoryModel.setMaxSize(coreConfigModel.getToolHistoryMaxSize());
+				}
+				
 			}
 		};
 		//GuiControllers
@@ -369,6 +372,15 @@ public final class ToolPlatform {
 			@Override
 			public void fireLogRunningTool(RunningTool runningTool) {
 				manager.getBackgroundModel().submit(flowProvider.newLogRunningToolFlow(runningTool));
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.view.obv.MainFrameObverser#removeExitedRunningTool(com.dwarfeng.tp.core.model.struct.RunningTool)
+			 */
+			@Override
+			public void fireRemoveExitedRunningTool(RunningTool runningTool) {
+				manager.getBackgroundModel().submit(flowProvider.newRemovedExitedRunningToolFlow(runningTool));
 			}
 			
 		};
@@ -584,6 +596,15 @@ public final class ToolPlatform {
 		 */
 		public Flow newLogRunningToolFlow(RunningTool runningTool) {
 			return new LogRunningToolFlow(runningTool);
+		}
+
+		/**
+		 * 获取一个新的移除已经退出的运行中工具流。
+		 * @param runningTool 指定的运行中工具。
+		 * @return 新的移除已经退出的运行中工具流。
+		 */
+		public Flow newRemovedExitedRunningToolFlow(RunningTool runningTool) {
+			return new RemovedExitedRunningToolFlow(runningTool);
 		}
 
 
@@ -1022,7 +1043,7 @@ public final class ToolPlatform {
 						manager.getToolInfoModel().add(toolInfo);
 					}
 					
-					//TODO 加载工具历史
+					//加载工具历史
 					info(LoggerStringKey.ToolPlatform_FlowProvider_34);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_34);
@@ -1524,6 +1545,44 @@ public final class ToolPlatform {
 			}
 			
 		}
+
+		private final class RemovedExitedRunningToolFlow extends AbstractInnerFlow{
+			
+			private final RunningTool runningTool;
+		
+			public RemovedExitedRunningToolFlow(RunningTool runningTool) {
+				super(BlockKey.REMOVE_EXITED_RUNNINGTOOL,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_39.getName()));
+				Objects.requireNonNull(runningTool, "入口参数 runningTool 不能为 null。");
+				this.runningTool = runningTool;
+			}
+		
+			/*
+			 * (non-Javadoc)
+			 * @see com.dwarfeng.tp.core.control.ToolPlatform.FlowProvider.AbstractInnerFlow#subProcess()
+			 */
+			@Override
+			protected void subProcess() {
+				try{
+					if(getState() != RuntimeState.RUNNING){
+						throw new IllegalStateException("程序还未启动或已经结束");
+					}
+					
+					info(LoggerStringKey.ToolPlatform_FlowProvider_39);
+					
+					if(! runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
+						throw new IllegalStateException("工具还未结束运行");
+					}
+					
+					manager.getToolRuntimeModel().remove(runningTool);
+					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_40);
+					
+				}catch (Exception e) {
+					message(LoggerStringKey.ToolPlatform_FlowProvider_41);
+				}
+			}
+			
+		}
 		
 	}
 	
@@ -1616,7 +1675,27 @@ public final class ToolPlatform {
 				warn(LoggerStringKey.ToolPlatform_Exitor_10, e);
 			}
 			
-			//TODO 保存核心配置
+			//保存核心配置
+			info(LoggerStringKey.ToolPlatform_Exitor_15);
+			PropConfigSaver coreConfigSaver = null;
+			try{
+				try{
+					coreConfigSaver = new PropConfigSaver(getResource(ResourceKey.CONFIGURATION_CORE).openOutputStream());
+					coreConfigSaver.save(manager.getCoreConfigModel());
+				}catch (IOException e) {
+					warn(LoggerStringKey.ToolPlatform_Exitor_9, e);
+					getResource(ResourceKey.CONFIGURATION_CORE).reset();
+					coreConfigSaver = new PropConfigSaver(getResource(ResourceKey.CONFIGURATION_CORE).openOutputStream());
+					coreConfigSaver.save(manager.getCoreConfigModel());
+				}finally{
+					if(Objects.nonNull(coreConfigSaver)){
+						coreConfigSaver.close();
+					}
+				}
+				
+			}catch (Exception e) {
+				warn(LoggerStringKey.ToolPlatform_Exitor_16, e);
+			}
 			
 			//保存工具运行历史
 			info(LoggerStringKey.ToolPlatform_Exitor_13);
@@ -1805,7 +1884,6 @@ public final class ToolPlatform {
 			 */
 			@Override
 			public void run() {
-				CT.trace("1233");
 				info(LoggerStringKey.ToolPlatform_ShutdownHookProvider_1);
 				
 				ReadWriteLock lock = manager.getToolRuntimeModel().getLock();
