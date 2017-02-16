@@ -1494,11 +1494,11 @@ public final class ToolPlatform {
 						return;
 					}
 					
+					message(LoggerStringKey.ToolPlatform_FlowProvider_42);
 					exit();
-					message(LoggerStringKey.ToolPlatform_FlowProvider_28);
 					
 				}catch (Exception e) {
-					message(LoggerStringKey.ToolPlatform_FlowProvider_29);
+					message(LoggerStringKey.ToolPlatform_FlowProvider_43);
 				}
 			}
 			
