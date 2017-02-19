@@ -85,7 +85,7 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	public boolean remove(Library library) {
 		lock.writeLock().lock();
 		try{
-			if(! libraryMap.containsKey(library)) return false;
+			if(! libraryMap.containsKey(library.getName())) return false;
 			libraryMap.remove(library.getName());
 			fireLibraryRemoved(library);
 			return true;

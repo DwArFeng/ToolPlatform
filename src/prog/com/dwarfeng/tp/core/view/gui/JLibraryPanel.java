@@ -154,9 +154,16 @@ public final class JLibraryPanel extends JPanel{
 	 * @param libraryModel 指定的模型。
 	 */
 	public void setLibraryModel(LibraryModel libraryModel) {
+		listModel.clear();
+		list.getSelectionModel().setValueIsAdjusting(true);
+		list.getSelectionModel().clearSelection();
+		list.getSelectionModel().setAnchorSelectionIndex(-1);
+		list.getSelectionModel().setLeadSelectionIndex(-1);
+		
 		if(Objects.nonNull(this.libraryModel)){
 			this.libraryModel.removeObverser(libraryObverser);
 		}
+		
 		if(Objects.nonNull(libraryModel)){
 			libraryModel.addObverser(libraryObverser);
 			libraryModel.getLock().readLock().lock();
@@ -192,8 +199,10 @@ public final class JLibraryPanel extends JPanel{
 	 * 释放资源
 	 */
 	public void dispose(){
+		if(Objects.nonNull(libraryModel)){
+			libraryModel.removeObverser(libraryObverser);
+		}
 		listModel.clear();
-		libraryModel.removeObverser(libraryObverser);
 	}
 	
 }
