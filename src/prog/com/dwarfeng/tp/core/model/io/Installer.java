@@ -3,18 +3,18 @@ package com.dwarfeng.tp.core.model.io;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 
 /**
- * °²×°Æ÷¡£
- * <p> °²×°Ä³¸öÊÂÎï£¬²¢ÇÒÏòÖ¸¶¨µÄÄ£ĞÍÍ¨Öª¡£
+ * å®‰è£…å™¨ã€‚
+ * <p> å®‰è£…æŸä¸ªäº‹ç‰©ï¼Œå¹¶ä¸”å‘æŒ‡å®šçš„æ¨¡å‹é€šçŸ¥ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface Installer<T> {
 	
 	/**
-	 * °²×°Ä³¸öÊÂÎï£¬²¢ÇÒÍ¨ÖªÖ¸¶¨µÄÄ£ĞÍ¡£
-	 * @param model Ö¸¶¨µÄÄ£ĞÍ¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * å®‰è£…æŸä¸ªäº‹ç‰©ï¼Œå¹¶ä¸”é€šçŸ¥æŒ‡å®šçš„æ¨¡å‹ã€‚
+	 * @param model æŒ‡å®šçš„æ¨¡å‹ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public void install(T model) throws ProcessException;
 

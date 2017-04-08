@@ -15,7 +15,7 @@ import com.dwarfeng.dutil.basic.gui.swing.JImagePanel;
 import com.dwarfeng.tp.core.control.ToolPlatform;
 
 /**
- * Æô¶¯´°¿Ú¡£
+ * å¯åŠ¨çª—å£ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -26,7 +26,7 @@ public class SplashScreen extends JFrame{
 	private final JLabel label;
 
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public SplashScreen() {
 		setAlwaysOnTop(true);
@@ -41,7 +41,7 @@ public class SplashScreen extends JFrame{
 		try {
 			imagePanel.setImage(ImageIO.read(ToolPlatform.class.getResource("/com/dwarfeng/tp/resource/image/splash-screen.png")));
 		} catch (IOException ignore) {
-			//ÓÉÓÚÍ¼Æ¬ÔÚÄÚ²¿£¬²»¿ÉÄÜÅ×³öÒì³£¡£
+			//ç”±äºå›¾ç‰‡åœ¨å†…éƒ¨ï¼Œä¸å¯èƒ½æŠ›å‡ºå¼‚å¸¸ã€‚
 		}
 		imagePanel.setLayout(new BorderLayout(0, 0));
 		
@@ -53,17 +53,17 @@ public class SplashScreen extends JFrame{
 	}
 	
 	/**
-	 * »ñÈ¡Æô¶¯´°¿ÚµÄĞÅÏ¢ÎÄ±¾¡£
-	 * @return Æô¶¯´°¿ÚµÄĞÅÏ¢ÎÄ±¾¡£
+	 * è·å–å¯åŠ¨çª—å£çš„ä¿¡æ¯æ–‡æœ¬ã€‚
+	 * @return å¯åŠ¨çª—å£çš„ä¿¡æ¯æ–‡æœ¬ã€‚
 	 */
 	public String getMessage(){
 		return label.getText();
 	}
 	
 	/**
-	 * ÉèÖÃÆô¶¯´°¿ÚµÄĞÅÏ¢ÎÄ±¾¡£
-	 * @param text Ö¸¶¨µÄĞÅÏ¢ÎÄ±¾£¬<code>null</code> Ïàµ±ÓÚ <code>""</code>¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁËÆô¶¯´°¿Ú¡£
+	 * è®¾ç½®å¯åŠ¨çª—å£çš„ä¿¡æ¯æ–‡æœ¬ã€‚
+	 * @param text æŒ‡å®šçš„ä¿¡æ¯æ–‡æœ¬ï¼Œ<code>null</code> ç›¸å½“äº <code>""</code>ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†å¯åŠ¨çª—å£ã€‚
 	 */
 	public boolean setMessage(String text){
 		text = text == null ? "" : text;

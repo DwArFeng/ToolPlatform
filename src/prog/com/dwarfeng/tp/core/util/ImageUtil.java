@@ -18,15 +18,15 @@ public final class ImageUtil {
 	
 
 	/**
-	 * »ñÈ¡Ö¸¶¨Í¼Æ¬¼ü¶ÔÓ¦µÄÍ¼Æ¬¡£
-	 * <p> Í¼Æ¬½«±»µ÷Õûµ½Ö¸¶¨µÄ´óĞ¡¡£
-	 * @param imageKey Ö¸¶¨µÄÍ¼Æ¬¼ü¡£
-	 * @param imageSize Í¼Æ¬µÄ´óĞ¡¡£
-	 * @return Ö¸¶¨µÄÍ¼Æ¬¼ü¶ÔÓ¦µÄÍ¼Æ¬¡£
+	 * è·å–æŒ‡å®šå›¾ç‰‡é”®å¯¹åº”çš„å›¾ç‰‡ã€‚
+	 * <p> å›¾ç‰‡å°†è¢«è°ƒæ•´åˆ°æŒ‡å®šçš„å¤§å°ã€‚
+	 * @param imageKey æŒ‡å®šçš„å›¾ç‰‡é”®ã€‚
+	 * @param imageSize å›¾ç‰‡çš„å¤§å°ã€‚
+	 * @return æŒ‡å®šçš„å›¾ç‰‡é”®å¯¹åº”çš„å›¾ç‰‡ã€‚
 	 */
 	public final static Image getImage(ImageKey imageKey, ImageSize imageSize){
-		Objects.requireNonNull(imageKey, "Èë¿Ú²ÎÊı imageKey ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(imageSize, "Èë¿Ú²ÎÊı imageSize ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(imageKey, "å…¥å£å‚æ•° imageKey ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(imageSize, "å…¥å£å‚æ•° imageSize ä¸èƒ½ä¸º nullã€‚");
 	
 		try {
 			BufferedImage image = ImageIO.read(ToolPlatform.class.getResource(imageKey.getName()));
@@ -54,15 +54,15 @@ public final class ImageUtil {
 	}
 
 	/**
-	 * »ñÈ¡Ö¸¶¨Í¼Æ¬°´ÕÕÖ¸¶¨´óĞ¡Ëõ·Å¶øÀ´µÄÍ¼Æ¬¡£
-	 * @param image Ö¸¶¨µÄÍ¼Æ¬¡£
-	 * @param imageSize ĞèÒªËõ·Åµ½µÄ´óĞ¡¡£
-	 * @return Ëõ·ÅºóµÄĞÂÍ¼Æ¬¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * è·å–æŒ‡å®šå›¾ç‰‡æŒ‰ç…§æŒ‡å®šå¤§å°ç¼©æ”¾è€Œæ¥çš„å›¾ç‰‡ã€‚
+	 * @param image æŒ‡å®šçš„å›¾ç‰‡ã€‚
+	 * @param imageSize éœ€è¦ç¼©æ”¾åˆ°çš„å¤§å°ã€‚
+	 * @return ç¼©æ”¾åçš„æ–°å›¾ç‰‡ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public final static Image scaleImage(Image image, ImageSize imageSize){
-		Objects.requireNonNull(image, "Èë¿Ú²ÎÊı image ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(imageSize, "Èë¿Ú²ÎÊı imageSize ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(image, "å…¥å£å‚æ•° image ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(imageSize, "å…¥å£å‚æ•° imageSize ä¸èƒ½ä¸º nullã€‚");
 	
 		if(image.getWidth(null) == imageSize.getWidth() && image.getHeight(null) == imageSize.getHeight()) return image;
 		
@@ -72,17 +72,17 @@ public final class ImageUtil {
 	}
 	
 	/**
-	 * ½«¶¥²¿Í¼Æ¬µş¼Óµ½µ×²¿Í¼Æ¬Ö®ÉÏ¡£
-	 * @param bottom µ×²¿Í¼Æ¬¡£
-	 * @param top ¶¥²¿Í¼Æ¬¡£
-	 * @param imageSize Í¼Æ¬µÄ´óĞ¡¡£
-	 * @return µş¼ÓÖ®ºóµÄÍ¼Æ¬¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * å°†é¡¶éƒ¨å›¾ç‰‡å åŠ åˆ°åº•éƒ¨å›¾ç‰‡ä¹‹ä¸Šã€‚
+	 * @param bottom åº•éƒ¨å›¾ç‰‡ã€‚
+	 * @param top é¡¶éƒ¨å›¾ç‰‡ã€‚
+	 * @param imageSize å›¾ç‰‡çš„å¤§å°ã€‚
+	 * @return å åŠ ä¹‹åçš„å›¾ç‰‡ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public final static Image overlayImage(Image bottom, Image top, ImageSize imageSize){
-		Objects.requireNonNull(bottom, "Èë¿Ú²ÎÊı bottom ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(top, "Èë¿Ú²ÎÊı top ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(imageSize, "Èë¿Ú²ÎÊı imageSize ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(bottom, "å…¥å£å‚æ•° bottom ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(top, "å…¥å£å‚æ•° top ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(imageSize, "å…¥å£å‚æ•° imageSize ä¸èƒ½ä¸º nullã€‚");
 
 		BufferedImage bufferedImage = new BufferedImage(imageSize.getWidth(), imageSize.getWidth(), BufferedImage.TYPE_INT_ARGB);
 		Image scaleBottom = scaleImage(bottom, imageSize);
@@ -96,7 +96,7 @@ public final class ImageUtil {
 		return bufferedImage;
 	}
 
-	//½ûÖ¹Íâ²¿ÊµÀı»¯
+	//ç¦æ­¢å¤–éƒ¨å®ä¾‹åŒ–
 	private ImageUtil() {}
 	
 }

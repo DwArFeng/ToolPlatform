@@ -9,8 +9,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.dwarfeng.tp.core.model.io.LibraryClassLoader;
 
 /**
- * Ä¬ÈÏ¿â¡£
- * <p> ¿â½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤åº“ã€‚
+ * <p> åº“æ¥å£çš„é»˜è®¤å®ç°ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -22,12 +22,12 @@ public final class DefaultLibrary implements Library {
 	private final String name;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª null¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º nullã€‚
 	 */
 	public DefaultLibrary(String name) {
-		Objects.requireNonNull(name, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(name, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
 		this.name = name;
 	}
 	
@@ -83,7 +83,7 @@ public final class DefaultLibrary implements Library {
 	 */
 	@Override
 	public void reference(LibraryClassLoader libraryClassLoader) {
-		Objects.requireNonNull(libraryClassLoader, "Èë¿Ú²ÎÊı libraryClassLoader ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(libraryClassLoader, "å…¥å£å‚æ•° libraryClassLoader ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -99,7 +99,7 @@ public final class DefaultLibrary implements Library {
 	 */
 	@Override
 	public void removeReference(LibraryClassLoader libraryClassLoader) {
-		Objects.requireNonNull(libraryClassLoader, "Èë¿Ú²ÎÊı libraryClassLoader ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(libraryClassLoader, "å…¥å£å‚æ•° libraryClassLoader ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{

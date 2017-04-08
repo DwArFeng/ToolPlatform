@@ -1,24 +1,24 @@
 package com.dwarfeng.tp.core.model.struct;
 
 /**
- * ¼ì²éÆ÷¡£
- * <p> ¼ì²éÖ¸¶¨µÄÖµÊÇ·ñºÏ·¨¡£
+ * æ£€æŸ¥å™¨ã€‚
+ * <p> æ£€æŸ¥æŒ‡å®šçš„å€¼æ˜¯å¦åˆæ³•ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface Checker<T> {
 
 	/**
-	 * ÅĞ¶ÏÒ»¸ö¶ÔÏóÊÇ·ñÓĞĞ§¡£
-	 * @param obj Ö¸¶¨µÄ¶ÔÏó¡£
-	 * @return ¸Ã¶ÔÏóÊÇ·ñÓĞĞ§¡£
+	 * åˆ¤æ–­ä¸€ä¸ªå¯¹è±¡æ˜¯å¦æœ‰æ•ˆã€‚
+	 * @param obj æŒ‡å®šçš„å¯¹è±¡ã€‚
+	 * @return è¯¥å¯¹è±¡æ˜¯å¦æœ‰æ•ˆã€‚
 	 */
 	public boolean isValid(T obj);
 	
 	/**
-	 * ÅĞ¶ÏÒ»¸ö¶ÔÏóÊÇ·ñÎŞĞ§¡£
-	 * @param obj Ö¸¶¨µÄ¶ÔÏó¡£
-	 * @return ¸Ã¶ÔÏóÊÇ·ñÎŞĞ§¡£
+	 * åˆ¤æ–­ä¸€ä¸ªå¯¹è±¡æ˜¯å¦æ— æ•ˆã€‚
+	 * @param obj æŒ‡å®šçš„å¯¹è±¡ã€‚
+	 * @return è¯¥å¯¹è±¡æ˜¯å¦æ— æ•ˆã€‚
 	 */
 	public default boolean nonValid(T obj){
 		return ! isValid(obj);

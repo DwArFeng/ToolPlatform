@@ -17,9 +17,9 @@ import com.dwarfeng.tp.core.model.struct.Block;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 
 /**
- * Ä¬ÈÏ×èµ²Ä£ĞÍ¡£
- * <p> ×èµ²Ä£ĞÍµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤é˜»æŒ¡æ¨¡å‹ã€‚
+ * <p> é˜»æŒ¡æ¨¡å‹çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -30,18 +30,18 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	private final InnerBlock block = new InnerBlock();
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultBlockModel() {
 		this(new HashMap<>());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param map Ä¬ÈÏµÄÓ³Éä¹ØÏµ¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param map é»˜è®¤çš„æ˜ å°„å…³ç³»ã€‚
 	 */
 	public DefaultBlockModel(Map<String, Set<String>> map) {
-		Objects.requireNonNull(map, "Èë¿Ú²ÎÊı map ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(map, "å…¥å£å‚æ•° map ä¸èƒ½ä¸º nullã€‚");
 		delegate.putAll(map);
 	}
 
@@ -121,8 +121,8 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 */
 	@Override
 	public Set<String> put(String key, Set<String> value) {
-		Objects.requireNonNull(key, "Èë¿Ú²ÎÊı key ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(value, "Èë¿Ú²ÎÊı value ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(key, "å…¥å£å‚æ•° key ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(value, "å…¥å£å‚æ•° value ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -185,7 +185,7 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	 */
 	@Override
 	public void putAll(Map<? extends String, ? extends Set<String>> m) {
-		Objects.requireNonNull(m, "Èë¿Ú²ÎÊı m ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(m, "å…¥å£å‚æ•° m ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -220,10 +220,10 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄ¼ü¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄ¼ü¼¯ºÏ¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„é”®é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„é”®é›†åˆã€‚
 	 */
 	@Override
 	public Set<String> keySet() {
@@ -236,10 +236,10 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄÖµ¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄÖµ¼¯ºÏ¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„å€¼é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„å€¼é›†åˆã€‚
 	 */
 	@Override
 	public Collection<Set<String>> values() {
@@ -252,10 +252,10 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄÈë¿Ú¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄÈë¿Ú¼¯ºÏ¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„å…¥å£é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„å…¥å£é›†åˆã€‚
 	 */
 	@Override
 	public Set<java.util.Map.Entry<String, Set<String>>> entrySet() {
@@ -325,13 +325,13 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 		 */
 		@Override
 		public void block(String key) {
-			Objects.requireNonNull(key, "Èë¿Ú²ÎÊı key ²»ÄÜÎª null¡£");
+			Objects.requireNonNull(key, "å…¥å£å‚æ•° key ä¸èƒ½ä¸º nullã€‚");
 			
 			blockLock.lock();
 			try{
 				Set<String> blockKeys = dictionary.getOrDefault(key, new HashSet<>());
 				
-				//Èç¹ûĞèÒª×èÈû£¬Ôò×èÈû¡£
+				//å¦‚æœéœ€è¦é˜»å¡ï¼Œåˆ™é˜»å¡ã€‚
 				while(needBlock(blockKeys)){
 					try {
 						condition.await();
@@ -343,7 +343,7 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 				blockLock.unlock();
 			}
 			
-			//½«×ÔÉíµÄÏß³ÌÌí¼Óµ½ÕıÔÚ×èÈûÁĞ±íÖĞ¡£
+			//å°†è‡ªèº«çš„çº¿ç¨‹æ·»åŠ åˆ°æ­£åœ¨é˜»å¡åˆ—è¡¨ä¸­ã€‚
 			addKeyToBlockingLists(key);
 		}
 		
@@ -376,7 +376,7 @@ public final class DefaultBlockModel extends AbstractBlockModel {
 		 */
 		@Override
 		public void unblock(String key) {
-			Objects.requireNonNull(key, "Èë¿Ú²ÎÊı key ²»ÄÜÎª null¡£");
+			Objects.requireNonNull(key, "å…¥å£å‚æ•° key ä¸èƒ½ä¸º nullã€‚");
 			
 			blockLock.lock();
 			try{

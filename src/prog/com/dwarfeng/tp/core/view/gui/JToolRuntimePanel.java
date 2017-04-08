@@ -53,11 +53,11 @@ import com.dwarfeng.tp.core.view.struct.JListMouseMotionListener4Selection;
 
 public class JToolRuntimePanel extends JPanel implements MutilangSupported, ObverserSet<ToolRuntimePanelObverser>{
 	
-	/**¹Û²ìÆ÷¼¯ºÏ*/
+	/**è§‚å¯Ÿå™¨é›†åˆ*/
 	private final Set<ToolRuntimePanelObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	
 	/*
-	 * final Óò¡£
+	 * final åŸŸã€‚
 	 */
 	private final JList<RunningTool> list;
 	private final JListPopupMenu listPopup;
@@ -69,7 +69,7 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	private final Image clearImage;
 
 	/*
-	 * ÆäËü·Ç final Óò¡£
+	 * å…¶å®ƒé final åŸŸã€‚
 	 */
 	private ToolRuntimeModel toolRuntimeModel;
 	private ImageSize toolInfoIconSize = ImageSize.ICON_MEDIUM;
@@ -149,8 +149,8 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 					}
 				});
 			} catch (InvocationTargetException | InterruptedException ignore) {
-				//²»¿ÉÄÜÅ×³öÒì³£¡£
-				//ÖĞ¶ÏÒ²Òª°´ÕÕ»ù±¾·¨¡£
+				//ä¸å¯èƒ½æŠ›å‡ºå¼‚å¸¸ã€‚
+				//ä¸­æ–­ä¹Ÿè¦æŒ‰ç…§åŸºæœ¬æ³•ã€‚
 			}
 			ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 				@Override
@@ -216,18 +216,18 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	private JButton removeButton;
 	private JButton clearButton;
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public JToolRuntimePanel() {
 		this(Constants.getDefaultLabelMutilang(), null);
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 * @param toolRuntimeModel
 	 */
 	public JToolRuntimePanel(Mutilang mutilang, ToolRuntimeModel toolRuntimeModel) {
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		this.mutilang = mutilang;
 		
@@ -256,23 +256,23 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if(!e.getValueIsAdjusting()){
-					//Çå¿Õ¹¤×÷Ì¨ÇøÓò
+					//æ¸…ç©ºå·¥ä½œå°åŒºåŸŸ
 					consoleContainer.removeAll();
 					
-					//È·¶¨Ñ¡ÔñµÄÏÂ±ê
+					//ç¡®å®šé€‰æ‹©çš„ä¸‹æ ‡
 					int leadIndex;
 					if((leadIndex = list.getSelectionModel().getLeadSelectionIndex()) >= 0 &&
 							listModel.size() > 0 &&
 							list.getSelectionModel().isSelectedIndex(leadIndex)
 					){
-						//ÏÔÊ¾¿ØÖÆÌ¨
+						//æ˜¾ç¤ºæ§åˆ¶å°
 						RunningTool runningTool = listModel.get(leadIndex);
 						JTpconsole console = toolConsoleMap.get(runningTool);
 						if(Objects.nonNull(console)){
 							consoleContainer.add(console, BorderLayout.CENTER);
 							console.revalidate();
 						}
-						//¸ù¾İÇé¿ö¸ü¸ÄremoveButtonÊÇ·ñÆôÓÃ
+						//æ ¹æ®æƒ…å†µæ›´æ”¹removeButtonæ˜¯å¦å¯ç”¨
 						if(runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
 							removeButton.setEnabled(true);
 						}else{
@@ -392,17 +392,17 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	}
 
 	/**
-	 * »ñÈ¡Ãæ°åÖĞµÄ¹¤¾ßÔËĞĞÊ±Ä£ĞÍ¡£
-	 * @return Ãæ°åÖĞµÄ¹¤¾ßÔËĞĞÊ±Ä£ĞÍ¡£
+	 * è·å–é¢æ¿ä¸­çš„å·¥å…·è¿è¡Œæ—¶æ¨¡å‹ã€‚
+	 * @return é¢æ¿ä¸­çš„å·¥å…·è¿è¡Œæ—¶æ¨¡å‹ã€‚
 	 */
 	public ToolRuntimeModel getToolRuntimeModel() {
 		return toolRuntimeModel;
 	}
 
 	/**
-	 * ÉèÖÃÃæ°åÖĞµÄ¹¤¾ßÔËĞĞÊ±Ä£ĞÍÎªÖ¸¶¨µÄÄ£ĞÍ¡£
-	 * <p> Èç¹ûµ±Ç°µÄ¹¤¾ßÔËĞĞÊ±Ä£ĞÍ²»Îª <code>null</code>£¬Ôòµ±ÇÒ½öµ±µ±Ç°µÄÄ£ĞÍÖĞÃ»ÓĞÈÎºÎÔªËØºó£¬²ÅÄÜÉèÖÃĞÂµÄÄ£ĞÍ¡£
-	 * @param toolRuntimeModel Ö¸¶¨µÄ¹¤¾ßÔËĞĞÊ±Ä£ĞÍ¡£
+	 * è®¾ç½®é¢æ¿ä¸­çš„å·¥å…·è¿è¡Œæ—¶æ¨¡å‹ä¸ºæŒ‡å®šçš„æ¨¡å‹ã€‚
+	 * <p> å¦‚æœå½“å‰çš„å·¥å…·è¿è¡Œæ—¶æ¨¡å‹ä¸ä¸º <code>null</code>ï¼Œåˆ™å½“ä¸”ä»…å½“å½“å‰çš„æ¨¡å‹ä¸­æ²¡æœ‰ä»»ä½•å…ƒç´ åï¼Œæ‰èƒ½è®¾ç½®æ–°çš„æ¨¡å‹ã€‚
+	 * @param toolRuntimeModel æŒ‡å®šçš„å·¥å…·è¿è¡Œæ—¶æ¨¡å‹ã€‚
 	 */
 	public boolean setToolRuntimeModel(ToolRuntimeModel toolRuntimeModel) {
 		if(Objects.nonNull(this.toolRuntimeModel) && this.toolRuntimeModel.size() > 0){
@@ -432,16 +432,16 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	}
 	
 	/**
-	 * »ñÈ¡ÔËĞĞÖĞ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
-	 * @return ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
+	 * è·å–è¿è¡Œä¸­å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
+	 * @return å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public ImageSize getToolInfoIconSize() {
 		return toolInfoIconSize;
 	}
 
 	/**
-	 * ÉèÖÃÔËĞĞÖĞ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
-	 * @param toolInfoIconSize ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
+	 * è®¾ç½®è¿è¡Œä¸­å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
+	 * @param toolInfoIconSize å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public void setToolInfoIconSize(ImageSize toolInfoIconSize) {
 		this.toolInfoIconSize = toolInfoIconSize;
@@ -463,7 +463,7 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
-		Objects.requireNonNull(mutilang , "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang , "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		if(Objects.equals(mutilang, this.mutilang)) return false;
 		this.mutilang = mutilang;
@@ -476,10 +476,10 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	}
 	
 	/**
-	 * ÎªÖ¸¶¨µÄÔËĞĞÖĞ¹¤¾ßÖ¸¶¨ÊäÈëÁ÷ºÍÊä³öÁ÷¡£
-	 * <p> µ±ÇÒ½öµ±Èë¿Ú²ÎÊı²»Îª <code>null</code>£¬ÇÒÊäÈëµ±Ç°µÄ toolRuntimeModelµÄÊ±ºò£¬²ÅÄÜ¹»Ö¸ÅÉ³É¹¦¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
-	 * @return ÊÇ·ñ½ÓÊÜ¸ÃÖ¸ÅÉ¡£
+	 * ä¸ºæŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·æŒ‡å®šè¾“å…¥æµå’Œè¾“å‡ºæµã€‚
+	 * <p> å½“ä¸”ä»…å½“å…¥å£å‚æ•°ä¸ä¸º <code>null</code>ï¼Œä¸”è¾“å…¥å½“å‰çš„ toolRuntimeModelçš„æ—¶å€™ï¼Œæ‰èƒ½å¤ŸæŒ‡æ´¾æˆåŠŸã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
+	 * @return æ˜¯å¦æ¥å—è¯¥æŒ‡æ´¾ã€‚
 	 */
 	public boolean assignStream(RunningTool runningTool){
 		if(Objects.isNull(runningTool)) return false;
@@ -494,7 +494,7 @@ public class JToolRuntimePanel extends JPanel implements MutilangSupported, Obve
 	}
 	
 	/**
-	 * ÊÍ·Å×ÊÔ´¡£
+	 * é‡Šæ”¾èµ„æºã€‚
 	 */
 	public void dispose(){
 		try{

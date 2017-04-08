@@ -15,17 +15,17 @@ import com.dwarfeng.tp.core.model.struct.DefaultUnsafeToolInfo;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolInfo;
 
 /**
- * xml²»°²È«¹¤¾ßĞÅÏ¢¶ÁÈ¡Æ÷¡£
- * <p> Ê¹ÓÃ xml ¶ÁÈ¡²»°²È«¹¤¾ßĞÅÏ¢¡£
+ * xmlä¸å®‰å…¨å·¥å…·ä¿¡æ¯è¯»å–å™¨ã€‚
+ * <p> ä½¿ç”¨ xml è¯»å–ä¸å®‰å…¨å·¥å…·ä¿¡æ¯ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param in Ö¸¶¨µÄÊäÈëÁ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param in æŒ‡å®šçš„è¾“å…¥æµã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public XmlUnsafeToolInfoLoader(InputStream in) {
 		super(in);
@@ -37,7 +37,7 @@ public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 	 */
 	@Override
 	public void load(Set<UnsafeToolInfo> unsafeToolInfos) throws LoadFailedException {
-		Objects.requireNonNull(unsafeToolInfos, "Èë¿Ú²ÎÊı unsafeToolInfos ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(unsafeToolInfos, "å…¥å£å‚æ•° unsafeToolInfos ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -51,7 +51,7 @@ public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 			
 			String rootDirStr = root.attributeValue("dir");
 			if(Objects.isNull(rootDirStr)){
-				throw new LoadFailedException("¸ùÔªËØÈ±Ê§dirÊôĞÔ");
+				throw new LoadFailedException("æ ¹å…ƒç´ ç¼ºå¤±dirå±æ€§");
 			}
 			
 			File dir = new File(rootDirStr);
@@ -59,7 +59,7 @@ public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 			if(! dir.exists()) dir.mkdirs();
 			
 			/*
-			 * ¸ù¾İ dom4j µÄÏà¹ØËµÃ÷£¬´Ë´¦×ª»»ÊÇ°²È«µÄ¡£
+			 * æ ¹æ® dom4j çš„ç›¸å…³è¯´æ˜ï¼Œæ­¤å¤„è½¬æ¢æ˜¯å®‰å…¨çš„ã€‚
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> toolInfos = (List<Element>)root.elements("tool");
@@ -75,7 +75,7 @@ public class XmlUnsafeToolInfoLoader extends StreamLoader<Set<UnsafeToolInfo>> {
 			}
 			
 		}catch (Exception e) {
-			throw new LoadFailedException("¹¤¾ßĞÅÏ¢Ä£ĞÍ¶ÁÈ¡Æ÷-ÎŞ·¨ÏòÖ¸¶¨µÄ¹¤¾ßĞÅÏ¢Ä£ĞÍÖĞ¶ÁÈ¡Á÷ÖĞµÄÊı¾İ", e);
+			throw new LoadFailedException("å·¥å…·ä¿¡æ¯æ¨¡å‹è¯»å–å™¨-æ— æ³•å‘æŒ‡å®šçš„å·¥å…·ä¿¡æ¯æ¨¡å‹ä¸­è¯»å–æµä¸­çš„æ•°æ®", e);
 		}
 
 	}

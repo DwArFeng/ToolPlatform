@@ -6,8 +6,8 @@ import com.dwarfeng.tp.plaf.Tool;
 public interface ToolObverser extends Obverser {
 	
 	/**
-	 * ¹¤¾ßÍ£Ö¹Ê±µÄÍ¨Öª¡£
-	 * @param tool Ö¸¶¨µÄ¹¤¾ß¡£
+	 * å·¥å…·åœæ­¢æ—¶çš„é€šçŸ¥ã€‚
+	 * @param tool æŒ‡å®šçš„å·¥å…·ã€‚
 	 */
 	public void fireToolStoped(Tool tool);
 

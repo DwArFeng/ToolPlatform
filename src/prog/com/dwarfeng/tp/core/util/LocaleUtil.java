@@ -6,26 +6,26 @@ import java.util.Objects;
 import com.dwarfeng.dutil.basic.str.FactoriesByString;
 
 /**
- * µØÇø³£ÓÃ·½·¨¡£
+ * åœ°åŒºå¸¸ç”¨æ–¹æ³•ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public final class LocaleUtil {
 
 	/**
-	 * ½«Ö¸¶¨µÄ×Ö·û´®×ª»¯ÎªµØÇø¡£
-	 * @param s Ö¸¶¨µÄ×Ö·û´®¡£
-	 * @return ÓÉÖ¸¶¨µÄ×Ö·û´®×ª»»¶ø³ÉµÄµØÇø¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * å°†æŒ‡å®šçš„å­—ç¬¦ä¸²è½¬åŒ–ä¸ºåœ°åŒºã€‚
+	 * @param s æŒ‡å®šçš„å­—ç¬¦ä¸²ã€‚
+	 * @return ç”±æŒ‡å®šçš„å­—ç¬¦ä¸²è½¬æ¢è€Œæˆçš„åœ°åŒºã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public final static Locale parseLocale(String s){
-		Objects.requireNonNull(s, "Èë¿Ú²ÎÊı s ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(s, "å…¥å£å‚æ•° s ä¸èƒ½ä¸º nullã€‚");
 		
 		if(s.equals("")) return null;
 		return FactoriesByString.newLocale(s);
 	}
 	
-	//½ûÖ¹Íâ²¿ÊµÀı»¯
+	//ç¦æ­¢å¤–éƒ¨å®ä¾‹åŒ–
 	private LocaleUtil() {}
 
 }

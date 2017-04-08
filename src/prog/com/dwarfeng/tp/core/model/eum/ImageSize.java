@@ -1,22 +1,22 @@
 package com.dwarfeng.tp.core.model.eum;
 
 /**
- * ¹¤¾ßµÄÍ¼Æ¬ÀàĞÍ¡£
+ * å·¥å…·çš„å›¾ç‰‡ç±»å‹ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public enum ImageSize {
 
-	/**Ğ¡Í¼±ê*/
+	/**å°å›¾æ ‡*/
 	ICON_SMALL(16,16),
 	
-	/**ÖĞµÈÍ¼±ê*/
+	/**ä¸­ç­‰å›¾æ ‡*/
 	ICON_MEDIUM(32,32),
 	
-	/**´óÍ¼±ê*/
+	/**å¤§å›¾æ ‡*/
 	ICON_LARGE(48,48),
 	
-	/**³ÌĞòÓÃ³¬´óÍ¼±ê*/
+	/**ç¨‹åºç”¨è¶…å¤§å›¾æ ‡*/
 	ICON_SUPER_LARGE(128,128),
 	
 	;
@@ -30,16 +30,16 @@ public enum ImageSize {
 	}
 
 	/**
-	 * Í¼Æ¬µÄ¸ß¶È¡£
-	 * @return Í¼Æ¬µÄ¸ß¶È¡£
+	 * å›¾ç‰‡çš„é«˜åº¦ã€‚
+	 * @return å›¾ç‰‡çš„é«˜åº¦ã€‚
 	 */
 	public int getHeight() {
 		return height;
 	}
 
 	/**
-	 * Í¼Æ¬µÄ¿í¶È¡£
-	 * @return Í¼Æ¬µÄ¿í¶È¡£
+	 * å›¾ç‰‡çš„å®½åº¦ã€‚
+	 * @return å›¾ç‰‡çš„å®½åº¦ã€‚
 	 */
 	public int getWidth() {
 		return width;

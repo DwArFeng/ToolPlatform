@@ -12,30 +12,30 @@ import com.dwarfeng.tp.core.model.struct.LoggerInfo;
 import com.dwarfeng.tp.core.model.struct.Updateable;
 
 /**
- * ÓĞ¹Ø¼ÇÂ¼Æ÷µÄÅäÖÃÄ£ĞÍ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * æœ‰å…³è®°å½•å™¨çš„é…ç½®æ¨¡å‹ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface LoggerModel extends Set<LoggerInfo>, ObverserSet<LoggerObverser>, ExternalReadWriteThreadSafe, Updateable{
 	
 	/**
-	 * »ñÈ¡¼ÇÂ¼Æ÷ÉÏÏÂÎÄ¡£
-	 * @return ¼ÇÂ¼Æ÷ÉÏÏÂÎÄ¡£
+	 * è·å–è®°å½•å™¨ä¸Šä¸‹æ–‡ã€‚
+	 * @return è®°å½•å™¨ä¸Šä¸‹æ–‡ã€‚
 	 */
 	public LoggerContext getLoggerContext();
 	
 	/**
-	 * ÉèÖÃ¼ÇÂ¼Æ÷ÉÏÏÂÎÄÎªÖ¸¶¨ÉÏÏÂÎÄ¡£
-	 * @param loggerContext ¼ÇÂ¼Æ÷ÉÏÏÂÎÄ¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¶ÔÄ£ĞÍÔì³ÉÁË¸Ä±ä¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * è®¾ç½®è®°å½•å™¨ä¸Šä¸‹æ–‡ä¸ºæŒ‡å®šä¸Šä¸‹æ–‡ã€‚
+	 * @param loggerContext è®°å½•å™¨ä¸Šä¸‹æ–‡ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦å¯¹æ¨¡å‹é€ æˆäº†æ”¹å˜ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public boolean setLoggerContext(LoggerContext loggerContext);
 	
 	/**
-	 * »ñÈ¡Ä£ĞÍÖĞµÄ¼ÇÂ¼Æ÷¡£
-	 * @return Ä£ĞÍÖĞµÄ¼ÇÂ¼Æ÷¡£
+	 * è·å–æ¨¡å‹ä¸­çš„è®°å½•å™¨ã€‚
+	 * @return æ¨¡å‹ä¸­çš„è®°å½•å™¨ã€‚
 	 */
 	public Logger getLogger();
 		

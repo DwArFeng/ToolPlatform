@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Ä¬ÈÏ²»°²È«¹¤¾ßÀúÊ·¡£
- * <p> ²»°²È«¹¤¾ßÀúÊ·µÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤ä¸å®‰å…¨å·¥å…·å†å²ã€‚
+ * <p> ä¸å®‰å…¨å·¥å…·å†å²çš„é»˜è®¤å®ç°ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -17,11 +17,11 @@ public final class DefaultUnsafeToolHistory implements UnsafeToolHistory {
 	private final String exitedCodeStr;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @param ranDateStr Ö¸¶¨µÄÔËĞĞÈÕÆÚ×Ö·û´®¡£
-	 * @param exitedDateStr Ö¸¶¨µÄÍË³öÈÕÆÚ×Ö·û´®¡£
-	 * @param exitedCodeStr Ö¸¶¨µÄÍË³ö´úÂë×Ö·û´®¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @param ranDateStr æŒ‡å®šçš„è¿è¡Œæ—¥æœŸå­—ç¬¦ä¸²ã€‚
+	 * @param exitedDateStr æŒ‡å®šçš„é€€å‡ºæ—¥æœŸå­—ç¬¦ä¸²ã€‚
+	 * @param exitedCodeStr æŒ‡å®šçš„é€€å‡ºä»£ç å­—ç¬¦ä¸²ã€‚
 	 */
 	public DefaultUnsafeToolHistory(String name, String ranDateStr, String exitedDateStr, String exitedCodeStr) {
 		this.name = name;
@@ -40,7 +40,7 @@ public final class DefaultUnsafeToolHistory implements UnsafeToolHistory {
 			if(Objects.isNull(name)) throw new NullPointerException();
 			return name;
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡¹¤¾ßÃû³ÆÊ§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–å·¥å…·åç§°å¤±è´¥", e);
 		}
 	}
 
@@ -55,7 +55,7 @@ public final class DefaultUnsafeToolHistory implements UnsafeToolHistory {
 			long l = Long.parseLong(ranDateStr);
 			return new Date(l);
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡¿ªÊ¼¹¤¾ßÃû³ÆÊ§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–å¼€å§‹å·¥å…·åç§°å¤±è´¥", e);
 		}
 	}
 
@@ -70,7 +70,7 @@ public final class DefaultUnsafeToolHistory implements UnsafeToolHistory {
 			long l = Long.parseLong(exitedDateStr);
 			return new Date(l);
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡½áÊø¹¤¾ßÃû³ÆÊ§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç»“æŸå·¥å…·åç§°å¤±è´¥", e);
 		}
 	}
 
@@ -85,7 +85,7 @@ public final class DefaultUnsafeToolHistory implements UnsafeToolHistory {
 			int exitCode = Integer.parseInt(exitedCodeStr);
 			return exitCode;
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡½áÊø¹¤¾ßÃû³ÆÊ§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç»“æŸå·¥å…·åç§°å¤±è´¥", e);
 		}
 	}
 

@@ -5,8 +5,8 @@ import java.util.Objects;
 import com.dwarfeng.dutil.basic.str.Name;
 
 /**
- * Ä¬ÈÏÃû³Æ½Ó¿Ú¡£
- * <p> Ãû³Æ½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤åç§°æ¥å£ã€‚
+ * <p> åç§°æ¥å£çš„é»˜è®¤å®ç°ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -15,7 +15,7 @@ public final class DefaultName implements Name {
 	private final String name;
 
 	public DefaultName(String name) {
-		Objects.requireNonNull(name, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(name, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
 		this.name = name;
 	}
 

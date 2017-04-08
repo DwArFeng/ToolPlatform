@@ -8,23 +8,23 @@ import com.dwarfeng.dutil.develop.cfg.checker.IntegerConfigChecker;
 import com.dwarfeng.tp.core.model.struct.DefaultConfigEntry;
 
 /**
- * Ä£Ì¬ÅäÖÃ¡£
- * <p> Ä£Ì¬ÅäÖÃÊÇÓÃ»§ÎŞ·¨
+ * æ¨¡æ€é…ç½®ã€‚
+ * <p> æ¨¡æ€é…ç½®æ˜¯ç”¨æˆ·æ— æ³•
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public enum ModalConfig implements ConfigEntry {
 	
-	/**½çÃæÔÚÆô¶¯Ê±µÄ¿í¶È*/
+	/**ç•Œé¢åœ¨å¯åŠ¨æ—¶çš„å®½åº¦*/
 	STARTUP_MAINFRAME_WIDTH("startup.mainframe.width", "800", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
 	
-	/**½çÃæÔÚÆô¶¯Ê±µÄ¸ß¶È*/
+	/**ç•Œé¢åœ¨å¯åŠ¨æ—¶çš„é«˜åº¦*/
 	STARTUP_MAINFRAME_HEIGHT("startup.mainframe.height", "600", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
 	
-	/**½çÃæÔÚÆô¶¯Ê±ºòµÄÍØÕ¹×´Ì¬*/
+	/**ç•Œé¢åœ¨å¯åŠ¨æ—¶å€™çš„æ‹“å±•çŠ¶æ€*/
 	STARTUP_MAINFRAME_EXTENDEDSTATE("startup.mainframe.extendedstate", "0", new IntegerConfigChecker()),
 	
-	/**½çÃæÔÚÌß¶¯Ê±µÄÄÏ·½Ãæ°å¸ß¶È*/
+	/**ç•Œé¢åœ¨è¸¢åŠ¨æ—¶çš„å—æ–¹é¢æ¿é«˜åº¦*/
 	STARTUP_MAINFRAME_SOUTHHEIGHT("startup.mainframe.southhtight", "100", new IntegerConfigChecker(1, Integer.MAX_VALUE)),
 	
 	;

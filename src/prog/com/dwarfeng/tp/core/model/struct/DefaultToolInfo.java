@@ -9,8 +9,8 @@ import com.dwarfeng.dutil.basic.cna.ArrayUtil;
 import com.dwarfeng.dutil.basic.prog.Version;
 
 /**
- * Ä¬ÈÏ¹¤¾ßĞÅÏ¢¡£
- * <p> ¹¤¾ßĞÅÏ¢µÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤å·¥å…·ä¿¡æ¯ã€‚
+ * <p> å·¥å…·ä¿¡æ¯çš„é»˜è®¤å®ç°ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -29,15 +29,15 @@ public final class DefaultToolInfo implements ToolInfo {
 	
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param imageMap Ö¸¶¨µÄÍ¼Æ¬Ó³Éä¡£
-	 * @param version Ö¸¶¨µÄ¹¤¾ß°æ±¾¡£
-	 * @param description Ö¸¶¨µÄÃèÊö¡£
-	 * @param authors Ö¸¶¨µÄ×÷ÕßÊı×é¡£
-	 * @param toolClass ¹¤¾ßÖ¸¶¨µÄÀàµÄÃû³Æ¡£
-	 * @param toolFile ¹¤¾ßÖ¸¶¨µÄÎÄ¼şÃû³Æ¡£
-	 * @param toolLibs ¹¤¾ßµÄ¿âÎÄ¼şÁĞ±í¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>£¬»òÆäÊı×éÖĞ°üº¬ <code>null</code>ÔªËØ¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param imageMap æŒ‡å®šçš„å›¾ç‰‡æ˜ å°„ã€‚
+	 * @param version æŒ‡å®šçš„å·¥å…·ç‰ˆæœ¬ã€‚
+	 * @param description æŒ‡å®šçš„æè¿°ã€‚
+	 * @param authors æŒ‡å®šçš„ä½œè€…æ•°ç»„ã€‚
+	 * @param toolClass å·¥å…·æŒ‡å®šçš„ç±»çš„åç§°ã€‚
+	 * @param toolFile å·¥å…·æŒ‡å®šçš„æ–‡ä»¶åç§°ã€‚
+	 * @param toolLibs å·¥å…·çš„åº“æ–‡ä»¶åˆ—è¡¨ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ï¼Œæˆ–å…¶æ•°ç»„ä¸­åŒ…å« <code>null</code>å…ƒç´ ã€‚
 	 */
 	public DefaultToolInfo(
 			String name,
@@ -49,15 +49,15 @@ public final class DefaultToolInfo implements ToolInfo {
 			String infoClass,
 			String toolFile, 
 			String[] toolLibs) {
-		Objects.requireNonNull(name, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(image, "Èë¿Ú²ÎÊı image ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(version, "Èë¿Ú²ÎÊı version ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(description, "Èë¿Ú²ÎÊı description ²»ÄÜÎª null¡£");
-		ArrayUtil.requireNotContainsNull(authors, "Èë¿Ú²ÎÊı authors ²»ÄÜÎª null£¬Ò²²»ÄÜ°üº¬ null ÔªËØ¡£");
-		Objects.requireNonNull(toolClass, "Èë¿Ú²ÎÊı toolClass ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(infoClass, "Èë¿Ú²ÎÊı infoClass ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(toolFile, "Èë¿Ú²ÎÊı toolFile ²»ÄÜÎª null¡£");
-		ArrayUtil.requireNotContainsNull(toolLibs, "Èë¿Ú²ÎÊı toolLibs ²»ÄÜÎª null£¬Ò²²»ÄÜ°üº¬ null ÔªËØ¡£");
+		Objects.requireNonNull(name, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(image, "å…¥å£å‚æ•° image ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(version, "å…¥å£å‚æ•° version ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(description, "å…¥å£å‚æ•° description ä¸èƒ½ä¸º nullã€‚");
+		ArrayUtil.requireNotContainsNull(authors, "å…¥å£å‚æ•° authors ä¸èƒ½ä¸º nullï¼Œä¹Ÿä¸èƒ½åŒ…å« null å…ƒç´ ã€‚");
+		Objects.requireNonNull(toolClass, "å…¥å£å‚æ•° toolClass ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(infoClass, "å…¥å£å‚æ•° infoClass ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(toolFile, "å…¥å£å‚æ•° toolFile ä¸èƒ½ä¸º nullã€‚");
+		ArrayUtil.requireNotContainsNull(toolLibs, "å…¥å£å‚æ•° toolLibs ä¸èƒ½ä¸º nullï¼Œä¹Ÿä¸èƒ½åŒ…å« null å…ƒç´ ã€‚");
 		
 		this.name = name;
 		this.image = image;

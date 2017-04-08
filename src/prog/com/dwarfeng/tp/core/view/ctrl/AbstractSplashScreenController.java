@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
 
 /**
- * Ä¬ÈÏÆô¶¯´°¿Ú¿ØÖÆÆ÷¡£
+ * é»˜è®¤å¯åŠ¨çª—å£æ§åˆ¶å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

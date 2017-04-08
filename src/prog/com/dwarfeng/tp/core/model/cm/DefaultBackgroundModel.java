@@ -17,9 +17,9 @@ import com.dwarfeng.tp.core.model.obv.FlowObverser;
 import com.dwarfeng.tp.core.model.struct.Flow;
 
 /**
- * Ä¬ÈÏºóÌ¨Ä£ĞÍ¡£
- * <p> ºóÌ¨Ä£ĞÍ½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤åå°æ¨¡å‹ã€‚
+ * <p> åå°æ¨¡å‹æ¥å£çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -164,9 +164,9 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	};
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param es Ö¸¶¨µÄÖ´ĞĞÆ÷·şÎñ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param es æŒ‡å®šçš„æ‰§è¡Œå™¨æœåŠ¡ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultBackgroundModel() {
 		super(Executors.newCachedThreadPool(THREAD_FACTORY));
@@ -206,7 +206,7 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	 */
 	@Override
 	public boolean submitAll(Collection<? extends Flow> c) {
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª nul¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nulã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -240,7 +240,7 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	 */
 	@Override
 	public boolean containsAll(Collection<Flow> c) {
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.readLock().lock();
 		try{
@@ -265,10 +265,10 @@ public final class DefaultBackgroundModel extends AbstractBackgroundModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃºóÌ¨Ä£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
-	 * <p> ×¢Òâ£¬µü´úÆ÷ºÏ²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return ¸ÃºóÌ¨Ä£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
+	 * è¿”å›è¯¥åå°æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
+	 * <p> æ³¨æ„ï¼Œè¿­ä»£å™¨åˆä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return è¯¥åå°æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
 	 */
 	@Override
 	public Iterator<Flow> iterator() {

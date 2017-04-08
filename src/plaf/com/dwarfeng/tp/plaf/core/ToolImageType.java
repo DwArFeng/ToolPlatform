@@ -1,19 +1,19 @@
 package com.dwarfeng.tp.plaf.core;
 
 /**
- * ���ߵ�ͼƬ���͡�
+ * 工具的图片类型。
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public enum ToolImageType {
 
-	/**Сͼ��*/
+	/**小图标*/
 	ICON_SMALL(16,16),
 	
-	/**�е�ͼ��*/
+	/**中等图标*/
 	ICON_MEDIUM(32,32),
 	
-	/**��ͼ��*/
+	/**大图标*/
 	ICON_LARGE(64,64),
 	
 	;
@@ -27,16 +27,16 @@ public enum ToolImageType {
 	}
 
 	/**
-	 * ͼƬ�ĸ߶ȡ�
-	 * @return ͼƬ�ĸ߶ȡ�
+	 * 图片的高度。
+	 * @return 图片的高度。
 	 */
 	public int getHeight() {
 		return height;
 	}
 
 	/**
-	 * ͼƬ�Ŀ��ȡ�
-	 * @return ͼƬ�Ŀ��ȡ�
+	 * 图片的宽度。
+	 * @return 图片的宽度。
 	 */
 	public int getWidth() {
 		return width;

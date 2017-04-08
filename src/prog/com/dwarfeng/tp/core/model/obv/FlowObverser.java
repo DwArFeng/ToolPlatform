@@ -4,69 +4,69 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.Flow;
 
 /**
- * ¹ı³Ì¹Û²ìÆ÷¡£
+ * è¿‡ç¨‹è§‚å¯Ÿå™¨ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface FlowObverser extends Obverser{
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄ¹ı³Ì¶ÔÏóµÄ½ø¶È·¢Éú¸Ä±ä¡£
-	 * @param flow ·¢Éú¸Ä±äµÄ¹ı³Ì¶ÔÏó¡£
-	 * @param oldValue ½ø¶ÈµÄ¾ÉÖµ¡£
-	 * @param newValue ½ø¶ÈµÄĞÂÖµ¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡çš„è¿›åº¦å‘ç”Ÿæ”¹å˜ã€‚
+	 * @param flow å‘ç”Ÿæ”¹å˜çš„è¿‡ç¨‹å¯¹è±¡ã€‚
+	 * @param oldValue è¿›åº¦çš„æ—§å€¼ã€‚
+	 * @param newValue è¿›åº¦çš„æ–°å€¼ã€‚
 	 */
 	public void fireProgressChanged(Flow flow, int oldValue, int newValue);
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄ¹ı³Ì¶ÔÏóµÄ×Ü½ø¶È·¢Éú¸Ä±ä¡£
-	 * @param flow ·¢Éú¸Ä±äµÄ¹ı³Ì¶ÔÏó¡£
-	 * @param oldValue ×Ü½ø¶ÈµÄ¾ÉÖµ¡£
-	 * @param newValue ×Ü½ø¶ÈµÄĞÂÖµ¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡çš„æ€»è¿›åº¦å‘ç”Ÿæ”¹å˜ã€‚
+	 * @param flow å‘ç”Ÿæ”¹å˜çš„è¿‡ç¨‹å¯¹è±¡ã€‚
+	 * @param oldValue æ€»è¿›åº¦çš„æ—§å€¼ã€‚
+	 * @param newValue æ€»è¿›åº¦çš„æ–°å€¼ã€‚
 	 */
 	public void fireTotleProgressChanged(Flow flow, int oldValue, int newValue);
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄ¹ı³Ì¶ÔÏóµÄÈ·¶¨ĞÔ¸Ä±ä¡£
-	 * @param flow ·¢Éú¸Ä±äµÄ¹ı³Ì¶ÔÏó¡£
-	 * @param oldValue ¾ÉµÄÈ·¶¨ĞÔ¡£
-	 * @param newValue ĞÂµÄÈ·¶¨ĞÔ¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡çš„ç¡®å®šæ€§æ”¹å˜ã€‚
+	 * @param flow å‘ç”Ÿæ”¹å˜çš„è¿‡ç¨‹å¯¹è±¡ã€‚
+	 * @param oldValue æ—§çš„ç¡®å®šæ€§ã€‚
+	 * @param newValue æ–°çš„ç¡®å®šæ€§ã€‚
 	 */
 	public void fireDeterminateChanged(Flow flow, boolean oldValue, boolean newValue);
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄ¹ı³Ì¶ÔÏóµÄÏûÏ¢·¢ÉúÁË¸Ä±ä¡£
-	 * @param flow ·¢Éú¸Ä±äµÄ¹ı³Ì¶ÔÏó¡£
-	 * @param oldValue ¾ÉµÄÏûÏ¢¡£
-	 * @param newValue ĞÂµÄÏûÏ¢¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡çš„æ¶ˆæ¯å‘ç”Ÿäº†æ”¹å˜ã€‚
+	 * @param flow å‘ç”Ÿæ”¹å˜çš„è¿‡ç¨‹å¯¹è±¡ã€‚
+	 * @param oldValue æ—§çš„æ¶ˆæ¯ã€‚
+	 * @param newValue æ–°çš„æ¶ˆæ¯ã€‚
 	 */
 	public void fireMessageChanged(Flow flow, String oldValue, String newValue);
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄ¹ı³Ì¶ÔÏóµÄ¿ÉÅ×³ö¶ÔÏó·¢ÉúÁË¸Ä±ä¡£
-	 * @param flow ·¢ÉúÁË¸Ä±äµÄ¹ı³Ì¶ÔÏó¡£
-	 * @param oldValue ¾ÉµÄ¿ÉÅ×³ö¶ÔÏó¡£
-	 * @param newValue ĞÂµÄ¿ÉÅ×³ö¶ÔÏó¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡çš„å¯æŠ›å‡ºå¯¹è±¡å‘ç”Ÿäº†æ”¹å˜ã€‚
+	 * @param flow å‘ç”Ÿäº†æ”¹å˜çš„è¿‡ç¨‹å¯¹è±¡ã€‚
+	 * @param oldValue æ—§çš„å¯æŠ›å‡ºå¯¹è±¡ã€‚
+	 * @param newValue æ–°çš„å¯æŠ›å‡ºå¯¹è±¡ã€‚
 	 */
 	public void fireThrowableChanged(Flow flow, Throwable oldValue, Throwable newValue);
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄ¹ı³Ì¶ÔÏó¿ÉÈ¡ÏûĞÔ·¢ÉúÁË¸Ä±ä¡£
-	 * @param flow ·¢ÉúÁË¸Ä±äµÄ¹ı³Ì¶ÔÏó¡£
-	 * @param oldValue ¾ÉµÄ¿ÉÈ¡ÏûĞÔ¡£
-	 * @param newValue ĞÂµÄ¿ÉÈ¡ÏûĞÔ¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡å¯å–æ¶ˆæ€§å‘ç”Ÿäº†æ”¹å˜ã€‚
+	 * @param flow å‘ç”Ÿäº†æ”¹å˜çš„è¿‡ç¨‹å¯¹è±¡ã€‚
+	 * @param oldValue æ—§çš„å¯å–æ¶ˆæ€§ã€‚
+	 * @param newValue æ–°çš„å¯å–æ¶ˆæ€§ã€‚
 	 */
 	public void fireCancelableChanged(Flow flow, boolean oldValue, boolean newValue);
 
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄ¹ı³Ì¶ÔÏó±»È¡Ïû¡£
-	 * @param flow Ö¸¶¨µÄ¹ı³Ì¶ÔÏó¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡è¢«å–æ¶ˆã€‚
+	 * @param flow æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡ã€‚
 	 */
 	public void fireCanceled(Flow flow);
 
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄ¹ı³Ì¶ÔÏóÍê³É¡£
-	 * @param flow Ö¸¶¨µÄ¹ı³Ì¶ÔÏó¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡å®Œæˆã€‚
+	 * @param flow æŒ‡å®šçš„è¿‡ç¨‹å¯¹è±¡ã€‚
 	 */
 	public void fireDone(Flow flow);
 	

@@ -3,37 +3,37 @@ package com.dwarfeng.tp.core.model.eum;
 import com.dwarfeng.dutil.basic.str.Name;
 
 /**
- * ÓĞ¹ØÓÚ×ÊÔ´µÄ¼ü¡£
+ * æœ‰å…³äºèµ„æºçš„é”®ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public enum ResourceKey implements Name{
 	
-	/**¼ÇÂ¼Æ÷ÉèÖÃ*/
+	/**è®°å½•å™¨è®¾ç½®*/
 	LOGGER_SETTING("logger.setting"),
 	
-	/**Ö÷³ÌĞòµÄÅäÖÃ*/
+	/**ä¸»ç¨‹åºçš„é…ç½®*/
 	CONFIGURATION_CORE("configuration.core"),
 	
-	/**Ä£Ì¬ÅäÖÃ*/
+	/**æ¨¡æ€é…ç½®*/
 	CONFIGURATION_MODAL("configuration.modal"),
 	
-	/**¼ÇÂ¼Æ÷¶àÓïÑÔ»¯µÄÉèÖÃ*/
+	/**è®°å½•å™¨å¤šè¯­è¨€åŒ–çš„è®¾ç½®*/
 	MUTILANG_LOGGER_SETTING("mutilang.logger.setting"),
 	
-	/**¼ÇÂ¼Æ÷¶àÓïÑÔ»¯µÄÉèÖÃ*/
+	/**è®°å½•å™¨å¤šè¯­è¨€åŒ–çš„è®¾ç½®*/
 	MUTILANG_LABEL_SETTING("mutilang.label.setting"),
 	
-	/**¹¤¾ßĞÅÏ¢*/
+	/**å·¥å…·ä¿¡æ¯*/
 	TOOL_INFO("tool.info"),
 	
-	/**¹¤¾ß¿â*/
+	/**å·¥å…·åº“*/
 	TOOL_LIB("tool.lib"),
 	
-	/**¹¤¾ßÊı¾İ*/
+	/**å·¥å…·æ•°æ®*/
 	TOOL_DATA("tool.data"),
 	
-	/**¹¤¾ßÀúÊ·*/
+	/**å·¥å…·å†å²*/
 	TOOL_HISTORY("tool.history"),
 	
 	;

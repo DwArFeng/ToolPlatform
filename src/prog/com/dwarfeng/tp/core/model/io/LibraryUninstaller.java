@@ -14,7 +14,7 @@ import com.dwarfeng.tp.core.model.struct.Library;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 
 /**
- * ¿âĞ¶ÔØÆ÷¡£
+ * åº“å¸è½½å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -24,14 +24,14 @@ public final class LibraryUninstaller implements Uninstaller<LibraryModel> {
 	private final Library library;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param config ÅäÖÃÎÄ¼şµÄÊäÈëÁ÷¡£
-	 * @param library ¿â¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param config é…ç½®æ–‡ä»¶çš„è¾“å…¥æµã€‚
+	 * @param library åº“ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public LibraryUninstaller(InputStream config, Library library) {
-		Objects.requireNonNull(config, "Èë¿Ú²ÎÊı config ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(library, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(config, "å…¥å£å‚æ•° config ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(library, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
 
 		this.config = config;
 		this.library = library;
@@ -43,7 +43,7 @@ public final class LibraryUninstaller implements Uninstaller<LibraryModel> {
 	 */
 	@Override
 	public void uninstall(LibraryModel libraryModel) throws ProcessException {
-		Objects.requireNonNull(libraryModel, "Èë¿Ú²ÎÊı libraryModel ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(libraryModel, "å…¥å£å‚æ•° libraryModel ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -57,7 +57,7 @@ public final class LibraryUninstaller implements Uninstaller<LibraryModel> {
 			
 			String rootDirStr = root.attributeValue("dir");
 			if(Objects.isNull(rootDirStr)){
-				throw new LoadFailedException("¸ùÔªËØÈ±Ê§dirÊôĞÔ");
+				throw new LoadFailedException("æ ¹å…ƒç´ ç¼ºå¤±dirå±æ€§");
 			}
 			
 			File dir = new File(rootDirStr);
@@ -66,7 +66,7 @@ public final class LibraryUninstaller implements Uninstaller<LibraryModel> {
 			libraryModel.remove(library);
 			FileUtil.deleteFile(libFile);
 		}catch(Exception e){
-			throw new ProcessException("ÎŞ·¨Ğ¶ÔØÖ¸¶¨µÄ¿â£º" + library);
+			throw new ProcessException("æ— æ³•å¸è½½æŒ‡å®šçš„åº“ï¼š" + library);
 		}
 	}
 

@@ -7,68 +7,68 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 
 /**
- * ¶àÓïÑÔ¹Û²ìÆ÷¡£
+ * å¤šè¯­è¨€è§‚å¯Ÿå™¨ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface MutilangObverser extends Obverser{
 
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞÌí¼ÓÁËÖ¸¶¨µÄÓïÑÔ¡£
-	 * @param key Ö¸¶¨µÄÓïÑÔ¡£
-	 * @param value ÓëÖ¸¶¨ÓïÑÔ¶ÔÓ¦µÄ¶àÓïÑÔĞÅÏ¢¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­æ·»åŠ äº†æŒ‡å®šçš„è¯­è¨€ã€‚
+	 * @param key æŒ‡å®šçš„è¯­è¨€ã€‚
+	 * @param value ä¸æŒ‡å®šè¯­è¨€å¯¹åº”çš„å¤šè¯­è¨€ä¿¡æ¯ã€‚
 	 */
 	public void fireEntryAdded(Locale key, MutilangInfo value);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞÒÆ³ıÁËÖ¸¶¨µÄÓïÑÔ¡£
-	 * @param key Ö¸¶¨µÄÓïÑÔ¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­ç§»é™¤äº†æŒ‡å®šçš„è¯­è¨€ã€‚
+	 * @param key æŒ‡å®šçš„è¯­è¨€ã€‚
 	 */
 	public void fireEntryRemoved(Locale key);
 	
 	/**
-	 *  Í¨ÖªÄ£ĞÍÖĞÖ¸¶¨ÓïÑÔµÄ¶àÓïÑÔĞÅÏ¢·¢ÉúÁË¸Ä±ä¡£
-	 * @param key Ö¸¶¨µÄÓïÑÔ¡£
-	 * @param oldValue Ö¸¶¨µÄÓïÑÔ¶ÔÓ¦µÄ¾ÉÓïÑÔĞÅÏ¢¡£
-	 * @param newValue Ö¸¶¨µÄÓïÑÔ¶ÔÓ¦µÄĞÂÓïÑÔĞÅÏ¢¡£
+	 *  é€šçŸ¥æ¨¡å‹ä¸­æŒ‡å®šè¯­è¨€çš„å¤šè¯­è¨€ä¿¡æ¯å‘ç”Ÿäº†æ”¹å˜ã€‚
+	 * @param key æŒ‡å®šçš„è¯­è¨€ã€‚
+	 * @param oldValue æŒ‡å®šçš„è¯­è¨€å¯¹åº”çš„æ—§è¯­è¨€ä¿¡æ¯ã€‚
+	 * @param newValue æŒ‡å®šçš„è¯­è¨€å¯¹åº”çš„æ–°è¯­è¨€ä¿¡æ¯ã€‚
 	 */
 	public void fireEntryChanged(Locale key, MutilangInfo oldValue, MutilangInfo newValue);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄÊı¾İ±»Çå³ı¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„æ•°æ®è¢«æ¸…é™¤ã€‚
 	 */
 	public void fireCleared();
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄÊÜÖ§³ÖµÄ¼ü¼¯ºÏ·¢Éú¸Ä±ä¡£
-	 * @param oldValue ¾ÉµÄÊÜÖ§³Ö¼ü¼¯ºÏ¡£
-	 * @param newValue ĞÂµÄÊÜÖ§³Ö¼ü¼¯ºÏ¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„å—æ”¯æŒçš„é”®é›†åˆå‘ç”Ÿæ”¹å˜ã€‚
+	 * @param oldValue æ—§çš„å—æ”¯æŒé”®é›†åˆã€‚
+	 * @param newValue æ–°çš„å—æ”¯æŒé”®é›†åˆã€‚
 	 */
 	public void fireSupportedKeysChanged(Set<String> oldValue, Set<String> newValue);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄµ±Ç°ÓïÑÔ·¢ÉúÁË¸Ä±ä¡£
-	 * @param oldValue ¾ÉµÄµ±Ç°ÓïÑÔ¡£
-	 * @param newValue ĞÂµÄµ±Ç°ÓïÑÔ¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„å½“å‰è¯­è¨€å‘ç”Ÿäº†æ”¹å˜ã€‚
+	 * @param oldValue æ—§çš„å½“å‰è¯­è¨€ã€‚
+	 * @param newValue æ–°çš„å½“å‰è¯­è¨€ã€‚
 	 */
 	public void fireCurrentLocaleChanged(Locale oldValue, Locale newValue);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄÄ¬ÈÏ¶àÓïÑÔ¼üÖµÓ³Éä·¢ÉúÁË¸Ä±ä¡£
-	 * @param oldValue ¾ÉµÄ¶àÓïÑÔ¼üÖµÓ³Éä¡£
-	 * @param newValue ĞÂµÄ¶àÓïÑÔ¼üÖµÓ³Éä¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„é»˜è®¤å¤šè¯­è¨€é”®å€¼æ˜ å°„å‘ç”Ÿäº†æ”¹å˜ã€‚
+	 * @param oldValue æ—§çš„å¤šè¯­è¨€é”®å€¼æ˜ å°„ã€‚
+	 * @param newValue æ–°çš„å¤šè¯­è¨€é”®å€¼æ˜ å°„ã€‚
 	 */
 	public void fireDefaultMutilangMapChanged(MutilangInfo oldValue, MutilangInfo newValue);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄÄ¬ÈÏÎÄ±¾·¢Éú¸Ä±ä¡£
-	 * @param oldValue ¾ÉµÄÄ¬ÈÏÎÄ±¾¡£
-	 * @param newValue ĞÂµÄÄ¬ÈÏÎÄ±¾¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„é»˜è®¤æ–‡æœ¬å‘ç”Ÿæ”¹å˜ã€‚
+	 * @param oldValue æ—§çš„é»˜è®¤æ–‡æœ¬ã€‚
+	 * @param newValue æ–°çš„é»˜è®¤æ–‡æœ¬ã€‚
 	 */
 	public void fireDefaultVauleChanged(String oldValue, String newValue);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞ½øĞĞÁË¸üĞÂ²Ù×÷¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­è¿›è¡Œäº†æ›´æ–°æ“ä½œã€‚
 	 */
 	public void fireUpdated();
 	

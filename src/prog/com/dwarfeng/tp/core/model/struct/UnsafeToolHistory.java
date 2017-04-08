@@ -3,38 +3,38 @@ package com.dwarfeng.tp.core.model.struct;
 import java.util.Date;
 
 /**
- * ²»°²È«¹¤¾ßÀúÊ·¡£
- * <p> ¸Ã¹¤¾ßÀúÊ··µ»Ø¹¤¾ßĞÅÏ¢µÄÊôĞÔ£¬µ«ÊÇÓĞ¿ÉÄÜÅ×³öÒì³££¬ËÙ¶ÈÒ²±È¹¤¾ßÀúÊ·ÒªÂı¡£
+ * ä¸å®‰å…¨å·¥å…·å†å²ã€‚
+ * <p> è¯¥å·¥å…·å†å²è¿”å›å·¥å…·ä¿¡æ¯çš„å±æ€§ï¼Œä½†æ˜¯æœ‰å¯èƒ½æŠ›å‡ºå¼‚å¸¸ï¼Œé€Ÿåº¦ä¹Ÿæ¯”å·¥å…·å†å²è¦æ…¢ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface UnsafeToolHistory {
 
 	/**
-	 * »ñÈ¡¹¤¾ßÀúÊ·µÄÃû³Æ¡£
-	 * @return ¹¤¾ßÀúÊ·µÄÃû³Æ¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
+	 * è·å–å·¥å…·å†å²çš„åç§°ã€‚
+	 * @return å·¥å…·å†å²çš„åç§°ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public String getName() throws ProcessException;
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÔËĞĞÈÕÆÚ¡£
-	 * @return ¹¤¾ßµÄÔËĞĞÈÕÆÚ¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
+	 * è·å–å·¥å…·çš„è¿è¡Œæ—¥æœŸã€‚
+	 * @return å·¥å…·çš„è¿è¡Œæ—¥æœŸã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public Date getRanDate() throws ProcessException;
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄ½áÊøÈÕÆÚ¡£
-	 * @return ¹¤¾ßµÄ½áÊøÈÕÆÚ¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
+	 * è·å–å·¥å…·çš„ç»“æŸæ—¥æœŸã€‚
+	 * @return å·¥å…·çš„ç»“æŸæ—¥æœŸã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public Date getExitedDate() throws ProcessException;
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÍË³ö´úÂë¡£
-	 * @return ¹¤¾ßµÄÍË³ö´úÂë¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
+	 * è·å–å·¥å…·çš„é€€å‡ºä»£ç ã€‚
+	 * @return å·¥å…·çš„é€€å‡ºä»£ç ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public int getExitedCode() throws ProcessException;
 	

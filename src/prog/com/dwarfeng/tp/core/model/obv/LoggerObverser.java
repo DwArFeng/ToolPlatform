@@ -6,38 +6,38 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.LoggerInfo;
 
 /**
- * ¼ÇÂ¼Æ÷¹Û²ìÆ÷¡£
+ * è®°å½•å™¨è§‚å¯Ÿå™¨ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface LoggerObverser extends Obverser{
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄ¼ÇÂ¼Æ÷ÉÏÏÂÎÄ·¢ÉúÁË¸Ä±ä¡£
-	 * @param oldOne ¾ÉµÄ¼ÇÂ¼Æ÷ÉÏÏÂÎÄ¡£
-	 * @param newOne  ĞÂµÄ¼ÇÂ¼Æ÷ÉÏÏÂÎÄ¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„è®°å½•å™¨ä¸Šä¸‹æ–‡å‘ç”Ÿäº†æ”¹å˜ã€‚
+	 * @param oldOne æ—§çš„è®°å½•å™¨ä¸Šä¸‹æ–‡ã€‚
+	 * @param newOne  æ–°çš„è®°å½•å™¨ä¸Šä¸‹æ–‡ã€‚
 	 */
 	public void fireLoggerContextChanged(LoggerContext oldOne, LoggerContext newOne);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄ¼ÇÂ¼Æ÷ĞÅÏ¢±»Ìí¼Ó¡£
-	 * @param loggerInfo ±»Ìí¼ÓµÄ¼ÇÂ¼Æ÷ĞÅÏ¢¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„è®°å½•å™¨ä¿¡æ¯è¢«æ·»åŠ ã€‚
+	 * @param loggerInfo è¢«æ·»åŠ çš„è®°å½•å™¨ä¿¡æ¯ã€‚
 	 */
 	public void fireLoggerInfoAdded(LoggerInfo loggerInfo);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄ¼ÇÂ¼Æ÷ĞÅÏ¢±»ÒÆ³ı¡£
-	 * @param loggerInfo ±»ÒÆ³ıµÄ¼ÇÂ¼Æ÷ĞÅÏ¢¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„è®°å½•å™¨ä¿¡æ¯è¢«ç§»é™¤ã€‚
+	 * @param loggerInfo è¢«ç§»é™¤çš„è®°å½•å™¨ä¿¡æ¯ã€‚
 	 */
 	public void fireLoggerInfoRemoved(LoggerInfo loggerInfo);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄ¼ÇÂ¼Æ÷ĞÅÏ¢±»Çå³ı¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„è®°å½•å™¨ä¿¡æ¯è¢«æ¸…é™¤ã€‚
 	 */
 	public void fireLoggerInfoCleared();
 
 	/**
-	 * Í¨ÖªÄ£ĞÍ¸üĞÂ¡£
+	 * é€šçŸ¥æ¨¡å‹æ›´æ–°ã€‚
 	 */
 	public void fireUpdated();
 }

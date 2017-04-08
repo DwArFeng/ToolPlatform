@@ -10,8 +10,8 @@ import java.util.Objects;
 import java.util.Properties;
 
 /**
- * Ä¬ÈÏ¶àÓïÑÔĞÅÏ¢¡£
- * <p> ¶àÓïÑÔĞÅÏ¢µÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤å¤šè¯­è¨€ä¿¡æ¯ã€‚
+ * <p> å¤šè¯­è¨€ä¿¡æ¯çš„é»˜è®¤å®ç°ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -21,14 +21,14 @@ public final class DefaultMutilangInfo implements MutilangInfo {
 	private final File file;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param label Ö¸¶¨µÄ±êÇ©¡£
-	 * @param file Ö¸¶¨µÄÎÄ¼ş¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param label æŒ‡å®šçš„æ ‡ç­¾ã€‚
+	 * @param file æŒ‡å®šçš„æ–‡ä»¶ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultMutilangInfo(String label, File file) {
-		Objects.requireNonNull(label, "Èë¿Ú²ÎÊı label ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(file, "Èë¿Ú²ÎÊı file ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(label, "å…¥å£å‚æ•° label ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(file, "å…¥å£å‚æ•° file ä¸èƒ½ä¸º nullã€‚");
 		
 		this.label = label;
 		this.file = file;
@@ -60,7 +60,7 @@ public final class DefaultMutilangInfo implements MutilangInfo {
 			}
 			return mutilangMap;
 		}catch (IOException e) {
-			throw new ProcessException("¶ÁÈ¡Êı¾İÊ±³öÏÖÒì³£", e);
+			throw new ProcessException("è¯»å–æ•°æ®æ—¶å‡ºç°å¼‚å¸¸", e);
 		}finally {
 			if(Objects.nonNull(in)){
 				try {

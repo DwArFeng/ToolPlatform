@@ -3,7 +3,7 @@ package com.dwarfeng.tp.core.model.obv;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
 
 /**
- * ¹¤¾ßÔËĞĞÊ±¹Û²ìÆ÷ÊÊÅäÆ÷¡£
+ * å·¥å…·è¿è¡Œæ—¶è§‚å¯Ÿå™¨é€‚é…å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

@@ -106,17 +106,17 @@ import com.dwarfeng.tp.core.view.gui.SplashScreen;
 import com.dwarfeng.tp.core.view.obv.MainFrameObverser;
 
 /**
- * ToolPlatform£¨DwArFeng µÄ¹¤¾ßÆ½Ì¨£©¡£
- * <p> ¸Ã¹¤¾ßÆ½Ì¨ÊÇÓÃÀ´¹ÜÀí DwArFeng ±àĞ´µÄÖÚ¶àµÄ¹¤¾ßµÄ¡£
- * ¸Ã¹¤¾ßÆ½Ì¨ÀûÓÃ·´Éä¶ÁÈ¡Æä¹¤¾ßÄ¿Â¼ÏÂµÄËùÓĞ¹¤¾ß£¬²¢ÇÒÓµÓĞ½«ÕâĞ©¹¤¾ß½øĞĞ·Ö±êÇ©¹ÜÀí¡¢ËÑË÷¡¢·ÖÀàµÄ¹¦ÄÜ¡£
- * <p> TODO ToolPlatform µÄDocÎÄµµĞèÒª½øĞĞÏêÏ¸µÄÃèÊö¡£
+ * ToolPlatformï¼ˆDwArFeng çš„å·¥å…·å¹³å°ï¼‰ã€‚
+ * <p> è¯¥å·¥å…·å¹³å°æ˜¯ç”¨æ¥ç®¡ç† DwArFeng ç¼–å†™çš„ä¼—å¤šçš„å·¥å…·çš„ã€‚
+ * è¯¥å·¥å…·å¹³å°åˆ©ç”¨åå°„è¯»å–å…¶å·¥å…·ç›®å½•ä¸‹çš„æ‰€æœ‰å·¥å…·ï¼Œå¹¶ä¸”æ‹¥æœ‰å°†è¿™äº›å·¥å…·è¿›è¡Œåˆ†æ ‡ç­¾ç®¡ç†ã€æœç´¢ã€åˆ†ç±»çš„åŠŸèƒ½ã€‚
+ * <p> TODO ToolPlatform çš„Docæ–‡æ¡£éœ€è¦è¿›è¡Œè¯¦ç»†çš„æè¿°ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public final class ToolPlatform {
 	
 	/**
-	 * µ÷ÊÔÓÃµÄÆô¶¯·½·¨¡£
+	 * è°ƒè¯•ç”¨çš„å¯åŠ¨æ–¹æ³•ã€‚
 	 * @throws UnsupportedLookAndFeelException 
 	 */
 	public static void main(String[] args) throws ProcessException, UnsupportedLookAndFeelException {
@@ -124,7 +124,7 @@ public final class ToolPlatform {
 		new ToolPlatform().start();
 	}
 	
-	/**³ÌĞòµÄ°æ±¾*/
+	/**ç¨‹åºçš„ç‰ˆæœ¬*/
 	public final static Version VERSION = new DefaultVersion.Builder()
 			.type(VersionType.RELEASE)
 			.firstVersion((byte) 0)
@@ -134,60 +134,60 @@ public final class ToolPlatform {
 			.buildVersion('A')
 			.build();
 	
-	/**³ÌĞòµÄÊµÀıÁĞ±í£¬ÓÃÓÚ³ÖÓĞÒıÓÃ*/
+	/**ç¨‹åºçš„å®ä¾‹åˆ—è¡¨ï¼Œç”¨äºæŒæœ‰å¼•ç”¨*/
 	private static final Set<ToolPlatform> INSTANCES  = Collections.synchronizedSet(new HashSet<>());
-	/**¹¤¾ßÆ½Ì¨µÄ½ø³Ì¹¤³§*/
+	/**å·¥å…·å¹³å°çš„è¿›ç¨‹å·¥å‚*/
 	private static final ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("tool_platform");
 	
-	/**³ÌĞòµÄ¹ı³ÌÌá¹©Æ÷*/
+	/**ç¨‹åºçš„è¿‡ç¨‹æä¾›å™¨*/
 	private final FlowProvider flowProvider = new FlowProvider();
-	/**³ÌĞòµÄÍË³ö¹³×ÓÌá¹©Æ÷*/
+	/**ç¨‹åºçš„é€€å‡ºé’©å­æä¾›å™¨*/
 	private final ShutdownHookProvider shutdownHookProvider = new ShutdownHookProvider();
-	/**³ÌĞò±»ÖĞÖ¹Ê±µÄ¹³×Ó*/
+	/**ç¨‹åºè¢«ä¸­æ­¢æ—¶çš„é’©å­*/
 	private final Map<String, Thread> shutdownHooks = Collections.synchronizedMap(new HashMap<>());
 
-	/**³ÌĞò¹ÜÀíÆ÷*/
+	/**ç¨‹åºç®¡ç†å™¨*/
 	private final Manager manager;
-	/**³ÌĞòµÄ×´Ì¬*/
+	/**ç¨‹åºçš„çŠ¶æ€*/
 	private final AtomicReference<RuntimeState> state;
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public ToolPlatform() {
 		this.manager = new Manager();
 		this.state = new AtomicReference<RuntimeState>(RuntimeState.NOT_START);
 		
-		//Îª×Ô¼º±£ÁôÒıÓÃ¡£
+		//ä¸ºè‡ªå·±ä¿ç•™å¼•ç”¨ã€‚
 		INSTANCES.add(this);
 	}
 	
 	/**
-	 * Æô¶¯³ÌĞò¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
-	 * @throws IllegalStateException ³ÌĞòÒÑ¾­¿ªÊ¼¡£
+	 * å¯åŠ¨ç¨‹åºã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
+	 * @throws IllegalStateException ç¨‹åºå·²ç»å¼€å§‹ã€‚
 	 */
 	public void start() throws ProcessException{
-		//¿ªÆô³õÊ¼»¯¹ı³Ì
+		//å¼€å¯åˆå§‹åŒ–è¿‡ç¨‹
 		final Flow initializeFlow = flowProvider.newInitializeFlow();
 		manager.getBackgroundModel().submit(initializeFlow);
 		while(! initializeFlow.isDone()){
 			try {
 				initializeFlow.waitFinished();
 			} catch (InterruptedException ignore) {
-				//ÖĞ¶ÏÒ²Òª°´ÕÕ»ù±¾·¨
+				//ä¸­æ–­ä¹Ÿè¦æŒ‰ç…§åŸºæœ¬æ³•
 			}
 		}
 		if(initializeFlow.getThrowable() != null){
-			throw new ProcessException("³õÊ¼»¯¹ı³ÌÊ§°Ü", initializeFlow.getThrowable());
+			throw new ProcessException("åˆå§‹åŒ–è¿‡ç¨‹å¤±è´¥", initializeFlow.getThrowable());
 		}
 	}
 	
 	
 
 	/**
-	 * ·µ»Ø³ÌĞòµÄ×´Ì¬¡£
-	 * @return ³ÌĞòµÄ×´Ì¬¡£
+	 * è¿”å›ç¨‹åºçš„çŠ¶æ€ã€‚
+	 * @return ç¨‹åºçš„çŠ¶æ€ã€‚
 	 */
 	public RuntimeState getState() {
 		return state.get();
@@ -198,9 +198,9 @@ public final class ToolPlatform {
 	}
 	
 	/**
-	 * ³¢ÊÔ¹Ø±Õ±¾³ÌĞò¡£
-	 * <p> µ÷ÓÃ¸Ã·½·¨ºó£¬»á³¢ÊÔ¹Ø±Õ³ÌĞò¡£Èç¹û³ÌĞòÂú×ã¹Ø±ÕµÄÌõ¼ş£¬Ôò¹Ø±Õ£¬·ñÔò£¬»áÑ¯ÎÊÓÃ»§¡£
-	 * ¾ÍÏñÊÇÓÃ»§µã»÷¹Ø±Õ°´Å¥ÄÇÑù¡£
+	 * å°è¯•å…³é—­æœ¬ç¨‹åºã€‚
+	 * <p> è°ƒç”¨è¯¥æ–¹æ³•åï¼Œä¼šå°è¯•å…³é—­ç¨‹åºã€‚å¦‚æœç¨‹åºæ»¡è¶³å…³é—­çš„æ¡ä»¶ï¼Œåˆ™å…³é—­ï¼Œå¦åˆ™ï¼Œä¼šè¯¢é—®ç”¨æˆ·ã€‚
+	 * å°±åƒæ˜¯ç”¨æˆ·ç‚¹å‡»å…³é—­æŒ‰é’®é‚£æ ·ã€‚
 	 */
 	public void tryExit(){
 		manager.getBackgroundModel().submit(flowProvider.newClosingFlow());
@@ -386,7 +386,7 @@ public final class ToolPlatform {
 
 
 		/**
-		 * ĞÂµÄÊµÀı¡£
+		 * æ–°çš„å®ä¾‹ã€‚
 		 */
 		public Manager() {
 			coreConfigModel.addAll(Arrays.asList(CoreConfig.values()));
@@ -406,14 +406,14 @@ public final class ToolPlatform {
 				loggerMutilangModel.update();
 				labelMutilangModel.update();
 			} catch (ProcessException e) {
-				//Î´³õÊ¼»¯Ö®Ç°£¬¶àÓïÑÔÄ£ĞÍÊ¹ÓÃµÄÊÇ¹Ì»¯ÔÚ³ÌĞòÖĞµÄÊı¾İ£¬²»¿ÉÄÜ³öÏÖÒì³£¡£
+				//æœªåˆå§‹åŒ–ä¹‹å‰ï¼Œå¤šè¯­è¨€æ¨¡å‹ä½¿ç”¨çš„æ˜¯å›ºåŒ–åœ¨ç¨‹åºä¸­çš„æ•°æ®ï¼Œä¸å¯èƒ½å‡ºç°å¼‚å¸¸ã€‚
 				e.printStackTrace();
 			}
 		}
 		
 		
 		/**
-		 * ÊÍ·Å×ÊÔ´¡£
+		 * é‡Šæ”¾èµ„æºã€‚
 		 */
 		public void dispose(){
 			loggerModel.removeObverser(loggerObverser);
@@ -540,67 +540,67 @@ public final class ToolPlatform {
 	private final class FlowProvider{
 
 		/**
-		 * »ñÈ¡Ò»¸öĞÂµÄ³ÌĞò³õÊ¼»¯Ê±Ê¹ÓÃµÄ¹ı³Ì¡£
-		 * @return ĞÂµÄ³ÌĞò³õÊ¼»¯Ê±Ê¹ÓÃµÄºóÌ¨¹ı³Ì¡£
+		 * è·å–ä¸€ä¸ªæ–°çš„ç¨‹åºåˆå§‹åŒ–æ—¶ä½¿ç”¨çš„è¿‡ç¨‹ã€‚
+		 * @return æ–°çš„ç¨‹åºåˆå§‹åŒ–æ—¶ä½¿ç”¨çš„åå°è¿‡ç¨‹ã€‚
 		 */
 		public Flow newInitializeFlow() {
 			return new InitializeFlow();
 		}
 		
 		/**
-		 * »ñÈ¡Ò»¸öĞÂµÄ¶ÁÈ¡¿âµÄ¹ı³Ì¡£
-		 * @return ĞÂµÄ¶ÁÈ¡¿âµÄ¹ı³Ì¡£
+		 * è·å–ä¸€ä¸ªæ–°çš„è¯»å–åº“çš„è¿‡ç¨‹ã€‚
+		 * @return æ–°çš„è¯»å–åº“çš„è¿‡ç¨‹ã€‚
 		 */
 		public Flow newLoadLibFlow() {
 			return new LoadLibFlow();
 		}
 		
 		/**
-		 * »ñÈ¡Ò»¸öĞÂµÄ¼ì²é¿âµÄ¹ı³Ì¡£
-		 * @return ĞÂµÄ¼ì²é¿âµÄ¹ı³Ì¡£
+		 * è·å–ä¸€ä¸ªæ–°çš„æ£€æŸ¥åº“çš„è¿‡ç¨‹ã€‚
+		 * @return æ–°çš„æ£€æŸ¥åº“çš„è¿‡ç¨‹ã€‚
 		 */
 		public Flow newCheckLibFlow() {
 			return new CheckLibFlow();
 		}
 
 		/**
-		 * »ñÈ¡Ò»¸öĞÂµÄ¶ÁÈ¡¹¤¾ßĞÅÏ¢µÄ¹ı³Ì¡£
-		 * @return ĞÂµÄ¶ÁÈ¡¹¤¾ßĞÅÏ¢µÄ¹ı³Ì¡£
+		 * è·å–ä¸€ä¸ªæ–°çš„è¯»å–å·¥å…·ä¿¡æ¯çš„è¿‡ç¨‹ã€‚
+		 * @return æ–°çš„è¯»å–å·¥å…·ä¿¡æ¯çš„è¿‡ç¨‹ã€‚
 		 */
 		public Flow newLoadToolInfoFlow() {
 			return new LoadToolInfoFlow();
 		}
 
 		/**
-		 * »ñÈ¡Ò»¸öĞÂµÄ¹Ø±Õ´°¿ÚµÄ¹ı³Ì¡£
-		 * @return ĞÂµÄ¹Ø±Õ´°¿ÚµÄ¹ı³Ì¡£
+		 * è·å–ä¸€ä¸ªæ–°çš„å…³é—­çª—å£çš„è¿‡ç¨‹ã€‚
+		 * @return æ–°çš„å…³é—­çª—å£çš„è¿‡ç¨‹ã€‚
 		 */
 		public Flow newClosingFlow() {
 			return new WindowClosingFlow();
 		}
 
 		/**
-		 *  »ñÈ¡Ò»¸öĞÂµÄÔËĞĞ¹¤¾ßµÄ¹ı³Ì¡£
-		 * @param toolInfo Ö¸¶¨µÄ¹¤¾ß¡£
-		 * @return ĞÂµÄÔËĞĞ¹¤¾ßµÄ¹ı³Ì¡£
+		 *  è·å–ä¸€ä¸ªæ–°çš„è¿è¡Œå·¥å…·çš„è¿‡ç¨‹ã€‚
+		 * @param toolInfo æŒ‡å®šçš„å·¥å…·ã€‚
+		 * @return æ–°çš„è¿è¡Œå·¥å…·çš„è¿‡ç¨‹ã€‚
 		 */
 		public Flow newRunToolFlow(ToolInfo toolInfo) {
 			return new RunToolFlow(toolInfo);
 		}
 
 		/**
-		 * »ñÈ¡Ò»¸öĞÂµÄ¼ÇÂ¼ÔËĞĞÖĞ¹¤¾ßÁ÷¡£
-		 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
-		 * @return ĞÂµÄ¼ÇÂ¼ÔËĞĞÖĞ¹¤¾ßÁ÷¡£
+		 * è·å–ä¸€ä¸ªæ–°çš„è®°å½•è¿è¡Œä¸­å·¥å…·æµã€‚
+		 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
+		 * @return æ–°çš„è®°å½•è¿è¡Œä¸­å·¥å…·æµã€‚
 		 */
 		public Flow newLogRunningToolFlow(RunningTool runningTool) {
 			return new LogRunningToolFlow(runningTool);
 		}
 
 		/**
-		 * »ñÈ¡Ò»¸öĞÂµÄÒÆ³ıÒÑ¾­ÍË³öµÄÔËĞĞÖĞ¹¤¾ßÁ÷¡£
-		 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
-		 * @return ĞÂµÄÒÆ³ıÒÑ¾­ÍË³öµÄÔËĞĞÖĞ¹¤¾ßÁ÷¡£
+		 * è·å–ä¸€ä¸ªæ–°çš„ç§»é™¤å·²ç»é€€å‡ºçš„è¿è¡Œä¸­å·¥å…·æµã€‚
+		 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
+		 * @return æ–°çš„ç§»é™¤å·²ç»é€€å‡ºçš„è¿è¡Œä¸­å·¥å…·æµã€‚
 		 */
 		public Flow newRemovedExitedRunningToolFlow(RunningTool runningTool) {
 			return new RemovedExitedRunningToolFlow(runningTool);
@@ -608,8 +608,8 @@ public final class ToolPlatform {
 
 
 		/**
-		 * ÄÚ²¿³éÏó¹ı³Ì¡£
-		 * <p> ¶¨Òå³£ÓÃµÄÄÚ²¿ÓÃ·½·¨¡£
+		 * å†…éƒ¨æŠ½è±¡è¿‡ç¨‹ã€‚
+		 * <p> å®šä¹‰å¸¸ç”¨çš„å†…éƒ¨ç”¨æ–¹æ³•ã€‚
 		 * @author DwArFeng
 		 * @since 0.0.0-alpha
 		 */
@@ -618,28 +618,28 @@ public final class ToolPlatform {
 			private final String blockKey;
 			
 			/**
-			 * ĞÂÊµÀı¡£
-			 * @param blockKey ×èµ²¼ü, ²»ÄÜÎª <code>null</code>¡£
-			 * @param initMessage ³õÊ¼µÄĞÅÏ¢£¬²»ÄÜÎª <code>null</code>¡£
-			 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+			 * æ–°å®ä¾‹ã€‚
+			 * @param blockKey é˜»æŒ¡é”®, ä¸èƒ½ä¸º <code>null</code>ã€‚
+			 * @param initMessage åˆå§‹çš„ä¿¡æ¯ï¼Œä¸èƒ½ä¸º <code>null</code>ã€‚
+			 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 			 */
 			public AbstractInnerFlow(BlockKey blockKey, String initMessage) {
 				this(blockKey, initMessage, 0, 0, false, false);
 			}
 			
 			/**
-			 * ĞÂÊµÀı¡£
-			 * @param blockKey ×èµ²¼ü£¬²»ÄÜÎª <code>null</code>¡£
-			 * @param initMessage ³õÊ¼µÄĞÅÏ¢£¬²»ÄÜÎª <code>null</code>¡£
-			 * @param progress µ±Ç°½ø¶È¡£
-			 * @param totleProgress ×Ü½ø¶È¡£
-			 * @param determinateFlag ÊÇ·ñÎª½ø¶ÈÒÑÖªµÄÁ÷³Ì¡£
-			 * @param cancelableFlag ÊÇ·ñÄÜ¹»±»È¡Ïû¡£
+			 * æ–°å®ä¾‹ã€‚
+			 * @param blockKey é˜»æŒ¡é”®ï¼Œä¸èƒ½ä¸º <code>null</code>ã€‚
+			 * @param initMessage åˆå§‹çš„ä¿¡æ¯ï¼Œä¸èƒ½ä¸º <code>null</code>ã€‚
+			 * @param progress å½“å‰è¿›åº¦ã€‚
+			 * @param totleProgress æ€»è¿›åº¦ã€‚
+			 * @param determinateFlag æ˜¯å¦ä¸ºè¿›åº¦å·²çŸ¥çš„æµç¨‹ã€‚
+			 * @param cancelableFlag æ˜¯å¦èƒ½å¤Ÿè¢«å–æ¶ˆã€‚
 			 */
 			public AbstractInnerFlow(BlockKey blockKey, String initMessage, int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag ){
 				super(progress, totleProgress, determinateFlag, cancelableFlag);
-				Objects.requireNonNull(blockKey, "Èë¿Ú²ÎÊı blockKey ²»ÄÜÎª null¡£");
-				Objects.requireNonNull(initMessage, "Èë¿Ú²ÎÊı initMessage ²»ÄÜÎª null¡£");
+				Objects.requireNonNull(blockKey, "å…¥å£å‚æ•° blockKey ä¸èƒ½ä¸º nullã€‚");
+				Objects.requireNonNull(initMessage, "å…¥å£å‚æ•° initMessage ä¸èƒ½ä¸º nullã€‚");
 				this.blockKey = blockKey.getName();
 				setMessage(initMessage);
 			}
@@ -659,26 +659,26 @@ public final class ToolPlatform {
 			}
 			
 			/**
-			 * ´¦Àí·½·¨µÄÊµÏÖËã·¨¡£
-			 * <p> ¸Ã·½·¨ÊÇÖ÷ÒªµÄ´¦Àí·½·¨¡£
-			 * <p> ¸Ã·½·¨²»ÔÊĞíÅ×³öÈÎºÎÒì³£¡£
+			 * å¤„ç†æ–¹æ³•çš„å®ç°ç®—æ³•ã€‚
+			 * <p> è¯¥æ–¹æ³•æ˜¯ä¸»è¦çš„å¤„ç†æ–¹æ³•ã€‚
+			 * <p> è¯¥æ–¹æ³•ä¸å…è®¸æŠ›å‡ºä»»ä½•å¼‚å¸¸ã€‚
 			 */
 			protected abstract void processImpl();
 			
 			/**
-			 * ·µ»ØÖ¸¶¨µÄ¼ÇÂ¼Æ÷¼üËù¶ÔÓ¦µÄ×Ö·û´®¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @return ¼ÇÂ¼Æ÷¼ü¶ÔÓ¦µÄ×Ö·û´®¡£
+			 * è¿”å›æŒ‡å®šçš„è®°å½•å™¨é”®æ‰€å¯¹åº”çš„å­—ç¬¦ä¸²ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @return è®°å½•å™¨é”®å¯¹åº”çš„å­—ç¬¦ä¸²ã€‚
 			 */
 			protected String getLabel(LoggerStringKey loggerStringKey){
 				return manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName());
 			}
 
 			/**
-			 * ·µ»ØÖ¸¶¨¼ÇÂ¼Æ÷¼üµÄ format ×Ö·û´®¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @param args Ö¸¶¨µÄ format ²ÎÊı¡£
-			 * @return Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼üµÄ format ×Ö·û´®¡£
+			 * è¿”å›æŒ‡å®šè®°å½•å™¨é”®çš„ format å­—ç¬¦ä¸²ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @param args æŒ‡å®šçš„ format å‚æ•°ã€‚
+			 * @return æŒ‡å®šçš„è®°å½•å™¨é”®çš„ format å­—ç¬¦ä¸²ã€‚
 			 */
 			protected String formatLabel(LoggerStringKey loggerStringKey, Object... args){
 				return String.format(manager.getLoggerMutilangModel().getMutilang().getString(
@@ -686,52 +686,52 @@ public final class ToolPlatform {
 			}
 			
 			/**
-			 * Ïò¼ÇÂ¼Æ÷ÖĞÊäÈëÒ»ÌõINFOÀàĞÅÏ¢¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
+			 * å‘è®°å½•å™¨ä¸­è¾“å…¥ä¸€æ¡INFOç±»ä¿¡æ¯ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
 			 */
 			protected void info(LoggerStringKey loggerStringKey){
 				manager.getLoggerModel().getLogger().info(getLabel(loggerStringKey));
 			}
 
 			/**
-			 * Ïò¼ÇÂ¼Æ÷ÖĞformatÒ»ÌõINFOÀàĞÅÏ¢¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @param args format²ÎÊı¡£
+			 * å‘è®°å½•å™¨ä¸­formatä¸€æ¡INFOç±»ä¿¡æ¯ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @param args formatå‚æ•°ã€‚
 			 */
 			protected void formatInfo(LoggerStringKey loggerStringKey, Object... args){
 				manager.getLoggerModel().getLogger().info(formatLabel(loggerStringKey, args));	
 			}
 
 			/**
-			 * Ïò¼ÇÂ¼Æ÷ÖĞÊäÈëÒ»ÌõWARNÀàĞÅÏ¢¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @param throwable Ö¸¶¨µÄ¿ÉÅ×³ö¶ÔÏó¡£
+			 * å‘è®°å½•å™¨ä¸­è¾“å…¥ä¸€æ¡WARNç±»ä¿¡æ¯ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @param throwable æŒ‡å®šçš„å¯æŠ›å‡ºå¯¹è±¡ã€‚
 			 */
 			protected void warn(LoggerStringKey loggerStringKey, Throwable throwable){
 				manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey), throwable);
 			}
 
 			/**
-			 * »ñÈ¡Ö¸¶¨¼ü¶ÔÓ¦µÄ×ÊÔ´¡£
-			 * @param resourceKey Ö¸¶¨µÄ¼ü¡£
-			 * @return Ö¸¶¨µÄ¼ü¶ÔÓ¦µÄ×ÊÔ´¡£
+			 * è·å–æŒ‡å®šé”®å¯¹åº”çš„èµ„æºã€‚
+			 * @param resourceKey æŒ‡å®šçš„é”®ã€‚
+			 * @return æŒ‡å®šçš„é”®å¯¹åº”çš„èµ„æºã€‚
 			 */
 			protected Resource getResource(ResourceKey resourceKey){
 				return manager.getResourceModel().get(resourceKey.getName());
 			}
 			
 			/**
-			 * ÉèÖÃĞÅÏ¢ÎªÖ¸¶¨µÄĞÅÏ¢¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
+			 * è®¾ç½®ä¿¡æ¯ä¸ºæŒ‡å®šçš„ä¿¡æ¯ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
 			 */
 			protected void message(LoggerStringKey loggerStringKey){
 				setMessage(getLabel(loggerStringKey));
 			}
 			
 			/**
-			 * ¸ñÊ½»¯ÉèÖÃĞÅÏ¢¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @param args format ²ÎÊı¡£
+			 * æ ¼å¼åŒ–è®¾ç½®ä¿¡æ¯ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @param args format å‚æ•°ã€‚
 			 */
 			protected void formatMessage(LoggerStringKey loggerStringKey, Object... args){
 				setMessage(formatLabel(loggerStringKey, args));	
@@ -753,20 +753,20 @@ public final class ToolPlatform {
 			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.NOT_START){
-						throw new IllegalStateException("³ÌĞòÒÑ¾­Æô¶¯»òÒÑ¾­½áÊø");
+						throw new IllegalStateException("ç¨‹åºå·²ç»å¯åŠ¨æˆ–å·²ç»ç»“æŸ");
 					}
 					
-					//¸üĞÂÄ£ĞÍ£¬´ËÊ±µÄ¶àÓïÑÔÄ£ĞÍºÍ¼ÇÂ¼Æ÷Ä£ĞÍ±»¸üĞÂÎªÄ¬ÈÏÖµ¡£
+					//æ›´æ–°æ¨¡å‹ï¼Œæ­¤æ—¶çš„å¤šè¯­è¨€æ¨¡å‹å’Œè®°å½•å™¨æ¨¡å‹è¢«æ›´æ–°ä¸ºé»˜è®¤å€¼ã€‚
 					try{
 						manager.getLoggerModel().update();
 						manager.getLabelMutilangModel().update();
 						manager.getLoggerMutilangModel().update();
 						manager.getBlockModel().update();
 					}catch (ProcessException ignore) {
-						//´ËÊ±¾ùÎªÄ¬ÈÏÖµ£¬²»¿ÉÄÜÅ×³öÒì³£¡£
+						//æ­¤æ—¶å‡ä¸ºé»˜è®¤å€¼ï¼Œä¸å¯èƒ½æŠ›å‡ºå¼‚å¸¸ã€‚
 					}
 					
-					//¼ÓÔØ³ÌĞòµÄ×ÊÔ´Ä£ĞÍ
+					//åŠ è½½ç¨‹åºçš„èµ„æºæ¨¡å‹
 					info(LoggerStringKey.ToolPlatform_FlowProvider_3);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_3);
 					XmlResourceLoader resourceLoader = null;
@@ -779,7 +779,7 @@ public final class ToolPlatform {
 						}
 					}
 					
-					//¼ÓÔØ³ÌĞòÖĞµÄ¼ÇÂ¼Æ÷Ä£ĞÍ¡£
+					//åŠ è½½ç¨‹åºä¸­çš„è®°å½•å™¨æ¨¡å‹ã€‚
 					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_5);
 					if(manager.getLoggerModel().getLoggerContext() != null){
@@ -805,7 +805,7 @@ public final class ToolPlatform {
 						warn(LoggerStringKey.Update_Logger_1, e);
 					}
 					
-					//¼ÓÔØ¼ÇÂ¼Æ÷¶àÓïÑÔÅäÖÃ¡£
+					//åŠ è½½è®°å½•å™¨å¤šè¯­è¨€é…ç½®ã€‚
 					info(LoggerStringKey.ToolPlatform_FlowProvider_7);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_7);
 					XmlMutilangLoader loggerMutilangLoader = null;
@@ -828,7 +828,7 @@ public final class ToolPlatform {
 						warn(LoggerStringKey.Update_LoggerMutilang_1, e);
 					}
 					
-					//¼ÓÔØ³ÌĞòµÄºËĞÄÅäÖÃ¡£
+					//åŠ è½½ç¨‹åºçš„æ ¸å¿ƒé…ç½®ã€‚
 					info(LoggerStringKey.ToolPlatform_FlowProvider_6);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_6);
 					PropConfigLoader coreConfigLoader = null;
@@ -846,7 +846,7 @@ public final class ToolPlatform {
 						}
 					}
 					
-					//Èç¹ûĞèÒªÏÔÊ¾Æô¶¯´°¿Ú£¬ÔòÏÔÊ¾Æô¶¯´°¿Ú
+					//å¦‚æœéœ€è¦æ˜¾ç¤ºå¯åŠ¨çª—å£ï¼Œåˆ™æ˜¾ç¤ºå¯åŠ¨çª—å£
 					boolean splashFlag = manager.getCoreConfigModel().isShowSplashScreen();
 					TimeMeasurer tm = new TimeMeasurer();
 					if(splashFlag){
@@ -856,7 +856,7 @@ public final class ToolPlatform {
 						tm.start();
 					}
 					
-					//¼ÓÔØ×èµ²Ä£ĞÍ×Öµä
+					//åŠ è½½é˜»æŒ¡æ¨¡å‹å­—å…¸
 					info(LoggerStringKey.ToolPlatform_FlowProvider_13);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_13);
 					if (splashFlag) {
@@ -872,7 +872,7 @@ public final class ToolPlatform {
 						}
 					}
 					
-					//¼ÓÔØ±êÇ©¶àÓïÑÔÅäÖÃ¡£
+					//åŠ è½½æ ‡ç­¾å¤šè¯­è¨€é…ç½®ã€‚
 					info(LoggerStringKey.ToolPlatform_FlowProvider_9);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_9);
 					if (splashFlag) {
@@ -898,7 +898,7 @@ public final class ToolPlatform {
 						warn(LoggerStringKey.Update_LabelMutilang_1, e);
 					}
 					
-					//¼ÓÔØÄ£Ì¬Ä£ĞÍ
+					//åŠ è½½æ¨¡æ€æ¨¡å‹
 					info(LoggerStringKey.ToolPlatform_FlowProvider_10);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_10);
 					if (splashFlag) {
@@ -919,7 +919,7 @@ public final class ToolPlatform {
 						}
 					}
 					
-					//»½ÆğÖ÷½çÃæ
+					//å”¤èµ·ä¸»ç•Œé¢
 					info(LoggerStringKey.ToolPlatform_FlowProvider_11);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_11);
 					if(splashFlag){
@@ -942,7 +942,7 @@ public final class ToolPlatform {
 						}
 					});
 					
-					//ÖØĞÂ¼ÓÔØLoggerModel;
+					//é‡æ–°åŠ è½½LoggerModel;
 					info(LoggerStringKey.ToolPlatform_FlowProvider_5);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_5);
 					if(manager.getLoggerModel().getLoggerContext() != null){
@@ -968,7 +968,7 @@ public final class ToolPlatform {
 						warn(LoggerStringKey.Update_Logger_1, e);
 					}
 					
-					//¼ÓÔØ¿âÄ£ĞÍ
+					//åŠ è½½åº“æ¨¡å‹
 					info(LoggerStringKey.ToolPlatform_FlowProvider_12);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_12);
 					if (splashFlag) {
@@ -989,7 +989,7 @@ public final class ToolPlatform {
 						}
 					}
 					
-					//¼ÓÔØ¹¤¾ßĞÅÏ¢Ä£ĞÍ
+					//åŠ è½½å·¥å…·ä¿¡æ¯æ¨¡å‹
 					info(LoggerStringKey.ToolPlatform_FlowProvider_22);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_22);
@@ -1042,7 +1042,7 @@ public final class ToolPlatform {
 						manager.getToolInfoModel().add(toolInfo);
 					}
 					
-					//¼ÓÔØ¹¤¾ßÀúÊ·
+					//åŠ è½½å·¥å…·å†å²
 					info(LoggerStringKey.ToolPlatform_FlowProvider_34);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_34);
@@ -1085,7 +1085,7 @@ public final class ToolPlatform {
 						manager.getToolHistoryModel().offer(toolHistory);
 					}
 					
-					//×¢²áÍË³öÊø¹³×Ó
+					//æ³¨å†Œé€€å‡ºæŸé’©å­
 					info(LoggerStringKey.ToolPlatform_FlowProvider_33);
 					if (splashFlag) {
 						splash(LoggerStringKey.ToolPlatform_FlowProvider_33);
@@ -1094,7 +1094,7 @@ public final class ToolPlatform {
 					putShutdownHook("destroy_runningtool", shutdownHookProvider.newDestroyRunningToolRunnable());
 					putShutdownHook("remove_reference", shutdownHookProvider.newRemoveReferenceRunnable());
 					
-					//µÈ´ıÆô¶¯´°¿Úµ½´ïÖ¸¶¨µÄÊ±¼äºó£¬ÁîÆäÏûÊ§¡£
+					//ç­‰å¾…å¯åŠ¨çª—å£åˆ°è¾¾æŒ‡å®šçš„æ—¶é—´åï¼Œä»¤å…¶æ¶ˆå¤±ã€‚
 					if(splashFlag){
 						tm.stop();
 						long time = tm.getTimeMs();
@@ -1112,7 +1112,7 @@ public final class ToolPlatform {
 					
 					
 					
-					//ÏÔÊ¾Æô¶¯½çÃæ
+					//æ˜¾ç¤ºå¯åŠ¨ç•Œé¢
 					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 						@Override
 						public void run() {
@@ -1120,12 +1120,12 @@ public final class ToolPlatform {
 						}
 					});
 					
-					//ÉèÖÃ³É¹¦ÏûÏ¢
+					//è®¾ç½®æˆåŠŸæ¶ˆæ¯
 					message(LoggerStringKey.ToolPlatform_FlowProvider_1);
 					setState(RuntimeState.RUNNING);
 					
 				}catch (Exception e) {
-					//½«Æô¶¯´°¿Ú¹Ø±Õ¡£
+					//å°†å¯åŠ¨çª—å£å…³é—­ã€‚
 					ToolPlatformUtil.invokeInEventQueue(new Runnable() {
 						@Override
 						public void run() {
@@ -1163,10 +1163,10 @@ public final class ToolPlatform {
 			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
-						throw new IllegalStateException("³ÌĞò»¹Î´Æô¶¯»òÒÑ¾­½áÊø");
+						throw new IllegalStateException("ç¨‹åºè¿˜æœªå¯åŠ¨æˆ–å·²ç»ç»“æŸ");
 					}
 					
-					//¶ÁÈ¡¿âÎÄ¼ş
+					//è¯»å–åº“æ–‡ä»¶
 					info(LoggerStringKey.ToolPlatform_FlowProvider_14);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_14);
 					XmlLibraryLoader libraryLoader = null;
@@ -1213,10 +1213,10 @@ public final class ToolPlatform {
 			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
-						throw new IllegalStateException("³ÌĞò»¹Î´Æô¶¯»òÒÑ¾­½áÊø");
+						throw new IllegalStateException("ç¨‹åºè¿˜æœªå¯åŠ¨æˆ–å·²ç»ç»“æŸ");
 					}
 					
-					//¿ªÊ¼¹¹ÔìÌõ¼ş
+					//å¼€å§‹æ„é€ æ¡ä»¶
 					info(LoggerStringKey.ToolPlatform_FlowProvider_17);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_17);
 					
@@ -1253,12 +1253,12 @@ public final class ToolPlatform {
 						return;
 					}
 					
-					//ÉèÖÃ¹ı³ÌÊÇ¿ÉÒÔÈ·¶¨½ø¶ÈµÄ£¬²¢È·¶¨½ø¶È
+					//è®¾ç½®è¿‡ç¨‹æ˜¯å¯ä»¥ç¡®å®šè¿›åº¦çš„ï¼Œå¹¶ç¡®å®šè¿›åº¦
 					setTotleProgress(manager.getLibraryModel().size());
 					setCancelable(true);
 					setDeterminate(true);
 					
-					//¿ªÊ¼Ñ­»·¼ì²é
+					//å¼€å§‹å¾ªç¯æ£€æŸ¥
 					for(Library key : libraries){
 						if(isCancel()) return;
 						if(libraryChecker.nonValid(key)){
@@ -1292,10 +1292,10 @@ public final class ToolPlatform {
 			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
-						throw new IllegalStateException("³ÌĞò»¹Î´Æô¶¯»òÒÑ¾­½áÊø");
+						throw new IllegalStateException("ç¨‹åºè¿˜æœªå¯åŠ¨æˆ–å·²ç»ç»“æŸ");
 					}
 					
-					//¼ÓÔØ¹¤¾ßĞÅÏ¢Ä£ĞÍ
+					//åŠ è½½å·¥å…·ä¿¡æ¯æ¨¡å‹
 					info(LoggerStringKey.ToolPlatform_FlowProvider_22);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_22);
 					
@@ -1316,7 +1316,7 @@ public final class ToolPlatform {
 						}
 					}
 					
-					//½âÎö¹¤¾ßĞÅÏ¢
+					//è§£æå·¥å…·ä¿¡æ¯
 					info(LoggerStringKey.ToolPlatform_FlowProvider_23);
 					message(LoggerStringKey.ToolPlatform_FlowProvider_23);
 					setTotleProgress(tempToolInfoModel.size());
@@ -1372,7 +1372,7 @@ public final class ToolPlatform {
 			
 			public RunToolFlow(ToolInfo toolInfo) {
 				super(BlockKey.LOAD_TOOLINFO,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_27.getName()));
-				Objects.requireNonNull(toolInfo, "Èë¿Ú²ÎÊı toolInfo ²»ÄÜÎª null¡£");
+				Objects.requireNonNull(toolInfo, "å…¥å£å‚æ•° toolInfo ä¸èƒ½ä¸º nullã€‚");
 				this.toolInfo = toolInfo;
 			}
 
@@ -1384,7 +1384,7 @@ public final class ToolPlatform {
 			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
-						throw new IllegalStateException("³ÌĞò»¹Î´Æô¶¯»òÒÑ¾­½áÊø");
+						throw new IllegalStateException("ç¨‹åºè¿˜æœªå¯åŠ¨æˆ–å·²ç»ç»“æŸ");
 					}
 					
 					info(LoggerStringKey.ToolPlatform_FlowProvider_27);
@@ -1456,7 +1456,7 @@ public final class ToolPlatform {
 							}
 						});
 					}catch (InterruptedException ignore) {
-						//ÖĞ¶ÏÒ²Òª°´ÕÕ»ù±¾·¨¡£
+						//ä¸­æ–­ä¹Ÿè¦æŒ‰ç…§åŸºæœ¬æ³•ã€‚
 					}
 					runningTool.lockStream();
 					message(LoggerStringKey.ToolPlatform_FlowProvider_28);
@@ -1483,7 +1483,7 @@ public final class ToolPlatform {
 			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
-						throw new IllegalStateException("³ÌĞò»¹Î´Æô¶¯»òÒÑ¾­½áÊø");
+						throw new IllegalStateException("ç¨‹åºè¿˜æœªå¯åŠ¨æˆ–å·²ç»ç»“æŸ");
 					}
 					
 					info(LoggerStringKey.ToolPlatform_FlowProvider_30);
@@ -1491,7 +1491,7 @@ public final class ToolPlatform {
 					manager.getToolRuntimeModel().setAddRejected(true);
 					
 					if(manager.getToolRuntimeModel().hasNotExited()){
-						//TODO Ö®ºóÒªÍ¨¹ı¶Ô»°¿ò½øĞĞÈ·ÈÏ£¬¶ø²»ÊÇÔÚ¿ØÖÆÌ¨ÖĞÊä³öÕâÑùÒ»ÌõĞÅÏ¢¡£
+						//TODO ä¹‹åè¦é€šè¿‡å¯¹è¯æ¡†è¿›è¡Œç¡®è®¤ï¼Œè€Œä¸æ˜¯åœ¨æ§åˆ¶å°ä¸­è¾“å‡ºè¿™æ ·ä¸€æ¡ä¿¡æ¯ã€‚
 						info(LoggerStringKey.ToolPlatform_FlowProvider_31);
 						manager.getToolRuntimeModel().setAddRejected(false);
 						message(LoggerStringKey.ToolPlatform_FlowProvider_31);
@@ -1515,7 +1515,7 @@ public final class ToolPlatform {
 
 			public LogRunningToolFlow(RunningTool runningTool) {
 				super(BlockKey.LOG_RUNNINGTOOL,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_35.getName()));
-				Objects.requireNonNull(runningTool, "Èë¿Ú²ÎÊı runningTool ²»ÄÜÎª null¡£");
+				Objects.requireNonNull(runningTool, "å…¥å£å‚æ•° runningTool ä¸èƒ½ä¸º nullã€‚");
 				this.runningTool = runningTool;
 			}
 
@@ -1527,7 +1527,7 @@ public final class ToolPlatform {
 			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
-						throw new IllegalStateException("³ÌĞò»¹Î´Æô¶¯»òÒÑ¾­½áÊø");
+						throw new IllegalStateException("ç¨‹åºè¿˜æœªå¯åŠ¨æˆ–å·²ç»ç»“æŸ");
 					}
 					
 					info(LoggerStringKey.ToolPlatform_FlowProvider_35);
@@ -1557,7 +1557,7 @@ public final class ToolPlatform {
 		
 			public RemovedExitedRunningToolFlow(RunningTool runningTool) {
 				super(BlockKey.REMOVE_EXITED_RUNNINGTOOL,manager.getLoggerMutilangModel().getMutilang().getString(LoggerStringKey.ToolPlatform_FlowProvider_39.getName()));
-				Objects.requireNonNull(runningTool, "Èë¿Ú²ÎÊı runningTool ²»ÄÜÎª null¡£");
+				Objects.requireNonNull(runningTool, "å…¥å£å‚æ•° runningTool ä¸èƒ½ä¸º nullã€‚");
 				this.runningTool = runningTool;
 			}
 		
@@ -1569,13 +1569,13 @@ public final class ToolPlatform {
 			protected void processImpl() {
 				try{
 					if(getState() != RuntimeState.RUNNING){
-						throw new IllegalStateException("³ÌĞò»¹Î´Æô¶¯»òÒÑ¾­½áÊø");
+						throw new IllegalStateException("ç¨‹åºè¿˜æœªå¯åŠ¨æˆ–å·²ç»ç»“æŸ");
 					}
 					
 					info(LoggerStringKey.ToolPlatform_FlowProvider_39);
 					
 					if(! runningTool.getRuntimeState().equals(RuntimeState.ENDED)){
-						throw new IllegalStateException("¹¤¾ß»¹Î´½áÊøÔËĞĞ");
+						throw new IllegalStateException("å·¥å…·è¿˜æœªç»“æŸè¿è¡Œ");
 					}
 					
 					manager.getToolRuntimeModel().remove(runningTool);
@@ -1607,22 +1607,22 @@ public final class ToolPlatform {
 		 */
 		@Override
 		public void run() {
-			//½â³ı×¢²á¹¤¾ß¹³×Ó
+			//è§£é™¤æ³¨å†Œå·¥å…·é’©å­
 			info(LoggerStringKey.ToolPlatform_Exitor_11);
 			removeShutdownHook("destroy_runningtool");
 			
-			//Í£Ö¹ºóÌ¨Ä£ĞÍºÍ¹¤¾ßÔËĞĞÊ±Ä£ĞÍ¡£
+			//åœæ­¢åå°æ¨¡å‹å’Œå·¥å…·è¿è¡Œæ—¶æ¨¡å‹ã€‚
 			info(LoggerStringKey.ToolPlatform_Exitor_3);
 			manager.getBackgroundModel().shutdown();
 			manager.getToolRuntimeModel().shutdown();
 			manager.getFinishedFlowTaker().shutdown();
 			manager.getExitedRunningToolTaker().shutdown();
 			
-			//µÈ´ı50ºÁÃë£¬´ËÊ±ºóÌ¨Ä£ĞÍºÍ¹¤¾ßÔËĞĞÊ±Ä£ĞÍÖĞµÄÖ´ĞĞÆ÷Ó¦¸Ã»á×ÔÈ»ÖÕ½á¡£
+			//ç­‰å¾…50æ¯«ç§’ï¼Œæ­¤æ—¶åå°æ¨¡å‹å’Œå·¥å…·è¿è¡Œæ—¶æ¨¡å‹ä¸­çš„æ‰§è¡Œå™¨åº”è¯¥ä¼šè‡ªç„¶ç»ˆç»“ã€‚
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException ignore) {
-				//ÖĞ¶ÏÒ²Òª°´ÕÕ»ù±¾·¨¡£
+				//ä¸­æ–­ä¹Ÿè¦æŒ‰ç…§åŸºæœ¬æ³•ã€‚
 			}
 			
 			boolean waitFlag = false;
@@ -1639,7 +1639,7 @@ public final class ToolPlatform {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException ignore) {
-					//ÖĞ¶ÏÒ²Òª°´ÕÕ»ù±¾·¨¡£
+					//ä¸­æ–­ä¹Ÿè¦æŒ‰ç…§åŸºæœ¬æ³•ã€‚
 				}
 				
 				if(! manager.getBackgroundModel().getExecutorService().isTerminated()){
@@ -1651,7 +1651,7 @@ public final class ToolPlatform {
 				
 			}
 			
-			//±£´æÄ£Ì¬ÅäÖÃ
+			//ä¿å­˜æ¨¡æ€é…ç½®
 			info(LoggerStringKey.ToolPlatform_Exitor_8);
 			ModalConfigModel modalConfigModel = manager.getModalConfigModel();
 			MainFrameController mainFrameController = manager.getMainFrameController();
@@ -1681,7 +1681,7 @@ public final class ToolPlatform {
 				warn(LoggerStringKey.ToolPlatform_Exitor_10, e);
 			}
 			
-			//±£´æºËĞÄÅäÖÃ
+			//ä¿å­˜æ ¸å¿ƒé…ç½®
 			info(LoggerStringKey.ToolPlatform_Exitor_15);
 			PropConfigSaver coreConfigSaver = null;
 			try{
@@ -1703,7 +1703,7 @@ public final class ToolPlatform {
 				warn(LoggerStringKey.ToolPlatform_Exitor_16, e);
 			}
 			
-			//±£´æ¹¤¾ßÔËĞĞÀúÊ·
+			//ä¿å­˜å·¥å…·è¿è¡Œå†å²
 			info(LoggerStringKey.ToolPlatform_Exitor_13);
 			XmlToolHistorySaver toolHistorySaver = null;
 			try{
@@ -1725,7 +1725,7 @@ public final class ToolPlatform {
 				warn(LoggerStringKey.ToolPlatform_Exitor_14, e);
 			}
 			
-			//ÊÍ·Å½çÃæ
+			//é‡Šæ”¾ç•Œé¢
 			info(LoggerStringKey.ToolPlatform_Exitor_6);
 			if(manager.getLoggerModel().getLoggerContext() != null){
 				manager.getLoggerModel().getLoggerContext().stop();
@@ -1739,10 +1739,10 @@ public final class ToolPlatform {
 				});
 			} catch (InvocationTargetException ignore) {
 			} catch (InterruptedException ignore) {
-				//ÖĞ¶ÏÒ²Òª°´ÕÕ»ù±¾·¨¡£
+				//ä¸­æ–­ä¹Ÿè¦æŒ‰ç…§åŸºæœ¬æ³•ã€‚
 			}
 			
-			//ÖØĞÂ¼ÓÔØLoggerModel;
+			//é‡æ–°åŠ è½½LoggerModel;
 			XmlLoggerLoader loggerLoader = null;
 			boolean logInvalid = false;
 			try{
@@ -1764,13 +1764,13 @@ public final class ToolPlatform {
 				logInvalid = true;
 			}
 	
-			//ÊÍ·ÅÄ£ĞÍ
+			//é‡Šæ”¾æ¨¡å‹
 			if(! logInvalid){
 				info(LoggerStringKey.ToolPlatform_Exitor_7);
 			}
 			manager.dispose();
 			
-			//½â³ı¶ÔÏóµÄÒıÓÃ²¢ÒÆ³ı¹³×Ó
+			//è§£é™¤å¯¹è±¡çš„å¼•ç”¨å¹¶ç§»é™¤é’©å­
 			INSTANCES.remove(ToolPlatform.this);
 			if(! logInvalid){
 				info(LoggerStringKey.ToolPlatform_Exitor_12);
@@ -1798,9 +1798,9 @@ public final class ToolPlatform {
 		}
 	
 		/**
-		 * »ñÈ¡Ö¸¶¨¼ü¶ÔÓ¦µÄ×ÊÔ´¡£
-		 * @param resourceKey Ö¸¶¨µÄ¼ü¡£
-		 * @return Ö¸¶¨µÄ¼ü¶ÔÓ¦µÄ×ÊÔ´¡£
+		 * è·å–æŒ‡å®šé”®å¯¹åº”çš„èµ„æºã€‚
+		 * @param resourceKey æŒ‡å®šçš„é”®ã€‚
+		 * @return æŒ‡å®šçš„é”®å¯¹åº”çš„èµ„æºã€‚
 		 */
 		private Resource getResource(ResourceKey resourceKey){
 			return manager.getResourceModel().get(resourceKey.getName());
@@ -1817,16 +1817,16 @@ public final class ToolPlatform {
 	private final class ShutdownHookProvider{
 		
 		/**
-		 * ·µ»ØÒ»¸öĞÂµÄÏú»ÙÔËĞĞ¹¤¾ß¿ÉÔËĞĞ¶ÔÏó¡£
-		 * @return ĞÂµÄÏú»Ù¹¤¾ß¿ÉÔËĞĞ¶ÔÏó¡£
+		 * è¿”å›ä¸€ä¸ªæ–°çš„é”€æ¯è¿è¡Œå·¥å…·å¯è¿è¡Œå¯¹è±¡ã€‚
+		 * @return æ–°çš„é”€æ¯å·¥å…·å¯è¿è¡Œå¯¹è±¡ã€‚
 		 */
 		public Runnable newDestroyRunningToolRunnable(){
 			return new DestroyRunningToolRunnable();
 		}
 		
 		/**
-		 * ·µ»ØÒ»¸öĞÂµÄÒÆ³ıÒıÓÃ¿ÉÔËĞĞ¶ÔÏó¡£
-		 * @return ĞÂµÄÒÆ³ıÒıÓÃ¿ÉÔËĞĞ¶ÔÏó¡£
+		 * è¿”å›ä¸€ä¸ªæ–°çš„ç§»é™¤å¼•ç”¨å¯è¿è¡Œå¯¹è±¡ã€‚
+		 * @return æ–°çš„ç§»é™¤å¼•ç”¨å¯è¿è¡Œå¯¹è±¡ã€‚
 		 */
 		public Runnable newRemoveReferenceRunnable(){
 			return new RemoveReferenceRunnable();
@@ -1835,19 +1835,19 @@ public final class ToolPlatform {
 		private abstract class AbstractInnerRunnable implements Runnable{
 
 			/**
-			 * ·µ»ØÖ¸¶¨µÄ¼ÇÂ¼Æ÷¼üËù¶ÔÓ¦µÄ×Ö·û´®¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @return ¼ÇÂ¼Æ÷¼ü¶ÔÓ¦µÄ×Ö·û´®¡£
+			 * è¿”å›æŒ‡å®šçš„è®°å½•å™¨é”®æ‰€å¯¹åº”çš„å­—ç¬¦ä¸²ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @return è®°å½•å™¨é”®å¯¹åº”çš„å­—ç¬¦ä¸²ã€‚
 			 */
 			protected String getLabel(LoggerStringKey loggerStringKey){
 				return manager.getLoggerMutilangModel().getMutilang().getString(loggerStringKey.getName());
 			}
 
 			/**
-			 * ·µ»ØÖ¸¶¨¼ÇÂ¼Æ÷¼üµÄ format ×Ö·û´®¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @param args Ö¸¶¨µÄ format ²ÎÊı¡£
-			 * @return Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼üµÄ format ×Ö·û´®¡£
+			 * è¿”å›æŒ‡å®šè®°å½•å™¨é”®çš„ format å­—ç¬¦ä¸²ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @param args æŒ‡å®šçš„ format å‚æ•°ã€‚
+			 * @return æŒ‡å®šçš„è®°å½•å™¨é”®çš„ format å­—ç¬¦ä¸²ã€‚
 			 */
 			protected String formatLabel(LoggerStringKey loggerStringKey, Object... args){
 				return String.format(manager.getLoggerMutilangModel().getMutilang().getString(
@@ -1855,26 +1855,26 @@ public final class ToolPlatform {
 			}
 
 			/**
-			 * Ïò¼ÇÂ¼Æ÷ÖĞÊäÈëÒ»ÌõINFOÀàĞÅÏ¢¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
+			 * å‘è®°å½•å™¨ä¸­è¾“å…¥ä¸€æ¡INFOç±»ä¿¡æ¯ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
 			 */
 			protected void info(LoggerStringKey loggerStringKey){
 				manager.getLoggerModel().getLogger().info(getLabel(loggerStringKey));
 			}
 
 			/**
-			 * Ïò¼ÇÂ¼Æ÷ÖĞformatÒ»ÌõINFOÀàĞÅÏ¢¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @param args format²ÎÊı¡£
+			 * å‘è®°å½•å™¨ä¸­formatä¸€æ¡INFOç±»ä¿¡æ¯ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @param args formatå‚æ•°ã€‚
 			 */
 			protected void formatInfo(LoggerStringKey loggerStringKey, Object... args){
 				manager.getLoggerModel().getLogger().info(formatLabel(loggerStringKey, args));	
 			}
 
 			/**
-			 * Ïò¼ÇÂ¼Æ÷ÖĞÊäÈëÒ»ÌõWARNÀàĞÅÏ¢¡£
-			 * @param loggerStringKey Ö¸¶¨µÄ¼ÇÂ¼Æ÷¼ü¡£
-			 * @param throwable Ö¸¶¨µÄ¿ÉÅ×³ö¶ÔÏó¡£
+			 * å‘è®°å½•å™¨ä¸­è¾“å…¥ä¸€æ¡WARNç±»ä¿¡æ¯ã€‚
+			 * @param loggerStringKey æŒ‡å®šçš„è®°å½•å™¨é”®ã€‚
+			 * @param throwable æŒ‡å®šçš„å¯æŠ›å‡ºå¯¹è±¡ã€‚
 			 */
 			protected void warn(LoggerStringKey loggerStringKey, Throwable throwable){
 				manager.getLoggerModel().getLogger().warn(getLabel(loggerStringKey), throwable);

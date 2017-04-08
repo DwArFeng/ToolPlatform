@@ -4,15 +4,15 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * ³éÏóÍ¬²½ÅäÖÃÄ£ĞÍ¡£
- * <p> ÅäÖÃÄ£ĞÍµÄÏß³Ì°²È«µÄ³éÏóÊµÏÖ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * æŠ½è±¡åŒæ­¥é…ç½®æ¨¡å‹ã€‚
+ * <p> é…ç½®æ¨¡å‹çš„çº¿ç¨‹å®‰å…¨çš„æŠ½è±¡å®ç°ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public abstract class AbstractSyncConfigModel implements SyncConfigModel {
 
-	/**Ä£ĞÍµÄÍ¬²½¶ÁĞ´Ëø¡£*/
+	/**æ¨¡å‹çš„åŒæ­¥è¯»å†™é”ã€‚*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 	/*

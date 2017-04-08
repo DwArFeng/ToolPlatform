@@ -15,17 +15,17 @@ import com.dwarfeng.tp.core.model.cm.LibraryModel;
 import com.dwarfeng.tp.core.model.struct.DefaultLibrary;
 
 /**
- * xml¿âÄ£ĞÍ¶ÁÈ¡Æ÷¡£
- * <p> Ê¹ÓÃxml¶ÁÈ¡¿âÄ£ĞÍ¡£
+ * xmlåº“æ¨¡å‹è¯»å–å™¨ã€‚
+ * <p> ä½¿ç”¨xmlè¯»å–åº“æ¨¡å‹ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public class XmlLibraryLoader extends StreamLoader<LibraryModel> implements Loader<LibraryModel> {
 
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param in Ö¸¶¨µÄÊäÈëÁ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param in æŒ‡å®šçš„è¾“å…¥æµã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public XmlLibraryLoader(InputStream in) {
 		super(in);
@@ -37,7 +37,7 @@ public class XmlLibraryLoader extends StreamLoader<LibraryModel> implements Load
 	 */
 	@Override
 	public void load(LibraryModel libraryModel) throws LoadFailedException {
-		Objects.requireNonNull(libraryModel, "Èë¿Ú²ÎÊı libraryModel ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(libraryModel, "å…¥å£å‚æ•° libraryModel ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -51,12 +51,12 @@ public class XmlLibraryLoader extends StreamLoader<LibraryModel> implements Load
 			
 			String rootDirStr = root.attributeValue("dir");
 			if(Objects.isNull(rootDirStr)){
-				throw new LoadFailedException("¸ùÔªËØÈ±Ê§dirÊôĞÔ");
+				throw new LoadFailedException("æ ¹å…ƒç´ ç¼ºå¤±dirå±æ€§");
 			}
 			
 			File dir = new File(rootDirStr);
 			
-			//Èç¹ûÎÄ¼ş¼Ğ²»´æÔÚ£¬Ôò²»´æÔÚÈÎºÎ¿â
+			//å¦‚æœæ–‡ä»¶å¤¹ä¸å­˜åœ¨ï¼Œåˆ™ä¸å­˜åœ¨ä»»ä½•åº“
 			if(! dir.exists()) dir.mkdirs();
 			
 			File[] libs = dir.listFiles(new FileExtensionNameFiliter(".jar"));
@@ -67,7 +67,7 @@ public class XmlLibraryLoader extends StreamLoader<LibraryModel> implements Load
 			}
 			
 		}catch (Exception e) {
-			throw new LoadFailedException("ÎŞ·¨ÏòÖ¸¶¨µÄ¿âÄ£ĞÍÖĞ¶ÁÈ¡Á÷ÖĞµÄÊı¾İ", e);
+			throw new LoadFailedException("æ— æ³•å‘æŒ‡å®šçš„åº“æ¨¡å‹ä¸­è¯»å–æµä¸­çš„æ•°æ®", e);
 		}
 
 	}

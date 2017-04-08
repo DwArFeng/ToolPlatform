@@ -4,21 +4,21 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
 
 /**
- * ¹¤¾ßÔËĞĞÊ±Ãæ°å¹Û²ìÆ÷¡£
+ * å·¥å…·è¿è¡Œæ—¶é¢æ¿è§‚å¯Ÿå™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolRuntimePanelObverser extends Obverser {
 	
 	/**
-	 * ¼ÇÂ¼Ö¸¶¨ÔËĞĞÖĞ¹¤¾ßµÄÔËĞĞÈÕÖ¾¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß
+	 * è®°å½•æŒ‡å®šè¿è¡Œä¸­å·¥å…·çš„è¿è¡Œæ—¥å¿—ã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·
 	 */
 	public void fireLogRunningTool(RunningTool runningTool);
 	
 	/**
-	 * ÒÆ³ıÖ¸¶¨µÄÒÑ¾­ÍË³öµÄÔËĞĞÖĞ¹¤¾ß¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
+	 * ç§»é™¤æŒ‡å®šçš„å·²ç»é€€å‡ºçš„è¿è¡Œä¸­å·¥å…·ã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
 	 */
 	public void fireRemoveExitedRunningTool(RunningTool runningTool);
 

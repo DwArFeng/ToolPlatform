@@ -10,29 +10,29 @@ import com.dwarfeng.dutil.develop.cfg.checker.NonNullConfigChecker;
 import com.dwarfeng.tp.core.model.struct.DefaultConfigEntry;
 
 /**
- * ³ÌĞòÅäÖÃÃ¶¾Ù¡£
- * <p> ´ËÃ¶¾Ù¼ÇÂ¼³ÌĞòÔËĞĞÊ±ËùĞèÒªµÄËùÓĞµÄÅäÖÃ¡£
+ * ç¨‹åºé…ç½®æšä¸¾ã€‚
+ * <p> æ­¤æšä¸¾è®°å½•ç¨‹åºè¿è¡Œæ—¶æ‰€éœ€è¦çš„æ‰€æœ‰çš„é…ç½®ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public enum CoreConfig implements ConfigEntry{
 	
-	/**¼ÇÂ¼Æ÷µÄÊ¹ÓÃÓïÑÔ*/
+	/**è®°å½•å™¨çš„ä½¿ç”¨è¯­è¨€*/
 	MUTILANG_LOGGER("mutilang.logger", "", new NonNullConfigChecker()),
 	
-	/**±êÇ©µÄÊ¹ÓÃÓïÑÔ*/
+	/**æ ‡ç­¾çš„ä½¿ç”¨è¯­è¨€*/
 	MUTILANG_LABEL("mutilang.label", "", new NonNullConfigChecker()),
 	
-	/**ÔÚÆô¶¯µÄÊ±ºòÊÇ·ñĞèÒªÏÔÊ¾ÉÁÏÖ´°¸ñ*/
+	/**åœ¨å¯åŠ¨çš„æ—¶å€™æ˜¯å¦éœ€è¦æ˜¾ç¤ºé—ªç°çª—æ ¼*/
 	STARTUP_SPLASH_ISSHOW("startup.splash.isshow", "TRUE", new BooleanConfigChecker()),
 	
-	/**ÔÚÆô¶¯µÄÊ±ºòÏÔÊ¾ÉÁÏÖ´°¸ñµÄÊ±¼ä*/
+	/**åœ¨å¯åŠ¨çš„æ—¶å€™æ˜¾ç¤ºé—ªç°çª—æ ¼çš„æ—¶é—´*/
 	STARTUP_SHPLASH_DURATION("startup.splash.duration", "2000", new IntegerConfigChecker(0, Integer.MAX_VALUE)),
 	
-	/**ÊÇ·ñ×Ô¶¯È¡³öÒÑ¾­½áÊøµÄ¹¤¾ß*/
+	/**æ˜¯å¦è‡ªåŠ¨å–å‡ºå·²ç»ç»“æŸçš„å·¥å…·*/
 	RUNNINGTOOL_AUTOTAKE("runningtool.autotake", "FALSE", new BooleanConfigChecker()),
 	
-	/**¹¤¾ßÀúÊ·µÄ×î´ó¼ÇÂ¼ÊıÁ¿*/
+	/**å·¥å…·å†å²çš„æœ€å¤§è®°å½•æ•°é‡*/
 	TOOLHISTORY_MAXSIZE("toolhistory.maxsize", "100", new IntegerConfigChecker(0, Integer.MAX_VALUE));
 	
 	;

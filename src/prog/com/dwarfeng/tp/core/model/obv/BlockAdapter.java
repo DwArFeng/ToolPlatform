@@ -3,7 +3,7 @@ package com.dwarfeng.tp.core.model.obv;
 import java.util.Set;
 
 /**
- * ×èµ²Ä£ĞÍ¹Û²ìÆ÷ÊÊÅäÆ÷¡£
+ * é˜»æŒ¡æ¨¡å‹è§‚å¯Ÿå™¨é€‚é…å™¨ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */

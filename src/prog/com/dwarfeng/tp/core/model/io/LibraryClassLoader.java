@@ -13,7 +13,7 @@ public class LibraryClassLoader extends URLClassLoader {
 	 */
 	public LibraryClassLoader(URL[] urls, ClassLoader parent, URLStreamHandlerFactory factory) {
 		super(urls, parent, factory);
-		// TODO LibraryClassLoader ¹¹ÔìÆ÷·½·¨¡£
+		// TODO LibraryClassLoader æž„é€ å™¨æ–¹æ³•ã€‚
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class LibraryClassLoader extends URLClassLoader {
 	 */
 	public LibraryClassLoader(URL[] urls, ClassLoader parent) {
 		super(urls, parent);
-		// TODO LibraryClassLoader ¹¹ÔìÆ÷·½·¨¡£
+		// TODO LibraryClassLoader æž„é€ å™¨æ–¹æ³•ã€‚
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class LibraryClassLoader extends URLClassLoader {
 	 */
 	public LibraryClassLoader(URL[] urls) {
 		super(urls);
-		// TODO LibraryClassLoader ¹¹ÔìÆ÷·½·¨¡£
+		// TODO LibraryClassLoader æž„é€ å™¨æ–¹æ³•ã€‚
 	}
 
 }

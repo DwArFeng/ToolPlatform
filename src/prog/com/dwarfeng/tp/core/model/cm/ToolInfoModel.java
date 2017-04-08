@@ -9,55 +9,55 @@ import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
- * ¹¤¾ßĞÅÏ¢Ä£ĞÍ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * å·¥å…·ä¿¡æ¯æ¨¡å‹ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolInfoModel extends ObverserSet<ToolInfoObverser>, ExternalReadWriteThreadSafe, Iterable<ToolInfo>{
 	
 	/**
-	 * ½«Ö¸¶¨µÄ¹¤¾ßĞÅÏ¢Ìí¼Óµ½Ä£ĞÍÖĞ¡£
-	 * @param toolInfo Ö¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
-	 * @return ÊÇ·ñÌí¼Ó³É¹¦¡£
+	 * å°†æŒ‡å®šçš„å·¥å…·ä¿¡æ¯æ·»åŠ åˆ°æ¨¡å‹ä¸­ã€‚
+	 * @param toolInfo æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @return æ˜¯å¦æ·»åŠ æˆåŠŸã€‚
 	 */
 	public boolean add(ToolInfo toolInfo);
 	
 	/**
-	 * ÒÆ³ıÖ¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
-	 * @param toolInfo Ö¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
-	 * @return ÊÇ·ñ³É¹¦ÒÆ³ı¡£
+	 * ç§»é™¤æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @param toolInfo æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @return æ˜¯å¦æˆåŠŸç§»é™¤ã€‚
 	 */
 	public boolean remove(ToolInfo toolInfo);
 	
 	/**
-	 * Çå³ıÖ¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
+	 * æ¸…é™¤æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
 	 */
 	public void clear();
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍÖĞµÄÔªËØÊıÁ¿¡£
-	 * @return ¸ÃÄ£ĞÍÖĞµÄÔªËØÊıÁ¿¡£
+	 * è¿”å›è¯¥æ¨¡å‹ä¸­çš„å…ƒç´ æ•°é‡ã€‚
+	 * @return è¯¥æ¨¡å‹ä¸­çš„å…ƒç´ æ•°é‡ã€‚
 	 */
 	public int size();
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍÊÇ·ñÊÇ¿ÕµÄ¡£
-	 * @return ¸ÃÄ£ĞÍÊÇ·ñÊÇ¿ÕµÄ¡£
+	 * è¿”å›è¯¥æ¨¡å‹æ˜¯å¦æ˜¯ç©ºçš„ã€‚
+	 * @return è¯¥æ¨¡å‹æ˜¯å¦æ˜¯ç©ºçš„ã€‚
 	 */
 	public boolean isEmpty();
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍÊÇ·ñº¬ÓĞÖ¸¶¨µÄÃû³ÆµÄ¹¤¾ßĞÅÏ¢¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @return ÊÇ·ñº¬ÓĞÖ¸¶¨Ãû³ÆµÄ¹¤¾ßĞÅÏ¢¡£
+	 * è¿”å›è¯¥æ¨¡å‹æ˜¯å¦å«æœ‰æŒ‡å®šçš„åç§°çš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @return æ˜¯å¦å«æœ‰æŒ‡å®šåç§°çš„å·¥å…·ä¿¡æ¯ã€‚
 	 */
 	public boolean contains(String name);
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍÊÇ·ñº¬ÓĞÖ¸¶¨µÄÃû³ÆµÄ¹¤¾ßĞÅÏ¢¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @return ÊÇ·ñº¬ÓĞÖ¸¶¨Ãû³ÆµÄ¹¤¾ßĞÅÏ¢¡£
+	 * è¿”å›è¯¥æ¨¡å‹æ˜¯å¦å«æœ‰æŒ‡å®šçš„åç§°çš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @return æ˜¯å¦å«æœ‰æŒ‡å®šåç§°çš„å·¥å…·ä¿¡æ¯ã€‚
 	 */
 	public default boolean contains(Name name){
 		if(Objects.isNull(name)) return false;
@@ -65,16 +65,16 @@ public interface ToolInfoModel extends ObverserSet<ToolInfoObverser>, ExternalRe
 	}
 	
 	/**
-	 * »ñÈ¡Ä£ĞÍÖĞÖ¸¶¨Ãû³ÆµÄ¹¤¾ßĞÅÏ¢¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @return Ä£ĞÍÖĞÖ¸¶¨Ãû³ÆµÄ¹¤¾ßĞÅÏ¢¡£
+	 * è·å–æ¨¡å‹ä¸­æŒ‡å®šåç§°çš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @return æ¨¡å‹ä¸­æŒ‡å®šåç§°çš„å·¥å…·ä¿¡æ¯ã€‚
 	 */
 	public ToolInfo get(String name);
 	
 	/**
-	 * »ñÈ¡Ä£ĞÍÖĞÃû³ÆÎªÖ¸¶¨Ãû³Æ½Ó¿ÚµÄÃû³ÆµÄ¹¤¾ßĞÅÏ¢¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ½Ó¿Ú¡£
-	 * @return Ä£ĞÍÖĞÃû³ÆÎªÖ¸¶¨Ãû³Æ½Ó¿ÚµÄÃû³ÆµÄ¹¤¾ßĞÅÏ¢¡£
+	 * è·å–æ¨¡å‹ä¸­åç§°ä¸ºæŒ‡å®šåç§°æ¥å£çš„åç§°çš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @param name æŒ‡å®šçš„åç§°æ¥å£ã€‚
+	 * @return æ¨¡å‹ä¸­åç§°ä¸ºæŒ‡å®šåç§°æ¥å£çš„åç§°çš„å·¥å…·ä¿¡æ¯ã€‚
 	 */
 	public default ToolInfo get(Name name){
 		if(Objects.isNull(name)) return null;

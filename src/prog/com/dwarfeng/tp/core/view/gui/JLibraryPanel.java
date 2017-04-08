@@ -97,7 +97,7 @@ public final class JLibraryPanel extends JPanel{
 	};
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public JLibraryPanel() {
 		this(null);
@@ -142,16 +142,16 @@ public final class JLibraryPanel extends JPanel{
 	}
 
 	/**
-	 * »ñÈ¡Ãæ°åÖĞµÄ¿âÄ£ĞÍ¡£
-	 * @return Ãæ°åÖĞµÄ¿âÄ£ĞÍ¡£
+	 * è·å–é¢æ¿ä¸­çš„åº“æ¨¡å‹ã€‚
+	 * @return é¢æ¿ä¸­çš„åº“æ¨¡å‹ã€‚
 	 */
 	public LibraryModel getLibraryModel() {
 		return libraryModel;
 	}
 
 	/**
-	 * ÉèÖÃÃæ°åÖĞµÄ¿âÄ£ĞÍÎªÖ¸¶¨Ä£ĞÍ¡£
-	 * @param libraryModel Ö¸¶¨µÄÄ£ĞÍ¡£
+	 * è®¾ç½®é¢æ¿ä¸­çš„åº“æ¨¡å‹ä¸ºæŒ‡å®šæ¨¡å‹ã€‚
+	 * @param libraryModel æŒ‡å®šçš„æ¨¡å‹ã€‚
 	 */
 	public void setLibraryModel(LibraryModel libraryModel) {
 		listModel.clear();
@@ -179,16 +179,16 @@ public final class JLibraryPanel extends JPanel{
 	}
 	
 	/**
-	 * »ñÈ¡¿âÍ¼±êµÄ´óĞ¡¡£
-	 * @return ¿âÍ¼±êµÄ´óĞ¡¡£
+	 * è·å–åº“å›¾æ ‡çš„å¤§å°ã€‚
+	 * @return åº“å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public ImageSize getLibraryIconSize() {
 		return libraryIconSize;
 	}
 
 	/**
-	 * ÉèÖÃ¿âÍ¼±êµÄ´óĞ¡¡£
-	 * @param libraryIconSize ¿âÍ¼±êµÄ´óĞ¡¡£
+	 * è®¾ç½®åº“å›¾æ ‡çš„å¤§å°ã€‚
+	 * @param libraryIconSize åº“å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public void setLibraryIconSize(ImageSize libraryIconSize) {
 		this.libraryIconSize = libraryIconSize;
@@ -196,7 +196,7 @@ public final class JLibraryPanel extends JPanel{
 	}
 
 	/**
-	 * ÊÍ·Å×ÊÔ´
+	 * é‡Šæ”¾èµ„æº
 	 */
 	public void dispose(){
 		if(Objects.nonNull(libraryModel)){

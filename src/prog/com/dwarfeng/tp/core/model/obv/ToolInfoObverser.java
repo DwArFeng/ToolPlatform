@@ -4,26 +4,26 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
- * ¹¤¾ßĞÅÏ¢¹Û²ìÆ÷¡£
+ * å·¥å…·ä¿¡æ¯è§‚å¯Ÿå™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolInfoObverser extends Obverser{
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞÌí¼ÓÁËÖ¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
-	 * @param toolInfo Ö¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­æ·»åŠ äº†æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @param toolInfo æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
 	 */
 	public void fireToolInfoAdded(ToolInfo toolInfo);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞÒÆ³ıÁËÖ¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
-	 * @param toolInfo Ö¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­ç§»é™¤äº†æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
+	 * @param toolInfo æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
 	 */
 	public void fireToolInfoRemoved(ToolInfo toolInfo);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍ±»Çå¿Õ¡£
+	 * é€šçŸ¥æ¨¡å‹è¢«æ¸…ç©ºã€‚
 	 */
 	public void fireCleared();
 	

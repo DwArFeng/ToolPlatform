@@ -14,17 +14,17 @@ import com.dwarfeng.dutil.basic.io.StreamLoader;
 import com.dwarfeng.tp.core.model.cm.BlockModel;
 
 /**
- * xml×èµ²Ä£ĞÍ¶ÁÈ¡Æ÷¡£
- * <p> Ê¹ÓÃxml¶ÁÈ¡×èµ²Ä£ĞÍ¡£
+ * xmlé˜»æŒ¡æ¨¡å‹è¯»å–å™¨ã€‚
+ * <p> ä½¿ç”¨xmlè¯»å–é˜»æŒ¡æ¨¡å‹ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public class XmlBlockLoader extends StreamLoader<BlockModel> {
 
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param in Ö¸¶¨µÄÊäÈëÁ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param in æŒ‡å®šçš„è¾“å…¥æµã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public XmlBlockLoader(InputStream in) {
 		super(in);
@@ -36,7 +36,7 @@ public class XmlBlockLoader extends StreamLoader<BlockModel> {
 	 */
 	@Override
 	public void load(BlockModel blockModel) throws LoadFailedException {
-		Objects.requireNonNull(blockModel, "Èë¿Ú²ÎÊı libraryModel ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(blockModel, "å…¥å£å‚æ•° libraryModel ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -64,7 +64,7 @@ public class XmlBlockLoader extends StreamLoader<BlockModel> {
 			}
 			
 		}catch (Exception e) {
-			throw new LoadFailedException("ÎŞ·¨ÏòÖ¸¶¨µÄ¿âÄ£ĞÍÖĞ¶ÁÈ¡Á÷ÖĞµÄÊı¾İ", e);
+			throw new LoadFailedException("æ— æ³•å‘æŒ‡å®šçš„åº“æ¨¡å‹ä¸­è¯»å–æµä¸­çš„æ•°æ®", e);
 		}
 
 	}

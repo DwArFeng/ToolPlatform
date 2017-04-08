@@ -23,9 +23,9 @@ import com.dwarfeng.dutil.basic.prog.VersionType;
 import com.dwarfeng.tp.core.util.LocaleUtil;
 
 /**
- * Ä¬ÈÏ²»°²È«¹¤¾ßĞÅÏ¢¡£
- * <p> ²»°²È«¹¤¾ßĞÅÏ¢µÄÄ¬ÈÏÊµÏÖ¡£
- *  ÆäÖĞ£¬stringFile Ó¦¸ÃÂú×ãÈçÏÂ¸ñÊ½£º
+ * é»˜è®¤ä¸å®‰å…¨å·¥å…·ä¿¡æ¯ã€‚
+ * <p> ä¸å®‰å…¨å·¥å…·ä¿¡æ¯çš„é»˜è®¤å®ç°ã€‚
+ *  å…¶ä¸­ï¼ŒstringFile åº”è¯¥æ»¡è¶³å¦‚ä¸‹æ ¼å¼ï¼š
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -35,11 +35,11 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 	private final File imageFile;
 
 	/**
-	 * ĞÂÊµÀı
-	 * @param stringFile ÎÄ±¾ÎÄ¼ş¡£
-	 * @param imageFile Ğ¡Í¼Æ¬ÎÄ¼ş¡£
-	 * @param imageFile_m ÖĞÍ¼Æ¬ÎÄ¼ş¡£
-	 * @param imageFile_l ´óÍ¼Æ¬ÎÄ¼ş¡£
+	 * æ–°å®ä¾‹
+	 * @param stringFile æ–‡æœ¬æ–‡ä»¶ã€‚
+	 * @param imageFile å°å›¾ç‰‡æ–‡ä»¶ã€‚
+	 * @param imageFile_m ä¸­å›¾ç‰‡æ–‡ä»¶ã€‚
+	 * @param imageFile_l å¤§å›¾ç‰‡æ–‡ä»¶ã€‚
 	 */
 	public DefaultUnsafeToolInfo(File stringFile, File imageFile) {
 		this.stringFile = stringFile;
@@ -61,7 +61,7 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			if(Objects.isNull(value)) throw new NullPointerException();
 			return value;
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡¹¤¾ßÃû³ÆÊ§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–å·¥å…·åç§°å¤±è´¥", e);
 		}
 	}
 
@@ -73,7 +73,7 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 		try{
 			return ImageIO.read(imageFile);
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡Í¼Æ¬Ê§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–å›¾ç‰‡å¤±è´¥", e);
 		}
 	}
 
@@ -102,13 +102,13 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 					.buildDate(bdate)
 					.build();
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡°æ±¾Ê§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç‰ˆæœ¬å¤±è´¥", e);
 		}finally{
 			if(Objects.nonNull(in)){
 				try{
 					in.close();
 				}catch (IOException e) {
-					//²»Ì«¿ÉÄÜ·¢Éú¡£
+					//ä¸å¤ªå¯èƒ½å‘ç”Ÿã€‚
 					e.printStackTrace();
 				}
 			}
@@ -138,7 +138,7 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			in = new FileInputStream(stringFile);
 			SAXReader reader = new SAXReader();
 			/*
-			 * ¸ù¾İ dom4j µÄÏà¹ØËµÃ÷£¬´Ë´¦×ª»»ÊÇ°²È«µÄ¡£
+			 * æ ¹æ® dom4j çš„ç›¸å…³è¯´æ˜ï¼Œæ­¤å¤„è½¬æ¢æ˜¯å®‰å…¨çš„ã€‚
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> descriptions = (List<Element>) reader.read(in).getRootElement().elements("description");
@@ -150,13 +150,13 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			}
 			return descriptionMap;
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡°æ±¾Ê§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç‰ˆæœ¬å¤±è´¥", e);
 		}finally{
 			if(Objects.nonNull(in)){
 				try{
 					in.close();
 				}catch (IOException e) {
-					//²»Ì«¿ÉÄÜ·¢Éú¡£
+					//ä¸å¤ªå¯èƒ½å‘ç”Ÿã€‚
 					e.printStackTrace();
 				}
 			}
@@ -173,7 +173,7 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			in = new FileInputStream(stringFile);
 			SAXReader reader = new SAXReader();
 			/*
-			 * ¸ù¾İ dom4j µÄÏà¹ØËµÃ÷£¬´Ë´¦×ª»»ÊÇ°²È«µÄ¡£
+			 * æ ¹æ® dom4j çš„ç›¸å…³è¯´æ˜ï¼Œæ­¤å¤„è½¬æ¢æ˜¯å®‰å…¨çš„ã€‚
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> authors = (List<Element>) reader.read(in).getRootElement().elements("author");
@@ -183,13 +183,13 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			}
 			return author_strs.toArray(new String[0]);
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡°æ±¾Ê§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç‰ˆæœ¬å¤±è´¥", e);
 		}finally{
 			if(Objects.nonNull(in)){
 				try{
 					in.close();
 				}catch (IOException e) {
-					//²»Ì«¿ÉÄÜ·¢Éú¡£
+					//ä¸å¤ªå¯èƒ½å‘ç”Ÿã€‚
 					e.printStackTrace();
 				}
 			}
@@ -206,7 +206,7 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			in = new FileInputStream(stringFile);
 			SAXReader reader = new SAXReader();
 			/*
-			 * ¸ù¾İ dom4j µÄÏà¹ØËµÃ÷£¬´Ë´¦×ª»»ÊÇ°²È«µÄ¡£
+			 * æ ¹æ® dom4j çš„ç›¸å…³è¯´æ˜ï¼Œæ­¤å¤„è½¬æ¢æ˜¯å®‰å…¨çš„ã€‚
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> libs = (List<Element>) reader.read(in).getRootElement().elements("lib");
@@ -216,13 +216,13 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			}
 			return lib_strs.toArray(new String[0]);
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡°æ±¾Ê§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç‰ˆæœ¬å¤±è´¥", e);
 		}finally{
 			if(Objects.nonNull(in)){
 				try{
 					in.close();
 				}catch (IOException e) {
-					//²»Ì«¿ÉÄÜ·¢Éú¡£
+					//ä¸å¤ªå¯èƒ½å‘ç”Ÿã€‚
 					e.printStackTrace();
 				}
 			}
@@ -241,13 +241,13 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			Element toolClass = reader.read(in).getRootElement().element("tool-class");
 			return toolClass.attributeValue("value");
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡°æ±¾Ê§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç‰ˆæœ¬å¤±è´¥", e);
 		}finally{
 			if(Objects.nonNull(in)){
 				try{
 					in.close();
 				}catch (IOException e) {
-					//²»Ì«¿ÉÄÜ·¢Éú¡£
+					//ä¸å¤ªå¯èƒ½å‘ç”Ÿã€‚
 					e.printStackTrace();
 				}
 			}
@@ -266,13 +266,13 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			Element infoClass = reader.read(in).getRootElement().element("info-class");
 			return infoClass.attributeValue("value");
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡°æ±¾Ê§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç‰ˆæœ¬å¤±è´¥", e);
 		}finally{
 			if(Objects.nonNull(in)){
 				try{
 					in.close();
 				}catch (IOException e) {
-					//²»Ì«¿ÉÄÜ·¢Éú¡£
+					//ä¸å¤ªå¯èƒ½å‘ç”Ÿã€‚
 					e.printStackTrace();
 				}
 			}
@@ -291,13 +291,13 @@ public final class DefaultUnsafeToolInfo implements UnsafeToolInfo {
 			Element toolFile = reader.read(in).getRootElement().element("tool-file");
 			return toolFile.attributeValue("value");
 		}catch (Exception e) {
-			throw new ProcessException("¹¤¾ßĞÅÏ¢-¶ÁÈ¡°æ±¾Ê§°Ü", e);
+			throw new ProcessException("å·¥å…·ä¿¡æ¯-è¯»å–ç‰ˆæœ¬å¤±è´¥", e);
 		}finally{
 			if(Objects.nonNull(in)){
 				try{
 					in.close();
 				}catch (IOException e) {
-					//²»Ì«¿ÉÄÜ·¢Éú¡£
+					//ä¸å¤ªå¯èƒ½å‘ç”Ÿã€‚
 					e.printStackTrace();
 				}
 			}

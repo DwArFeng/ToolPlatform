@@ -5,29 +5,29 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * ³ÌĞòÖĞÊ¹ÓÃµÄ×ÊÔ´¡£
+ * ç¨‹åºä¸­ä½¿ç”¨çš„èµ„æºã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface Resource {
 
 	/**
-	 * ´ò¿ª×ÊÔ´µÄÊäÈëÁ÷¡£
-	 * @return ×ÊÔ´µÄÊäÈëÁ÷¡£
-	 * @throws IOException IOÒì³£¡£
+	 * æ‰“å¼€èµ„æºçš„è¾“å…¥æµã€‚
+	 * @return èµ„æºçš„è¾“å…¥æµã€‚
+	 * @throws IOException IOå¼‚å¸¸ã€‚
 	 */
 	public InputStream openInputStream() throws IOException;
 	
 	/**
-	 * ´ò¿ª×ÊÔ´µÄÊä³öÁ÷¡£
-	 * @return ×ÊÔ´µÄÊä³öÁ÷¡£
-	 * @throws IOException IOÒì³£¡£
+	 * æ‰“å¼€èµ„æºçš„è¾“å‡ºæµã€‚
+	 * @return èµ„æºçš„è¾“å‡ºæµã€‚
+	 * @throws IOException IOå¼‚å¸¸ã€‚
 	 */
 	public OutputStream openOutputStream() throws IOException;
 	
 	/**
-	 * ½«ÎÄ¼ş×ÊÔ´ÖÃ»»³ÉÄ¬ÈÏµÄ×ÊÔ´¡£
-	 * @throws IOException IOÒì³£¡£
+	 * å°†æ–‡ä»¶èµ„æºç½®æ¢æˆé»˜è®¤çš„èµ„æºã€‚
+	 * @throws IOException IOå¼‚å¸¸ã€‚
 	 */
 	public void reset() throws IOException;
 	

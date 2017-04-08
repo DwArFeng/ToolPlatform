@@ -10,9 +10,9 @@ import com.dwarfeng.tp.core.model.obv.ToolHistoryObverser;
 import com.dwarfeng.tp.core.model.struct.ToolHistory;
 
 /**
- * Ä¬ÈÏ¹¤¾ßÀúÊ·Ä£ĞÍ¡£
- * <p> ¹¤¾ßÀúÊ·Ä£ĞÍµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤å·¥å…·å†å²æ¨¡å‹ã€‚
+ * <p> å·¥å…·å†å²æ¨¡å‹çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -22,20 +22,20 @@ public class DefaultToolHistoryModel extends AbstractToolHistoryModel{
 	private int maxSize;
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultToolHistoryModel() {
 		this(100, new ArrayList<>());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param maxSize ×î´óµÄ´æ´¢´óĞ¡¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param maxSize æœ€å¤§çš„å­˜å‚¨å¤§å°ã€‚
 	 * @param c
 	 */
 	public DefaultToolHistoryModel(int maxSize, Collection<ToolHistory> c) {
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª null¡£");
-		if(maxSize < 0) throw new IllegalArgumentException("maxSize ²»ÄÜĞ¡ÓÚ 0¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nullã€‚");
+		if(maxSize < 0) throw new IllegalArgumentException("maxSize ä¸èƒ½å°äº 0ã€‚");
 		this.maxSize = maxSize;
 		for(ToolHistory toolHistory : c){
 			notFireAdd(toolHistory);
@@ -220,10 +220,10 @@ public class DefaultToolHistoryModel extends AbstractToolHistoryModel{
 	}
 
 	/**
-	 * ·µ»Ø¸Ã¹¤¾ßĞÅÏ¢Ä£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return ¸Ã¹¤¾ßĞÅÏ¢Ä£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
+	 * è¿”å›è¯¥å·¥å…·ä¿¡æ¯æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return è¯¥å·¥å…·ä¿¡æ¯æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
 	 */
 	@Override
 	public Iterator<ToolHistory> iterator() {

@@ -13,103 +13,103 @@ import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.RunningToolObverser;
 
 /**
- * ÔËÐÐÖÐ¹¤¾ß¡£
- * <p> ¸ÃÀà±íÊ¾Ò»¸öÕýÔÚÔËÐÐµÄ¹¤¾ß£¬Ìá¹©ÓÐ¹ØµÄ·½·¨¡£
+ * è¿è¡Œä¸­å·¥å…·ã€‚
+ * <p> è¯¥ç±»è¡¨ç¤ºä¸€ä¸ªæ­£åœ¨è¿è¡Œçš„å·¥å…·ï¼Œæä¾›æœ‰å…³çš„æ–¹æ³•ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface RunningTool extends Name, ObverserSet<RunningToolObverser>{
 	
 	/**
-	 * ·µ»Ø¹¤¾ßÖÐµÄÍ¼Æ¬¡£
-	 * @return ¹¤¾ßÖÐµÄÍ¼Æ¬¡£
+	 * è¿”å›žå·¥å…·ä¸­çš„å›¾ç‰‡ã€‚
+	 * @return å·¥å…·ä¸­çš„å›¾ç‰‡ã€‚
 	 */
 	public Image getImage();
 	
 	/**
-	 * »ñÈ¡ÓÃÓÚ×ª½Ó¹¤¾ßÊä³öÁ÷µÄÊäÈëÁ÷¡£
-	 * @return ÓÃÓÚ×ª½Ó¹¤¾ßÊä³öÁ÷µÄÊäÈëÁ÷¡£
+	 * èŽ·å–ç”¨äºŽè½¬æŽ¥å·¥å…·è¾“å‡ºæµçš„è¾“å…¥æµã€‚
+	 * @return ç”¨äºŽè½¬æŽ¥å·¥å…·è¾“å‡ºæµçš„è¾“å…¥æµã€‚
 	 */
 	public InputStream getInputStream();
 	
 	/**
-	 * ÉèÖÃÓÃÓÚ×ª½Ó¹¤¾ßÊä³öÁ÷µÄÊäÈëÁ÷¡£
-	 * <p> ÔËÐÐÖÐ¹¤¾ßÔÚÔËÐÐµÄÊ±ºò£¬»á²»¶ÏµÄ½«Õâ¸öÁ÷ÖÐµÄÊý¾ÝÊä³öµ½¹¤¾ßµÄÊä³öÁ÷ÖÐ£¬¸Ã¹ý³ÌÊÇ²¢·¢µÄ¡£
-	 * <p> ¸ÃÊä³öÁ÷±ØÐëÊÇ×èÈûÊ½µÄ£¬·ñÔò»áÏµÍ³×ÊÔ´Ôì³É¾Þ´óµÄ¸ºµ£¡£
-	 * <p> Èë¿Ú²ÎÊýÔÊÐíÎª <code>null</code>£¬´ú±í¸ÃÔËÐÐÖÐ¹¤¾ß½«Å×Æú¹¤¾ßµÄÊä³öÁ÷ÖÐµÄËùÓÐÊý¾Ý¡£
-	 * @param in Ö¸¶¨µÄÊä³öÁ÷¡£
-	 * @return ÊÇ·ñÉèÖÃ³É¹¦
+	 * è®¾ç½®ç”¨äºŽè½¬æŽ¥å·¥å…·è¾“å‡ºæµçš„è¾“å…¥æµã€‚
+	 * <p> è¿è¡Œä¸­å·¥å…·åœ¨è¿è¡Œçš„æ—¶å€™ï¼Œä¼šä¸æ–­çš„å°†è¿™ä¸ªæµä¸­çš„æ•°æ®è¾“å‡ºåˆ°å·¥å…·çš„è¾“å‡ºæµä¸­ï¼Œè¯¥è¿‡ç¨‹æ˜¯å¹¶å‘çš„ã€‚
+	 * <p> è¯¥è¾“å‡ºæµå¿…é¡»æ˜¯é˜»å¡žå¼çš„ï¼Œå¦åˆ™ä¼šç³»ç»Ÿèµ„æºé€ æˆå·¨å¤§çš„è´Ÿæ‹…ã€‚
+	 * <p> å…¥å£å‚æ•°å…è®¸ä¸º <code>null</code>ï¼Œä»£è¡¨è¯¥è¿è¡Œä¸­å·¥å…·å°†æŠ›å¼ƒå·¥å…·çš„è¾“å‡ºæµä¸­çš„æ‰€æœ‰æ•°æ®ã€‚
+	 * @param in æŒ‡å®šçš„è¾“å‡ºæµã€‚
+	 * @return æ˜¯å¦è®¾ç½®æˆåŠŸ
 	 */
 	public boolean setInputStream(InputStream in);
 	
 	/**
-	 * »ñÈ¡ÓÃÓÚ×ª½Ó¹¤¾ßÊäÈëÁ÷µÄÊä³öÁ÷¡£
-	 * @return ÓÃÓÚ×ª½Ó¹¤¾ßÊäÈëÁ÷µÄÊä³öÁ÷¡£
+	 * èŽ·å–ç”¨äºŽè½¬æŽ¥å·¥å…·è¾“å…¥æµçš„è¾“å‡ºæµã€‚
+	 * @return ç”¨äºŽè½¬æŽ¥å·¥å…·è¾“å…¥æµçš„è¾“å‡ºæµã€‚
 	 */
 	public OutputStream getOutputStream();
 	
 	/**
-	 * ÉèÖÃÓÃÓÚ×ª½Ó¹¤¾ßÊäÈëÁ÷µÄÊä³öÁ÷¡£
-	 * <p> ÔËÐÐÖÐ¹¤¾ßÔÚÔËÐÐµÄÊ±ºò£¬»á²»¶ÏµÄ½«¹¤¾ßµÄÊä³öÁ÷µÄÊý¾Ý·¢ËÍµ½¸ÃÊä³öÁ÷ÖÐ£¬¸Ã¹ý³ÌÊÇ²¢·¢µÄ¡£
-	 * <p> Èë¿Ú²ÎÊýÔÊÐíÎª <code>null</code>£¬´ú±í¸ÃÔËÐÐÖÐ¹¤¾ß½«Å×Æú¹¤¾ßµÄÊäÈëÁ÷ÖÐµÄËùÓÐÊý¾Ý¡£
-	 * @param out Ö¸¶¨µÄÊä³öÁ÷¡£
-	 * @return ÊÇ·ñÉèÖÃ³É¹¦
+	 * è®¾ç½®ç”¨äºŽè½¬æŽ¥å·¥å…·è¾“å…¥æµçš„è¾“å‡ºæµã€‚
+	 * <p> è¿è¡Œä¸­å·¥å…·åœ¨è¿è¡Œçš„æ—¶å€™ï¼Œä¼šä¸æ–­çš„å°†å·¥å…·çš„è¾“å‡ºæµçš„æ•°æ®å‘é€åˆ°è¯¥è¾“å‡ºæµä¸­ï¼Œè¯¥è¿‡ç¨‹æ˜¯å¹¶å‘çš„ã€‚
+	 * <p> å…¥å£å‚æ•°å…è®¸ä¸º <code>null</code>ï¼Œä»£è¡¨è¯¥è¿è¡Œä¸­å·¥å…·å°†æŠ›å¼ƒå·¥å…·çš„è¾“å…¥æµä¸­çš„æ‰€æœ‰æ•°æ®ã€‚
+	 * @param out æŒ‡å®šçš„è¾“å‡ºæµã€‚
+	 * @return æ˜¯å¦è®¾ç½®æˆåŠŸ
 	 */
 	public boolean setOutputStream(PrintStream out);
 	
 	/**
-	 * Ëø¶¨Á÷¡£
-	 * <p> ¸Ã·½·¨½«»áËø¶¨¸ÃÔËÐÐÖÐ¹¤¾ßµÄÊäÈëÁ÷ÓëÊä³öÁ÷£¬µ÷ÓÃ¸Ã·½·¨Ö®ºó£¬ÔÙ´Îµ÷ÓÃ
-	 * {@link RunningTool#setInputStream(InputStream)} »ò {@link RunningTool#setOutputStream(OutputStream)} ½«·µ»Ø <code>false</code>¡£
-	 * <p> Ö»ÓÐµ±Á÷±»Ëø¶¨Ö®ºó£¬¹¤¾ß²Å»á¿ªÊ¼ÔËÐÐ¡£
+	 * é”å®šæµã€‚
+	 * <p> è¯¥æ–¹æ³•å°†ä¼šé”å®šè¯¥è¿è¡Œä¸­å·¥å…·çš„è¾“å…¥æµä¸Žè¾“å‡ºæµï¼Œè°ƒç”¨è¯¥æ–¹æ³•ä¹‹åŽï¼Œå†æ¬¡è°ƒç”¨
+	 * {@link RunningTool#setInputStream(InputStream)} æˆ– {@link RunningTool#setOutputStream(OutputStream)} å°†è¿”å›ž <code>false</code>ã€‚
+	 * <p> åªæœ‰å½“æµè¢«é”å®šä¹‹åŽï¼Œå·¥å…·æ‰ä¼šå¼€å§‹è¿è¡Œã€‚
 	 */
 	public void lockStream();
 	
 	/**
-	 * Æô¶¯¸ÃÔËÐÐÖÐ¹¤¾ß¡£
-	 * <p> ¸Ã·½·¨ÔÚÔËÐÐ {@link RunningTool#lockStream()} Ö®Ç°£¬»áÔì³Éµ÷ÓÃÏß³ÌµÄ×èÈû£¬
-	 * ÔÚ×èÈûµÄ¹ý³ÌÖÐ£¬Èç¹ûÏß³Ì±»ÖÐ¶Ï£¬²¢²»»áÆô¶¯¹¤¾ß¡£
-	 * @throws InterruptedException µ÷ÓÃÏß³ÌÔÚ×èÈûÊ±±»ÖÐ¶Ï¡£
-	 * @throws IllegalStateException ÔÚ³ÌÐòÒÑ¾­Æô¶¯»ò½áÊøºóÔÙ´Îµ÷ÓÃ¸Ã·½·¨¡£
+	 * å¯åŠ¨è¯¥è¿è¡Œä¸­å·¥å…·ã€‚
+	 * <p> è¯¥æ–¹æ³•åœ¨è¿è¡Œ {@link RunningTool#lockStream()} ä¹‹å‰ï¼Œä¼šé€ æˆè°ƒç”¨çº¿ç¨‹çš„é˜»å¡žï¼Œ
+	 * åœ¨é˜»å¡žçš„è¿‡ç¨‹ä¸­ï¼Œå¦‚æžœçº¿ç¨‹è¢«ä¸­æ–­ï¼Œå¹¶ä¸ä¼šå¯åŠ¨å·¥å…·ã€‚
+	 * @throws InterruptedException è°ƒç”¨çº¿ç¨‹åœ¨é˜»å¡žæ—¶è¢«ä¸­æ–­ã€‚
+	 * @throws IllegalStateException åœ¨ç¨‹åºå·²ç»å¯åŠ¨æˆ–ç»“æŸåŽå†æ¬¡è°ƒç”¨è¯¥æ–¹æ³•ã€‚
 	 */
 	public void start() throws InterruptedException;
 	
 	/**
-	 * Ç¿ÖÆÖÐÖ¹¸ÃÔËÐÐÖÐ¹¤¾ß¡£
-	 * <p> µ÷ÓÃ¸Ã·½·¨ºó£¬Èç¹û¸Ã¹¤¾ß»¹Î´Æô¶¯£¬Ôò¹¤¾ßÓÀÔ¶²»»áÆô¶¯£¬·µ»ØµÄÍË³öÖµÊÇ <code>-12450</code>¡£
-	 * <br> µ÷ÓÃ¸Ã·½·¨ºó£¬Èç¹û¸Ã¹¤¾ßÕýÔÚµÈ´ýÆô¶¯£¬Ôò½áÊøµÈ´ý£¨²»»áÅ×³ö {@link InterruptedException}£©²¢ÇÒ½áÊø£¬¹¤¾ßÓÀÔ¶²»»áÆô¶¯£¬
-	 * ·µ»ØµÄÍË³öÖµÊÇ <code>-12451</code>¡£
+	 * å¼ºåˆ¶ä¸­æ­¢è¯¥è¿è¡Œä¸­å·¥å…·ã€‚
+	 * <p> è°ƒç”¨è¯¥æ–¹æ³•åŽï¼Œå¦‚æžœè¯¥å·¥å…·è¿˜æœªå¯åŠ¨ï¼Œåˆ™å·¥å…·æ°¸è¿œä¸ä¼šå¯åŠ¨ï¼Œè¿”å›žçš„é€€å‡ºå€¼æ˜¯ <code>-12450</code>ã€‚
+	 * <br> è°ƒç”¨è¯¥æ–¹æ³•åŽï¼Œå¦‚æžœè¯¥å·¥å…·æ­£åœ¨ç­‰å¾…å¯åŠ¨ï¼Œåˆ™ç»“æŸç­‰å¾…ï¼ˆä¸ä¼šæŠ›å‡º {@link InterruptedException}ï¼‰å¹¶ä¸”ç»“æŸï¼Œå·¥å…·æ°¸è¿œä¸ä¼šå¯åŠ¨ï¼Œ
+	 * è¿”å›žçš„é€€å‡ºå€¼æ˜¯ <code>-12451</code>ã€‚
 	 */
 	public void destroy();
 	
 	/**
-	 * »ñÈ¡¸Ã¹¤¾ßµÄÔËÐÐÊ±×´Ì¬¡£
-	 * @return ¸Ã¹¤¾ßµÄÔËÐÐÊ±×´Ì¬¡£
+	 * èŽ·å–è¯¥å·¥å…·çš„è¿è¡Œæ—¶çŠ¶æ€ã€‚
+	 * @return è¯¥å·¥å…·çš„è¿è¡Œæ—¶çŠ¶æ€ã€‚
 	 */
 	public RuntimeState getRuntimeState();
 	
 	/**
-	 * »ñÈ¡¸ÃÔËÐÐÖÐ¹¤¾ßµÄ¹¤×÷Ä¿Â¼¡£
-	 * @return ¸ÃÔËÐÐÖÐ¹¤¾ßµÄ¹¤×÷Ä¿Â¼¡£
+	 * èŽ·å–è¯¥è¿è¡Œä¸­å·¥å…·çš„å·¥ä½œç›®å½•ã€‚
+	 * @return è¯¥è¿è¡Œä¸­å·¥å…·çš„å·¥ä½œç›®å½•ã€‚
 	 */
 	public File getDirectory();
 	
 	/**
-	 * ·µ»Ø¸ÃÔËÐÐÖÐ¹¤¾ßµÄÍË³ö´úÂë¡£
-	 * <p> ¶ÔÓÚÄ³Ð©ÊµÏÖ£¬¼´Ê¹¹¤¾ß´¦ÓÚÔËÐÐ×´Ì¬ÏÂ£¬µ÷ÓÃ¸Ã·½·¨ÈÔÈ»ÄÜ¹»·µ»ØÖµ¡ª¡ªµ«ÊÇÕâÑù×öºÁÎÞÒâÒå¡£
-	 * @return ¸Ã¹¤¾ßµÄÍË³ö´úÂë¡£
+	 * è¿”å›žè¯¥è¿è¡Œä¸­å·¥å…·çš„é€€å‡ºä»£ç ã€‚
+	 * <p> å¯¹äºŽæŸäº›å®žçŽ°ï¼Œå³ä½¿å·¥å…·å¤„äºŽè¿è¡ŒçŠ¶æ€ä¸‹ï¼Œè°ƒç”¨è¯¥æ–¹æ³•ä»ç„¶èƒ½å¤Ÿè¿”å›žå€¼â€”â€”ä½†æ˜¯è¿™æ ·åšæ¯«æ— æ„ä¹‰ã€‚
+	 * @return è¯¥å·¥å…·çš„é€€å‡ºä»£ç ã€‚
 	 */
 	public int getExitCode();
 	
 	/**
-	 * »ñÈ¡¹¤¾ß¿ªÊ¼ÔËÐÐµÄÈÕÆÚ¡£
-	 * @return ¹¤¾ß¿ªÊ¼ÔËÐÐµÄÈÕÆÚ¡£
+	 * èŽ·å–å·¥å…·å¼€å§‹è¿è¡Œçš„æ—¥æœŸã€‚
+	 * @return å·¥å…·å¼€å§‹è¿è¡Œçš„æ—¥æœŸã€‚
 	 */
 	public Date getRanDate();
 	
 	/**
-	 * »ñÈ¡¹¤¾ß½áÊøÔËÐÐµÄÈÕÆÚ¡£
-	 * @return ¹¤¾ß½áÊøÔËÐÐµÄÈÕÆÚ¡£
+	 * èŽ·å–å·¥å…·ç»“æŸè¿è¡Œçš„æ—¥æœŸã€‚
+	 * @return å·¥å…·ç»“æŸè¿è¡Œçš„æ—¥æœŸã€‚
 	 */
 	public Date getExitedDate();
 	

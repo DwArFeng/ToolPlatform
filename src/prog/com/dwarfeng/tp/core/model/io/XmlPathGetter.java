@@ -12,7 +12,7 @@ import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
- * Í¨¹ı¶ÁÈ¡XMLÅäÖÃÀ´ÊµÏÖµÄÂ·¾¶»ñµÃÆ÷¡£
+ * é€šè¿‡è¯»å–XMLé…ç½®æ¥å®ç°çš„è·¯å¾„è·å¾—å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -22,15 +22,15 @@ public class XmlPathGetter implements PathGetter {
 	private final File dataDir;
 	
 	public XmlPathGetter(InputStream libCfg, InputStream dataCfg) throws LoadFailedException, DocumentException {
-		Objects.requireNonNull(libCfg, "Èë¿Ú²ÎÊı libCfg ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(dataCfg, "Èë¿Ú²ÎÊı dataCfg ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(libCfg, "å…¥å£å‚æ•° libCfg ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(dataCfg, "å…¥å£å‚æ•° dataCfg ä¸èƒ½ä¸º nullã€‚");
 		
 		SAXReader libraryReader = new SAXReader();
 		Element libraryRoot = null;
 		libraryRoot = libraryReader.read(libCfg).getRootElement();
 		String libraryRootStr = libraryRoot.attributeValue("dir");
 		if(Objects.isNull(libraryRootStr)){
-			throw new LoadFailedException("¸ùÔªËØÈ±Ê§dirÊôĞÔ");
+			throw new LoadFailedException("æ ¹å…ƒç´ ç¼ºå¤±dirå±æ€§");
 		}
 		
 		SAXReader dataReader = new SAXReader();
@@ -38,7 +38,7 @@ public class XmlPathGetter implements PathGetter {
 		dataRoot = dataReader.read(dataCfg).getRootElement();
 		String dataRootStr = dataRoot.attributeValue("dir");
 		if(Objects.isNull(dataRootStr)){
-			throw new LoadFailedException("¸ùÔªËØÈ±Ê§dirÊôĞÔ");
+			throw new LoadFailedException("æ ¹å…ƒç´ ç¼ºå¤±dirå±æ€§");
 		}
 		
 		libraryDir = new File(libraryRootStr);

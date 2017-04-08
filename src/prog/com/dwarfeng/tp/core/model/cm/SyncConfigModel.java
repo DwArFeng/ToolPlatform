@@ -4,8 +4,8 @@ import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.dutil.develop.cfg.ConfigModel;
 
 /**
- * Í¬²½ÅäÖÃÄ£ĞÍ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * åŒæ­¥é…ç½®æ¨¡å‹ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

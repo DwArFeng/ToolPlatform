@@ -10,16 +10,16 @@ import com.dwarfeng.tp.core.model.struct.Block;
 import com.dwarfeng.tp.core.model.struct.Updateable;
 
 /**
- * ×èµ²Ä£ĞÍ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * é˜»æŒ¡æ¨¡å‹ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface BlockModel extends Map<String, Set<String>>, ObverserSet<BlockObverser>, ExternalReadWriteThreadSafe, Updateable{
 	
 	/**
-	 * »ñÈ¡Ä£ĞÍÖĞµÄ×èµ²¡£
-	 * @return Ä£ĞÍÖĞµÄ×èµ²¡£
+	 * è·å–æ¨¡å‹ä¸­çš„é˜»æŒ¡ã€‚
+	 * @return æ¨¡å‹ä¸­çš„é˜»æŒ¡ã€‚
 	 */
 	public Block getBlock();
 

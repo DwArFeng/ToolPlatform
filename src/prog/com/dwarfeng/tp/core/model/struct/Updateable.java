@@ -1,15 +1,15 @@
 package com.dwarfeng.tp.core.model.struct;
 
 /**
- * ¿É¸üĞÂ½Ó¿Ú¡£
+ * å¯æ›´æ–°æ¥å£ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface Updateable{
 	
 	/**
-	 * ¸üĞÂ¸Ã½Ó¿Ú¡£
-	 * @throws ProcessException ¸üĞÂ¹ı³ÌÒì³£¡£
+	 * æ›´æ–°è¯¥æ¥å£ã€‚
+	 * @throws ProcessException æ›´æ–°è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public void update() throws ProcessException;
 

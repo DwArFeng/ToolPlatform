@@ -67,20 +67,20 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 	private boolean addRejectFlag = false;
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultToolRuntimeModel() {
 		this(new ArrayList<>());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param c Ö¸¶¨µÄ³õÊ¼Öµ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param c æŒ‡å®šçš„åˆå§‹å€¼ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultToolRuntimeModel(Collection<RunningTool> c){
 		super(Executors.newCachedThreadPool(THREAD_FACTORY));
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nullã€‚");
 		runningTools.addAll(c);
 		for(RunningTool runningTool : runningTools){
 			runningToolNames.add(runningTool.getName());
@@ -278,10 +278,10 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 	}
 
 	/**
-	 * ·µ»Ø¸Ã¹¤¾ßÔËĞĞÊ±Ä£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return ¸Ã¹¤¾ßÔËĞĞÊ±Ä£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
+	 * è¿”å›è¯¥å·¥å…·è¿è¡Œæ—¶æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return è¯¥å·¥å…·è¿è¡Œæ—¶æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
 	 */
 	@Override
 	public Iterator<RunningTool> iterator() {
@@ -361,7 +361,7 @@ public final class DefaultToolRuntimeModel extends AbstractToolRuntimeModel{
 			try {
 				runningTool.start();
 			} catch (InterruptedException ignore) {
-				//ÖĞ¶Ï¼´ÍË³ö¡£
+				//ä¸­æ–­å³é€€å‡ºã€‚
 				return;
 			}
 		}

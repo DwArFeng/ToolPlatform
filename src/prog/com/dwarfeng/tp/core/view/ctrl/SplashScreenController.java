@@ -3,16 +3,16 @@ package com.dwarfeng.tp.core.view.ctrl;
 import com.dwarfeng.tp.core.view.gui.SplashScreen;
 
 /**
- * Æô¶¯´°¿Ú¿ØÖÆÆ÷¡£
+ * å¯åŠ¨çª—å£æ§åˆ¶å™¨ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface SplashScreenController extends GuiController<SplashScreen>{
 	
 	/**
-	 * ÉèÖÃÏÔÊ¾ÔÚÆô¶¯´°¿ÚÉÏµÄĞÅÏ¢ÎÄ±¾¡£
-	 * @param text Ö¸¶¨µÄĞÅÏ¢ÎÄ±¾, <code>null</code>Ïàµ±ÓÚ <code>""</code>¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¶ÔÆô¶¯´°¿ÚÔì³ÉÁË¸Ä±ä¡£
+	 * è®¾ç½®æ˜¾ç¤ºåœ¨å¯åŠ¨çª—å£ä¸Šçš„ä¿¡æ¯æ–‡æœ¬ã€‚
+	 * @param text æŒ‡å®šçš„ä¿¡æ¯æ–‡æœ¬, <code>null</code>ç›¸å½“äº <code>""</code>ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦å¯¹å¯åŠ¨çª—å£é€ æˆäº†æ”¹å˜ã€‚
 	 */
 	public boolean setMessage(String text);
 

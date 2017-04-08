@@ -37,16 +37,16 @@ import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	
 	/*
-	 * final Óò
+	 * final åŸŸ
 	 */
 	private final JTable table;
 	private final Image unknownToolIcon;
 	
 	
 	/*
-	 * ÆäËü·Ç final Óò¡£
+	 * å…¶å®ƒé final åŸŸã€‚
 	 */
-	/**¶àÓïÑÔ½Ó¿Ú*/
+	/**å¤šè¯­è¨€æ¥å£*/
 	private Mutilang mutilang;
 	private ImageSize toolIconSize = ImageSize.ICON_MEDIUM;
 	private ToolHistoryModel toolHistoryModel;
@@ -118,7 +118,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 		
 	};
 	private final ToolInfoObverser toolInfoObverser = new ToolInfoAdapter() {
-		//TODO Èç¹ûÕâÑù×öĞÔÄÜ½Ï²îµÄ»°£¬ÔòÓÅ»¯Ğ§ÂÊ¡£
+		//TODO å¦‚æœè¿™æ ·åšæ€§èƒ½è¾ƒå·®çš„è¯ï¼Œåˆ™ä¼˜åŒ–æ•ˆç‡ã€‚
 
 		/* (non-Javadoc)
 		 * @see com.dwarfeng.tp.core.model.obv.ToolInfoAdapter#fireToolInfoAdded(com.dwarfeng.tp.core.model.struct.ToolInfo)
@@ -199,7 +199,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 		};
 	};
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public JToolHistoryPanel() {
 		this(Constants.getDefaultLabelMutilang(), null, null);
@@ -210,7 +210,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	 * @param mutilang
 	 */
 	public JToolHistoryPanel(Mutilang mutilang, ToolHistoryModel toolHistoryModel, ToolInfoModel toolInfoModel) {
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 
 		unknownToolIcon = ImageUtil.getImage(ImageKey.UNKNOWN, ImageSize.ICON_LARGE);
 		
@@ -296,7 +296,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 			toolInfoModel.addObverser(toolInfoObverser);
 			toolInfoModel.getLock().readLock().lock();
 			try{
-				//TODO Èç¹ûÕâÑù×öĞÔÄÜ½Ï²îµÄ»°£¬ÔòÓÅ»¯Ğ§ÂÊ¡£
+				//TODO å¦‚æœè¿™æ ·åšæ€§èƒ½è¾ƒå·®çš„è¯ï¼Œåˆ™ä¼˜åŒ–æ•ˆç‡ã€‚
 				table.repaint();
 			}finally {
 				toolInfoModel.getLock().readLock().unlock();
@@ -321,7 +321,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
-		Objects.requireNonNull(mutilang , "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang , "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		if(Objects.equals(mutilang, this.mutilang)) return false;
 		this.mutilang = mutilang;
@@ -334,16 +334,16 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	}
 
 	/**
-	 * »ñÈ¡Ãæ°åµÄ¹¤¾ßÀúÊ·Ä£ĞÍ¡£
-	 * @return Ãæ°åµÄ¹¤¾ßÀúÊ·Ä£ĞÍ¡£
+	 * è·å–é¢æ¿çš„å·¥å…·å†å²æ¨¡å‹ã€‚
+	 * @return é¢æ¿çš„å·¥å…·å†å²æ¨¡å‹ã€‚
 	 */
 	public ToolHistoryModel getToolHistoryModel() {
 		return toolHistoryModel;
 	}
 
 	/**
-	 * ÉèÖÃÃæ°åµÄ¹¤¾ßÀúÊ·Ä£ĞÍ¡£
-	 * @param toolHistoryModel Ö¸¶¨µÄ¹¤¾ßÀúÊ·Ä£ĞÍ¡£
+	 * è®¾ç½®é¢æ¿çš„å·¥å…·å†å²æ¨¡å‹ã€‚
+	 * @param toolHistoryModel æŒ‡å®šçš„å·¥å…·å†å²æ¨¡å‹ã€‚
 	 */
 	public void setToolHistoryModel(ToolHistoryModel toolHistoryModel) {
 		if(Objects.nonNull(this.toolHistoryModel)){
@@ -364,16 +364,16 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	}
 
 	/**
-	 * ·µ»ØÃæ°åµÄ¹¤¾ßĞÅÏ¢Ä£ĞÍ¡£
-	 * @return Ãæ°åµÄ¹¤¾ßĞÅÏ¢Ä£ĞÍ¡£
+	 * è¿”å›é¢æ¿çš„å·¥å…·ä¿¡æ¯æ¨¡å‹ã€‚
+	 * @return é¢æ¿çš„å·¥å…·ä¿¡æ¯æ¨¡å‹ã€‚
 	 */
 	public ToolInfoModel getToolInfoModel() {
 		return toolInfoModel;
 	}
 
 	/**
-	 * ÉèÖÃÃæ°åµÄ¹¤¾ßĞÅÏ¢Ä£ĞÍ¡£
-	 * @param toolInfoModel Ö¸¶¨µÄÄ£ĞÍ¡£
+	 * è®¾ç½®é¢æ¿çš„å·¥å…·ä¿¡æ¯æ¨¡å‹ã€‚
+	 * @param toolInfoModel æŒ‡å®šçš„æ¨¡å‹ã€‚
 	 */
 	public void setToolInfoModel(ToolInfoModel toolInfoModel) {
 		if(Objects.nonNull(this.toolInfoObverser)){
@@ -383,7 +383,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 			toolInfoModel.addObverser(toolInfoObverser);
 			toolInfoModel.getLock().readLock().lock();
 			try{
-				//TODO Èç¹ûÕâÑù×öĞÔÄÜ½Ï²îµÄ»°£¬ÔòÓÅ»¯Ğ§ÂÊ¡£
+				//TODO å¦‚æœè¿™æ ·åšæ€§èƒ½è¾ƒå·®çš„è¯ï¼Œåˆ™ä¼˜åŒ–æ•ˆç‡ã€‚
 				table.repaint();
 			}finally {
 				toolInfoModel.getLock().readLock().unlock();
@@ -393,16 +393,16 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	}
 
 	/**
-	 * »ñÈ¡¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
-	 * @return ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
+	 * è·å–å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
+	 * @return å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public ImageSize getToolIconSize() {
 		return toolIconSize;
 	}
 
 	/**
-	 * ÉèÖÃ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
-	 * @param toolIconSize ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
+	 * è®¾ç½®å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
+	 * @param toolIconSize å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public void setToolIconSize(ImageSize toolIconSize) {
 		this.toolIconSize = toolIconSize;
@@ -413,7 +413,7 @@ public class JToolHistoryPanel extends JPanel implements MutilangSupported{
 	}
 
 	/**
-	 * ÊÍ·Å×ÊÔ´¡£
+	 * é‡Šæ”¾èµ„æºã€‚
 	 */
 	public void dispose(){
 		tableModel.setDataVector(new Objects[0][4], new Object[4]);

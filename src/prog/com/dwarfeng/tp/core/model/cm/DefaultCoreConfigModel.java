@@ -6,15 +6,15 @@ import com.dwarfeng.tp.core.model.eum.CoreConfig;
 import com.dwarfeng.tp.core.util.LocaleUtil;
 
 /**
- * Ä¬ÈÏºËĞÄÅäÖÃÄ£ĞÍ¡£
- * <p> ºËĞÄÅäÖÃÄ£ĞÍµÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤æ ¸å¿ƒé…ç½®æ¨¡å‹ã€‚
+ * <p> æ ¸å¿ƒé…ç½®æ¨¡å‹çš„é»˜è®¤å®ç°ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public class DefaultCoreConfigModel extends DefaultSyncConfigModel implements CoreConfigModel{
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultCoreConfigModel() {
 		super(CoreConfig.values());

@@ -4,7 +4,7 @@ import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.struct.DefaultName;
 
 /**
- * ×èµ²¼ü¡£
+ * é˜»æŒ¡é”®ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

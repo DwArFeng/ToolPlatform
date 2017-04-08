@@ -7,87 +7,87 @@ import java.util.Map;
 import com.dwarfeng.dutil.basic.prog.Version;
 
 /**
- * ²»°²È«¹¤¾ßÐÅÏ¢¡£
- * TODO ÔÚ½«À´£¬Õâ¸öÀà½«²»¼Ì³Ð Name ½Ó¿Ú£¬È¡¶ø´úÖ®µÄÊÇ¿ÉÄÜ·µ»ØÒì³£µÄ getName();
- * <p> ¸Ã¹¤¾ßÐÅÏ¢·µ»Ø¹¤¾ßÐÅÏ¢µÄÊôÐÔ£¬µ«ÊÇÓÐ¿ÉÄÜÅ×³öÒì³££¬ËÙ¶ÈÒ²±È¹¤¾ßÐÅÏ¢ÒªÂý¡£
+ * ä¸å®‰å…¨å·¥å…·ä¿¡æ¯ã€‚
+ * TODO åœ¨å°†æ¥ï¼Œè¿™ä¸ªç±»å°†ä¸ç»§æ‰¿ Name æŽ¥å£ï¼Œå–è€Œä»£ä¹‹çš„æ˜¯å¯èƒ½è¿”å›žå¼‚å¸¸çš„ getName();
+ * <p> è¯¥å·¥å…·ä¿¡æ¯è¿”å›žå·¥å…·ä¿¡æ¯çš„å±žæ€§ï¼Œä½†æ˜¯æœ‰å¯èƒ½æŠ›å‡ºå¼‚å¸¸ï¼Œé€Ÿåº¦ä¹Ÿæ¯”å·¥å…·ä¿¡æ¯è¦æ…¢ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface UnsafeToolInfo{
 
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÃû³Æ¡£
-	 * @return ¹¤¾ßµÄÃû³Æ¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * èŽ·å–å·¥å…·çš„åç§°ã€‚
+	 * @return å·¥å…·çš„åç§°ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public String getName() throws ProcessException;
 	
 	/**
-	 * ·µ»Ø¹¤¾ßÖÐµÄÍ¼Æ¬¡£
-	 * @return ¹¤¾ßÖÐµÄÍ¼Æ¬¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * è¿”å›žå·¥å…·ä¸­çš„å›¾ç‰‡ã€‚
+	 * @return å·¥å…·ä¸­çš„å›¾ç‰‡ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public Image getImage() throws ProcessException;
 
 	/**
-	 * ·µ»Ø¹¤¾ßµÄ°æ±¾¡£
-	 * @return ¹¤¾ßµÄ°æ±¾¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * è¿”å›žå·¥å…·çš„ç‰ˆæœ¬ã€‚
+	 * @return å·¥å…·çš„ç‰ˆæœ¬ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public Version getVersion() throws ProcessException;
 
 	/**
-	 * »ñÈ¡¹¤¾ßÖÐµÄÓïÑÔ-ÃèÊöÓ³Éä¡£
-	 * @return ¹¤¾ßÖÐµÄÓïÑÔ-ÃèÊöÓ³Éä¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * èŽ·å–å·¥å…·ä¸­çš„è¯­è¨€-æè¿°æ˜ å°„ã€‚
+	 * @return å·¥å…·ä¸­çš„è¯­è¨€-æè¿°æ˜ å°„ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public Map<Locale, String> getDescriptionMap() throws ProcessException;
 	
 	/**
-	 * TODO ÊÇ·ñÒªÒÔ Doucument µÄÐÎÊ½À´·µ»ØÃèÊö£¿£¿
-	 * »ñÈ¡¹¤¾ßµÄÃèÊö¡£
-	 * @param locale Ö¸¶¨µÄÓïÑÔ£¬¿ÉÒÔÎª <code>null</code>£¬´ú±íÄ¬ÈÏÓïÑÔ¡£
-	 * @return Ö¸¶¨µÄÓïÑÔÏÂ¹¤¾ßµÄÃèÊö¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * TODO æ˜¯å¦è¦ä»¥ Doucument çš„å½¢å¼æ¥è¿”å›žæè¿°ï¼Ÿï¼Ÿ
+	 * èŽ·å–å·¥å…·çš„æè¿°ã€‚
+	 * @param locale æŒ‡å®šçš„è¯­è¨€ï¼Œå¯ä»¥ä¸º <code>null</code>ï¼Œä»£è¡¨é»˜è®¤è¯­è¨€ã€‚
+	 * @return æŒ‡å®šçš„è¯­è¨€ä¸‹å·¥å…·çš„æè¿°ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public String getDescription(Locale locale) throws ProcessException;
 
 	/**
-	 * »ñÈ¡¹¤¾ßµÄ×÷ÕßÊý×é¡£
-	 * <p> ×÷ÕßÓ¦¸Ã°´ÕÕ¹±Ï×³Ì¶ÈµÄ´óÐ¡ÅÅÐò£¬ÒòÎª·µ»ØµÄ×÷ÕßÊý×éÖÐ£¬
-	 * ¿¿Ç°µÄ×÷Õß¸üÓÐ¿ÉÄÜÏÔÊ¾ÔÚ¸ÅÒª½çÃæÉÏ¡£
-	 * @return ¹¤¾ßµÄ×÷ÕßÊý×é¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * èŽ·å–å·¥å…·çš„ä½œè€…æ•°ç»„ã€‚
+	 * <p> ä½œè€…åº”è¯¥æŒ‰ç…§è´¡çŒ®ç¨‹åº¦çš„å¤§å°æŽ’åºï¼Œå› ä¸ºè¿”å›žçš„ä½œè€…æ•°ç»„ä¸­ï¼Œ
+	 * é å‰çš„ä½œè€…æ›´æœ‰å¯èƒ½æ˜¾ç¤ºåœ¨æ¦‚è¦ç•Œé¢ä¸Šã€‚
+	 * @return å·¥å…·çš„ä½œè€…æ•°ç»„ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public String[] getAuthors() throws ProcessException;
 
 	/**
-	 * »ñÈ¡¹¤¾ßµÄ¿âÁÐ±í¡£
-	 * <p> ·µ»ØµÄ×Ö·û´®Ó¦¸ÃÊÇËùÐèÒªÊ¹ÓÃµÄ¿âÎÄ¼þµÄÎÄ¼þÃû£¬²»¿É´øÂ·¾¶¡£
-	 * @return ¹¤¾ßµÄ¿âÁÐ±í¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * èŽ·å–å·¥å…·çš„åº“åˆ—è¡¨ã€‚
+	 * <p> è¿”å›žçš„å­—ç¬¦ä¸²åº”è¯¥æ˜¯æ‰€éœ€è¦ä½¿ç”¨çš„åº“æ–‡ä»¶çš„æ–‡ä»¶åï¼Œä¸å¯å¸¦è·¯å¾„ã€‚
+	 * @return å·¥å…·çš„åº“åˆ—è¡¨ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public String[] getToolLibs() throws ProcessException;
 
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÖ÷ÀàÀàÃû¡£
-	 * @return ¹¤¾ßµÄÖ÷ÀàÀàÃû¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * èŽ·å–å·¥å…·çš„ä¸»ç±»ç±»åã€‚
+	 * @return å·¥å…·çš„ä¸»ç±»ç±»åã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public String getToolClass() throws ProcessException;
 
 	/**
-	 * »ñÈ¡¹¤¾ßÀàµÄÐÅÏ¢ÀàÃû¡£
-	 * @return ¹¤¾ßÀàµÄÐÅÏ¢ÀàÃû¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£
+	 * èŽ·å–å·¥å…·ç±»çš„ä¿¡æ¯ç±»åã€‚
+	 * @return å·¥å…·ç±»çš„ä¿¡æ¯ç±»åã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸
 	 */
 	public String getInfoClass() throws ProcessException;
 
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÖ÷ÎÄ¼þ£¨jar°ü£©Ãû³Æ¡£
-	 * <p> ÎÄ¼þÃû³ÆÎªjar°üµÄÎÄ¼þÃû£¬²»¿É´øÉÏÂ·¾¶£¬µ«ÊÇÒª´øºó×ºÃû¡£
-	 * @return ¹¤¾ßµÄÖ÷ÎÄ¼þ£¨jar°ü£©Ãû³Æ¡£
-	 * @throws ProcessException ¹ý³ÌÒì³£¡£
+	 * èŽ·å–å·¥å…·çš„ä¸»æ–‡ä»¶ï¼ˆjaråŒ…ï¼‰åç§°ã€‚
+	 * <p> æ–‡ä»¶åç§°ä¸ºjaråŒ…çš„æ–‡ä»¶åï¼Œä¸å¯å¸¦ä¸Šè·¯å¾„ï¼Œä½†æ˜¯è¦å¸¦åŽç¼€åã€‚
+	 * @return å·¥å…·çš„ä¸»æ–‡ä»¶ï¼ˆjaråŒ…ï¼‰åç§°ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public String getToolFile() throws ProcessException;
 

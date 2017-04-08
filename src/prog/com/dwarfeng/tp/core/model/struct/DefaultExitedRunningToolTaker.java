@@ -30,26 +30,26 @@ public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
 	
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param toolRuntimeModel Ö¸¶¨µÄºóÌ¨Ä£ĞÍ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param toolRuntimeModel æŒ‡å®šçš„åå°æ¨¡å‹ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultExitedRunningToolTaker(ToolRuntimeModel toolRuntimeModel) {
 		this(toolRuntimeModel, ToolPlatformUtil.newDefaultLogger(), Constants.getDefaultLoggerMutilang(), true);
 	}
 
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param toolRuntimeModel Ö¸¶¨µÄºóÌ¨Ä£ĞÍ¡£
-	 * @param logger Ö¸¶¨µÄ¼ÇÂ¼Æ÷¡£
-	 * @param mutilang Ö¸¶¨µÄ¶àÓïÑÔ½Ó¿Ú¡£
-	 * @param isPause ÊÇ·ñÔİÍ£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param toolRuntimeModel æŒ‡å®šçš„åå°æ¨¡å‹ã€‚
+	 * @param logger æŒ‡å®šçš„è®°å½•å™¨ã€‚
+	 * @param mutilang æŒ‡å®šçš„å¤šè¯­è¨€æ¥å£ã€‚
+	 * @param isPause æ˜¯å¦æš‚åœ
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultExitedRunningToolTaker(ToolRuntimeModel toolRuntimeModel, Logger logger, Mutilang mutilang, boolean pauseFlag) {
-		Objects.requireNonNull(toolRuntimeModel, "Èë¿Ú²ÎÊı backgroundModel ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(logger, "Èë¿Ú²ÎÊı logger ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(toolRuntimeModel, "å…¥å£å‚æ•° backgroundModel ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(logger, "å…¥å£å‚æ•° logger ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		this.toolRuntimeModel = toolRuntimeModel;
 		this.logger = logger;
@@ -88,7 +88,7 @@ public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
 	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -120,7 +120,7 @@ public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
 	 */
 	@Override
 	public boolean setLogger(Logger logger) {
-		Objects.requireNonNull(logger, "Èë¿Ú²ÎÊı logger ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(logger, "å…¥å£å‚æ•° logger ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -211,7 +211,7 @@ public class DefaultExitedRunningToolTaker implements ExitedRunningToolTaker {
 					try{
 						while(isPause()){
 							condition.await();
-							//Èç¹ûÊÇÒòÎª±»¹Ø±Õ¶øÖ´ĞĞ£¬ÔòÖ±½ÓÍË³öÏß³Ì¡£
+							//å¦‚æœæ˜¯å› ä¸ºè¢«å…³é—­è€Œæ‰§è¡Œï¼Œåˆ™ç›´æ¥é€€å‡ºçº¿ç¨‹ã€‚
 							if(! isRun()) return;
 						}
 					}finally {

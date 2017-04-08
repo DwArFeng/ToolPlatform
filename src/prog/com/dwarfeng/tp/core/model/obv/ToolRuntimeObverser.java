@@ -4,39 +4,39 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.RunningTool;
 
 /**
- * ¹¤¾ßÔËĞĞÊ±Ä£ĞÍ¹Û²ìÆ÷¡£
+ * å·¥å…·è¿è¡Œæ—¶æ¨¡å‹è§‚å¯Ÿå™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolRuntimeObverser extends Obverser {
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄÔËĞĞÖĞ¹¤¾ß±»Ìí¼Ó¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·è¢«æ·»åŠ ã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
 	 */
 	public void fireRunningToolAdded(RunningTool runningTool);
 
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄÔËĞĞÖĞ¹¤¾ß±»ÒÆ³ı¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·è¢«ç§»é™¤ã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
 	 */
 	public void fireRunningToolRemoved(RunningTool runningTool);
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¿ªÊ¼ÔËĞĞ¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·å¼€å§‹è¿è¡Œã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
 	 */
 	public void fireRunningToolStarted(RunningTool runningTool);
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄÔËĞĞÖĞ¹¤¾ß½áÊø¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ç»“æŸã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
 	 */
 	public void fireRunningToolExited(RunningTool runningTool);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÖĞµÄ¾Ü¾øÌí¼Ó±ê¼Ç¸Ä±ä¡£
-	 * @param newValue ¾Ü¾øÌí¼Ó±ê¼ÇµÄĞÂÖµ¡£
+	 * é€šçŸ¥æ¨¡å‹ä¸­çš„æ‹’ç»æ·»åŠ æ ‡è®°æ”¹å˜ã€‚
+	 * @param newValue æ‹’ç»æ·»åŠ æ ‡è®°çš„æ–°å€¼ã€‚
 	 */
 	public void fireAddRejectChanged(boolean newValue);
 	

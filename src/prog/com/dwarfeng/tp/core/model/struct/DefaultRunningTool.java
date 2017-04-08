@@ -27,8 +27,8 @@ import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
 import com.dwarfeng.tp.core.model.obv.RunningToolObverser;
 
 /**
- * Ä¬ÈÏÔËĞĞÖĞ¹¤¾ß¡£
- * <p> ÔËĞĞÖĞ¹¤¾ßµÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤è¿è¡Œä¸­å·¥å…·ã€‚
+ * <p> è¿è¡Œä¸­å·¥å…·çš„é»˜è®¤å®ç°ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -66,12 +66,12 @@ public class DefaultRunningTool implements RunningTool{
 	 * @param entryClass
 	 */
 	public DefaultRunningTool(String name, Image image, String[] libraries, String jarPath, String entryClass, File directory) {
-		Objects.requireNonNull(name, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(image, "Èë¿Ú²ÎÊı image ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(libraries, "Èë¿Ú²ÎÊı libraries ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(jarPath, "Èë¿Ú²ÎÊı jarPath ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(entryClass, "Èë¿Ú²ÎÊı entryClass ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(directory, "Èë¿Ú²ÎÊı directory ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(name, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(image, "å…¥å£å‚æ•° image ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(libraries, "å…¥å£å‚æ•° libraries ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(jarPath, "å…¥å£å‚æ•° jarPath ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(entryClass, "å…¥å£å‚æ•° entryClass ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(directory, "å…¥å£å‚æ•° directory ä¸èƒ½ä¸º nullã€‚");
 
 		this.name = name;
 		this.image = image;
@@ -245,26 +245,26 @@ public class DefaultRunningTool implements RunningTool{
 	 */
 	@Override
 	public void start() throws InterruptedException {
-		//Èç¹û¹¤¾ß×´Ì¬²»ÊÇÎ´Æô¶¯£¬ÔòÖ±½ÓÍË³ö
+		//å¦‚æœå·¥å…·çŠ¶æ€ä¸æ˜¯æœªå¯åŠ¨ï¼Œåˆ™ç›´æ¥é€€å‡º
 		if(! getRuntimeState().equals(RuntimeState.NOT_START)) return;
 		
 		lock.writeLock().lock();
 		try{
-			//¼ì²é¸Ã¹¤¾ßÊÇ·ñÔÚÆô¶¯Ç°¾ÍÍ£Ö¹ÁË¡£
+			//æ£€æŸ¥è¯¥å·¥å…·æ˜¯å¦åœ¨å¯åŠ¨å‰å°±åœæ­¢äº†ã€‚
 			if(getRuntimeState().equals(RuntimeState.ENDED)){
 				setExitCode(-12450);
 				return;
 			}
-			//Á÷Ëø¶¨ÓëÖĞÖ¹½ø³Ì·½·¨¶¼Ó¦¸ÃÄÜ¹»»½ĞÑ¸ÃµÈ´ı×´Ì¬¡£
+			//æµé”å®šä¸ä¸­æ­¢è¿›ç¨‹æ–¹æ³•éƒ½åº”è¯¥èƒ½å¤Ÿå”¤é†’è¯¥ç­‰å¾…çŠ¶æ€ã€‚
 			while(! isStreamLock() && ! getRuntimeState().equals(RuntimeState.ENDED)){
 				startCondition.await();
-				//Èç¹ûÔÚµÈ´ıÊ±Å×³öÖĞ¶ÏÒì³££¬Ôò²»»áÖ´ĞĞºóÃæµÄÓï¾ä¡£
+				//å¦‚æœåœ¨ç­‰å¾…æ—¶æŠ›å‡ºä¸­æ–­å¼‚å¸¸ï¼Œåˆ™ä¸ä¼šæ‰§è¡Œåé¢çš„è¯­å¥ã€‚
 			}
-			//¼ì²é¸ÃµÈ´ı×´Ì¬ÊÇ·ñÊÇÖĞÖ¹·½·¨»½ĞÑµÄ¡£
+			//æ£€æŸ¥è¯¥ç­‰å¾…çŠ¶æ€æ˜¯å¦æ˜¯ä¸­æ­¢æ–¹æ³•å”¤é†’çš„ã€‚
 			if(getRuntimeState().equals(RuntimeState.ENDED)){
 				setExitCode(-12451);
 			}
-			//Èç¹û²»ÊÇÖÕÖ¹·½·¨»½ĞÑµÄ£¬¾ÍÊÇÁ÷Ëø¶¨ºó»½ĞÑµÄ£¬ÕâÊ±Ó¦¸ÃÕı³£µÄÆô¶¯¡£
+			//å¦‚æœä¸æ˜¯ç»ˆæ­¢æ–¹æ³•å”¤é†’çš„ï¼Œå°±æ˜¯æµé”å®šåå”¤é†’çš„ï¼Œè¿™æ—¶åº”è¯¥æ­£å¸¸çš„å¯åŠ¨ã€‚
 			try{
 				process = new ProcessBuilder(genCommandLine()).redirectErrorStream(true).directory(directory).start();
 				THREAD_FACTORY.newThread(new OutputProcessor()).start();
@@ -323,7 +323,7 @@ public class DefaultRunningTool implements RunningTool{
 	 */
 	@Override
 	public void destroy() {
-		//Èç¹û¹¤¾ß×´Ì¬ÎªÒÑ¾­½áÊø£¬ÔòÖ±½Ó·µ»Ø¡£
+		//å¦‚æœå·¥å…·çŠ¶æ€ä¸ºå·²ç»ç»“æŸï¼Œåˆ™ç›´æ¥è¿”å›ã€‚
 		if(getRuntimeState().equals(RuntimeState.ENDED)) return;
 		
 		lock.writeLock().lock();
@@ -464,7 +464,7 @@ public class DefaultRunningTool implements RunningTool{
 					}
 				}
 			}
-			//´ËÊ±£¬ÏµÍ³ÒÑ¾­ÔËĞĞ½áÊøÁË¡£
+			//æ­¤æ—¶ï¼Œç³»ç»Ÿå·²ç»è¿è¡Œç»“æŸäº†ã€‚
 			if(Objects.nonNull(reader)){
 				try{
 					reader.close();
@@ -513,7 +513,7 @@ public class DefaultRunningTool implements RunningTool{
 					}
 				}
 			}
-			//´ËÊ±£¬ÏµÍ³ÒÑ¾­ÔËĞĞ½áÊøÁË¡£
+			//æ­¤æ—¶ï¼Œç³»ç»Ÿå·²ç»è¿è¡Œç»“æŸäº†ã€‚
 			if(Objects.nonNull(scanner)){
 				scanner.close();
 				if(Objects.nonNull(scanner.ioException())){
@@ -542,7 +542,7 @@ public class DefaultRunningTool implements RunningTool{
 				exitedDate = Calendar.getInstance().getTime();
 				fireExited();
 			} catch (InterruptedException ignore) {
-				//ÖĞ¶ÏÒ²Òª°´ÕÕ»ù±¾·¨
+				//ä¸­æ–­ä¹Ÿè¦æŒ‰ç…§åŸºæœ¬æ³•
 			}
 			
 		}

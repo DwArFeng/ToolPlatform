@@ -3,19 +3,19 @@ package com.dwarfeng.tp.plaf.core;
 import java.io.File;
 
 /**
- * ÎÄ¼ş¹ÜÀíÆ÷¡£
- * <p> ÎªÁË±£Ö¤ÎÄ¼şµÄ¿ÉÎ¬»¤ĞÔ£¬Æ½Ì¨ÖĞµÄ¹¤¾ßÉæ¼°µ½ÎÄ¼ş²Ù×÷£¬¾ùÓ¦¸ÃÊ¹ÓÃ¸Ã¹ÜÀíÆ÷ÖĞµÄ
- * »ñµÃÎÄ¼şµÄ·½·¨£¬¶ø²»Ó¦¸ÃÖ±½ÓÉú³É File ÊµÀı¡£
+ * æ–‡ä»¶ç®¡ç†å™¨ã€‚
+ * <p> ä¸ºäº†ä¿è¯æ–‡ä»¶çš„å¯ç»´æŠ¤æ€§ï¼Œå¹³å°ä¸­çš„å·¥å…·æ¶‰åŠåˆ°æ–‡ä»¶æ“ä½œï¼Œå‡åº”è¯¥ä½¿ç”¨è¯¥ç®¡ç†å™¨ä¸­çš„
+ * è·å¾—æ–‡ä»¶çš„æ–¹æ³•ï¼Œè€Œä¸åº”è¯¥ç›´æ¥ç”Ÿæˆ File å®ä¾‹ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface FileManager {
 
 	/**
-	 * »ñÈ¡Ö¸¶¨Â·¾¶ÏÂµÄÎÄ¼ş¡£
-	 * @param path Ö¸¶¨µÄÂ·¾¶¡£
-	 * @return Ö¸¶¨Â·¾¶ÏÂµÄÎÄ¼ş¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * è·å–æŒ‡å®šè·¯å¾„ä¸‹çš„æ–‡ä»¶ã€‚
+	 * @param path æŒ‡å®šçš„è·¯å¾„ã€‚
+	 * @return æŒ‡å®šè·¯å¾„ä¸‹çš„æ–‡ä»¶ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public File getFile(String path);
 	

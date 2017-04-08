@@ -7,70 +7,70 @@ import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.str.Name;
 
 /**
- * ¹¤¾ßÐÅÏ¢¡£
- * <p> ×¢Òâ£º·µ»ØµÄËùÓÐÖµ¾ù²»ÄÜÎª <code>null</code>¡£
+ * å·¥å…·ä¿¡æ¯ã€‚
+ * <p> æ³¨æ„ï¼šè¿”å›žçš„æ‰€æœ‰å€¼å‡ä¸èƒ½ä¸º <code>null</code>ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolInfo extends Name {
 	
 	/**
-	 * ·µ»Ø¹¤¾ßÖÐµÄÍ¼Æ¬¡£
-	 * @return ¹¤¾ßÖÐµÄÍ¼Æ¬¡£
+	 * è¿”å›žå·¥å…·ä¸­çš„å›¾ç‰‡ã€‚
+	 * @return å·¥å…·ä¸­çš„å›¾ç‰‡ã€‚
 	 */
 	public Image getImage();
 	
 	/**
-	 * ·µ»Ø¹¤¾ßµÄ°æ±¾¡£
-	 * @return ¹¤¾ßµÄ°æ±¾¡£
+	 * è¿”å›žå·¥å…·çš„ç‰ˆæœ¬ã€‚
+	 * @return å·¥å…·çš„ç‰ˆæœ¬ã€‚
 	 */
 	public Version getVersion();
 	
 	/**
-	 * »ñÈ¡¹¤¾ßÖÐµÄÓïÑÔ-ÃèÊöÓ³Éä¡£
-	 * @return ¹¤¾ßÖÐµÄÓïÑÔ-ÃèÊöÓ³Éä¡£
+	 * èŽ·å–å·¥å…·ä¸­çš„è¯­è¨€-æè¿°æ˜ å°„ã€‚
+	 * @return å·¥å…·ä¸­çš„è¯­è¨€-æè¿°æ˜ å°„ã€‚
 	 */
 	public Map<Locale, String> getDescriptionMap();
 	
 	/**
-	 * TODO ÊÇ·ñÒªÒÔ Doucument µÄÐÎÊ½À´·µ»ØÃèÊö£¿£¿
-	 * »ñÈ¡¹¤¾ßµÄÃèÊö¡£
-	 * @param locale Ö¸¶¨µÄÓïÑÔ£¬¿ÉÒÔÎª <code>null</code>£¬´ú±íÄ¬ÈÏÓïÑÔ¡£
-	 * @return Ö¸¶¨µÄÓïÑÔÏÂ¹¤¾ßµÄÃèÊö¡£
+	 * TODO æ˜¯å¦è¦ä»¥ Doucument çš„å½¢å¼æ¥è¿”å›žæè¿°ï¼Ÿï¼Ÿ
+	 * èŽ·å–å·¥å…·çš„æè¿°ã€‚
+	 * @param locale æŒ‡å®šçš„è¯­è¨€ï¼Œå¯ä»¥ä¸º <code>null</code>ï¼Œä»£è¡¨é»˜è®¤è¯­è¨€ã€‚
+	 * @return æŒ‡å®šçš„è¯­è¨€ä¸‹å·¥å…·çš„æè¿°ã€‚
 	 */
 	public String getDescription(Locale locale);
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄ×÷ÕßÊý×é¡£
-	 * <p> ×÷ÕßÓ¦¸Ã°´ÕÕ¹±Ï×³Ì¶ÈµÄ´óÐ¡ÅÅÐò£¬ÒòÎª·µ»ØµÄ×÷ÕßÊý×éÖÐ£¬
-	 * ¿¿Ç°µÄ×÷Õß¸üÓÐ¿ÉÄÜÏÔÊ¾ÔÚ¸ÅÒª½çÃæÉÏ¡£
-	 * @return ¹¤¾ßµÄ×÷ÕßÊý×é¡£
+	 * èŽ·å–å·¥å…·çš„ä½œè€…æ•°ç»„ã€‚
+	 * <p> ä½œè€…åº”è¯¥æŒ‰ç…§è´¡çŒ®ç¨‹åº¦çš„å¤§å°æŽ’åºï¼Œå› ä¸ºè¿”å›žçš„ä½œè€…æ•°ç»„ä¸­ï¼Œ
+	 * é å‰çš„ä½œè€…æ›´æœ‰å¯èƒ½æ˜¾ç¤ºåœ¨æ¦‚è¦ç•Œé¢ä¸Šã€‚
+	 * @return å·¥å…·çš„ä½œè€…æ•°ç»„ã€‚
 	 */
 	public String[] getAuthors();
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄ¿âÁÐ±í¡£
-	 * <p> ·µ»ØµÄ×Ö·û´®Ó¦¸ÃÊÇËùÐèÒªÊ¹ÓÃµÄ¿âÎÄ¼þµÄÎÄ¼þÃû£¬²»¿É´øÂ·¾¶¡£
-	 * @return ¹¤¾ßµÄ¿âÁÐ±í¡£
+	 * èŽ·å–å·¥å…·çš„åº“åˆ—è¡¨ã€‚
+	 * <p> è¿”å›žçš„å­—ç¬¦ä¸²åº”è¯¥æ˜¯æ‰€éœ€è¦ä½¿ç”¨çš„åº“æ–‡ä»¶çš„æ–‡ä»¶åï¼Œä¸å¯å¸¦è·¯å¾„ã€‚
+	 * @return å·¥å…·çš„åº“åˆ—è¡¨ã€‚
 	 */
 	public String[] getToolLibs();
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÖ÷ÀàÀàÃû¡£
-	 * @return ¹¤¾ßµÄÖ÷ÀàÀàÃû¡£
+	 * èŽ·å–å·¥å…·çš„ä¸»ç±»ç±»åã€‚
+	 * @return å·¥å…·çš„ä¸»ç±»ç±»åã€‚
 	 */
 	public String getToolClass();
 	
 	/**
-	 * »ñÈ¡¹¤¾ßÀàµÄÐÅÏ¢ÀàÃû¡£
-	 * @return ¹¤¾ßÀàµÄÐÅÏ¢ÀàÃû¡£
+	 * èŽ·å–å·¥å…·ç±»çš„ä¿¡æ¯ç±»åã€‚
+	 * @return å·¥å…·ç±»çš„ä¿¡æ¯ç±»åã€‚
 	 */
 	public String getInfoClass();
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÖ÷ÎÄ¼þ£¨jar°ü£©Ãû³Æ¡£
-	 * <p> ÎÄ¼þÃû³ÆÎªjar°üµÄÎÄ¼þÃû£¬²»¿É´øÉÏÂ·¾¶£¬µ«ÊÇÒª´øºó×ºÃû¡£
-	 * @return ¹¤¾ßµÄÖ÷ÎÄ¼þ£¨jar°ü£©Ãû³Æ¡£
+	 * èŽ·å–å·¥å…·çš„ä¸»æ–‡ä»¶ï¼ˆjaråŒ…ï¼‰åç§°ã€‚
+	 * <p> æ–‡ä»¶åç§°ä¸ºjaråŒ…çš„æ–‡ä»¶åï¼Œä¸å¯å¸¦ä¸Šè·¯å¾„ï¼Œä½†æ˜¯è¦å¸¦åŽç¼€åã€‚
+	 * @return å·¥å…·çš„ä¸»æ–‡ä»¶ï¼ˆjaråŒ…ï¼‰åç§°ã€‚
 	 */
 	public String getToolFile();
 	

@@ -22,9 +22,9 @@ public final class Constants {
 
 	
 	private final static Set<LoggerInfo> defaultLoggerInfos;
-	private final static String mutilangLabel = "¼òÌåÖĞÎÄ";
+	private final static String mutilangLabel = "ç®€ä½“ä¸­æ–‡";
 	private final static MutilangInfo defaultMutilangInfo = new InnerMutilangInfo(mutilangLabel, new HashMap<>());
-	private final static String missingString = "!ÎÄ±¾È±Ê§";
+	private final static String missingString = "!æ–‡æœ¬ç¼ºå¤±";
 	private final static ResourceBundle loggerMutilangResourceBundle = ResourceBundle.getBundle(
 	"com.dwarfeng.tp.resource.defaultres.mutilang.logger.default");
 	private final static ResourceBundle labelMutilangResourceBundle = ResourceBundle.getBundle(
@@ -61,8 +61,8 @@ public final class Constants {
 	}
 
 	/**
-	 * »ñÈ¡Ä¬ÈÏµÄ¼ÇÂ¼Æ÷Ãû³Æ¼¯ºÏ¡£
-	 * @return Ä¬ÈÏµÄ¼ÇÂ¼Æ÷Ãû³Æ¼¯ºÏ¡£
+	 * è·å–é»˜è®¤çš„è®°å½•å™¨åç§°é›†åˆã€‚
+	 * @return é»˜è®¤çš„è®°å½•å™¨åç§°é›†åˆã€‚
 	 */
 	public final static Set<LoggerInfo> getDefaultLoggerInfos(){
 		return defaultLoggerInfos;
@@ -73,24 +73,24 @@ public final class Constants {
 	}
 
 	/**
-	 * »ñÈ¡ÎÄ±¾È±Ê§×Ö¶Î¡£
-	 * @return ÎÄ±¾È±Ê§×Ö¶Î¡£
+	 * è·å–æ–‡æœ¬ç¼ºå¤±å­—æ®µã€‚
+	 * @return æ–‡æœ¬ç¼ºå¤±å­—æ®µã€‚
 	 */
 	public final static String getDefaultMissingString(){
 		return missingString;
 	}
 
 	/**
-	 * »ñÈ¡Ä¬ÈÏµÄ¼ÇÂ¼Æ÷¶àÓïÑÔĞÅÏ¢¡£
-	 * @return Ä¬ÈÏµÄ¼ÇÂ¼Æ÷¶àÓïÑÔĞÅÏ¢¡£
+	 * è·å–é»˜è®¤çš„è®°å½•å™¨å¤šè¯­è¨€ä¿¡æ¯ã€‚
+	 * @return é»˜è®¤çš„è®°å½•å™¨å¤šè¯­è¨€ä¿¡æ¯ã€‚
 	 */
 	public final static MutilangInfo getDefaultLoggerMutilangInfo(){
 		return defaultLoggerMutilangInfo;
 	}
 
 	/**
-	 * »ñÈ¡Ä¬ÈÏµÄ±êÇ©¶àÓïÑÔĞÅÏ¢¡£
-	 * @return Ä¬ÈÏµÄ±êÇ©¶àÓïÑÔĞÅÏ¢¡£
+	 * è·å–é»˜è®¤çš„æ ‡ç­¾å¤šè¯­è¨€ä¿¡æ¯ã€‚
+	 * @return é»˜è®¤çš„æ ‡ç­¾å¤šè¯­è¨€ä¿¡æ¯ã€‚
 	 */
 	public final static MutilangInfo getDefaultLabelMutilangInfo(){
 		return defaultLabelMutilangInfo;
@@ -99,50 +99,50 @@ public final class Constants {
 	
 
 	/**
-	 * »ñÈ¡¼ÇÂ¼Æ÷¶àÓïÑÔ½Ó¿ÚµÄÖ§³Ö¼ü¼¯ºÏ¡£
-	 * @return ¼ÇÂ¼Æ÷¶àÓïÑÔ½Ó¿ÚµÄÖ§³Ö¼ü¼¯ºÏ¡£
+	 * è·å–è®°å½•å™¨å¤šè¯­è¨€æ¥å£çš„æ”¯æŒé”®é›†åˆã€‚
+	 * @return è®°å½•å™¨å¤šè¯­è¨€æ¥å£çš„æ”¯æŒé”®é›†åˆã€‚
 	 */
 	public static Set<String> getLoggerMutilangSupportedKeys() {
 		try {
 			return Collections.unmodifiableSet(defaultLoggerMutilangInfo.getMutilangMap().keySet());
 		} catch (ProcessException ignore) {
-			//²»»áÅ×³öÒì³£
+			//ä¸ä¼šæŠ›å‡ºå¼‚å¸¸
 			return null;
 		}
 	}
 
 	/**
-	 * »ñÈ¡±êÇ©¶àÓïÑÔ½Ó¿ÚµÄÖ§³Ö¼ü¼¯ºÏ¡£
-	 * @return ±êÇ©¶àÓïÑÔ½Ó¿ÚµÄÖ§³Ö¼ü¼¯ºÏ¡£
+	 * è·å–æ ‡ç­¾å¤šè¯­è¨€æ¥å£çš„æ”¯æŒé”®é›†åˆã€‚
+	 * @return æ ‡ç­¾å¤šè¯­è¨€æ¥å£çš„æ”¯æŒé”®é›†åˆã€‚
 	 */
 	public static Set<String> getLabelMutilangSupportedKeys() {
 		try {
 			return Collections.unmodifiableSet(defaultLabelMutilangInfo.getMutilangMap().keySet());
 		} catch (ProcessException ignore) {
-			//²»»áÅ×³öÒì³£
+			//ä¸ä¼šæŠ›å‡ºå¼‚å¸¸
 			return null;
 		}
 	}
 	
 	/**
-	 * »ñÈ¡Ä¬ÈÏµÄ¼ÇÂ¼Æ÷¶àÓïÑÔ½Ó¿Ú¡£
-	 * @return Ä¬ÈÏµÄ¼ÇÂ¼Æ÷¶àÓïÑÔ½Ó¿Ú¡£
+	 * è·å–é»˜è®¤çš„è®°å½•å™¨å¤šè¯­è¨€æ¥å£ã€‚
+	 * @return é»˜è®¤çš„è®°å½•å™¨å¤šè¯­è¨€æ¥å£ã€‚
 	 */
 	public static Mutilang getDefaultLoggerMutilang(){
 		return defaultLoggerMutilang;
 	}
 	
 	/**
-	 * »ñÈ¡Ä¬ÈÏµÄ±êÇ©¶àÓïÑÔ½Ó¿Ú¡£
-	 * @return Ä¬ÈÏµÄ±êÇ©¶àÓïÑÔ½Ó¿Ú¡£
+	 * è·å–é»˜è®¤çš„æ ‡ç­¾å¤šè¯­è¨€æ¥å£ã€‚
+	 * @return é»˜è®¤çš„æ ‡ç­¾å¤šè¯­è¨€æ¥å£ã€‚
 	 */
 	public static Mutilang getDefaultLabelMutilang(){
 		return defaultLabelMutilang;
 	}
 
 	/**
-	 * ÄÚ²¿¶àÓïÑÔĞÅÏ¢¡£
-	 * <p> ¶àÓïÑÔĞÅÏ¢µÄÄÚ²¿ÊµÏÖ¡£
+	 * å†…éƒ¨å¤šè¯­è¨€ä¿¡æ¯ã€‚
+	 * <p> å¤šè¯­è¨€ä¿¡æ¯çš„å†…éƒ¨å®ç°ã€‚
 	 * @author  DwArFeng
 	 * @since 0.0.0-alpha
 	 */
@@ -152,8 +152,8 @@ public final class Constants {
 		private final Map<String, String> mutilangMap;
 		
 		public InnerMutilangInfo(String label, Map<String, String> mutilangMap) {
-			Objects.requireNonNull(label, "Èë¿Ú²ÎÊı label ²»ÄÜÎª null¡£");
-			Objects.requireNonNull(mutilangMap, "Èë¿Ú²ÎÊı mutilangMap ²»ÄÜÎª null¡£");
+			Objects.requireNonNull(label, "å…¥å£å‚æ•° label ä¸èƒ½ä¸º nullã€‚");
+			Objects.requireNonNull(mutilangMap, "å…¥å£å‚æ•° mutilangMap ä¸èƒ½ä¸º nullã€‚");
 			
 			this.label = label;
 			this.mutilangMap = mutilangMap;
@@ -180,8 +180,8 @@ public final class Constants {
 	}
 
 	/**
-	 * ÄÚ²¿¼ÇÂ¼Æ÷ĞÅÏ¢¡£
-	 * <p> ¼ÇÂ¼Æ÷ĞÅÏ¢µÄÄÚ²¿ÊµÏÖ¡£
+	 * å†…éƒ¨è®°å½•å™¨ä¿¡æ¯ã€‚
+	 * <p> è®°å½•å™¨ä¿¡æ¯çš„å†…éƒ¨å®ç°ã€‚
 	 * @author DwArFeng
 	 * @since 0.0.0-alpha
 	 */
@@ -190,7 +190,7 @@ public final class Constants {
 		private final String name;
 		
 		public InnerLoggerInfo(String name) {
-			Objects.requireNonNull(name, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
+			Objects.requireNonNull(name, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
 			this.name = name;
 		}
 		
@@ -206,8 +206,8 @@ public final class Constants {
 	}
 	
 	/**
-	 * Ä¬ÈÏ¼ÇÂ¼Æ÷¶àÓïÑÔ½Ó¿Ú¡£
-	 * <p> Ê¹ÓÃ³ÌĞòÖĞÄÚÖÃµÄ¼òÌåÖĞÎÄ¡£
+	 * é»˜è®¤è®°å½•å™¨å¤šè¯­è¨€æ¥å£ã€‚
+	 * <p> ä½¿ç”¨ç¨‹åºä¸­å†…ç½®çš„ç®€ä½“ä¸­æ–‡ã€‚
 	 * @author  DwArFeng
 	 * @since 0.0.0-alpha
 	 */
@@ -221,11 +221,11 @@ public final class Constants {
 		public String getString(String key) {
 			try {
 				if(! getDefaultLoggerMutilangInfo().getMutilangMap().containsKey(key)){
-					throw new IllegalArgumentException("´Ë¶àÓïÑÔ½Ó¿Ú²»Ö§³Ö¸Ã¼ü");
+					throw new IllegalArgumentException("æ­¤å¤šè¯­è¨€æ¥å£ä¸æ”¯æŒè¯¥é”®");
 				}
 				return getDefaultLoggerMutilangInfo().getMutilangMap().getOrDefault(key, getDefaultMissingString());
 			} catch (ProcessException ignore) {
-				//²»»áÅ×³öÒì³£
+				//ä¸ä¼šæŠ›å‡ºå¼‚å¸¸
 				return getDefaultMissingString();
 			}
 		}
@@ -233,8 +233,8 @@ public final class Constants {
 	}
 	
 	/**
-	 * Ä¬ÈÏ¼ÇÂ¼Æ÷¶àÓïÑÔ½Ó¿Ú¡£
-	 * <p> Ê¹ÓÃ³ÌĞòÖĞÄÚÖÃµÄ¼òÌåÖĞÎÄ¡£
+	 * é»˜è®¤è®°å½•å™¨å¤šè¯­è¨€æ¥å£ã€‚
+	 * <p> ä½¿ç”¨ç¨‹åºä¸­å†…ç½®çš„ç®€ä½“ä¸­æ–‡ã€‚
 	 * @author DwArFeng
 	 * @since 0.0.0-alpha
 	 */
@@ -248,18 +248,18 @@ public final class Constants {
 		public String getString(String key) {
 			try {
 				if(! getDefaultLabelMutilangInfo().getMutilangMap().containsKey(key)){
-					throw new IllegalArgumentException("´Ë¶àÓïÑÔ½Ó¿Ú²»Ö§³Ö¸Ã¼ü");
+					throw new IllegalArgumentException("æ­¤å¤šè¯­è¨€æ¥å£ä¸æ”¯æŒè¯¥é”®");
 				}
 				return getDefaultLabelMutilangInfo().getMutilangMap().getOrDefault(key, getDefaultMissingString());
 			} catch (ProcessException ignore) {
-				//²»»áÅ×³öÒì³£
+				//ä¸ä¼šæŠ›å‡ºå¼‚å¸¸
 				return getDefaultMissingString();
 			}
 		}
 		
 	}
 
-	//½ûÖ¹Íâ²¿ÊµÀı»¯
+	//ç¦æ­¢å¤–éƒ¨å®ä¾‹åŒ–
 	private Constants() {}
 	
 }

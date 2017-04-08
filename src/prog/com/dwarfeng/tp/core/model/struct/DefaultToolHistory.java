@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Ä¬ÈÏ¹¤¾ßÀúÊ·¡£
- * <p> ¹¤¾ßÀúÊ·µÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÀàÏß³Ì°²È«¡£
+ * é»˜è®¤å·¥å…·å†å²ã€‚
+ * <p> å·¥å…·å†å²çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥ç±»çº¿ç¨‹å®‰å…¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -18,16 +18,16 @@ public final class DefaultToolHistory implements ToolHistory{
 	private final int exitedCode;
 	
 	/**
-	 * ĞÂÊµÀı
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @param ranDate Ö¸¶¨µÄÔËĞĞÈÕÆÚ¡£
-	 * @param exitedDate Ö¸¶¨µÄÍË³öÈÕÆÚ¡£
-	 * @param exitedCode ÍË³ö´úÂë¡£
+	 * æ–°å®ä¾‹
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @param ranDate æŒ‡å®šçš„è¿è¡Œæ—¥æœŸã€‚
+	 * @param exitedDate æŒ‡å®šçš„é€€å‡ºæ—¥æœŸã€‚
+	 * @param exitedCode é€€å‡ºä»£ç ã€‚
 	 */
 	public DefaultToolHistory(String name, Date ranDate, Date exitedDate, int exitedCode) {
-		Objects.requireNonNull(name, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(ranDate, "Èë¿Ú²ÎÊı ranDate ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(exitedDate, "Èë¿Ú²ÎÊı exitedDate ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(name, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(ranDate, "å…¥å£å‚æ•° ranDate ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(exitedDate, "å…¥å£å‚æ•° exitedDate ä¸èƒ½ä¸º nullã€‚");
 
 		this.name = name;
 		this.ranDate = ranDate;

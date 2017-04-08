@@ -10,9 +10,9 @@ import java.util.Set;
 import com.dwarfeng.tp.core.model.struct.Resource;
 
 /**
- * Ä¬ÈÏ×ÊÔ´Ä£ĞÍ¡£
- * <p> ×ÊÔ´Ä£ĞÍ½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤èµ„æºæ¨¡å‹ã€‚
+ * <p> èµ„æºæ¨¡å‹æ¥å£çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -21,19 +21,19 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	private final Map<String, Resource> delegate = new HashMap<>();
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultResourceModel() {
 		this(new HashMap<>());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param map ³õÊ¼Öµ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param map åˆå§‹å€¼ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultResourceModel(Map<String, Resource> map) {
-		Objects.requireNonNull(map, "Èë¿Ú²ÎÊı map ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(map, "å…¥å£å‚æ•° map ä¸èƒ½ä¸º nullã€‚");
 		delegate.putAll(map);
 	}
 
@@ -113,8 +113,8 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	 */
 	@Override
 	public Resource put(String key, Resource value) {
-		Objects.requireNonNull(key, "Èë¿Ú²ÎÊı key ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(value, "Èë¿Ú²ÎÊı value ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(key, "å…¥å£å‚æ•° key ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(value, "å…¥å£å‚æ•° value ä¸èƒ½ä¸º nullã€‚");
 
 		lock.writeLock().lock();
 		try{
@@ -144,7 +144,7 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	 */
 	@Override
 	public void putAll(Map<? extends String, ? extends Resource> m) {
-		Objects.requireNonNull(m, "Èë¿Ú²ÎÊı m ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(m, "å…¥å£å‚æ•° m ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -169,10 +169,10 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	}
 
 	/**
-	 * »ñÈ¡Ä£ĞÍµÄ¼ü¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸Ã¼ü¼¯ºÏ²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄ¼ü¼¯ºÏ¡£
+	 * è·å–æ¨¡å‹çš„é”®é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥é”®é›†åˆä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„é”®é›†åˆã€‚
 	 */
 	@Override
 	public Set<String> keySet() {
@@ -185,10 +185,10 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	}
 
 	/**
-	 * »ñÈ¡Ä£ĞÍµÄÖµ¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸ÃÖµ¼¯ºÏ²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄÖµ¼¯ºÏ¡£
+	 * è·å–æ¨¡å‹çš„å€¼é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥å€¼é›†åˆä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„å€¼é›†åˆã€‚
 	 */
 	@Override
 	public Collection<Resource> values() {
@@ -201,10 +201,10 @@ public final class DefaultResourceModel extends AbstractResourceModel {
 	}
 
 	/**
-	 * »ñÈ¡Ä£ĞÍµÄÈë¿Ú¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸ÃÈë¿Ú¼¯ºÏ²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄÈë¿Ú¼¯ºÏ¡£
+	 * è·å–æ¨¡å‹çš„å…¥å£é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥å…¥å£é›†åˆä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„å…¥å£é›†åˆã€‚
 	 */
 	@Override
 	public Set<java.util.Map.Entry<String, Resource>> entrySet() {

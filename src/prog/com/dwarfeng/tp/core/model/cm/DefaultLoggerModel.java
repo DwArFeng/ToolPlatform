@@ -18,9 +18,9 @@ import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
- * Ä¬ÈÏ¼ÇÂ¼Æ÷Ä£ĞÍ¡£
- * <p> ¼ÇÂ¼Æ÷Ä£ĞÍ½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤è®°å½•å™¨æ¨¡å‹ã€‚
+ * <p> è®°å½•å™¨æ¨¡å‹æ¥å£çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -32,21 +32,21 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	private final InnerLogger logger = new InnerLogger();
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultLoggerModel() {
 		this(ToolPlatformUtil.newDefaultLoggerContext(), Constants.getDefaultLoggerInfos());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param loggerContext Ö¸¶¨µÄ¼ÇÂ¼Æ÷ÉÏÏÂÎÄ¡£
-	 * @param loggerInfos ³õÊ¼µÄ¼ÇÂ¼Æ÷ĞÅÏ¢¼¯ºÏ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param loggerContext æŒ‡å®šçš„è®°å½•å™¨ä¸Šä¸‹æ–‡ã€‚
+	 * @param loggerInfos åˆå§‹çš„è®°å½•å™¨ä¿¡æ¯é›†åˆã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultLoggerModel(LoggerContext loggerContext, Set<LoggerInfo> loggerInfos) {
-		Objects.requireNonNull(loggerContext, "Èë¿Ú²ÎÊı loggerContext ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(loggerInfos, "Èë¿Ú²ÎÊı loggerInfos ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(loggerContext, "å…¥å£å‚æ•° loggerContext ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(loggerInfos, "å…¥å£å‚æ•° loggerInfos ä¸èƒ½ä¸º nullã€‚");
 		
 		this.loggerContext = loggerContext;
 		this.delegate.addAll(loggerInfos);
@@ -72,7 +72,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean setLoggerContext(LoggerContext loggerContext) {
-		Objects.requireNonNull(loggerContext, "Èë¿Ú²ÎÊı loggerContext ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(loggerContext, "å…¥å£å‚æ•° loggerContext ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -135,10 +135,10 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄµü´úÆ÷¡£
-	 * <p> ¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬
-	 * µ÷ÓÃÊ±ĞèÊ¹ÓÃ {@link #getLock()} Í¬²½Ëø½øĞĞÍâ²¿Í¬²½¡£
-	 * @return ¸ÃÄ£ĞÍµÄµü´úÆ÷¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„è¿­ä»£å™¨ã€‚
+	 * <p> è¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œ
+	 * è°ƒç”¨æ—¶éœ€ä½¿ç”¨ {@link #getLock()} åŒæ­¥é”è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return è¯¥æ¨¡å‹çš„è¿­ä»£å™¨ã€‚
 	 */
 	@Override
 	public Iterator<LoggerInfo> iterator() {
@@ -151,10 +151,10 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄÊı×é¡£
-	 * <p> ¸ÃÊı×é²»ÊÇÏß³Ì°²È«µÄ£¬
-	 * µ÷ÓÃÊ±ĞèÊ¹ÓÃ {@link #getLock()} Í¬²½Ëø½øĞĞÍâ²¿Í¬²½¡£
-	 * @return ¸ÃÄ£ĞÍµÄÊı×é¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„æ•°ç»„ã€‚
+	 * <p> è¯¥æ•°ç»„ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œ
+	 * è°ƒç”¨æ—¶éœ€ä½¿ç”¨ {@link #getLock()} åŒæ­¥é”è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return è¯¥æ¨¡å‹çš„æ•°ç»„ã€‚
 	 */
 	@Override
 	public Object[] toArray() {
@@ -167,11 +167,11 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄÊı×é£¬Êı×éµÄÀàĞÍÓëÖ¸¶¨µÄÊı×éÏàÍ¬¡£
-	 * <p> ¸ÃÊı×é²»ÊÇÏß³Ì°²È«µÄ£¬
-	 * µ÷ÓÃÊ±ĞèÊ¹ÓÃ {@link #getLock()} Í¬²½Ëø½øĞĞÍâ²¿Í¬²½¡£
-	 * @param a Ö¸¶¨µÄÊı×é¡£
-	 * @return ¸ÃÄ£ĞÍµÄÊı×é¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„æ•°ç»„ï¼Œæ•°ç»„çš„ç±»å‹ä¸æŒ‡å®šçš„æ•°ç»„ç›¸åŒã€‚
+	 * <p> è¯¥æ•°ç»„ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œ
+	 * è°ƒç”¨æ—¶éœ€ä½¿ç”¨ {@link #getLock()} åŒæ­¥é”è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @param a æŒ‡å®šçš„æ•°ç»„ã€‚
+	 * @return è¯¥æ¨¡å‹çš„æ•°ç»„ã€‚
 	 */
 	@Override
 	public <T> T[] toArray(T[] a) {
@@ -189,7 +189,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean add(LoggerInfo e) {
-		Objects.requireNonNull(e, "Èë¿Ú²ÎÊı e ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(e, "å…¥å£å‚æ•° e ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -239,7 +239,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.readLock().lock();
 		try{
@@ -255,7 +255,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean addAll(Collection<? extends LoggerInfo> c) {
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -275,7 +275,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		throw new UnsupportedOperationException("¸ÃÄ£ĞÍ²»Ö§³Ö´Ë·½·¨");
+		throw new UnsupportedOperationException("è¯¥æ¨¡å‹ä¸æ”¯æŒæ­¤æ–¹æ³•");
 	}
 
 	/*
@@ -284,7 +284,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 	 */
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -329,7 +329,7 @@ public final class DefaultLoggerModel extends AbstractLoggerModel {
 						loggers.add(loggerContext.getLogger(loggerInfo.getName()));
 					}
 				}catch (Exception e) {
-					throw new ProcessException("¼ÇÂ¼Æ÷Ä£ĞÍ¸üĞÂÊ±Óöµ½Òì³££¬Ê¹ÓÃÉÏ´ÎµÄÉèÖÃ", e);
+					throw new ProcessException("è®°å½•å™¨æ¨¡å‹æ›´æ–°æ—¶é‡åˆ°å¼‚å¸¸ï¼Œä½¿ç”¨ä¸Šæ¬¡çš„è®¾ç½®", e);
 				}
 				logger.loggers = loggers;
 			}finally {

@@ -28,7 +28,7 @@ public class JBackgroundItem extends JPanel {
 	private String message;
 	
 	/*
-	 * final Óò
+	 * final åŸŸ
 	 */
 	private final JLabel iconLabel;
 	private final JProgressBar progressBar;
@@ -37,14 +37,14 @@ public class JBackgroundItem extends JPanel {
 	
 
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public JBackgroundItem() {
 		this(0,0,false,false,false,false,"");
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 * @param progress
 	 * @param totleProgress
 	 * @param determinateFlag
@@ -131,16 +131,16 @@ public class JBackgroundItem extends JPanel {
 	}
 
 	/**
-	 * ·µ»Ø¹ı³ÌµÄ½ø¶È¡£
-	 * @return ¹ı³ÌµÄ½ø¶È¡£
+	 * è¿”å›è¿‡ç¨‹çš„è¿›åº¦ã€‚
+	 * @return è¿‡ç¨‹çš„è¿›åº¦ã€‚
 	 */
 	public int getProgress() {
 		return progress;
 	}
 	
 	/**
-	 * ÉèÖÃ¹ı³ÌµÄ½ø¶È¡£
-	 * @param progress Ö¸¶¨µÄ½ø¶È¡£
+	 * è®¾ç½®è¿‡ç¨‹çš„è¿›åº¦ã€‚
+	 * @param progress æŒ‡å®šçš„è¿›åº¦ã€‚
 	 */
 	public void setProgress(int progress){
 		this.progress = progress;
@@ -148,16 +148,16 @@ public class JBackgroundItem extends JPanel {
 	}
 
 	/**
-	 * ·µ»Ø¹ı³ÌµÄ×Ü½ø¶È¡£
-	 * @return ¹ı³ÌµÄ×Ü½ø¶È¡£
+	 * è¿”å›è¿‡ç¨‹çš„æ€»è¿›åº¦ã€‚
+	 * @return è¿‡ç¨‹çš„æ€»è¿›åº¦ã€‚
 	 */
 	public int getTotleProgress() {
 		return totleProgress;
 	}
 	
 	/**
-	 * ÉèÖÃ¹ı³ÌµÄ×Ü½ø¶È¡£
-	 * @param totleProgress ¹ı³ÌµÄ×Ü½ø¶È¡£
+	 * è®¾ç½®è¿‡ç¨‹çš„æ€»è¿›åº¦ã€‚
+	 * @param totleProgress è¿‡ç¨‹çš„æ€»è¿›åº¦ã€‚
 	 */
 	public void setTotleProgress(int totleProgress){
 		this.totleProgress = totleProgress;
@@ -165,16 +165,16 @@ public class JBackgroundItem extends JPanel {
 	}
 
 	/**
-	 * ·µ»Ø¸Ã¹ı³ÌÊÇÈ·¶¨¹ı³Ì»¹ÊÇ²»È·¶¨¹ı³Ì¡£
-	 * @return ¸Ã¹ı³ÌÊÇ·ñÎªÈ·¶¨¹ı³Ì¡£
+	 * è¿”å›è¯¥è¿‡ç¨‹æ˜¯ç¡®å®šè¿‡ç¨‹è¿˜æ˜¯ä¸ç¡®å®šè¿‡ç¨‹ã€‚
+	 * @return è¯¥è¿‡ç¨‹æ˜¯å¦ä¸ºç¡®å®šè¿‡ç¨‹ã€‚
 	 */
 	public boolean isDeterminate() {
 		return determinateFlag;
 	}
 	
 	/**
-	 * ÉèÖÃ¸Ã¹ı³ÌÊÇ·ñÊÇ²»È·¶¨¹ı³Ì¡£
-	 * @param aFlag ¸Ã¹ı³ÌÊÇ·ñÊÇ²»È·¶¨¹ı³Ì¡£
+	 * è®¾ç½®è¯¥è¿‡ç¨‹æ˜¯å¦æ˜¯ä¸ç¡®å®šè¿‡ç¨‹ã€‚
+	 * @param aFlag è¯¥è¿‡ç¨‹æ˜¯å¦æ˜¯ä¸ç¡®å®šè¿‡ç¨‹ã€‚
 	 */
 	public void setDeterminate(boolean aFlag){
 		determinateFlag = aFlag;
@@ -183,16 +183,16 @@ public class JBackgroundItem extends JPanel {
 	}
 
 	/**
-	 * Ö¸Ê¾¸Ã¹ı³ÌÊÇ·ñÄÜ±»È¡Ïû¡£
-	 * @return ¸Ã¹ı³ÌÄÜ·ñ±»È¡Ïû¡£
+	 * æŒ‡ç¤ºè¯¥è¿‡ç¨‹æ˜¯å¦èƒ½è¢«å–æ¶ˆã€‚
+	 * @return è¯¥è¿‡ç¨‹èƒ½å¦è¢«å–æ¶ˆã€‚
 	 */
 	public boolean isCancelable() {
 		return cancelable;
 	}
 	
 	/**
-	 * ÉèÖÃ¸Ã¹ı³ÌÊÇ·ñÄÜ¹»±»È¡Ïû¡£
-	 * @param aFlag ¸Ã¹ı³ÌÊÇ·ñÄÜ¹»±»È¡Ïû¡£
+	 * è®¾ç½®è¯¥è¿‡ç¨‹æ˜¯å¦èƒ½å¤Ÿè¢«å–æ¶ˆã€‚
+	 * @param aFlag è¯¥è¿‡ç¨‹æ˜¯å¦èƒ½å¤Ÿè¢«å–æ¶ˆã€‚
 	 */
 	public void setCancelable(boolean aFlag){
 		cancelable = aFlag;
@@ -200,8 +200,8 @@ public class JBackgroundItem extends JPanel {
 	}
 
 	/**
-	 * ·µ»Ø¸Ã¹ı³ÌÊÇ·ñ±»È¡Ïû¡£
-	 * @return ¸Ã¹ı³ÌÊÇ·ñ±»È¡Ïû¡£
+	 * è¿”å›è¯¥è¿‡ç¨‹æ˜¯å¦è¢«å–æ¶ˆã€‚
+	 * @return è¯¥è¿‡ç¨‹æ˜¯å¦è¢«å–æ¶ˆã€‚
 	 */
 	public boolean isCancel() {
 		return cancleFlag;
@@ -221,16 +221,16 @@ public class JBackgroundItem extends JPanel {
 	}
 
 	/**
-	 * ·µ»Ø¸Ã¹ı³ÌÊÇ·ñÍê³É¡£
-	 * @return ¸Ã¹ı³ÌÊÇ·ñÍê³É¡£
+	 * è¿”å›è¯¥è¿‡ç¨‹æ˜¯å¦å®Œæˆã€‚
+	 * @return è¯¥è¿‡ç¨‹æ˜¯å¦å®Œæˆã€‚
 	 */
 	public boolean isDone() {
 		return doneFlag;
 	}
 	
 	/**
-	 * ÉèÖÃ¹ı³ÌÊÇ·ñÍê³É¡£
-	 * @param aFlag ¹ı³ÌÊÇ·ñÍê³É¡£
+	 * è®¾ç½®è¿‡ç¨‹æ˜¯å¦å®Œæˆã€‚
+	 * @param aFlag è¿‡ç¨‹æ˜¯å¦å®Œæˆã€‚
 	 */
 	public void setDone(boolean aFlag){
 		doneFlag = aFlag;
@@ -244,16 +244,16 @@ public class JBackgroundItem extends JPanel {
 	}
 
 	/**
-	 * ·µ»Ø¸Ã¹ı³ÌµÄÏûÏ¢¡£
-	 * @return ¸Ã¹ı³ÌµÄÏûÏ¢¡£
+	 * è¿”å›è¯¥è¿‡ç¨‹çš„æ¶ˆæ¯ã€‚
+	 * @return è¯¥è¿‡ç¨‹çš„æ¶ˆæ¯ã€‚
 	 */
 	public String getMessage() {
 		return message;
 	}
 	
 	/**
-	 * ÉèÖÃ¹ı³ÌµÄÏûÏ¢¡£
-	 * @param message Ö¸¶¨µÄÏûÏ¢¡£
+	 * è®¾ç½®è¿‡ç¨‹çš„æ¶ˆæ¯ã€‚
+	 * @param message æŒ‡å®šçš„æ¶ˆæ¯ã€‚
 	 */
 	public void setMesssge(String message){
 		this.message = message;

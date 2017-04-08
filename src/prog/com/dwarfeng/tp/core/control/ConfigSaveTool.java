@@ -12,7 +12,7 @@ import com.dwarfeng.tp.core.model.eum.CoreConfig;
 import com.dwarfeng.tp.core.model.eum.ModalConfig;
 
 /**
- * 用于测试
+ * 鐢ㄤ簬娴嬭瘯
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -44,7 +44,7 @@ final class ConfigSaveTool {
 		file = new File("Attributes\\");
 		FileUtil.deleteFile(file);
 		
-		CT.trace("配置保存完成 !");
+		CT.trace("閰嶇疆淇濆瓨瀹屾垚 !");
 	}
 
 }

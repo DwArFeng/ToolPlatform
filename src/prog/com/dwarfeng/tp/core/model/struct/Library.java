@@ -5,36 +5,36 @@ import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.io.LibraryClassLoader;
 
 /**
- * ¿â¡£
- * <p> ¸Ã½Ó¿ÚµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * åº“ã€‚
+ * <p> è¯¥æ¥å£çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface Library extends ExternalReadWriteThreadSafe, Name{
 	
 	/**
-	 * »ñÈ¡¸Ã¿âÊÇ·ñ±»³ÖÓĞÒıÓÃ¡£
-	 * @return ¸Ã¿âÊÇ·ñ±»³ÖÓĞÒıÓÃ¡£
+	 * è·å–è¯¥åº“æ˜¯å¦è¢«æŒæœ‰å¼•ç”¨ã€‚
+	 * @return è¯¥åº“æ˜¯å¦è¢«æŒæœ‰å¼•ç”¨ã€‚
 	 */
 	public boolean hasReference();
 	
 //	/**
-//	 * »ñÈ¡ÒıÓÃ¸Ã¿âµÄËùÓĞ¿âÀà¼ÓÔØÆ÷¡£
-//	 * @return ÒıÓÃ¸Ã¿âµÄËùÓĞ¿âÀà¼ÓÔØÆ÷¡£
+//	 * è·å–å¼•ç”¨è¯¥åº“çš„æ‰€æœ‰åº“ç±»åŠ è½½å™¨ã€‚
+//	 * @return å¼•ç”¨è¯¥åº“çš„æ‰€æœ‰åº“ç±»åŠ è½½å™¨ã€‚
 //	 */
 //	public Set<LibraryClassLoader> getReferences();
 	
 	/**
-	 * Ôö¼ÓÒ»¸ö¿âÀà¼ÓÔØÆ÷µÄÒıÓÃ¡£
-	 * @param libraryClassLoader Ö¸¶¨µÄ¿âÀà¼ÓÔØÆ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * å¢åŠ ä¸€ä¸ªåº“ç±»åŠ è½½å™¨çš„å¼•ç”¨ã€‚
+	 * @param libraryClassLoader æŒ‡å®šçš„åº“ç±»åŠ è½½å™¨ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public void reference(LibraryClassLoader libraryClassLoader);
 	
 	/**
-	 * ½â³ıÒ»¸ö¿âÀà¼ÓÔØÆ÷µÄÒıÓÃ¡£
-	 * @param libraryClassLoader Ö¸¶¨µÄ¿âÀà¼ÓÔØÆ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * è§£é™¤ä¸€ä¸ªåº“ç±»åŠ è½½å™¨çš„å¼•ç”¨ã€‚
+	 * @param libraryClassLoader æŒ‡å®šçš„åº“ç±»åŠ è½½å™¨ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public void removeReference(LibraryClassLoader libraryClassLoader);
 	

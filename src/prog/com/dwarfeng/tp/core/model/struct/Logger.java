@@ -1,56 +1,56 @@
 package com.dwarfeng.tp.core.model.struct;
 
 /**
- * ¹¤¾ßÆ½Ì¨ÓÃ¼ÇÂ¼Æ÷¡£
- * <p> ¸ÃÃüÃûÊÇÎªÁËÓë log4j ÖĞµÄ logger ¼ÓÒÔÇø·Ö¡£
- * <p> ÓÃÀ´´¦ÀíÓë¼ÇÂ¼ÓĞ¹ØµÄ·½·¨¡£
+ * å·¥å…·å¹³å°ç”¨è®°å½•å™¨ã€‚
+ * <p> è¯¥å‘½åæ˜¯ä¸ºäº†ä¸ log4j ä¸­çš„ logger åŠ ä»¥åŒºåˆ†ã€‚
+ * <p> ç”¨æ¥å¤„ç†ä¸è®°å½•æœ‰å…³çš„æ–¹æ³•ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface Logger {
 
 	/**
-	 * µ÷ÓÃ¼ÇÂ¼Õ¾µãµÄtrace·½·¨¡£
-	 * @param message Ö¸¶¨µÄĞÅÏ¢¡£
+	 * è°ƒç”¨è®°å½•ç«™ç‚¹çš„traceæ–¹æ³•ã€‚
+	 * @param message æŒ‡å®šçš„ä¿¡æ¯ã€‚
 	 */
 	public void trace(String message);
 	
 	/**
-	 * µ÷ÓÃ¼ÇÂ¼Õ¾µãµÄdebug·½·¨¡£
-	 * @param message Ö¸¶¨µÄĞÅÏ¢¡£
+	 * è°ƒç”¨è®°å½•ç«™ç‚¹çš„debugæ–¹æ³•ã€‚
+	 * @param message æŒ‡å®šçš„ä¿¡æ¯ã€‚
 	 */
 	public void debug(String message);
 	
 	/**
-	 * µ÷ÓÃ¼ÇÂ¼Õ¾µãµÄinfo·½·¨¡£
-	 * @param message Ö¸¶¨µÄĞÅÏ¢¡£
+	 * è°ƒç”¨è®°å½•ç«™ç‚¹çš„infoæ–¹æ³•ã€‚
+	 * @param message æŒ‡å®šçš„ä¿¡æ¯ã€‚
 	 */
 	public void info(String message);
 	
 	/**
-	 * µ÷ÓÃ¼ÇÂ¼Õ¾µãµÄwarn·½·¨¡£
-	 * @param message Ö¸¶¨µÄĞÅÏ¢¡£
+	 * è°ƒç”¨è®°å½•ç«™ç‚¹çš„warnæ–¹æ³•ã€‚
+	 * @param message æŒ‡å®šçš„ä¿¡æ¯ã€‚
 	 */
 	public void warn(String message);
 	
 	/**
-	 * µ÷ÓÃ¼ÇÂ¼Õ¾µãµÄwarn·½·¨¡£
-	 * @param message Ö¸¶¨µÄĞÅÏ¢¡£
-	 * @param t Ö¸¶¨µÄ¿ÉÅ×³ö¶ÔÏó£¬Ò»°ãÊÇÏß³Ì»òÒì³£µÄ¸ú×Ù¶ÑÕ»¡£
+	 * è°ƒç”¨è®°å½•ç«™ç‚¹çš„warnæ–¹æ³•ã€‚
+	 * @param message æŒ‡å®šçš„ä¿¡æ¯ã€‚
+	 * @param t æŒ‡å®šçš„å¯æŠ›å‡ºå¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯çº¿ç¨‹æˆ–å¼‚å¸¸çš„è·Ÿè¸ªå †æ ˆã€‚
 	 */
 	public void warn(String message, Throwable t);
 	
 	/**
-	 * µ÷ÓÃ¼ÇÂ¼Õ¾µãµÄerror·½·¨¡£
-	 * @param message Ö¸¶¨µÄĞÅÏ¢¡£
-	 * @param t Ö¸¶¨µÄ¿ÉÅ×³ö¶ÔÏó£¬Ò»°ãÊÇÏß³Ì»òÒì³£µÄ¸ú×Ù¶ÑÕ»¡£
+	 * è°ƒç”¨è®°å½•ç«™ç‚¹çš„erroræ–¹æ³•ã€‚
+	 * @param message æŒ‡å®šçš„ä¿¡æ¯ã€‚
+	 * @param t æŒ‡å®šçš„å¯æŠ›å‡ºå¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯çº¿ç¨‹æˆ–å¼‚å¸¸çš„è·Ÿè¸ªå †æ ˆã€‚
 	 */
 	public void error(String message, Throwable t);
 	
 	/**
-	 * µ÷ÓÃ¼ÇÂ¼Õ¾µãµÄfatal·½·¨¡£
-	 * @param message Ö¸¶¨µÄĞÅÏ¢¡£
-	 * @param t Ö¸¶¨µÄ¿ÉÅ×³ö¶ÔÏó£¬Ò»°ãÊÇÏß³Ì»òÒì³£µÄ¸ú×Ù¶ÑÕ»¡£
+	 * è°ƒç”¨è®°å½•ç«™ç‚¹çš„fatalæ–¹æ³•ã€‚
+	 * @param message æŒ‡å®šçš„ä¿¡æ¯ã€‚
+	 * @param t æŒ‡å®šçš„å¯æŠ›å‡ºå¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯çº¿ç¨‹æˆ–å¼‚å¸¸çš„è·Ÿè¸ªå †æ ˆã€‚
 	 */
 	public void fatal(String message, Throwable t);
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * ÈÕÆÚ³£ÓÃ¹¤¾ß¡£
+ * æ—¥æœŸå¸¸ç”¨å·¥å…·ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -14,16 +14,16 @@ public final class DateUtil {
 	private final static SimpleDateFormat dateFormatter = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 	
 	/**
-	 * ¸ñÊ½»¯Êä³öÈÕÆÚ¡£
-	 * @param date Ö¸¶¨µÄÈÕÆÚ¡£
-	 * @return Ö¸¶¨ÈÕÆÚµÄ¸ñÊ½»¯×Ö·û´®¡£
+	 * æ ¼å¼åŒ–è¾“å‡ºæ—¥æœŸã€‚
+	 * @param date æŒ‡å®šçš„æ—¥æœŸã€‚
+	 * @return æŒ‡å®šæ—¥æœŸçš„æ ¼å¼åŒ–å­—ç¬¦ä¸²ã€‚
 	 */
 	public final static String formatDate(Date date){
-		Objects.requireNonNull(date, "Èë¿Ú²ÎÊı date ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(date, "å…¥å£å‚æ•° date ä¸èƒ½ä¸º nullã€‚");
 		return dateFormatter.format(date);
 	}
 	
-	//½ûÖ¹Íâ²¿ÊµÀı»¯
+	//ç¦æ­¢å¤–éƒ¨å®ä¾‹åŒ–
 	private DateUtil() {}
 	
 }

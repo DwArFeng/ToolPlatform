@@ -5,37 +5,37 @@ import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
- * Ö÷½çÃæ¹Û²ìÆ÷¡£
+ * ä¸»ç•Œé¢è§‚å¯Ÿå™¨ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface MainFrameObverser extends Obverser{
 	
 	/**
-	 * Í¨Öª½çÃæµÄ¹Ø±Õ°´Å¥±»µã»÷¡£
+	 * é€šçŸ¥ç•Œé¢çš„å…³é—­æŒ‰é’®è¢«ç‚¹å‡»ã€‚
 	 */
 	public void fireWindowClosing();
 
 	/**
-	 * Í¨Öª½çÃæ±»¼¤»î¡£
+	 * é€šçŸ¥ç•Œé¢è¢«æ¿€æ´»ã€‚
 	 */
 	public void fireFireWindowActivated();
 	
 	/**
-	 * Í¨ÖªĞèÒªÔËĞĞÖ¸¶¨µÄ¹¤¾ß¡£
-	 * @param toolInfo Ö¸¶¨µÄ¹¤¾ß¡£
+	 * é€šçŸ¥éœ€è¦è¿è¡ŒæŒ‡å®šçš„å·¥å…·ã€‚
+	 * @param toolInfo æŒ‡å®šçš„å·¥å…·ã€‚
 	 */
 	public void fireRunTool(ToolInfo toolInfo);
 	
 	/**
-	 * ¼ÇÂ¼Ö¸¶¨ÔËĞĞÖĞ¹¤¾ßµÄÔËĞĞÈÕÖ¾¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß
+	 * è®°å½•æŒ‡å®šè¿è¡Œä¸­å·¥å…·çš„è¿è¡Œæ—¥å¿—ã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·
 	 */
 	public void fireLogRunningTool(RunningTool runningTool);
 
 	/**
-	 * ÒÆ³ıÖ¸¶¨µÄÒÑ¾­ÍË³öµÄÔËĞĞÖĞ¹¤¾ß¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
+	 * ç§»é™¤æŒ‡å®šçš„å·²ç»é€€å‡ºçš„è¿è¡Œä¸­å·¥å…·ã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
 	 */
 	public void fireRemoveExitedRunningTool(RunningTool runningTool);
 	

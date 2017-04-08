@@ -18,9 +18,9 @@ import com.dwarfeng.tp.core.model.struct.ProcessException;
 import com.dwarfeng.tp.core.util.Constants;
 
 /**
- * Ä¬ÈÏ¶àÓïÑÔÄ£ĞÍ¡£
- * <p> ¶àÓïÑÔÄ£ĞÍ½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤å¤šè¯­è¨€æ¨¡å‹ã€‚
+ * <p> å¤šè¯­è¨€æ¨¡å‹æ¥å£çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -36,22 +36,22 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	private final InnerMutilang mutilang = new InnerMutilang();
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultMutilangModel(){
 		this(null, Constants.getDefaultMutilangInfo(), Constants.getDefaultMissingString());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param currentLocale Ö¸¶¨µÄµ±Ç°ÓïÑÔ£¬¿ÉÒÔÎª <code>null</code>¡£
-	 * @param defaultMutilangInfo Ö¸¶¨µÄÄ¬ÈÏ¶àÓïÑÔĞÅÏ¢¡£
-	 * @param defaultValue Ö¸¶¨µÄÄ¬ÈÏÎÄ±¾¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param currentLocale æŒ‡å®šçš„å½“å‰è¯­è¨€ï¼Œå¯ä»¥ä¸º <code>null</code>ã€‚
+	 * @param defaultMutilangInfo æŒ‡å®šçš„é»˜è®¤å¤šè¯­è¨€ä¿¡æ¯ã€‚
+	 * @param defaultValue æŒ‡å®šçš„é»˜è®¤æ–‡æœ¬ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultMutilangModel(Locale currentLocale, MutilangInfo defaultMutilangInfo, String defaultValue){
-		Objects.requireNonNull(defaultMutilangInfo, "Èë¿Ú²ÎÊı defaultMutilangInfo ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(defaultValue, "Èë¿Ú²ÎÊı defaultValue ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(defaultMutilangInfo, "å…¥å£å‚æ•° defaultMutilangInfo ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(defaultValue, "å…¥å£å‚æ•° defaultValue ä¸èƒ½ä¸º nullã€‚");
 		
 		this.currentLocale = currentLocale;
 		this.defaultMutilangInfo = defaultMutilangInfo;
@@ -134,8 +134,8 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public MutilangInfo put(Locale key, MutilangInfo value) {
-		Objects.requireNonNull(key, "Èë¿Ú²ÎÊı key ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(value, "Èë¿Ú²ÎÊı value ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(key, "å…¥å£å‚æ•° key ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(value, "å…¥å£å‚æ•° value ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -198,7 +198,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public void putAll(Map<? extends Locale, ? extends MutilangInfo> m) {
-		Objects.requireNonNull(m, "Èë¿Ú²ÎÊı m ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(m, "å…¥å£å‚æ•° m ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -232,10 +232,10 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄ¼ü¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄ¼ü¼¯ºÏ¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„é”®é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„é”®é›†åˆã€‚
 	 */
 	@Override
 	public Set<Locale> keySet() {
@@ -248,10 +248,10 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄÖµ¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄÖµ¼¯ºÏ¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„å€¼é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„å€¼é›†åˆã€‚
 	 */
 	@Override
 	public Collection<MutilangInfo> values() {
@@ -264,10 +264,10 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄÈë¿Ú¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄÈë¿Ú¼¯ºÏ¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„å…¥å£é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„å…¥å£é›†åˆã€‚
 	 */
 	@Override
 	public Set<java.util.Map.Entry<Locale, MutilangInfo>> entrySet() {
@@ -302,7 +302,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean setSupportedKeys(Set<String> names) {
-		Objects.requireNonNull(names, "Èë¿Ú²ÎÊı names ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(names, "å…¥å£å‚æ•° names ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -380,7 +380,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean setDefaultMutilangInfo(MutilangInfo mutilangInfo) {
-		Objects.requireNonNull(mutilangInfo, "Èë¿Ú²ÎÊı mutilangInfo ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilangInfo, "å…¥å£å‚æ•° mutilangInfo ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -420,7 +420,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 	 */
 	@Override
 	public boolean setDefaultValue(String value) {
-		Objects.requireNonNull(value, "Èë¿Ú²ÎÊı value ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(value, "å…¥å£å‚æ•° value ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -458,7 +458,7 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 					tDefaultValue = defaultValue;
 					tMutilangMap = delegate.getOrDefault(currentLocale, defaultMutilangInfo).getMutilangMap();
 				}catch (Exception e) {
-					throw new ProcessException("¶àÓïÑÔÄ£ĞÍ¸üĞÂ¹ı³ÌÓöµ½Òì³££¬Ê¹ÓÃÉÏ´ÎµÄÉèÖÃ", e);
+					throw new ProcessException("å¤šè¯­è¨€æ¨¡å‹æ›´æ–°è¿‡ç¨‹é‡åˆ°å¼‚å¸¸ï¼Œä½¿ç”¨ä¸Šæ¬¡çš„è®¾ç½®", e);
 				}
 				mutilang.supportedKeys = tSupportedKeys;
 				mutilang.defaultValue = tDefaultValue;
@@ -503,12 +503,12 @@ public final class DefaultMutilangModel extends AbstractMutilangModel {
 		 */
 		@Override
 		public String getString(String key) {
-			Objects.requireNonNull(key, "Èë¿Ú²ÎÊı key ²»ÄÜÎª null¡£");
+			Objects.requireNonNull(key, "å…¥å£å‚æ•° key ä¸èƒ½ä¸º nullã€‚");
 			
 			mutilangLock.lock();
 			try{
 				if(! supportedKeys.contains(key)){
-					throw new IllegalArgumentException("¶àÓïÑÔ½Ó¿Ú-²»Ö§³Ö´Ë¼ü");
+					throw new IllegalArgumentException("å¤šè¯­è¨€æ¥å£-ä¸æ”¯æŒæ­¤é”®");
 				}
 				return mutilangMap.getOrDefault(key, defaultValue);
 			}finally {

@@ -13,72 +13,72 @@ import com.dwarfeng.tp.plaf.core.ToolObverser;
 import com.dwarfeng.tp.plaf.core.ToolStopMode;
 
 /**
- * ���ߡ�
- * <p> �����ǹ��ߵĺ��Ľӿڣ�ʵ�ָýӿڵĹ����ǳ�����ᱻ����һ����Ч�Ĺ��ߡ�
- * <br> ����ʼ���е�ʱ�򣬻��ڹ���Ŀ¼�½����䷢�ֵ�ÿһ��jar����jar����������ิ������������
- * �������ӽ������б��С�
- * <p> ע�⣺��Ҫ��֤�˷�����Զ������ <code>null</code>��
+ * 工具。
+ * <p> 工具是工具的核心接口，实现该接口的公共非抽象类会被当做一个有效的工具。
+ * <br> 程序开始运行的时候，会在工具目录下解析其发现的每一个jar包，jar包中如果有类复合上述条件，
+ * 即被添加进工具列表中。
+ * <p> 注意：需要保证此方法永远不返回 <code>null</code>。
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface Tool extends ObverserSet<ToolObverser>, Name{
 	
 	/**
-	 * ���ع�����ָ�����͵�ͼƬ��
-	 * @param type ͼƬ���͡�
-	 * @return ������ָ�����͵�ͼƬ��
-	 * @throws NullPointerException ��ڲ���Ϊ <code>null</code>��
+	 * 返回工具中指定类型的图片。
+	 * @param type 图片类型。
+	 * @return 工具中指定类型的图片。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
 	public Image getImage(ImageSize type);
 	
 	/**
-	 * ��ȡ�����İ汾��
-	 * @return �����İ汾��
+	 * 获取软件的版本。
+	 * @return 软件的版本。
 	 */
 	public Version getVersion();
 	
 	/**
-	 * TODO �Ƿ�Ҫ�� Doucument ����ʽ��������������
-	 * ��ȡ���ߵ�������
-	 * <p> ���ص�ӳ����Ӧ����һ����Ϊ <code>null</code>����ڣ������ڴ�����Ĭ�ϵ�������
-	 * @param ָ�������ԣ�����Ϊ <code>null</code>������Ĭ�����ԡ�
-	 * @return ָ���������¹��ߵ�������
+	 * TODO 是否要以 Doucument 的形式来返回描述？？
+	 * 获取工具的描述。
+	 * <p> 返回的映射中应包含一个键为 <code>null</code>的入口，这个入口代表着默认的描述。
+	 * @param 指定的语言，可以为 <code>null</code>，代表默认语言。
+	 * @return 指定的语言下工具的描述。
 	 */
 	public Map<Locale, String> getDescriptions();
 	
 	/**
-	 * ��ȡ���ߵ�Ĭ��������
-	 * @return ���ߵ�Ĭ��������
+	 * 获取工具的默认描述。
+	 * @return 工具的默认描述。
 	 */
 	public String getDefaultDescription();
 	
 	/**
-	 * ��ȡ���ߵ��������顣
-	 * <p> ����Ӧ�ð��չ��׳̶ȵĴ�С������Ϊ���ص����������У�
-	 * ��ǰ�����߸��п�����ʾ�ڸ�Ҫ�����ϡ�
-	 * @return ���ߵ��������顣
+	 * 获取工具的作者数组。
+	 * <p> 作者应该按照贡献程度的大小排序，因为返回的作者数组中，
+	 * 靠前的作者更有可能显示在概要界面上。
+	 * @return 工具的作者数组。
 	 */
 	public String[] getAuthors();
 	
 	/**
-	 * ��ȡ���ߵĿ��б���
-	 * <p> ���ص��ַ���Ӧ��������Ҫʹ�õĿ��ļ����ļ��������ɴ�·����
-	 * @return ���ߵĿ��б���
+	 * 获取工具的库列表。
+	 * <p> 返回的字符串应该是所需要使用的库文件的文件名，不可带路径。
+	 * @return 工具的库列表。
 	 */
 	public String[] getToolLibs();
 	
 	/**
-	 * ��ָ����ֹͣ��ʽֹͣ����
-	 * <p> ���߳����ܹ��Լ�ֹͣ�����û�����ˡ��رա���ť��֮�⣬��Ӧ���ܹ�������ƽֹ̨ͣ��
-	 * ����ƽ̨��ֹͣӦ�þ���ʵʱ�ԣ������۳����ں���״̬����Ӧ�ÿ�����Ӧ��ֹͣ������
-	 * <p> ����ֹͣ��ʽ�Ĳ�ͬ���÷�����������Ҫ��һЩʱ�����ǿ���ԣ��������жϹ��߲��������˳������۹����Ƿ���ɻ��������Ƿ񱣴档
-	 * @param stopMode ֹͣ��ʽ��
+	 * 以指定的停止方式停止程序。
+	 * <p> 工具除了能够自己停止（如用户点击了“关闭”按钮）之外，还应该能够被工具平台停止。
+	 * 工具平台的停止应该具有实时性，即无论程序处于何种状态，都应该可以响应该停止操作。
+	 * <p> 根据停止方式的不同，该方法还可能需要在一些时候具有强制性，即立即中断工具操作并且退出，无论工作是否完成或者数据是否保存。
+	 * @param stopMode 停止方式。
 	 */
 	public void stop(ToolStopMode stopMode);
 	
 	/**
-	 * �������ߡ�
-	 * @param fileManager ָ�����ļ���������
+	 * 启动工具。
+	 * @param fileManager 指定的文件管理器。
 	 * 
 	 */
 	public void start(FileManager fileManager);

@@ -11,9 +11,9 @@ import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
- * Ä¬ÈÏ¹¤¾ßĞÅÏ¢Ä£ĞÍ¡£
- * <p> ¹¤¾ßĞÅÏ¢Ä£ĞÍµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤å·¥å…·ä¿¡æ¯æ¨¡å‹ã€‚
+ * <p> å·¥å…·ä¿¡æ¯æ¨¡å‹çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -22,27 +22,27 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	private final Map<String, ToolInfo> toolInfoMap = new HashMap<>();
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultToolInfoModel() {
 		this(new HashSet<>());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param c Ö¸¶¨µÄ³õÊ¼Öµ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param c æŒ‡å®šçš„åˆå§‹å€¼ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultToolInfoModel(Set<ToolInfo> c){
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nullã€‚");
 		for(ToolInfo toolInfo : c){
 			notFireAdd(toolInfo);
 		}
 	}
 	
 	/**
-	 * Ìí¼ÓÖ¸¶¨µÄ¹¤¾ßĞÅÏ¢£¬µ«²»Í¨Öª£¬Ò²²»Ïß³Ì°²È«¡£
-	 * @param toolInfo Ö¸¶¨µÄ¹¤¾ßĞÅÏ¢¡£
+	 * æ·»åŠ æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ï¼Œä½†ä¸é€šçŸ¥ï¼Œä¹Ÿä¸çº¿ç¨‹å®‰å…¨ã€‚
+	 * @param toolInfo æŒ‡å®šçš„å·¥å…·ä¿¡æ¯ã€‚
 	 */
 	private void notFireAdd(ToolInfo toolInfo){
 		if(Objects.isNull(toolInfo)) return;
@@ -181,10 +181,10 @@ public final class DefaultToolInfoModel extends AbstractToolInfoModel implements
 	}
 
 	/**
-	 * ·µ»Ø¸Ã¹¤¾ßĞÅÏ¢Ä£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return ¸Ã¹¤¾ßĞÅÏ¢Ä£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
+	 * è¿”å›è¯¥å·¥å…·ä¿¡æ¯æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return è¯¥å·¥å…·ä¿¡æ¯æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
 	 */
 	@Override
 	public Iterator<ToolInfo> iterator() {

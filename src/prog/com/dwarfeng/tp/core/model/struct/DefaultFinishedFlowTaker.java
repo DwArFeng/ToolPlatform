@@ -12,8 +12,8 @@ import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.util.ToolPlatformUtil;
 
 /**
- * Ä¬ÈÏÍê³É¹ı³ÌÈ¡³öÆ÷¡£
- * <p> Íê³É¹ı³ÌÈ¡³öÆ÷µÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤å®Œæˆè¿‡ç¨‹å–å‡ºå™¨ã€‚
+ * <p> å®Œæˆè¿‡ç¨‹å–å‡ºå™¨çš„é»˜è®¤å®ç°ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -32,25 +32,25 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 	private boolean runFlag = true;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param backgroundModel Ö¸¶¨µÄºóÌ¨Ä£ĞÍ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param backgroundModel æŒ‡å®šçš„åå°æ¨¡å‹ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultFinishedFlowTaker(BackgroundModel backgroundModel) {
 		this(backgroundModel, ToolPlatformUtil.newDefaultLogger(), Constants.getDefaultLoggerMutilang());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param backgroundModel Ö¸¶¨µÄºóÌ¨Ä£ĞÍ¡£
-	 * @param logger Ö¸¶¨µÄ¼ÇÂ¼Æ÷¡£
-	 * @param mutilang Ö¸¶¨µÄ¶àÓïÑÔ½Ó¿Ú¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param backgroundModel æŒ‡å®šçš„åå°æ¨¡å‹ã€‚
+	 * @param logger æŒ‡å®šçš„è®°å½•å™¨ã€‚
+	 * @param mutilang æŒ‡å®šçš„å¤šè¯­è¨€æ¥å£ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultFinishedFlowTaker(BackgroundModel backgroundModel, Logger logger, Mutilang mutilang) {
-		Objects.requireNonNull(backgroundModel, "Èë¿Ú²ÎÊı backgroundModel ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(logger, "Èë¿Ú²ÎÊı logger ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(backgroundModel, "å…¥å£å‚æ•° backgroundModel ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(logger, "å…¥å£å‚æ•° logger ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		this.backgroundModel = backgroundModel;
 		this.logger = logger;
@@ -88,7 +88,7 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 	 */
 	@Override
 	public boolean setLogger(Logger logger) {
-		Objects.requireNonNull(logger, "Èë¿Ú²ÎÊı logger ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(logger, "å…¥å£å‚æ•° logger ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -144,7 +144,7 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		lock.writeLock().lock();
 		try{
@@ -177,7 +177,7 @@ public class DefaultFinishedFlowTaker implements FinishedFlowTaker {
 				try {
 					Flow flow = backgroundModel.takeFinished();
 					
-					//»ñÈ¡Êı¾İ¡£
+					//è·å–æ•°æ®ã€‚
 					String message = flow.getMessage();
 					Throwable throwable = null;
 					String format = null;

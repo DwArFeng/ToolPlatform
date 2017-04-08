@@ -5,40 +5,40 @@ import java.util.Set;
 import com.dwarfeng.dutil.basic.prog.Obverser;
 
 /**
- * ×èµ²¹Û²ìÆ÷¡£
+ * é˜»æŒ¡è§‚å¯Ÿå™¨ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface BlockObverser extends Obverser {
 
 	/**
-	 * Í¨ÖªÈë¿Ú±»Ìí¼Ó¡£
-	 * @param key Ö¸¶¨µÄ¼ü¡£
-	 * @param value Ö¸¶¨µÄÖµ¡£
+	 * é€šçŸ¥å…¥å£è¢«æ·»åŠ ã€‚
+	 * @param key æŒ‡å®šçš„é”®ã€‚
+	 * @param value æŒ‡å®šçš„å€¼ã€‚
 	 */
 	public void fireEntryAdded(String key, Set<String> value);
 	
 	/**
-	 * Í¨ÖªÈë¿Ú±»ÒÆ³ı¡£
-	 * @param key Ö¸¶¨µÄ¼ü¡£
+	 * é€šçŸ¥å…¥å£è¢«ç§»é™¤ã€‚
+	 * @param key æŒ‡å®šçš„é”®ã€‚
 	 */
 	public void fireEntryRemoved(String key);
 	
 	/**
-	 * Í¨ÖªÈë¿Ú±»¸ü¸Ä¡£
-	 * @param key Ö¸¶¨µÄ¼ü¡£
-	 * @param oldValue ¾ÉµÄÖµ¡£
-	 * @param newValue ĞÂµÄÖµ¡£
+	 * é€šçŸ¥å…¥å£è¢«æ›´æ”¹ã€‚
+	 * @param key æŒ‡å®šçš„é”®ã€‚
+	 * @param oldValue æ—§çš„å€¼ã€‚
+	 * @param newValue æ–°çš„å€¼ã€‚
 	 */
 	public void fireEntryChanged(String key, Set<String> oldValue, Set<String> newValue);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍ±»Çå³ı¡£
+	 * é€šçŸ¥æ¨¡å‹è¢«æ¸…é™¤ã€‚
 	 */
 	public void fireCleared();
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍ±»¸üĞÂ¡£
+	 * é€šçŸ¥æ¨¡å‹è¢«æ›´æ–°ã€‚
 	 */
 	public void fireUpdated();
 	

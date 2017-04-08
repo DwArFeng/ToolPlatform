@@ -1,8 +1,8 @@
 package com.dwarfeng.tp.core.model.struct;
 
 /**
- * ¹ý³ÌÒì³£¡£
- * <p> ¸ÃÒì³£ÓÃÓÚÖ¸Ê¾³ÌÐòÔÚ´¦Àí¹ý³ÌÖÐ·¢ÉúÒì³£¡£
+ * è¿‡ç¨‹å¼‚å¸¸ã€‚
+ * <p> è¯¥å¼‚å¸¸ç”¨äºŽæŒ‡ç¤ºç¨‹åºåœ¨å¤„ç†è¿‡ç¨‹ä¸­å‘ç”Ÿå¼‚å¸¸ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */

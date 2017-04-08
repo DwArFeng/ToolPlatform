@@ -3,23 +3,23 @@ package com.dwarfeng.tp.core.model.struct;
 import java.util.Map;
 
 /**
- * ¶àÓïÑÔµÄÊôĞÔ¡£
+ * å¤šè¯­è¨€çš„å±æ€§ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface MutilangInfo {
 	
 	/**
-	 * »ñÈ¡ÊôĞÔÖĞµÄ±êÇ©¡£
-	 * @return ĞÅÏ¢ÖĞµÄ±êÇ©¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
+	 * è·å–å±æ€§ä¸­çš„æ ‡ç­¾ã€‚
+	 * @return ä¿¡æ¯ä¸­çš„æ ‡ç­¾ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public String getLabel() throws ProcessException;
 	
 	/**
-	 * »ñÈ¡ÊôĞÔÖĞµÄ¼üÖµÓ³Éä¡£
-	 * @return ÊôĞÔÖĞµÄ¼üÖµÓ³Éä¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
+	 * è·å–å±æ€§ä¸­çš„é”®å€¼æ˜ å°„ã€‚
+	 * @return å±æ€§ä¸­çš„é”®å€¼æ˜ å°„ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public Map<String, String> getMutilangMap() throws ProcessException;
 

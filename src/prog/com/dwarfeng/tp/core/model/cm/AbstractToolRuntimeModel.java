@@ -12,28 +12,28 @@ import com.dwarfeng.tp.core.model.obv.ToolRuntimeObverser;
 import com.dwarfeng.tp.core.model.struct.ReadOnlyExecutorService;
 
 /**
- * ³éÏó¹¤¾ßÔËĞĞÊ±Ä£ĞÍ¡£
- * <p> ¹¤¾ßÔËĞĞÊ±Ä£ĞÍµÄ³éÏóÊµÏÖ.
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * æŠ½è±¡å·¥å…·è¿è¡Œæ—¶æ¨¡å‹ã€‚
+ * <p> å·¥å…·è¿è¡Œæ—¶æ¨¡å‹çš„æŠ½è±¡å®ç°.
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public abstract class AbstractToolRuntimeModel implements ToolRuntimeModel {
 
-	/**Ä£ĞÍµÄÕìÌıÆ÷¼¯ºÏ¡£*/
+	/**æ¨¡å‹çš„ä¾¦å¬å™¨é›†åˆã€‚*/
 	protected final Set<ToolRuntimeObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
-	/**Ä£ĞÍµÄÍ¬²½¶ÁĞ´Ëø¡£*/
+	/**æ¨¡å‹çš„åŒæ­¥è¯»å†™é”ã€‚*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
-	/**Ä£ĞÍµÄÖ´ĞĞÆ÷·şÎñ*/
+	/**æ¨¡å‹çš„æ‰§è¡Œå™¨æœåŠ¡*/
 	protected final ExecutorService es;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param es Ö¸¶¨µÄÖ´ĞĞÆ÷·şÎñ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param es æŒ‡å®šçš„æ‰§è¡Œå™¨æœåŠ¡ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public AbstractToolRuntimeModel(ExecutorService es) {
-		Objects.requireNonNull(es, "Èë¿Ú²ÎÊı es ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(es, "å…¥å£å‚æ•° es ä¸èƒ½ä¸º nullã€‚");
 		this.es = es;
 	}
 	

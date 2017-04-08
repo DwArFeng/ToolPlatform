@@ -26,9 +26,9 @@ final class JTpconsole extends JExconsole implements MutilangSupported{
 	
 	private static final long serialVersionUID = 8510072604515358830L;
 	
-	/**ÓÒ¼ü²Ëµ¥*/
+	/**å³é”®èœå•*/
 	private InnerPopupMenu popup;
-	/**¶àÓïÑÔ½Ó¿Ú*/
+	/**å¤šè¯­è¨€æ¥å£*/
 	private Mutilang mutilang;
 	
 	public JTpconsole() {
@@ -37,7 +37,7 @@ final class JTpconsole extends JExconsole implements MutilangSupported{
 	
 	public JTpconsole(Mutilang mutilang){
 		super();
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		this.mutilang = mutilang;
 		popup.selectAllMenuItem.setText(getLabel(LabelStringKey.JTpconsole_1));
@@ -70,7 +70,7 @@ final class JTpconsole extends JExconsole implements MutilangSupported{
 	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
-		Objects.requireNonNull(mutilang , "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang , "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		if(Objects.equals(mutilang, this.mutilang)) return false;
 		this.mutilang = mutilang;

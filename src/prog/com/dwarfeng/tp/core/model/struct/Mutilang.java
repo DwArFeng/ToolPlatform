@@ -1,18 +1,18 @@
 package com.dwarfeng.tp.core.model.struct;
 
 /**
- * ¶àÓïÑÔ½Ó¿Ú¡£
+ * å¤šè¯­è¨€æ¥å£ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface Mutilang {
 	
 	/**
-	 * »ñÈ¡µ±Ç°ÓïÑÔÏÂÖ¸¶¨×Ö·ûÓòËù¶ÔÓ¦µÄ×Ö·û´®¡£
-	 * @param key Ö¸¶¨µÄ×Ö·û¼ü¡£
-	 * @return Ö¸¶¨µÄ×Ö·û¼üËù¶ÔÓ¦µÄ×Ö·û¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
-	 * @throws IllegalArgumentException Èë¿Ú²ÎÊı²»ÊÜ¸Ã¶àÓïÑÔ½Ó¿ÚµÄÖ§³Ö¡£
+	 * è·å–å½“å‰è¯­è¨€ä¸‹æŒ‡å®šå­—ç¬¦åŸŸæ‰€å¯¹åº”çš„å­—ç¬¦ä¸²ã€‚
+	 * @param key æŒ‡å®šçš„å­—ç¬¦é”®ã€‚
+	 * @return æŒ‡å®šçš„å­—ç¬¦é”®æ‰€å¯¹åº”çš„å­—ç¬¦ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
+	 * @throws IllegalArgumentException å…¥å£å‚æ•°ä¸å—è¯¥å¤šè¯­è¨€æ¥å£çš„æ”¯æŒã€‚
 	 */
 	public String getString(String key);
 

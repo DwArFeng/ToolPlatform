@@ -6,14 +6,14 @@ import com.dwarfeng.tp.core.model.struct.RunningTool;
 public interface RunningToolObverser extends Obverser {
 
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄÔËĞĞÖĞ¹¤¾ßÆô¶¯¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·å¯åŠ¨ã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
 	 */
 	public void fireStarted(RunningTool runningTool);
 	
 	/**
-	 * Í¨ÖªÖ¸¶¨µÄÔËĞĞÖĞ¹¤¾ß½áÊø¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
+	 * é€šçŸ¥æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ç»“æŸã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
 	 */
 	public void fireExited(RunningTool runningTool);
 }

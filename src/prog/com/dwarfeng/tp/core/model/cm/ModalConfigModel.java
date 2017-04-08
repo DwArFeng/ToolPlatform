@@ -1,33 +1,33 @@
 package com.dwarfeng.tp.core.model.cm;
 
 /**
- * Ä£Ì¬ÅäÖÃÄ£ĞÍ¡£
+ * æ¨¡æ€é…ç½®æ¨¡å‹ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ModalConfigModel extends SyncConfigModel {
 	
 	/**
-	 * »ñÈ¡Ö÷½çÃæµÄ³õÊ¼»¯¸ß¶È¡£
-	 * @return Ö÷½çÃæµÄ³õÊ¼»¯¸ß¶È¡£
+	 * è·å–ä¸»ç•Œé¢çš„åˆå§‹åŒ–é«˜åº¦ã€‚
+	 * @return ä¸»ç•Œé¢çš„åˆå§‹åŒ–é«˜åº¦ã€‚
 	 */
 	public int getMainFrameStartupHeight();
 	
 	/**
-	 * »ñÈ¡Ö÷½çÃæµÄ³õÊ¼»¯¿í¶È¡£
-	 * @return Ö÷½çÃæµÄ³õÊ¼»¯¿í¶È¡£
+	 * è·å–ä¸»ç•Œé¢çš„åˆå§‹åŒ–å®½åº¦ã€‚
+	 * @return ä¸»ç•Œé¢çš„åˆå§‹åŒ–å®½åº¦ã€‚
 	 */
 	public int getMainFrameStartupWidth();
 	
 	/**
-	 * »ñÈ¡Ö÷½çÃæµÄ³õÊ¼»¯À©Õ¹×´Ì¬¡£
-	 * @return Ö÷½çÃæµÄ³õÊ¼»¯À©Õ¹×´Ì¬¡£
+	 * è·å–ä¸»ç•Œé¢çš„åˆå§‹åŒ–æ‰©å±•çŠ¶æ€ã€‚
+	 * @return ä¸»ç•Œé¢çš„åˆå§‹åŒ–æ‰©å±•çŠ¶æ€ã€‚
 	 */
 	public int getMainFrameStartupExtendedState();
 
 	/**
-	 * »ñÈ¡Ö÷½çÃæµÄ³õÊ¼»¯ÄÏ·½Ãæ°å¸ß¶È¡£
-	 * @return Ö÷½çÃæµÄ³õÊ¼»¯ÄÏ·½Ãæ°å¸ß¶È¡£
+	 * è·å–ä¸»ç•Œé¢çš„åˆå§‹åŒ–å—æ–¹é¢æ¿é«˜åº¦ã€‚
+	 * @return ä¸»ç•Œé¢çš„åˆå§‹åŒ–å—æ–¹é¢æ¿é«˜åº¦ã€‚
 	 */
 	public int getMainFrameStartupSouthHeight();
 }

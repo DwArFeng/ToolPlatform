@@ -4,15 +4,15 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
- * ¹¤¾ßĞÅÏ¢Ãæ°å¹Û²ìÆ÷¡£
+ * å·¥å…·ä¿¡æ¯é¢æ¿è§‚å¯Ÿå™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolInfoPanelObverser extends Obverser {
 
 	/**
-	 * Í¨ÖªĞèÒªÔËĞĞÖ¸¶¨µÄ¹¤¾ß¡£
-	 * @param toolInfo Ö¸¶¨µÄ¹¤¾ß¡£
+	 * é€šçŸ¥éœ€è¦è¿è¡ŒæŒ‡å®šçš„å·¥å…·ã€‚
+	 * @param toolInfo æŒ‡å®šçš„å·¥å…·ã€‚
 	 */
 	public void fireRunTool(ToolInfo toolInfo);
 	

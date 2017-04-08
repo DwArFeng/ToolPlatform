@@ -16,17 +16,17 @@ import com.dwarfeng.tp.core.model.cm.ResourceModel;
 import com.dwarfeng.tp.core.model.struct.DefaultResource;
 
 /**
- * xml×ÊÔ´Ä£ĞÍ¶ÁÈ¡Æ÷¡£
- * <p> Ê¹ÓÃxml¶ÁÈ¡×ÊÔ´Ä£ĞÍ¡£
+ * xmlèµ„æºæ¨¡å‹è¯»å–å™¨ã€‚
+ * <p> ä½¿ç”¨xmlè¯»å–èµ„æºæ¨¡å‹ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public class XmlResourceLoader extends StreamLoader<ResourceModel> {
 
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param in Ö¸¶¨µÄÊäÈëÁ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param in æŒ‡å®šçš„è¾“å…¥æµã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public XmlResourceLoader(InputStream in) {
 		super(in);
@@ -38,14 +38,14 @@ public class XmlResourceLoader extends StreamLoader<ResourceModel> {
 	 */
 	@Override
 	public void load(ResourceModel resourceModel) throws LoadFailedException {
-		Objects.requireNonNull(resourceModel, "Èë¿Ú²ÎÊı resourceModel ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(resourceModel, "å…¥å£å‚æ•° resourceModel ä¸èƒ½ä¸º nullã€‚");
 
 		try{
 			SAXReader reader = new SAXReader();
 			Element root = reader.read(in).getRootElement();
 			
 			/*
-			 * ¸ù¾İ dom4j µÄÏà¹ØËµÃ÷£¬´Ë´¦×ª»»ÊÇ°²È«µÄ¡£
+			 * æ ¹æ® dom4j çš„ç›¸å…³è¯´æ˜ï¼Œæ­¤å¤„è½¬æ¢æ˜¯å®‰å…¨çš„ã€‚
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> infos = (List<Element>)root.elements("info");
@@ -56,13 +56,13 @@ public class XmlResourceLoader extends StreamLoader<ResourceModel> {
 				String key = info.attributeValue("key");
 				
 				if(Objects.isNull(defString) || Objects.isNull(resString) || Objects.isNull(key)) {
-					throw new LoadFailedException("ÅäÖÃÎÄ¼şÈ±Ê§ÊôĞÔ");
+					throw new LoadFailedException("é…ç½®æ–‡ä»¶ç¼ºå¤±å±æ€§");
 				}
 				
 				URL def = ToolPlatform.class.getResource(defString);
 				
 				if(Objects.isNull(def)){
-					throw new LoadFailedException("ÅäÖÃÖĞ×ÊÔ´µÄÂ·¾¶²»ÕıÈ·");
+					throw new LoadFailedException("é…ç½®ä¸­èµ„æºçš„è·¯å¾„ä¸æ­£ç¡®");
 				}
 				
 				File res = new File(resString);
@@ -71,7 +71,7 @@ public class XmlResourceLoader extends StreamLoader<ResourceModel> {
 			}
 			
 		}catch (Exception e) {
-			throw new LoadFailedException("ÎŞ·¨Ïò×ÊÔ´Ä£ĞÍÖĞ¶ÁÈ¡Á÷ÖĞµÄÊı¾İ", e);
+			throw new LoadFailedException("æ— æ³•å‘èµ„æºæ¨¡å‹ä¸­è¯»å–æµä¸­çš„æ•°æ®", e);
 		}
 		
 	}

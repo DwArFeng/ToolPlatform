@@ -5,31 +5,31 @@ import java.io.File;
 import com.dwarfeng.tp.core.model.struct.ToolInfo;
 
 /**
- * Â·¾¶»ñµÃÆ÷¡£
- * <p> ½«Ö¸¶¨µÄÃû×Ö×ª»»³ÉÂ·¾¶¡£
+ * è·¯å¾„è·å¾—å™¨ã€‚
+ * <p> å°†æŒ‡å®šçš„åå­—è½¬æ¢æˆè·¯å¾„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface PathGetter {
 
 	/**
-	 * »ñÈ¡Ö¸¶¨Ãû³ÆµÄ¿âµÄ¾ø¶ÔÂ·¾¶¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @return Ö¸¶¨µÄÃû³ÆµÄ¿âµÄ¾ø¶ÔÂ·¾¶¡£
+	 * è·å–æŒ‡å®šåç§°çš„åº“çš„ç»å¯¹è·¯å¾„ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @return æŒ‡å®šçš„åç§°çš„åº“çš„ç»å¯¹è·¯å¾„ã€‚
 	 */
 	public String getLibraryPath(String name);
 	
 	/**
-	 * »ñÈ¡Ö¸¶¨µÄ¹¤¾ßµÄJar°üµÄ¾ø¶ÔÂ·¾¶¡£
-	 * @param name Jar°üµÄÃû³Æ¡£
-	 * @return Jar°üµÄÃû³Æ¶ÔÓ¦µÄ¾ø¶ÔÂ·¾¶¡£
+	 * è·å–æŒ‡å®šçš„å·¥å…·çš„JaråŒ…çš„ç»å¯¹è·¯å¾„ã€‚
+	 * @param name JaråŒ…çš„åç§°ã€‚
+	 * @return JaråŒ…çš„åç§°å¯¹åº”çš„ç»å¯¹è·¯å¾„ã€‚
 	 */
 	public String getToolFilePath(String name);
 	
 	/**
-	 * »ñÈ¡Ö¸¶¨Ãû³ÆµÄ¹¤¾ßµÄ¹¤×÷Ä¿Â¼¡£
-	 * @param name Ö¸¶¨µÄ¹¤¾ß¡£
-	 * @return Ö¸¶¨¹¤¾ßµÄ¹¤×÷Ä¿Â¼¡£
+	 * è·å–æŒ‡å®šåç§°çš„å·¥å…·çš„å·¥ä½œç›®å½•ã€‚
+	 * @param name æŒ‡å®šçš„å·¥å…·ã€‚
+	 * @return æŒ‡å®šå·¥å…·çš„å·¥ä½œç›®å½•ã€‚
 	 */
 	public File getToolDirectory(ToolInfo toolInfo);
 }

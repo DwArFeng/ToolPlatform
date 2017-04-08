@@ -28,7 +28,7 @@ public class JBackgroundPanel extends JPanel {
 	private BackgroundModel backgroundModel;
 	
 	/*
-	 * final Óò¡£
+	 * final åŸŸã€‚
 	 */
 	private final MuaListModel<Flow> listModel =  new MuaListModel<>();
 	private final ListCellRenderer<Flow> listCellRenderer =  new ListCellRenderer<Flow>() {
@@ -244,15 +244,15 @@ public class JBackgroundPanel extends JPanel {
 	private final JList<Flow> flowList;
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public JBackgroundPanel() {
 		this(null);
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param backgroundModel Ö¸¶¨µÄºóÌ¨Ä£ĞÍ¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param backgroundModel æŒ‡å®šçš„åå°æ¨¡å‹ã€‚
 	 */
 	public JBackgroundPanel(BackgroundModel backgroundModel){
 		setLayout(new BorderLayout(0, 0));
@@ -290,8 +290,8 @@ public class JBackgroundPanel extends JPanel {
 	}
 	
 	/**
-	 * »ñÈ¡Ãæ°åµÄºóÌ¨Ä£ĞÍ¡£
-	 * @return Ãæ°åµÄºóÌ¨Ä£ĞÍ¡£
+	 * è·å–é¢æ¿çš„åå°æ¨¡å‹ã€‚
+	 * @return é¢æ¿çš„åå°æ¨¡å‹ã€‚
 	 */
 	public BackgroundModel getBackgroundModel(){
 		return backgroundModel;
@@ -327,7 +327,7 @@ public class JBackgroundPanel extends JPanel {
 	}
 	
 	/**
-	 * ÊÍ·Å×ÊÔ´¡£
+	 * é‡Šæ”¾èµ„æºã€‚
 	 */
 	public void dispose(){
 		if(Objects.nonNull(this.backgroundModel)){

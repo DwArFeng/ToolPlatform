@@ -3,15 +3,15 @@ package com.dwarfeng.tp.core.model.cm;
 import com.dwarfeng.tp.core.model.eum.ModalConfig;
 
 /**
- * Ä¬ÈÏÄ£Ì¬ÅäÖÃÄ£ĞÍ¡£
- * <p> Ä£Ì¬ÅäÖÃÄ£ĞÍµÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤æ¨¡æ€é…ç½®æ¨¡å‹ã€‚
+ * <p> æ¨¡æ€é…ç½®æ¨¡å‹çš„é»˜è®¤å®ç°ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public class DefaultModalConfigModel extends DefaultSyncConfigModel implements ModalConfigModel {
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultModalConfigModel() {
 		super(ModalConfig.values());

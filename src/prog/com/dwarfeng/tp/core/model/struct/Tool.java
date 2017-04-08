@@ -5,7 +5,7 @@ import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tp.core.model.obv.ToolInfoObverser;
 
 /**
- * ‘À––÷–π§æﬂ°£
+ * ËøêË°å‰∏≠Â∑•ÂÖ∑„ÄÇ
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

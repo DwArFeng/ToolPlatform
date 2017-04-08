@@ -9,55 +9,55 @@ import com.dwarfeng.tp.core.model.obv.LibraryObverser;
 import com.dwarfeng.tp.core.model.struct.Library;
 
 /**
- * ¿âÄ£ĞÍ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * åº“æ¨¡å‹ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface LibraryModel extends ExternalReadWriteThreadSafe, ObverserSet<LibraryObverser>, Iterable<Library>{
 	
 	/**
-	 * ½«Ö¸¶¨µÄ¿âÌí¼Óµ½Ä£ĞÍÖĞ¡£
-	 * @param library Ö¸¶¨µÄ¿â¡£
-	 * @return ÊÇ·ñÌí¼Ó³É¹¦¡£
+	 * å°†æŒ‡å®šçš„åº“æ·»åŠ åˆ°æ¨¡å‹ä¸­ã€‚
+	 * @param library æŒ‡å®šçš„åº“ã€‚
+	 * @return æ˜¯å¦æ·»åŠ æˆåŠŸã€‚
 	 */
 	public boolean add(Library library);
 	
 	/**
-	 * ÒÆ³ıÖ¸¶¨µÄ¿â¡£
-	 * @param library Ö¸¶¨µÄ¿â¡£
-	 * @return ÊÇ·ñ³É¹¦ÒÆ³ı¡£
+	 * ç§»é™¤æŒ‡å®šçš„åº“ã€‚
+	 * @param library æŒ‡å®šçš„åº“ã€‚
+	 * @return æ˜¯å¦æˆåŠŸç§»é™¤ã€‚
 	 */
 	public boolean remove(Library library);
 	
 	/**
-	 * Çå³ıÖ¸¶¨µÄ¿â¡£
+	 * æ¸…é™¤æŒ‡å®šçš„åº“ã€‚
 	 */
 	public void clear();
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍÖĞµÄÔªËØÊıÁ¿¡£
-	 * @return ¸ÃÄ£ĞÍÖĞµÄÔªËØÊıÁ¿¡£
+	 * è¿”å›è¯¥æ¨¡å‹ä¸­çš„å…ƒç´ æ•°é‡ã€‚
+	 * @return è¯¥æ¨¡å‹ä¸­çš„å…ƒç´ æ•°é‡ã€‚
 	 */
 	public int size();
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍÊÇ·ñÊÇ¿ÕµÄ¡£
-	 * @return ¸ÃÄ£ĞÍÊÇ·ñÊÇ¿ÕµÄ¡£
+	 * è¿”å›è¯¥æ¨¡å‹æ˜¯å¦æ˜¯ç©ºçš„ã€‚
+	 * @return è¯¥æ¨¡å‹æ˜¯å¦æ˜¯ç©ºçš„ã€‚
 	 */
 	public boolean isEmpty();
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍÊÇ·ñº¬ÓĞÖ¸¶¨µÄÃû³ÆµÄ¿â¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @return ÊÇ·ñº¬ÓĞÖ¸¶¨Ãû³ÆµÄ¿â¡£
+	 * è¿”å›è¯¥æ¨¡å‹æ˜¯å¦å«æœ‰æŒ‡å®šçš„åç§°çš„åº“ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @return æ˜¯å¦å«æœ‰æŒ‡å®šåç§°çš„åº“ã€‚
 	 */
 	public boolean contains(String name);
 	
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍÊÇ·ñº¬ÓĞÖ¸¶¨µÄÃû³ÆµÄ¿â¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @return ÊÇ·ñº¬ÓĞÖ¸¶¨Ãû³ÆµÄ¿â¡£
+	 * è¿”å›è¯¥æ¨¡å‹æ˜¯å¦å«æœ‰æŒ‡å®šçš„åç§°çš„åº“ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @return æ˜¯å¦å«æœ‰æŒ‡å®šåç§°çš„åº“ã€‚
 	 */
 	public default boolean contains(Name name){
 		if(Objects.isNull(name)) return false;
@@ -65,16 +65,16 @@ public interface LibraryModel extends ExternalReadWriteThreadSafe, ObverserSet<L
 	}
 	
 	/**
-	 * »ñÈ¡Ä£ĞÍÖĞÖ¸¶¨Ãû³ÆµÄ¿â¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @return Ä£ĞÍÖĞÖ¸¶¨Ãû³ÆµÄ¿â¡£
+	 * è·å–æ¨¡å‹ä¸­æŒ‡å®šåç§°çš„åº“ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @return æ¨¡å‹ä¸­æŒ‡å®šåç§°çš„åº“ã€‚
 	 */
 	public Library get(String name);
 	
 	/**
-	 * »ñÈ¡Ä£ĞÍÖĞÃû³ÆÎªÖ¸¶¨Ãû³Æ½Ó¿ÚµÄÃû³ÆµÄ¿â¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ½Ó¿Ú¡£
-	 * @return Ä£ĞÍÖĞÃû³ÆÎªÖ¸¶¨Ãû³Æ½Ó¿ÚµÄÃû³ÆµÄ¿â¡£
+	 * è·å–æ¨¡å‹ä¸­åç§°ä¸ºæŒ‡å®šåç§°æ¥å£çš„åç§°çš„åº“ã€‚
+	 * @param name æŒ‡å®šçš„åç§°æ¥å£ã€‚
+	 * @return æ¨¡å‹ä¸­åç§°ä¸ºæŒ‡å®šåç§°æ¥å£çš„åç§°çš„åº“ã€‚
 	 */
 	public default Library get(Name name){
 		if(Objects.isNull(name)) return null;

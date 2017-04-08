@@ -116,9 +116,9 @@ public abstract class AbstractGuiController<T extends Component> implements GuiC
 	}
 
 	/**
-	 *Éú³ÉĞÂÊµÀıµÄÊµÏÖ·½·¨¡£
-	 *<p> Ö»ÓĞ¿ØÖÆÆ÷ÖĞÃ»ÓĞÊµÀıÇÒµ÷ÓÃÁË {@link #newInstance()} ·½·¨Ê±£¬²Å»áµ÷ÓÃ´Ë·½·¨¡£
-	 * @return ÊµÀıÓĞÃ»ÓĞ±»Éú³É¡£
+	 *ç”Ÿæˆæ–°å®ä¾‹çš„å®ç°æ–¹æ³•ã€‚
+	 *<p> åªæœ‰æ§åˆ¶å™¨ä¸­æ²¡æœ‰å®ä¾‹ä¸”è°ƒç”¨äº† {@link #newInstance()} æ–¹æ³•æ—¶ï¼Œæ‰ä¼šè°ƒç”¨æ­¤æ–¹æ³•ã€‚
+	 * @return å®ä¾‹æœ‰æ²¡æœ‰è¢«ç”Ÿæˆã€‚
 	 */
 	protected abstract T newInstanceImpl();
 
@@ -140,9 +140,9 @@ public abstract class AbstractGuiController<T extends Component> implements GuiC
 	}
 
 	/**
-	 * ÊÍ·ÅÊµÀıµÄÊµÏÖ·½·¨¡£
-	 * <p> Ö»ÓĞ¿ØÖÆÆ÷ÖĞÓĞÊµÀıÇÒµ÷ÓÃÁË {@link #dispose()} ·½·¨Ê±£¬²Å»áµ÷ÓÃ´Ë·½·¨¡£
-	 * <p> ¸Ã·½·¨ÖĞ´«ÈëµÄÈë¿Ú²ÎÊı±£Ö¤²»Îª <code>null</code>¡£
+	 * é‡Šæ”¾å®ä¾‹çš„å®ç°æ–¹æ³•ã€‚
+	 * <p> åªæœ‰æ§åˆ¶å™¨ä¸­æœ‰å®ä¾‹ä¸”è°ƒç”¨äº† {@link #dispose()} æ–¹æ³•æ—¶ï¼Œæ‰ä¼šè°ƒç”¨æ­¤æ–¹æ³•ã€‚
+	 * <p> è¯¥æ–¹æ³•ä¸­ä¼ å…¥çš„å…¥å£å‚æ•°ä¿è¯ä¸ä¸º <code>null</code>ã€‚
 	 */
 	protected abstract void disposeImpl(T component);
 	

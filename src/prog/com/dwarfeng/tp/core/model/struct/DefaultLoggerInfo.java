@@ -3,8 +3,8 @@ package com.dwarfeng.tp.core.model.struct;
 import java.util.Objects;
 
 /**
- * Ä¬ÈÏ¼ÇÂ¼Æ÷ĞÅÏ¢¡£
- * <p> ¼ÇÂ¼Æ÷ĞÅÏ¢µÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤è®°å½•å™¨ä¿¡æ¯ã€‚
+ * <p> è®°å½•å™¨ä¿¡æ¯çš„é»˜è®¤å®ç°ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -13,12 +13,12 @@ public class DefaultLoggerInfo implements LoggerInfo {
 	private final String name;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param name Ö¸¶¨µÄÃû³Æ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param name æŒ‡å®šçš„åç§°ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultLoggerInfo(String name) {
-		Objects.requireNonNull(name, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(name, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
 		this.name = name;
 	}
 

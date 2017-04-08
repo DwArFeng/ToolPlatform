@@ -7,8 +7,8 @@ import com.dwarfeng.tp.core.model.struct.RunningTool;
 import com.dwarfeng.tp.core.view.gui.MainFrame;
 
 /**
- * ³éÏóÖ÷½çÃæ¿ØÖÆÆ÷¡£
- * <p> Ö÷½çÃæ¿ØÖÆÆ÷µÄ³éÏóÊµÏÖ¡£
+ * æŠ½è±¡ä¸»ç•Œé¢æ§åˆ¶å™¨ã€‚
+ * <p> ä¸»ç•Œé¢æ§åˆ¶å™¨çš„æŠ½è±¡å®ç°ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

@@ -18,9 +18,9 @@ import com.dwarfeng.dutil.basic.DwarfUtil;
 import com.dwarfeng.dutil.basic.StringFieldKey;
 
 /**
- * ¿Éµ÷ÕûµÄ±ß½ç²¼¾ÖÃæ°å¡£
- * <p>¸ÃÃæ°åµÄ²¼¾ÖÀàËÆÓÚ±ß½ç²¼¾ÖÑùÊ½ÖĞµÄ²¼¾Ö£¬²»¹ı±ß½çÓë±ß½çÖ®Ç°ÓĞÍÏ¶¯Ìõ¡£Í¨¹ıÍÏ¶¯ÕâĞ©ÍÏ¶¯Ìõ
- * ¿ÉÒÔµ÷Õû±ß½çµÄ´óĞ¡£¬ÒÔ´ïµ½¶¯Ì¬µ÷Õû±ß½ç´óĞ¡µÄĞ§¹û¡£
+ * å¯è°ƒæ•´çš„è¾¹ç•Œå¸ƒå±€é¢æ¿ã€‚
+ * <p>è¯¥é¢æ¿çš„å¸ƒå±€ç±»ä¼¼äºè¾¹ç•Œå¸ƒå±€æ ·å¼ä¸­çš„å¸ƒå±€ï¼Œä¸è¿‡è¾¹ç•Œä¸è¾¹ç•Œä¹‹å‰æœ‰æ‹–åŠ¨æ¡ã€‚é€šè¿‡æ‹–åŠ¨è¿™äº›æ‹–åŠ¨æ¡
+ * å¯ä»¥è°ƒæ•´è¾¹ç•Œçš„å¤§å°ï¼Œä»¥è¾¾åˆ°åŠ¨æ€è°ƒæ•´è¾¹ç•Œå¤§å°çš„æ•ˆæœã€‚
  * @author DwArFeng
  * @since 0.0.2-beta
  */
@@ -29,128 +29,128 @@ public class JAdjustableBorderPanel extends JPanel{
 	private static final long serialVersionUID = 8778731300497488535L;
 	
 	/**
-	 * Ë®Æ½Ä£°å£ºÄ¬ÈÏÏÔÊ¾¶«¡¢ÖĞ¡¢Î÷Èı¸ö·½ÏòµÄ¿Õ¼ä£¬ËùÓĞ¿Ø¼ş×îĞ¡¶ÈÁ¿100
+	 * æ°´å¹³æ¨¡æ¿ï¼šé»˜è®¤æ˜¾ç¤ºä¸œã€ä¸­ã€è¥¿ä¸‰ä¸ªæ–¹å‘çš„ç©ºé—´ï¼Œæ‰€æœ‰æ§ä»¶æœ€å°åº¦é‡100
 	 */
 	public final static int MOUDLE_HOR = 1;
 	/**
-	 * ÊúÖ±Ä£°å£ºÄ¬ÈÏÏÔÊ¾±±£¬ÖĞ£¬ÄÏÈı¸ö·½ÏòµÄ¿Ø¼ş£¬ËùÓĞ¿Ø¼ş×îĞ¡¶ÈÁ¿100
+	 * ç«–ç›´æ¨¡æ¿ï¼šé»˜è®¤æ˜¾ç¤ºåŒ—ï¼Œä¸­ï¼Œå—ä¸‰ä¸ªæ–¹å‘çš„æ§ä»¶ï¼Œæ‰€æœ‰æ§ä»¶æœ€å°åº¦é‡100
 	 */
 	public final static int MOUDLE_VEC = 2;
 	/**
-	 * ÖĞÏÂÄ£°å£ºÄ¬ÈÏÏÔÊ¾ÖĞ£¬ÄÏÁ½¸ö·½ÏòµÄ¿Ø¼ş£¬ËùÓĞ¿Ø¼ş×îĞ¡¶ÈÁ¿100
+	 * ä¸­ä¸‹æ¨¡æ¿ï¼šé»˜è®¤æ˜¾ç¤ºä¸­ï¼Œå—ä¸¤ä¸ªæ–¹å‘çš„æ§ä»¶ï¼Œæ‰€æœ‰æ§ä»¶æœ€å°åº¦é‡100
 	 */
 	public final static int MOUDLE_CD = 3;
 	/**
-	 * È«ÏòÄ£°å£ºÄ¬ÈÏÏÔÊ¾ËùÓĞ¿Ø¼ş£¬×îĞ¡¶ÈÁ¿100
+	 * å…¨å‘æ¨¡æ¿ï¼šé»˜è®¤æ˜¾ç¤ºæ‰€æœ‰æ§ä»¶ï¼Œæœ€å°åº¦é‡100
 	 */
 	public final static int MOUDLE_AL = 4;
 	
-	//----------------ÕûÌå²¼¾Ö³ÉÔ±±äÁ¿---------------------------------------------------------------
+	//----------------æ•´ä½“å¸ƒå±€æˆå‘˜å˜é‡---------------------------------------------------------------
 	/**
-	 * Î÷·½µÄÕûÌå²¼¾Ö£¬°üÀ¨ÍÏ¶¯Ìõ¡£
+	 * è¥¿æ–¹çš„æ•´ä½“å¸ƒå±€ï¼ŒåŒ…æ‹¬æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JPanel westPan;
 	/**
-	 * Î÷·½²¼¾ÖÊÇ·ñÆôÓÃ¡£
+	 * è¥¿æ–¹å¸ƒå±€æ˜¯å¦å¯ç”¨ã€‚
 	 */
 	private boolean westEnabled;
 	/**
-	 * Î÷·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿¡£
+	 * è¥¿æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ã€‚
 	 */
 	private int westMinValue;
 	/**
-	 * Î÷·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è¥¿æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	private int westPreferredValue;
 	/**
-	 * ¶«·½µÄÕûÌå²¼¾Ö£¬°üÀ¨ÍÏ¶¯Ìõ¡£
+	 * ä¸œæ–¹çš„æ•´ä½“å¸ƒå±€ï¼ŒåŒ…æ‹¬æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JPanel eastPan;
 	/**
-	 * ¶«·½²¼¾ÖÊÇ·ñÆôÓÃ¡£
+	 * ä¸œæ–¹å¸ƒå±€æ˜¯å¦å¯ç”¨ã€‚
 	 */
 	private boolean eastEnabled;
 	/**
-	 * ¶«·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿¡£
+	 * ä¸œæ–¹æ§ä»¶çš„æœ€å°åº¦é‡ã€‚
 	 */
 	private int eastMinValue;
 	/**
-	 * ¶«·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * ä¸œæ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	private int eastPreferredValue;
 	/**
-	 * ±±·½µÄÕûÌå²¼¾Ö£¬°üÀ¨ÍÏ¶¯Ìõ¡£
+	 * åŒ—æ–¹çš„æ•´ä½“å¸ƒå±€ï¼ŒåŒ…æ‹¬æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JPanel northPan;
 	/**
-	 * ±±·½µÄÕûÌå²¼¾ÖÊÇ·ñÆôÓÃ¡£
+	 * åŒ—æ–¹çš„æ•´ä½“å¸ƒå±€æ˜¯å¦å¯ç”¨ã€‚
 	 */
 	private boolean northEnabled;
 	/**
-	 * ±±·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿¡£
+	 * åŒ—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ã€‚
 	 */
 	private int northMinValue;
 	/**
-	 * ±±·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * åŒ—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	private int northPreferredValue;
 	/**
-	 * ÄÏ·½µÄÕûÌå²¼¾Ö£¬°üÀ¨ÍÏ¶¯Ìõ¡£
+	 * å—æ–¹çš„æ•´ä½“å¸ƒå±€ï¼ŒåŒ…æ‹¬æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JPanel southPan;
 	/**
-	 * ÄÏ·½²¼¾ÖÊÇ·ñÆôÓÃ¡£
+	 * å—æ–¹å¸ƒå±€æ˜¯å¦å¯ç”¨ã€‚
 	 */
 	private boolean southEnabled;
 	/**
-	 * ÄÏ·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿¡£
+	 * å—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ã€‚
 	 */
 	private int southMinValue;
 	/**
-	 * ÄÏ·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * å—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	private int southPreferredValue;
 	/**
-	 * ÖĞ·½µÄÕûÌå²¼¾Ö¡£
+	 * ä¸­æ–¹çš„æ•´ä½“å¸ƒå±€ã€‚
 	 */
 	private JPanel centerPan;
 	
-	//-------------------ÍÏ¶¯ÌõÓĞ¹Ø³ÉÔ±±äÁ¿-----------------------------------------------------------------------------------------------
+	//-------------------æ‹–åŠ¨æ¡æœ‰å…³æˆå‘˜å˜é‡-----------------------------------------------------------------------------------------------
 	
 	/**
-	 * Î÷·½µÄÍÏ¶¯Ìõ¡£
+	 * è¥¿æ–¹çš„æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JSeparator westSeparator;
 	/**
-	 * Î÷·½µÄÍÏ¶¯ÌõÊÇ·ñÆôÓÃ
+	 * è¥¿æ–¹çš„æ‹–åŠ¨æ¡æ˜¯å¦å¯ç”¨
 	 */
 	private boolean westSeparatorEnabled;
 	/**
-	 * ¶«·½µÄÍÏ¶¯Ìõ
+	 * ä¸œæ–¹çš„æ‹–åŠ¨æ¡
 	 */
 	private JSeparator eastSeparator;
 	/**
-	 * ¶«·½µÄÍÏ¶¯ÌõÊÇ·ñÆôÓÃ
+	 * ä¸œæ–¹çš„æ‹–åŠ¨æ¡æ˜¯å¦å¯ç”¨
 	 */
 	private boolean eastSeparatorEnabled;
 	/**
-	 * ±±·½µÄÍÏ¶¯Ìõ¡£
+	 * åŒ—æ–¹çš„æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JSeparator northSeparator;
 	/**
-	 * ±±·½µÄÍÏ¶¯ÌõÊÇ·ñÆôÓÃ¡£
+	 * åŒ—æ–¹çš„æ‹–åŠ¨æ¡æ˜¯å¦å¯ç”¨ã€‚
 	 */
 	private boolean northSeparatorEnabled;
 	/**
-	 * ÄÏ·½µÄÍÏ¶¯Ìõ¡£
+	 * å—æ–¹çš„æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JSeparator southSeparator;
 	/**
-	 * ÄÏ·½µÄÍÏ¶¯ÌõÊÇ·ñÆôÓÃ¡£
+	 * å—æ–¹çš„æ‹–åŠ¨æ¡æ˜¯å¦å¯ç”¨ã€‚
 	 */
 	private boolean southSeparatorEnabled;
 	
-	//---------------------------×é¼ş³ÉÔ±±äÁ¿-----------------------------------------------------------------------------------------
+	//---------------------------ç»„ä»¶æˆå‘˜å˜é‡-----------------------------------------------------------------------------------------
 	
 	private Component west;
 	
@@ -162,26 +162,26 @@ public class JAdjustableBorderPanel extends JPanel{
 	
 	private Component center;
 	
-	//--------------------------Ï¸½Ú±äÁ¿-------------------------------------------------------------------------------------------------------
+	//--------------------------ç»†èŠ‚å˜é‡-------------------------------------------------------------------------------------------------------
 	/**
-	 * ÍÏ¶¯ÌõµÄ±³¾°ÑÕÉ«¡£
+	 * æ‹–åŠ¨æ¡çš„èƒŒæ™¯é¢œè‰²ã€‚
 	 */
 	protected Color seperatorColor;
 	/**
-	 * ÍÏ¶¯ÌõµÄ´ÖÏ¸¡£
+	 * æ‹–åŠ¨æ¡çš„ç²—ç»†ã€‚
 	 */
 	protected int seperatorThickness;
 
 	/**
-	 * Éú³ÉÒ»¸öÄ¬ÈÏµÄ¿Éµ÷Õû±ß½ç²¼¾ÖÃæ°å¡£
+	 * ç”Ÿæˆä¸€ä¸ªé»˜è®¤çš„å¯è°ƒæ•´è¾¹ç•Œå¸ƒå±€é¢æ¿ã€‚
 	 */
 	public JAdjustableBorderPanel() {
 		init();
 	}
 	
 	/**
-	 * ÉèÖÃÖĞĞÄÇøÓòµÄ×îĞ¡¶ÈÁ¿¡£
-	 * @param dimension ÖĞĞÄÇøÓòµÄ×îĞ¡¶ÈÁ¿¡£
+	 * è®¾ç½®ä¸­å¿ƒåŒºåŸŸçš„æœ€å°åº¦é‡ã€‚
+	 * @param dimension ä¸­å¿ƒåŒºåŸŸçš„æœ€å°åº¦é‡ã€‚
 	 */
 	public void setCenterMinSize(Dimension dimension){
 		centerPan.setMinimumSize(dimension);
@@ -192,21 +192,21 @@ public class JAdjustableBorderPanel extends JPanel{
 		updateUI();
 	}
 	/**
-	 * ·µ»ØÖĞĞÄÇøÓòµÄ×îĞ¡¶ÈÁ¿¡£
-	 * @return ÖĞĞÄÇøÓòµÄ×îĞ¡¶ÈÁ¿¡£
+	 * è¿”å›ä¸­å¿ƒåŒºåŸŸçš„æœ€å°åº¦é‡ã€‚
+	 * @return ä¸­å¿ƒåŒºåŸŸçš„æœ€å°åº¦é‡ã€‚
 	 */
 	public Dimension getCenterMinSize(){
 		return centerPan.getMinimumSize();
 	}
-	//--------------------------------×é¼şÉèÖÃ·½·¨----------------------------------------------------------------------------------------------------------------
+	//--------------------------------ç»„ä»¶è®¾ç½®æ–¹æ³•----------------------------------------------------------------------------------------------------------------
 	/**
-	 * Ïò¿Ø¼şÄÚÌí¼Ó×é¼şµÄ·½·¨¡£
-	 * <p>¸Ã·½·¨ÖØĞ´ÁË¸¸Àà·½·¨£¬Ê¹Æä¿ÉÒÔÍ¨¹ı²»Í¬µÄÔ¼ÊøÏò²»Í¬·½µÄ¿ÉÍÏ¶¯¿Ø¼şÖĞÌí¼ÓÖ¸¶¨µÄ×é×é¼ş¡£
-	 * <br>Ô¼ÊøÌõ¼şÖ»ÄÜÊÇ{@linkplain BorderLayout}ÖĞµÄÔ¼ÊøÌõ¼şÖĞµÄÒ»¸ö£¬·ñÔò»áÅ×³öÒì³£¡£
-	 * @param component ĞèÒªÏò¸Ã¿Ø¼şÖĞÌí¼ÓµÄ×é¼ş¡£
-	 * @param constraints Ô¼ÊøÌõ¼ş£¬Ö»ÄÜÊÇ{@code BorderLayout.EAST}£¬{@code BorderLayout.WEST}£¬{@code BorderLayout.NORTH}£¬
-	 * {@code BorderLayout.SOUTH}£¬{@code BorderLayout.CENTER} ÖĞµÄÒ»¸ö¡£
-	 * @throws IllegalArgumentException µ±Ô¼Êø²»µÈÓÚ{@code BorderLayout}ÖĞµÄÈÎºÎÒ»¸öÔ¼ÊøÊ±Å×³ö¸ÃÒì³£¡£
+	 * å‘æ§ä»¶å†…æ·»åŠ ç»„ä»¶çš„æ–¹æ³•ã€‚
+	 * <p>è¯¥æ–¹æ³•é‡å†™äº†çˆ¶ç±»æ–¹æ³•ï¼Œä½¿å…¶å¯ä»¥é€šè¿‡ä¸åŒçš„çº¦æŸå‘ä¸åŒæ–¹çš„å¯æ‹–åŠ¨æ§ä»¶ä¸­æ·»åŠ æŒ‡å®šçš„ç»„ç»„ä»¶ã€‚
+	 * <br>çº¦æŸæ¡ä»¶åªèƒ½æ˜¯{@linkplain BorderLayout}ä¸­çš„çº¦æŸæ¡ä»¶ä¸­çš„ä¸€ä¸ªï¼Œå¦åˆ™ä¼šæŠ›å‡ºå¼‚å¸¸ã€‚
+	 * @param component éœ€è¦å‘è¯¥æ§ä»¶ä¸­æ·»åŠ çš„ç»„ä»¶ã€‚
+	 * @param constraints çº¦æŸæ¡ä»¶ï¼Œåªèƒ½æ˜¯{@code BorderLayout.EAST}ï¼Œ{@code BorderLayout.WEST}ï¼Œ{@code BorderLayout.NORTH}ï¼Œ
+	 * {@code BorderLayout.SOUTH}ï¼Œ{@code BorderLayout.CENTER} ä¸­çš„ä¸€ä¸ªã€‚
+	 * @throws IllegalArgumentException å½“çº¦æŸä¸ç­‰äº{@code BorderLayout}ä¸­çš„ä»»ä½•ä¸€ä¸ªçº¦æŸæ—¶æŠ›å‡ºè¯¥å¼‚å¸¸ã€‚
 	 */
 	@Override
 	public void add(Component component,Object constraints) throws IllegalArgumentException{
@@ -233,15 +233,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		throw new IllegalArgumentException(DwarfUtil.getStringField(StringFieldKey.JAdjustableBorderPanel_0));
 	}
 	/**
-	 * »ñÈ¡¸Ã¿Ø¼şµÄ±±·½×é¼ş¡£
-	 * @return ¸Ã¿Ø¼şµÄ±±·½×é¼ş¡£
+	 * è·å–è¯¥æ§ä»¶çš„åŒ—æ–¹ç»„ä»¶ã€‚
+	 * @return è¯¥æ§ä»¶çš„åŒ—æ–¹ç»„ä»¶ã€‚
 	 */
 	public Component getNorth() {
 		return north;
 	}
 	/**
-	 * ÉèÖÃ¸Ã¿Ø¼şµÄ±±·½×é¼ş¡£
-	 * @param north Ö¸¶¨µÄ±±·½×é¼ş¡£
+	 * è®¾ç½®è¯¥æ§ä»¶çš„åŒ—æ–¹ç»„ä»¶ã€‚
+	 * @param north æŒ‡å®šçš„åŒ—æ–¹ç»„ä»¶ã€‚
 	 */
 	public void setNorth(Component north) {
 		if(north == null){
@@ -255,15 +255,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		updateUI();
 	}
 	/**
-	 * »ñÈ¡¸Ã¿Ø¼şµÄÄÏ·½×é¼ş¡£
-	 * @return ¸Ã¿Ø¼şµÄÄÏ·½×é¼ş¡£
+	 * è·å–è¯¥æ§ä»¶çš„å—æ–¹ç»„ä»¶ã€‚
+	 * @return è¯¥æ§ä»¶çš„å—æ–¹ç»„ä»¶ã€‚
 	 */
 	public Component getSouth() {
 		return south;
 	}
 	/**
-	 * ÉèÖÃ¸Ã¿Ø¼şµÄÄÏ·½×é¼ş¡£
-	 * @param south ¸Ã¿Ø¼şµÄÄÏ·½×é¼ş¡£
+	 * è®¾ç½®è¯¥æ§ä»¶çš„å—æ–¹ç»„ä»¶ã€‚
+	 * @param south è¯¥æ§ä»¶çš„å—æ–¹ç»„ä»¶ã€‚
 	 */
 	public void setSouth(Component south) {
 		if(south == null){
@@ -277,15 +277,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		updateUI();
 	}
 	/**
-	 * ·µ»Ø¸Ã¹¤¼şµÄ¶«·½×é¼ş¡£
-	 * @return ¸Ã¿Ø¼şµÄ¶«·½×é¼ş¡£
+	 * è¿”å›è¯¥å·¥ä»¶çš„ä¸œæ–¹ç»„ä»¶ã€‚
+	 * @return è¯¥æ§ä»¶çš„ä¸œæ–¹ç»„ä»¶ã€‚
 	 */
 	public Component getEast() {
 		return east;
 	}
 	/**
-	 * ÉèÖÃ¸Ã¿Ø¼şµÄ¶«·½×é¼ş¡£
-	 * @param east Ö¸¶¨µÄ¶«·½×é¼ş¡£
+	 * è®¾ç½®è¯¥æ§ä»¶çš„ä¸œæ–¹ç»„ä»¶ã€‚
+	 * @param east æŒ‡å®šçš„ä¸œæ–¹ç»„ä»¶ã€‚
 	 */
 	public void setEast(Component east) {
 		if(east == null){
@@ -299,15 +299,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		updateUI();
 	}
 	/**
-	 * »ñÈ¡¸Ã¿Ø¼şÎ÷·½×é¼ş¡£
-	 * @return  ¸Ã¿Ø¼şµÄÎ÷·½×é¼ş¡£
+	 * è·å–è¯¥æ§ä»¶è¥¿æ–¹ç»„ä»¶ã€‚
+	 * @return  è¯¥æ§ä»¶çš„è¥¿æ–¹ç»„ä»¶ã€‚
 	 */
 	public Component getWest() {
 		return west;
 	}
 	/**
-	 * ÉèÖÃ¸Ã¿Ø¼şµÄÎ÷·½×é¼ş¡£
-	 * @param west Ö¸¶¨µÄÎ÷·½×é¼ş¡£
+	 * è®¾ç½®è¯¥æ§ä»¶çš„è¥¿æ–¹ç»„ä»¶ã€‚
+	 * @param west æŒ‡å®šçš„è¥¿æ–¹ç»„ä»¶ã€‚
 	 */
 	public void setWest(Component west) {
 		if(west == null){
@@ -321,15 +321,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		updateUI();
 	}
 	/**
-	 * ·µ»Ø¸Ã¿Ø¼şµÄÖĞ·½¿Ø¼ş¡£
-	 * @return ¸Ã¿Ø¼şµÄÖĞ·½¿Ø¼ş¡£
+	 * è¿”å›è¯¥æ§ä»¶çš„ä¸­æ–¹æ§ä»¶ã€‚
+	 * @return è¯¥æ§ä»¶çš„ä¸­æ–¹æ§ä»¶ã€‚
 	 */
 	public Component getCenter() {
 		return center;
 	}
 	/**
-	 * ÉèÖÃ¸Ã¿Ø¼şµÄÖĞ·½¿Ø¼ş¡£
-	 * @param center Ö¸¶¨µÄÖĞ·½¿Ø¼ş¡£
+	 * è®¾ç½®è¯¥æ§ä»¶çš„ä¸­æ–¹æ§ä»¶ã€‚
+	 * @param center æŒ‡å®šçš„ä¸­æ–¹æ§ä»¶ã€‚
 	 */
 	public void setCenter(Component center) {
 		if(center == null){
@@ -339,17 +339,17 @@ public class JAdjustableBorderPanel extends JPanel{
 		}
 		this.center = center;
 	}
-	//--------------------------²¼¾ÖÆôÓÃºÍÍÏ¶¯ÌõÆôÓÃ·½·¨------------------------------------------------------------------------------------------------
+	//--------------------------å¸ƒå±€å¯ç”¨å’Œæ‹–åŠ¨æ¡å¯ç”¨æ–¹æ³•------------------------------------------------------------------------------------------------
 	/**
-	 * »ñÈ¡±±·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
-	 * @return ÊÇ·ñ±»ÆôÓÃ¡£
+	 * è·å–åŒ—æ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
+	 * @return æ˜¯å¦è¢«å¯ç”¨ã€‚
 	 */
 	public boolean isNorthEnabled() {
 		return northEnabled;
 	}
 	/**
-	 * ÉèÖÃ±±·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
-	 * @param northEnabled ÊÇ·ñ±»ÆôÓÃ¡£
+	 * è®¾ç½®åŒ—æ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
+	 * @param northEnabled æ˜¯å¦è¢«å¯ç”¨ã€‚
 	 */
 	public void setNorthEnabled(boolean northEnabled) {
 		if(!northEnabled){
@@ -375,15 +375,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(northPan != null) northPan.revalidate();
 	}
 	/**
-	 * »ñÈ¡±±·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿£¨¸ß¶È£©¡£
-	 * @return ±±·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿£¨¸ß¶È£©¡£
+	 * è·å–åŒ—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ï¼ˆé«˜åº¦ï¼‰ã€‚
+	 * @return åŒ—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ï¼ˆé«˜åº¦ï¼‰ã€‚
 	 */
 	public int getNorthMinValue() {
 		return northMinValue;
 	}
 	/**
-	 * ÉèÖÃ±±·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿£¨¸ß¶È£©¡£
-	 * @param northMinValue ±±·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿£¨¸ß¶È£©¡£
+	 * è®¾ç½®åŒ—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ï¼ˆé«˜åº¦ï¼‰ã€‚
+	 * @param northMinValue åŒ—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ï¼ˆé«˜åº¦ï¼‰ã€‚
 	 */
 	public void setNorthMinValue(int northMinValue) {
 		if(northPan != null){
@@ -393,15 +393,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(northPan != null) northPan.revalidate();
 	}
 	/**
-	 * »ñÈ¡ÄÏ·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
-	 * @return ÄÏ·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
+	 * è·å–å—æ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
+	 * @return å—æ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
 	 */
 	public boolean isSouthEnabled() {
 		return southEnabled;
 	}
 	/**
-	 * ÉèÖÃÄÏ·½¿Ø¼şÊÇ·ñ±»ÆôÓÃ¡£
-	 * @param southEnabled ÄÏ·½¿Ø¼şÊÇ·ñ±»ÆôÓÃ¡£
+	 * è®¾ç½®å—æ–¹æ§ä»¶æ˜¯å¦è¢«å¯ç”¨ã€‚
+	 * @param southEnabled å—æ–¹æ§ä»¶æ˜¯å¦è¢«å¯ç”¨ã€‚
 	 */
 	public void setSouthEnabled(boolean southEnabled) {
 		if(!southEnabled){
@@ -427,15 +427,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(southPan != null) southPan.revalidate();
 	}
 	/**
-	 * ·µ»ØÄÏ·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿£¨¸ß¶È£©¡£
-	 * @return ÄÏ·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿£¨¸ß¶È£©¡£
+	 * è¿”å›å—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ï¼ˆé«˜åº¦ï¼‰ã€‚
+	 * @return å—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ï¼ˆé«˜åº¦ï¼‰ã€‚
 	 */
 	public int getSouthMinValue() {
 		return southMinValue;
 	}
 	/**
-	 * ÉèÖÃÄÏ·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿£¨¸ß¶È£©¡£
-	 * @param southMinValue ÄÏ·½¿Ø¼şµÄ×îĞ¡¶ÈÁ¿£¨¸ß¶È£©¡£
+	 * è®¾ç½®å—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ï¼ˆé«˜åº¦ï¼‰ã€‚
+	 * @param southMinValue å—æ–¹æ§ä»¶çš„æœ€å°åº¦é‡ï¼ˆé«˜åº¦ï¼‰ã€‚
 	 */
 	public void setSouthMinValue(int southMinValue) {
 		if(southPan != null){
@@ -445,15 +445,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(southPan != null) southPan.revalidate();
 	}
 	/**
-	 * ·µ»Ø¶«·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
-	 * @return ¶«·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
+	 * è¿”å›ä¸œæ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
+	 * @return ä¸œæ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
 	 */
 	public boolean isEastEnabled() {
 		return eastEnabled;
 	}
 	/**
-	 * ÉèÖÃ¶«·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
-	 * @param eastEnabled ¶«·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
+	 * è®¾ç½®ä¸œæ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
+	 * @param eastEnabled ä¸œæ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
 	 */
 	public void setEastEnabled(boolean eastEnabled) {
 		if(!eastEnabled){
@@ -479,15 +479,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(eastPan != null) eastPan.revalidate();
 	}
 	/**
-	 * »ñÈ¡¶«·½²¼¾ÖµÄ×îĞ¡¶ÈÁ¿£¨¿í¶È£©¡£
-	 * @return ¶«·½²¼¾ÖµÄ×îĞ¡¶ÈÁ¿£¨¿í¶È£©¡£
+	 * è·å–ä¸œæ–¹å¸ƒå±€çš„æœ€å°åº¦é‡ï¼ˆå®½åº¦ï¼‰ã€‚
+	 * @return ä¸œæ–¹å¸ƒå±€çš„æœ€å°åº¦é‡ï¼ˆå®½åº¦ï¼‰ã€‚
 	 */
 	public int getEastMinValue() {
 		return eastMinValue;
 	}
 	/**
-	 * ÉèÖÃ¶«·½²¼¾ÖµÄ×îĞ¡¶ÈÁ¿£¨¿í¶È£©¡£
-	 * @param eastMinValue ¶«·½²¼¾ÖµÄ×îĞ¡¶ÈÁ¿£¨¿í¶È£©¡£
+	 * è®¾ç½®ä¸œæ–¹å¸ƒå±€çš„æœ€å°åº¦é‡ï¼ˆå®½åº¦ï¼‰ã€‚
+	 * @param eastMinValue ä¸œæ–¹å¸ƒå±€çš„æœ€å°åº¦é‡ï¼ˆå®½åº¦ï¼‰ã€‚
 	 */
 	public void setEastMinValue(int eastMinValue) {
 		if(eastPan != null){
@@ -497,15 +497,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(eastPan != null) eastPan.revalidate();
 	}
 	/**
-	 * »ñÈ¡Î÷·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
-	 * @return Î÷·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
+	 * è·å–è¥¿æ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
+	 * @return è¥¿æ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
 	 */
 	public boolean isWestEnabled() {
 		return westEnabled;
 	}
 	/**
-	 * ÉèÖÃÎ÷·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
-	 * @param westEnabled Î÷·½²¼¾ÖÊÇ·ñ±»ÆôÓÃ¡£
+	 * è®¾ç½®è¥¿æ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
+	 * @param westEnabled è¥¿æ–¹å¸ƒå±€æ˜¯å¦è¢«å¯ç”¨ã€‚
 	 */
 	public void setWestEnabled(boolean westEnabled) {
 		if(!westEnabled){
@@ -531,15 +531,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(westPan != null) westPan.revalidate();
 	}
 	/**
-	 * »ñÈ¡Î÷·½²¼¾ÖµÄ×îĞ¡¶ÈÁ¿£¨¿í¶È£©¡£
-	 * @return Î÷·½²¼¾ÖµÄ×îĞ¡¶ÈÁ¿£¨¿í¶È£©¡£
+	 * è·å–è¥¿æ–¹å¸ƒå±€çš„æœ€å°åº¦é‡ï¼ˆå®½åº¦ï¼‰ã€‚
+	 * @return è¥¿æ–¹å¸ƒå±€çš„æœ€å°åº¦é‡ï¼ˆå®½åº¦ï¼‰ã€‚
 	 */
 	public int getWestMinValue() {
 		return westMinValue;
 	}
 	/**
-	 * ÉèÖÃÎ÷·½²¼¾ÖµÄ×îĞ¡¶ÈÁ¿£¨¿í¶È£©¡£
-	 * @param westMinValue Î÷·½²¼¾ÖµÄ×îĞ¡¶ÈÁ¿£¨¿í¶È£©¡£
+	 * è®¾ç½®è¥¿æ–¹å¸ƒå±€çš„æœ€å°åº¦é‡ï¼ˆå®½åº¦ï¼‰ã€‚
+	 * @param westMinValue è¥¿æ–¹å¸ƒå±€çš„æœ€å°åº¦é‡ï¼ˆå®½åº¦ï¼‰ã€‚
 	 */
 	public void setWestMinValue(int westMinValue) {
 		if(westPan != null){
@@ -550,15 +550,15 @@ public class JAdjustableBorderPanel extends JPanel{
 	}
 	
 	/**
-	 * »ñÈ¡±±·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
-	 * @return ±±·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
+	 * è·å–åŒ—æ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
+	 * @return åŒ—æ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
 	 */
 	public boolean isNorthSeparatorEnabled() {
 		return northSeparatorEnabled;
 	}
 	/**
-	 * ÉèÖÃ±±·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
-	 * @param northSeparatorEnabled ±±·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
+	 * è®¾ç½®åŒ—æ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
+	 * @param northSeparatorEnabled åŒ—æ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
 	 */
 	public void setNorthSeparatorEnabled(boolean northSeparatorEnabled) {
 		if(!northSeparatorEnabled){
@@ -572,15 +572,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(northPan != null) northPan.repaint();
 	}
 	/**
-	 * »ñÈ¡ÄÏ·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
-	 * @return ÄÏ·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
+	 * è·å–å—æ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
+	 * @return å—æ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
 	 */
 	public boolean isSouthSeparatorEnabled() {
 		return southSeparatorEnabled;
 	}
 	/**
-	 * ÉèÖÃÄÏ·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
-	 * @param southSeparatorEnabled ÄÏ·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
+	 * è®¾ç½®å—æ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
+	 * @param southSeparatorEnabled å—æ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
 	 */
 	public void setSouthSeparatorEnabled(boolean southSeparatorEnabled) {
 		if(!southSeparatorEnabled){
@@ -594,15 +594,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(southPan != null) southPan.repaint();
 	}
 	/**
-	 * ·µ»Ø¶«·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
-	 * @return ¶«·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
+	 * è¿”å›ä¸œæ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
+	 * @return ä¸œæ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
 	 */
 	public boolean isEastSeparatorEnabled() {
 		return eastSeparatorEnabled;
 	}
 	/**
-	 * ÉèÖÃ¶«·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
-	 * @param eastSeparatorEnabled ¶«·½ÍÏ¶¯ÌõÊÇ·ñ±»½ûÓÃ¡£
+	 * è®¾ç½®ä¸œæ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
+	 * @param eastSeparatorEnabled ä¸œæ–¹æ‹–åŠ¨æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
 	 */
 	public void setEastSeparatorEnabled(boolean eastSeparatorEnabled) {
 		if(!southSeparatorEnabled){
@@ -616,15 +616,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(eastPan != null) eastPan.repaint();
 	}
 	/**
-	 * ·µ»ØÎ÷·½½ø¶ÈÌõÊÇ·ñ±»½ûÓÃ¡£
-	 * @return ÉèÖÃÎ÷·½½ø¶ÈÌõÊÇ·ñ±»½ûÓÃ¡£
+	 * è¿”å›è¥¿æ–¹è¿›åº¦æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
+	 * @return è®¾ç½®è¥¿æ–¹è¿›åº¦æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
 	 */
 	public boolean isWestSeparatorEnabled() {
 		return westSeparatorEnabled;
 	}
 	/**
-	 * ÉèÖÃÎ÷·½½ø¶ÈÌõÊÇ·ñ±»½ûÓÃ¡£
-	 * @param westSeparatorEnabled Î÷·½½ø¶ÈÌõÊÇ·ñ±»½ûÓÃ¡£
+	 * è®¾ç½®è¥¿æ–¹è¿›åº¦æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
+	 * @param westSeparatorEnabled è¥¿æ–¹è¿›åº¦æ¡æ˜¯å¦è¢«ç¦ç”¨ã€‚
 	 */
 	public void setWestSeparatorEnabled(boolean westSeparatorEnabled) {
 		if(!westSeparatorEnabled){
@@ -638,141 +638,141 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(westPan != null) westPan.repaint();
 	}
 	/**
-	 * ·µ»Ø±±·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
-	 * @return ±±·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è¿”å›åŒ—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
+	 * @return åŒ—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	public int getNorthPreferredValue() {
 		return northPreferredValue;
 	}
 	/**
-	 * ÉèÖÃ±±·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
-	 * @param northPreferredValue ±±·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è®¾ç½®åŒ—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
+	 * @param northPreferredValue åŒ—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	public void setNorthPreferredValue(int northPreferredValue) {
 		this.northPreferredValue = northPreferredValue;
 		if(northPan != null) northPan.setPreferredSize(new Dimension(northPreferredValue,northPreferredValue));
 	}
 	/**
-	 * »ñÈ¡ÄÏ·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
-	 * @return ÄÏ·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è·å–å—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
+	 * @return å—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	public int getSouthPreferredValue() {
 		return southPreferredValue;
 	}
 	/**
-	 * ÉèÖÃÄÏ·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
-	 * @param southPreferredValue ÄÏ·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è®¾ç½®å—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
+	 * @param southPreferredValue å—æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	public void setSouthPreferredValue(int southPreferredValue) {
 		this.southPreferredValue = southPreferredValue;
 		if(southPan != null) southPan.setPreferredSize(new Dimension(southPreferredValue,southPreferredValue));
 	}
 	/**
-	 * »ñÈ¡¶«·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
-	 * @return ¶«·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è·å–ä¸œæ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
+	 * @return ä¸œæ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	public int getEastPreferredValue() {
 		return eastPreferredValue;
 	}
 	/**
-	 * ÉèÖÃ¶«·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
-	 * @param eastPreferredValue ¶«·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è®¾ç½®ä¸œæ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
+	 * @param eastPreferredValue ä¸œæ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	public void setEastPreferredValue(int eastPreferredValue) {
 		this.eastPreferredValue = eastPreferredValue;
 		if(eastPan != null) eastPan.setPreferredSize(new Dimension(eastPreferredValue,eastPreferredValue));
 	}
 	/**
-	 * »ñÈ¡Î÷·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
-	 * @return Î÷·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è·å–è¥¿æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
+	 * @return è¥¿æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	public int getWestPreferredValue() {
 		return westPreferredValue;
 	}
 	/**
-	 * ÉèÖÃÎ÷·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
-	 * @param westPreferredValue Î÷·½¿Ø¼şµÄ±íÏÖ¶ÈÁ¿¡£
+	 * è®¾ç½®è¥¿æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
+	 * @param westPreferredValue è¥¿æ–¹æ§ä»¶çš„è¡¨ç°åº¦é‡ã€‚
 	 */
 	public void setWestPreferredValue(int westPreferredValue) {
 		this.westPreferredValue = westPreferredValue;
 		if(westPan != null) westPan.setPreferredSize(new Dimension(westPreferredValue,westPreferredValue));
 	}
 	/**
-	 * ·µ»Ø±±·½¿Ø¼şÊÇ·ñ¿É¼û¡£
-	 * @return ±±·½¿Ø¼şÊÇ·ñ¿É¼û¡£
+	 * è¿”å›åŒ—æ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
+	 * @return åŒ—æ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
 	 */
 	public boolean isNorthVisible(){
 		if(northPan == null) return false;
 		return northPan.isVisible();
 	}
 	/**
-	 * ÉèÖÃ±±·½¿Ø¼şÊÇ·ñ¿É¼û£¬Ö»ÓĞµ±±±·½¿Ø¼şÆôÓÃÊ±²ÅÓĞĞ§¡£
-	 * @param aFlag ±±·½¿Ø¼şÊÇ·ñ¿É¼û¡£
+	 * è®¾ç½®åŒ—æ–¹æ§ä»¶æ˜¯å¦å¯è§ï¼Œåªæœ‰å½“åŒ—æ–¹æ§ä»¶å¯ç”¨æ—¶æ‰æœ‰æ•ˆã€‚
+	 * @param aFlag åŒ—æ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
 	 */
 	public void setNorthVisible(boolean aFlag){
 		if(northPan == null) return;
 		northPan.setVisible(aFlag);
 	}
 	/**
-	 * ·µ»ØÄÏ·½¿Ø¼şÊÇ·ñ¿É¼û¡£
-	 * @return ÄÏ·½¿Ø¼şÊÇ·ñ¿É¼û¡£
+	 * è¿”å›å—æ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
+	 * @return å—æ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
 	 */
 	public boolean isSouthVisible(){
 		if(southPan == null) return false;
 		return southPan.isVisible();
 	}
 	/**
-	 * ÉèÖÃÄÏ·½¿Ø¼şÊÇ·ñ¿É¼û£¬Ö»ÓĞÄÏ·½¿Ø¼şÆôÓÃÊ±²ÅÓĞĞ§¡£
-	 * @param aFlag ÄÏ·½¿Ø¼şÊÇ·ñ¿É¼û¡£
+	 * è®¾ç½®å—æ–¹æ§ä»¶æ˜¯å¦å¯è§ï¼Œåªæœ‰å—æ–¹æ§ä»¶å¯ç”¨æ—¶æ‰æœ‰æ•ˆã€‚
+	 * @param aFlag å—æ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
 	 */
 	public void setSouthVisible(boolean aFlag){
 		if(southPan == null) return;
 		southPan.setVisible(aFlag);
 	}
 	/**
-	 * ·µ»Ø¶«·½¿Ø¼şÊÇ·ñ¿É¼û¡£
-	 * @return ¶«·½¿Ø¼şÊÇ·ñ¿É¼û¡£
+	 * è¿”å›ä¸œæ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
+	 * @return ä¸œæ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
 	 */
 	public boolean isEastVisible(){
 		if(eastPan == null) return false;
 		return eastPan.isVisible();
 	}
 	/**
-	 * ÉèÖÃ¶«·½¿Ø¼şÊÇ·ñ¿É¼û£¬Ö»ÓĞ¶«·½¿Ø¼şÆôÓÃÊ±²ÅÓĞĞ§¡£
-	 * @param aFlag ¶«·½¿Ø¼şÊÇ·ñ¿É¼û¡£
+	 * è®¾ç½®ä¸œæ–¹æ§ä»¶æ˜¯å¦å¯è§ï¼Œåªæœ‰ä¸œæ–¹æ§ä»¶å¯ç”¨æ—¶æ‰æœ‰æ•ˆã€‚
+	 * @param aFlag ä¸œæ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
 	 */
 	public void setEastVisible(boolean aFlag){
 		if(eastPan == null) return;
 		eastPan.setVisible(aFlag);
 	}
 	/**
-	 * »ñÈ¡Î÷·½¿Ø¼şÊÇ·ñ¿É¼û¡£
-	 * @return Î÷·½¿Ø¼şÊÇ¿É¼û¡£
+	 * è·å–è¥¿æ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
+	 * @return è¥¿æ–¹æ§ä»¶æ˜¯å¯è§ã€‚
 	 */
 	public boolean isWestVisible(){
 		if(westPan == null)return false;
 		return westPan.isVisible();
 	}
 	/**
-	 * ÉèÖÃÎ÷·½¿Ø¼şÊÇ·ñ¿É¼û£¬Ö»ÓĞµ±Î÷·½¿Ø¼ş±»ÆôÓÃÊ±²ÅÓĞĞ§¡£
-	 * @param aFlag Î÷·½¿Ø¼şÊÇ·ñ¿É¼û¡£
+	 * è®¾ç½®è¥¿æ–¹æ§ä»¶æ˜¯å¦å¯è§ï¼Œåªæœ‰å½“è¥¿æ–¹æ§ä»¶è¢«å¯ç”¨æ—¶æ‰æœ‰æ•ˆã€‚
+	 * @param aFlag è¥¿æ–¹æ§ä»¶æ˜¯å¦å¯è§ã€‚
 	 */
 	public void setWestVisible(boolean aFlag){
 		if(westPan == null) return;
 		westPan.setVisible(aFlag);
 	}
 	
-	//--------------------ÍÏ¶¯ÌõÏ¸½Ú·½·¨------------------------------------------------------
+	//--------------------æ‹–åŠ¨æ¡ç»†èŠ‚æ–¹æ³•------------------------------------------------------
 	/**
-	 * ·µ»ØÍÏ¶¯ÌõµÄ±³¾°ÑÕÉ«¡£
-	 * @return ÍÏ¶¯ÌõµÄ±³¾°ÑÕÉ«¡£
+	 * è¿”å›æ‹–åŠ¨æ¡çš„èƒŒæ™¯é¢œè‰²ã€‚
+	 * @return æ‹–åŠ¨æ¡çš„èƒŒæ™¯é¢œè‰²ã€‚
 	 */
 	public Color getSeparatorBackground(){
 		return northSeparator.getBackground();
 	}
 	/**
-	 * ÉèÖÃÍÏ¶¯ÌõµÄ±³¾°ÑÕÉ«¡£
-	 * @param seperatorColor ÍÏ¶¯ÌõµÄ±³¾°ÑÕÉ«£¬¿ÉÒÔÖ¸¶¨Îªnull£¬´ú±íÍÏ¶¯ÌõÃ»ÓĞÈÎºÎÑÕÉ«¡£
+	 * è®¾ç½®æ‹–åŠ¨æ¡çš„èƒŒæ™¯é¢œè‰²ã€‚
+	 * @param seperatorColor æ‹–åŠ¨æ¡çš„èƒŒæ™¯é¢œè‰²ï¼Œå¯ä»¥æŒ‡å®šä¸ºnullï¼Œä»£è¡¨æ‹–åŠ¨æ¡æ²¡æœ‰ä»»ä½•é¢œè‰²ã€‚
 	 */
 	public void setSeperatorColor(Color seperatorColor) {
 		this.seperatorColor = seperatorColor;
@@ -786,15 +786,15 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(westPan != null) westPan.repaint();
 	}
 	/**
-	 * ·µ»ØÍÏ¶¯ÌõµÄ´ÖÏ¸¡£
-	 * @return ÍÏ¶¯ÌõµÄ´ÖÏ¸¡£
+	 * è¿”å›æ‹–åŠ¨æ¡çš„ç²—ç»†ã€‚
+	 * @return æ‹–åŠ¨æ¡çš„ç²—ç»†ã€‚
 	 */
 	public int getSeperatorThickness() {
 		return seperatorThickness;
 	}
 	/**
-	 * ÉèÖÃÍÏ¶¯ÌõµÄ´ÖÏ¸¡£
-	 * @param seperatorThickness ÍÏ¶¯ÌõµÄ´ÖÏ¸£¬ÒÔÏñËØÎªµ¥Î»¡£
+	 * è®¾ç½®æ‹–åŠ¨æ¡çš„ç²—ç»†ã€‚
+	 * @param seperatorThickness æ‹–åŠ¨æ¡çš„ç²—ç»†ï¼Œä»¥åƒç´ ä¸ºå•ä½ã€‚
 	 */
 	public void setSeperatorThickness(int seperatorThickness) {
 		this.seperatorThickness = seperatorThickness;
@@ -808,12 +808,12 @@ public class JAdjustableBorderPanel extends JPanel{
 		if(westPan != null) westPan.repaint();
 	}
 	/**
-	 * ³õÊ¼»¯Ê±½øĞĞµÄµ÷¶È¡£
+	 * åˆå§‹åŒ–æ—¶è¿›è¡Œçš„è°ƒåº¦ã€‚
 	 */
 	private void init(){
-		//ÉèÖÃ×ÔÉíÊôĞÔ
+		//è®¾ç½®è‡ªèº«å±æ€§
 		setLayout(new BorderLayout());
-		//³õÊ¼»¯³ÉÔ±±äÁ¿
+		//åˆå§‹åŒ–æˆå‘˜å˜é‡
 		setSeperatorColor(Color.GRAY);
 		setSeperatorThickness(8);
 		setNorthEnabled(false);
@@ -832,7 +832,7 @@ public class JAdjustableBorderPanel extends JPanel{
 		setSouthPreferredValue(30);
 		setEastPreferredValue(150);
 		setWestPreferredValue(150);
-		//Ìí¼ÓÖĞ·½¿Ø¼ş
+		//æ·»åŠ ä¸­æ–¹æ§ä»¶
 		centerPan = new JPanel();
 		centerPan.setLayout(new BorderLayout());
 		setCenterMinSize(new Dimension(100, 60));
@@ -840,8 +840,8 @@ public class JAdjustableBorderPanel extends JPanel{
 		updateUI();
 	}
 	/**
-	 * Éú³É±±·½ÍÏ¶¯Ìõ¡£
-	 * @return ±±·½ÍÏ¶¯Ìõ¡£
+	 * ç”ŸæˆåŒ—æ–¹æ‹–åŠ¨æ¡ã€‚
+	 * @return åŒ—æ–¹æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JSeparator createNorthSeparator(){
 		JSeparator separator = createSeparator(SwingConstants.HORIZONTAL);
@@ -854,8 +854,8 @@ public class JAdjustableBorderPanel extends JPanel{
 		return separator;
 	}
 	/**
-	 * Éú³ÉÄÏ·½ÍÏ¶¯Ìõ¡£
-	 * @return ÄÏ·½ÍÏ¶¯Ìõ¡£
+	 * ç”Ÿæˆå—æ–¹æ‹–åŠ¨æ¡ã€‚
+	 * @return å—æ–¹æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JSeparator createSouthSeparator(){
 		JSeparator separator = createSeparator(SwingConstants.HORIZONTAL);
@@ -868,8 +868,8 @@ public class JAdjustableBorderPanel extends JPanel{
 		return separator;
 	}
 	/**
-	 * Éú³É¶«·½ÍÏ¶¯Ìõ¡£
-	 * @return ¶«·½ÍÏ¶¯Ìõ¡£
+	 * ç”Ÿæˆä¸œæ–¹æ‹–åŠ¨æ¡ã€‚
+	 * @return ä¸œæ–¹æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JSeparator createEastSeparator(){
 		JSeparator separator = createSeparator(SwingConstants.VERTICAL);
@@ -882,8 +882,8 @@ public class JAdjustableBorderPanel extends JPanel{
 		return separator;
 	}
 	/**
-	 * Éú³ÉÎ÷·½ÍÏ¶¯Ìõ¡£
-	 * @return Î÷·½ÍÏ¶¯Ìõ¡£
+	 * ç”Ÿæˆè¥¿æ–¹æ‹–åŠ¨æ¡ã€‚
+	 * @return è¥¿æ–¹æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JSeparator createWestSeparator(){
 		JSeparator separator = createSeparator(SwingConstants.VERTICAL);
@@ -896,31 +896,31 @@ public class JAdjustableBorderPanel extends JPanel{
 		return separator;
 	}
 	/**
-	 * Éú³ÉÒ»¸ö¾ßÓĞÖ¸¶¨·½ÏòµÄÍÏ¶¯Ìõ¡£
-	 * @param direction Ö¸¶¨µÄ·½Ïò£¬Îª{@linkplain SwingConstants#HORIZONTAL}}Óë{@linkplain SwingConstants#VERTICAL}} ÖĞµÄÒ»¸ö¡£
-	 * @return Éú³ÉµÄÍÏ¶¯Ìõ¡£
+	 * ç”Ÿæˆä¸€ä¸ªå…·æœ‰æŒ‡å®šæ–¹å‘çš„æ‹–åŠ¨æ¡ã€‚
+	 * @param direction æŒ‡å®šçš„æ–¹å‘ï¼Œä¸º{@linkplain SwingConstants#HORIZONTAL}}ä¸{@linkplain SwingConstants#VERTICAL}} ä¸­çš„ä¸€ä¸ªã€‚
+	 * @return ç”Ÿæˆçš„æ‹–åŠ¨æ¡ã€‚
 	 */
 	private JSeparator createSeparator(int direction){
 		JSeparator separator = new JSeparator();
-		//ÉèÖÃ±ß½çÑùÊ½£¬ÎªÏßĞÔ±ß½ç¡£
+		//è®¾ç½®è¾¹ç•Œæ ·å¼ï¼Œä¸ºçº¿æ€§è¾¹ç•Œã€‚
 		separator.setBorder(new LineBorder(new Color(0, 0, 0)));
-		//ÉèÖÃ±³¾°ÑÕÉ«ÎªÖ¸¶¨µÄÑÕÉ«¡£
+		//è®¾ç½®èƒŒæ™¯é¢œè‰²ä¸ºæŒ‡å®šçš„é¢œè‰²ã€‚
 		separator.setBackground(this.seperatorColor);
-		//»æÖÆ±ß½çµÄËùÓĞÏñËØ¡£
+		//ç»˜åˆ¶è¾¹ç•Œçš„æ‰€æœ‰åƒç´ ã€‚
 		separator.setOpaque(true);
-		//ÉèÖÃ·½Ïò
+		//è®¾ç½®æ–¹å‘
 		separator.setOrientation(direction);
-		//ÉèÖÃÊó±êÑùÊ½
+		//è®¾ç½®é¼ æ ‡æ ·å¼
 		separator.setCursor(direction == SwingConstants.HORIZONTAL ? 
 				Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR) : Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
-		//ÉèÖÃÍÏ¶¯Ìõ´ÖÏ¸¡£
+		//è®¾ç½®æ‹–åŠ¨æ¡ç²—ç»†ã€‚
 		separator.setPreferredSize(new Dimension(this.seperatorThickness,this.seperatorThickness));
 		return separator;
 	}
 	
 	/**
-	 * ±±·½ÍÏ¶¯ÌõÍÏ¶¯Ê±½øĞĞµÄµ÷¶È¡£
-	 * @param e ÏìÓ¦µÄÊó±êÊÂ¼ş¡£
+	 * åŒ—æ–¹æ‹–åŠ¨æ¡æ‹–åŠ¨æ—¶è¿›è¡Œçš„è°ƒåº¦ã€‚
+	 * @param e å“åº”çš„é¼ æ ‡äº‹ä»¶ã€‚
 	 */
 	private void nPanSep_MouseDragged(MouseEvent e) {
 		int nmin = northPan == null || !northPan.isVisible() ? 0 : getNorthMinValue();
@@ -937,8 +937,8 @@ public class JAdjustableBorderPanel extends JPanel{
 		northPan.revalidate();
 	}
 	/**
-	 * ÄÏ·½ÍÏ¶¯ÌõÍÏ¶¯Ê±½øĞĞµÄµ÷¶È¡£
-	 * @param e ÏìÓ¦µÄÊó±êÊÂ¼ş¡£
+	 * å—æ–¹æ‹–åŠ¨æ¡æ‹–åŠ¨æ—¶è¿›è¡Œçš„è°ƒåº¦ã€‚
+	 * @param e å“åº”çš„é¼ æ ‡äº‹ä»¶ã€‚
 	 */
 	private void sPanSep_MouseDragged(MouseEvent e) {
 		int smin = southPan == null || !southPan.isVisible() ? 0 : getSouthMinValue();
@@ -955,8 +955,8 @@ public class JAdjustableBorderPanel extends JPanel{
 		southPan.revalidate();
 	}
 	/**
-	 * ¶«·½ÍÏ¶¯ÌõÍÏ¶¯Ê±½øĞĞµÄµ÷¶È¡£
-	 * @param e ÏìÓ¦µÄÊó±êÊÂ¼ş¡£
+	 * ä¸œæ–¹æ‹–åŠ¨æ¡æ‹–åŠ¨æ—¶è¿›è¡Œçš„è°ƒåº¦ã€‚
+	 * @param e å“åº”çš„é¼ æ ‡äº‹ä»¶ã€‚
 	 */
 	private void ePanSep_MouseDragged(MouseEvent e) {
 		int emin = eastPan == null || !eastPan.isVisible() ? 0 : getEastMinValue();
@@ -973,8 +973,8 @@ public class JAdjustableBorderPanel extends JPanel{
 		eastPan.revalidate();
 	}
 	/**
-	 * Î÷·½ÍÏ¶¯ÌõÍÏ¶¯Ê±½øĞĞµÄµ÷¶È¡£
-	 * @param e ÏìÓ¦µÄÊó±êÊÂ¼ş¡£
+	 * è¥¿æ–¹æ‹–åŠ¨æ¡æ‹–åŠ¨æ—¶è¿›è¡Œçš„è°ƒåº¦ã€‚
+	 * @param e å“åº”çš„é¼ æ ‡äº‹ä»¶ã€‚
 	 */
 	private void wPanSep_MouseDragged(MouseEvent e) {
 		int wmin = westPan == null || !westPan.isVisible() ? 0 : getWestMinValue();

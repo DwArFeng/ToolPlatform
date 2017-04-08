@@ -6,62 +6,62 @@ import com.dwarfeng.tp.core.model.obv.ToolHistoryObverser;
 import com.dwarfeng.tp.core.model.struct.ToolHistory;
 
 /**
- * ¹¤¾ßÀúÊ·Ä£ĞÍ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * å·¥å…·å†å²æ¨¡å‹ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolHistoryModel  extends ObverserSet<ToolHistoryObverser>, ExternalReadWriteThreadSafe, Iterable<ToolHistory>{
 
 	/**
-	 * ÏòÄ£ĞÍµÄ¶¥²¿Ìí¼ÓÔªËØ¡£
-	 * @param toolHistory Ö¸¶¨µÄ¹¤¾ßÀúÊ·¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁËÄ£ĞÍ±¾Éí¡£
+	 * å‘æ¨¡å‹çš„é¡¶éƒ¨æ·»åŠ å…ƒç´ ã€‚
+	 * @param toolHistory æŒ‡å®šçš„å·¥å…·å†å²ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†æ¨¡å‹æœ¬èº«ã€‚
 	 */
 	public boolean offer(ToolHistory toolHistory);
 	
 	/**
-	 * ÏòÄ£ĞÍµÄÖ¸¶¨Î»ÖÃÌí¼ÓÔªËØ¡£
-	 * @param index Ö¸¶¨µÄÎ»ÖÃ¡£
-	 * @param toolHistory Ö¸¶¨µÄ¹¤¾ßÀúÊ·¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁËÄ£ĞÍ±¾Éí¡£
+	 * å‘æ¨¡å‹çš„æŒ‡å®šä½ç½®æ·»åŠ å…ƒç´ ã€‚
+	 * @param index æŒ‡å®šçš„ä½ç½®ã€‚
+	 * @param toolHistory æŒ‡å®šçš„å·¥å…·å†å²ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†æ¨¡å‹æœ¬èº«ã€‚
 	 */
 	public boolean add(int index, ToolHistory toolHistory);
 	
 	/**
-	 * ´ÓÄ£ĞÍµÄµ×²¿È¡³öÔªËØ¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁËÄ£ĞÍ±¾Éí¡£
+	 * ä»æ¨¡å‹çš„åº•éƒ¨å–å‡ºå…ƒç´ ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†æ¨¡å‹æœ¬èº«ã€‚
 	 */
 	public boolean poll();
 	
 	/**
-	 * ·µ»ØÄ£ĞÍµÄ´óĞ¡¡£
-	 * @return Ä£ĞÍµÄ´óĞ¡¡£
+	 * è¿”å›æ¨¡å‹çš„å¤§å°ã€‚
+	 * @return æ¨¡å‹çš„å¤§å°ã€‚
 	 */
 	public int size();
 	
 	/**
-	 * ·µ»ØÄ£ĞÍµÄ×î´óÔÊĞí´óĞ¡¡£
-	 * @return Ä£ĞÍµÄ×î´óÔÊĞí´óĞ¡¡£
+	 * è¿”å›æ¨¡å‹çš„æœ€å¤§å…è®¸å¤§å°ã€‚
+	 * @return æ¨¡å‹çš„æœ€å¤§å…è®¸å¤§å°ã€‚
 	 */
 	public int maxSize();
 	
 	/**
-	 * ÉèÖÃÄ£ĞÍµÄ×î´óÔÊĞí´óĞ¡¡£
-	 * @param size Ö¸¶¨µÄ´óĞ¡¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁËÄ£ĞÍ±¾Éí¡£
+	 * è®¾ç½®æ¨¡å‹çš„æœ€å¤§å…è®¸å¤§å°ã€‚
+	 * @param size æŒ‡å®šçš„å¤§å°ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†æ¨¡å‹æœ¬èº«ã€‚
 	 */
 	public boolean setMaxSize(int size);
 	
 	/**
-	 * ½«Ä£ĞÍÖ¸¶¨Î»ÖÃ´¦µÄÔªËØÒÆ³ı¡£
-	 * @param index Ö¸¶¨µÄÎ»ÖÃ¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁËÄ£ĞÍ±¾Éí¡£
+	 * å°†æ¨¡å‹æŒ‡å®šä½ç½®å¤„çš„å…ƒç´ ç§»é™¤ã€‚
+	 * @param index æŒ‡å®šçš„ä½ç½®ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†æ¨¡å‹æœ¬èº«ã€‚
 	 */
 	public boolean remove(int index);
 	
 	/**
-	 * Çå¿ÕÄ£ĞÍ¡£
+	 * æ¸…ç©ºæ¨¡å‹ã€‚
 	 */
 	public void clear();
 	

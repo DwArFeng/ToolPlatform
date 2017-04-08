@@ -21,7 +21,7 @@ import com.dwarfeng.tp.core.util.Constants;
 import com.dwarfeng.tp.core.view.obv.IconSizeProcessorObverser;
 
 /**
- * Í¼±ê´óĞ¡´¦ÀíÆ÷¡£
+ * å›¾æ ‡å¤§å°å¤„ç†å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -45,7 +45,7 @@ public final class IconSizeProcessor implements MutilangSupported, ObverserSet<I
 	}
 	
 	public IconSizeProcessor(Mutilang mutilang) {
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		this.mutilang = mutilang;
 		
@@ -81,17 +81,17 @@ public final class IconSizeProcessor implements MutilangSupported, ObverserSet<I
 	}
 
 	/**
-	 * »ñµÃÍ¼±êµÄ´óĞ¡¡£
-	 * @return Í¼±êµÄ´óĞ¡¡£
+	 * è·å¾—å›¾æ ‡çš„å¤§å°ã€‚
+	 * @return å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public ImageSize getIconSize() {
 		return iconSize;
 	}
 
 	/**
-	 * ÉèÖÃÍ¼±êµÄ´óĞ¡¡£
-	 * @param iconSize Í¼±êµÄ´óĞ¡¡£
-	 * @return ÊÇ·ñÉèÖÃ³É¹¦¡£
+	 * è®¾ç½®å›¾æ ‡çš„å¤§å°ã€‚
+	 * @param iconSize å›¾æ ‡çš„å¤§å°ã€‚
+	 * @return æ˜¯å¦è®¾ç½®æˆåŠŸã€‚
 	 */
 	public boolean setIconSize(ImageSize iconSize) {
 		switch (iconSize) {

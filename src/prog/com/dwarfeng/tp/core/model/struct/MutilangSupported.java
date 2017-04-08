@@ -1,24 +1,24 @@
 package com.dwarfeng.tp.core.model.struct;
 
 /**
- * ¶àÓïÑÔÖ§³Ö½Ó¿Ú¡£
- * <p> ÊµÏÖ¸Ã½Ó¿ÚÒâÎ¶×Å¸Ã¶ÔÏóÊÇÒ»¸ö½ÓÊÜMutilangÒÔÊµÏÖ¶àÓïÑÔ»¯µÄ¶ÔÏó¡£
+ * å¤šè¯­è¨€æ”¯æŒæ¥å£ã€‚
+ * <p> å®ç°è¯¥æ¥å£æ„å‘³ç€è¯¥å¯¹è±¡æ˜¯ä¸€ä¸ªæ¥å—Mutilangä»¥å®ç°å¤šè¯­è¨€åŒ–çš„å¯¹è±¡ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface MutilangSupported {
 	
 	/**
-	 * »ñÈ¡¸Ã¶ÔÏóÖĞµÄ¶àÓïÑÔ½Ó¿Ú¡£
-	 * @return ¸Ã¶ÔÏóÖĞµÄ¶àÓïÑÔ½Ó¿Ú¡£
+	 * è·å–è¯¥å¯¹è±¡ä¸­çš„å¤šè¯­è¨€æ¥å£ã€‚
+	 * @return è¯¥å¯¹è±¡ä¸­çš„å¤šè¯­è¨€æ¥å£ã€‚
 	 */
 	public Mutilang getMutilang();
 	
 	/**
-	 * ÉèÖÃ¸Ã¶ÔÏóÖĞµÄ¶àÓïÑÔ½Ó¿ÚÎªÖ¸¶¨µÄ¶àÓïÑÔ½Ó¿Ú¡£
-	 * @param mutilang Ö¸¶¨µÄ¶àÓïÑÔ½Ó¿Ú¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¶Ô¸Ã¶ÔÏóÔì³ÉÁË¸Ä±ä¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * è®¾ç½®è¯¥å¯¹è±¡ä¸­çš„å¤šè¯­è¨€æ¥å£ä¸ºæŒ‡å®šçš„å¤šè¯­è¨€æ¥å£ã€‚
+	 * @param mutilang æŒ‡å®šçš„å¤šè¯­è¨€æ¥å£ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦å¯¹è¯¥å¯¹è±¡é€ æˆäº†æ”¹å˜ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public boolean setMutilang(Mutilang mutilang);
 

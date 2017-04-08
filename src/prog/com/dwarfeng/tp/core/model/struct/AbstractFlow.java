@@ -11,58 +11,58 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.dwarfeng.tp.core.model.obv.FlowObverser;
 
 /**
- * ¹ı³ÌÀà¡£
- * <p> ´ú±í×ÅÒ»¸ö¿ÉÒÔÊµÏÖµÄ¹ı³Ì¡£
- * <p> ¹ı³ÌÀà¿ÉÒÔ±»µ÷ÓÃ£¬ÓµÓĞ½ø¶ÈÊôĞÔ£¬²¢ÇÒ¿ÉÒÔÏò×¢²áµÄ¹Û²ìÆ÷¹ã²¥½ø¶ÈĞÅÏ¢¡£
- * <br> ¹ı³Ì¸ù¾İÊÇ·ñÖªµÀ½ø¶È¿É·ÖÎªÈ·¶¨¹ı³ÌºÍ²»È·¶¨¹ı³Ì£¬¸ÃÊôĞÔÓÉ {@link #isDeterminate()} È·¶¨¡£
- * <p> ¹Û²ìÆ÷ÊÇÏß³Ì°²È«µÄ¡£
+ * è¿‡ç¨‹ç±»ã€‚
+ * <p> ä»£è¡¨ç€ä¸€ä¸ªå¯ä»¥å®ç°çš„è¿‡ç¨‹ã€‚
+ * <p> è¿‡ç¨‹ç±»å¯ä»¥è¢«è°ƒç”¨ï¼Œæ‹¥æœ‰è¿›åº¦å±æ€§ï¼Œå¹¶ä¸”å¯ä»¥å‘æ³¨å†Œçš„è§‚å¯Ÿå™¨å¹¿æ’­è¿›åº¦ä¿¡æ¯ã€‚
+ * <br> è¿‡ç¨‹æ ¹æ®æ˜¯å¦çŸ¥é“è¿›åº¦å¯åˆ†ä¸ºç¡®å®šè¿‡ç¨‹å’Œä¸ç¡®å®šè¿‡ç¨‹ï¼Œè¯¥å±æ€§ç”± {@link #isDeterminate()} ç¡®å®šã€‚
+ * <p> è§‚å¯Ÿå™¨æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public abstract class AbstractFlow implements Flow{
 	
-	/**¹Û²ìÆ÷¼¯ºÏ*/
+	/**è§‚å¯Ÿå™¨é›†åˆ*/
 	protected final Set<FlowObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
-	/**Í¬²½¶ÁĞ´Ëø*/
+	/**åŒæ­¥è¯»å†™é”*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
-	/**Ğ´ËøµÄÖĞ¶Ï×´Ì¬*/
+	/**å†™é”çš„ä¸­æ–­çŠ¶æ€*/
 	protected final Condition condition = lock.writeLock().newCondition();
 	
-	/**µ±Ç°µÄ½ø¶È*/
+	/**å½“å‰çš„è¿›åº¦*/
 	private int progress;
-	/**×Ü½ø¶È*/
+	/**æ€»è¿›åº¦*/
 	private int totleProgress;
-	/**µ±Ç°µÄ½ø¶ÈÊÇÈ·¶¨µÄ»¹ÊÇ²»È·¶¨µÄ*/
+	/**å½“å‰çš„è¿›åº¦æ˜¯ç¡®å®šçš„è¿˜æ˜¯ä¸ç¡®å®šçš„*/
 	private boolean determinateFlag;
-	/**µ±Ç°µÄ¹ı³ÌÊÇ·ñ¿ÉÒÔÈ¡Ïû*/
+	/**å½“å‰çš„è¿‡ç¨‹æ˜¯å¦å¯ä»¥å–æ¶ˆ*/
 	private boolean cancelableFlag;
 	
-	/**¹ı³ÌÊÇ·ñÍê³É*/
+	/**è¿‡ç¨‹æ˜¯å¦å®Œæˆ*/
 	private boolean doneFlag = false;
-	/**¹ı³ÌÊÇ·ñ±»È¡Ïû*/
+	/**è¿‡ç¨‹æ˜¯å¦è¢«å–æ¶ˆ*/
 	private boolean cancelFlag = false;
-	/**ÓĞ¹Ø¹ı³ÌµÄĞÅÏ¢*/
+	/**æœ‰å…³è¿‡ç¨‹çš„ä¿¡æ¯*/
 	private String message = "";
-	/**ÓĞ¹Ø¹ı³ÌµÄ¿ÉÅ×³ö¶ÔÏó*/
+	/**æœ‰å…³è¿‡ç¨‹çš„å¯æŠ›å‡ºå¯¹è±¡*/
 	private Throwable throwable = null;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * <p> µ±Ç°½ø¶ÈÎª0£»
-	 * <br> ×Ü½ø¶ÈÎª0£»
-	 * <br> ÊÇ²»È·¶¨µÄ¹ı³Ì£»
-	 * <br> ÊÇ²»¿ÉÈ¡ÏûµÄ¹ı³Ì¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * <p> å½“å‰è¿›åº¦ä¸º0ï¼›
+	 * <br> æ€»è¿›åº¦ä¸º0ï¼›
+	 * <br> æ˜¯ä¸ç¡®å®šçš„è¿‡ç¨‹ï¼›
+	 * <br> æ˜¯ä¸å¯å–æ¶ˆçš„è¿‡ç¨‹ã€‚
 	 */
 	public AbstractFlow() {
 		this(0, 0, false, false);
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param progress Ö¸¶¨µÄµ±Ç°½ø¶È¡£
-	 * @param totleProgress Ö¸¶¨µÄ×Ü½ø¶È¡£
-	 * @param determinateFlag Ö¸¶¨µÄÈ·¶¨ĞÔ±êÖ¾¡£
-	 * @param cancelableFlag Ö¸¶¨µÄ¿ÉÈ¡Ïû±êÖ¾¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param progress æŒ‡å®šçš„å½“å‰è¿›åº¦ã€‚
+	 * @param totleProgress æŒ‡å®šçš„æ€»è¿›åº¦ã€‚
+	 * @param determinateFlag æŒ‡å®šçš„ç¡®å®šæ€§æ ‡å¿—ã€‚
+	 * @param cancelableFlag æŒ‡å®šçš„å¯å–æ¶ˆæ ‡å¿—ã€‚
 	 */
 	public AbstractFlow(int progress, int totleProgress, boolean determinateFlag, boolean cancelableFlag) {
 		this.progress = progress;
@@ -86,11 +86,11 @@ public abstract class AbstractFlow implements Flow{
 	}
 
 	/**
-	 * ÉèÖÃ¹ı³ÌµÄ½ø¶È¡£
-	 * <p> ½ø¶ÈÓ¦¸Ã×ñÑ­ÈçÏÂ¹æ·¶£º <code> 0 &lt= progress &lt= totleProgress </code>
-	 * <p> ¸Ã¹ı³Ì½«×Ô¶¯µÄ½«²»·ûºÏ¹æ·¶µÄÈë¿Ú²ÎÊı×ª»»Îª×î½Ó½üµÄºÏÀíÖµ¡£
-	 * @param progress Ö¸¶¨µÄ½ø¶È¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁË¹ı³Ì±¾Éí¡£
+	 * è®¾ç½®è¿‡ç¨‹çš„è¿›åº¦ã€‚
+	 * <p> è¿›åº¦åº”è¯¥éµå¾ªå¦‚ä¸‹è§„èŒƒï¼š <code> 0 &lt= progress &lt= totleProgress </code>
+	 * <p> è¯¥è¿‡ç¨‹å°†è‡ªåŠ¨çš„å°†ä¸ç¬¦åˆè§„èŒƒçš„å…¥å£å‚æ•°è½¬æ¢ä¸ºæœ€æ¥è¿‘çš„åˆç†å€¼ã€‚
+	 * @param progress æŒ‡å®šçš„è¿›åº¦ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†è¿‡ç¨‹æœ¬èº«ã€‚
 	 */
 	protected boolean setProgress(int progress) {
 		lock.writeLock().lock();
@@ -127,11 +127,11 @@ public abstract class AbstractFlow implements Flow{
 	}
 
 	/**
-	 * ÉèÖÃ¹ı³Ì×ÜµÄ½ø¶È¡£
-	 * <p> ½ø¶ÈÓ¦¸Ã×ñÑ­ÈçÏÂ¹æ·¶£º <code> 0 &lt= progress &lt= totleProgress </code>
-	 * <p> ¸Ã¹ı³Ì½«×Ô¶¯µÄ½«²»·ûºÏ¹æ·¶µÄÈë¿Ú²ÎÊı×ª»»Îª×î½Ó½üµÄºÏÀíÖµ¡£
-	 * @param totleProgress Ö¸¶¨µÄ×Ü½ø¶È¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ã±äÁË¹ı³Ì±¾Éí¡£
+	 * è®¾ç½®è¿‡ç¨‹æ€»çš„è¿›åº¦ã€‚
+	 * <p> è¿›åº¦åº”è¯¥éµå¾ªå¦‚ä¸‹è§„èŒƒï¼š <code> 0 &lt= progress &lt= totleProgress </code>
+	 * <p> è¯¥è¿‡ç¨‹å°†è‡ªåŠ¨çš„å°†ä¸ç¬¦åˆè§„èŒƒçš„å…¥å£å‚æ•°è½¬æ¢ä¸ºæœ€æ¥è¿‘çš„åˆç†å€¼ã€‚
+	 * @param totleProgress æŒ‡å®šçš„æ€»è¿›åº¦ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦è¯¥å˜äº†è¿‡ç¨‹æœ¬èº«ã€‚
 	 */
 	protected boolean setTotleProgress(int totleProgress) {
 		lock.writeLock().lock();
@@ -168,9 +168,9 @@ public abstract class AbstractFlow implements Flow{
 	}
 
 	/**
-	 * ÉèÖÃ¸Ã¹ı³ÌÊÇ·ñÎªÈ·¶¨¹ı³Ì¡£
-	 * @param determinateFlag ¸Ã¹ı³ÌÊÇ·ñÎªÈ·¶¨¹ı³Ì¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁË¹ı³Ì±¾Éí¡£
+	 * è®¾ç½®è¯¥è¿‡ç¨‹æ˜¯å¦ä¸ºç¡®å®šè¿‡ç¨‹ã€‚
+	 * @param determinateFlag è¯¥è¿‡ç¨‹æ˜¯å¦ä¸ºç¡®å®šè¿‡ç¨‹ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†è¿‡ç¨‹æœ¬èº«ã€‚
 	 */
 	protected boolean setDeterminate(boolean determinateFlag) {
 		lock.writeLock().lock();
@@ -206,9 +206,9 @@ public abstract class AbstractFlow implements Flow{
 	}
 	
 	/**
-	 * ÉèÖÃ¸Ã¹ı³ÌÊÇ·ñÄÜ¹»È¡Ïû¡£
-	 * @param aFlag ÊÇ·ñÄÜ¹»È¡Ïû¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁË¹ı³Ì±¾Éí¡£
+	 * è®¾ç½®è¯¥è¿‡ç¨‹æ˜¯å¦èƒ½å¤Ÿå–æ¶ˆã€‚
+	 * @param aFlag æ˜¯å¦èƒ½å¤Ÿå–æ¶ˆã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†è¿‡ç¨‹æœ¬èº«ã€‚
 	 */
 	protected boolean setCancelable(boolean aFlag){
 		lock.writeLock().lock();
@@ -243,8 +243,8 @@ public abstract class AbstractFlow implements Flow{
 	}
 
 	/**
-	 * È¡Ïû¸Ã¹ı³Ì¡£
-	 * @return ÊÇ·ñÈ¡Ïû³É¹¦¡£
+	 * å–æ¶ˆè¯¥è¿‡ç¨‹ã€‚
+	 * @return æ˜¯å¦å–æ¶ˆæˆåŠŸã€‚
 	 */
 	public boolean cancel(){
 		lock.writeLock().lock();
@@ -294,9 +294,9 @@ public abstract class AbstractFlow implements Flow{
 	}
 	
 	/**
-	 * ÉèÖÃ¸Ã¹ı³ÌµÄÏûÏ¢¡£
-	 * @param message ¸Ã¹ı³ÌµÄÏûÏ¢¡£
-	 * @return ¸Ã·½·¨ÊÇ·ñÔì³É¹ı³Ì±¾ÉíµÄ¸Ä±ä¡£
+	 * è®¾ç½®è¯¥è¿‡ç¨‹çš„æ¶ˆæ¯ã€‚
+	 * @param message è¯¥è¿‡ç¨‹çš„æ¶ˆæ¯ã€‚
+	 * @return è¯¥æ–¹æ³•æ˜¯å¦é€ æˆè¿‡ç¨‹æœ¬èº«çš„æ”¹å˜ã€‚
 	 */
 	protected boolean setMessage(String message){
 		lock.writeLock().lock();
@@ -332,10 +332,10 @@ public abstract class AbstractFlow implements Flow{
 	}
 	
 	/**
-	 * ÉèÖÃ¸Ã¹ı³ÌÖĞµÄ¿ÉÅ×³ö¶ÔÏó¡£
-	 * <p> ÉèÖÃÎª <code>null</code> ´ú±íÃ»ÓĞ¿ÉÅ×³ö¶ÔÏó¡£
-	 * @param throwable Ö¸¶¨µÄ¿ÉÅ×³ö¶ÔÏó¡£
-	 * @return ¸Ã·½·¨ÊÇ·ñ¸Ä±äÁË¹ı³Ì¶ÔÏó±¾Éí¡£
+	 * è®¾ç½®è¯¥è¿‡ç¨‹ä¸­çš„å¯æŠ›å‡ºå¯¹è±¡ã€‚
+	 * <p> è®¾ç½®ä¸º <code>null</code> ä»£è¡¨æ²¡æœ‰å¯æŠ›å‡ºå¯¹è±¡ã€‚
+	 * @param throwable æŒ‡å®šçš„å¯æŠ›å‡ºå¯¹è±¡ã€‚
+	 * @return è¯¥æ–¹æ³•æ˜¯å¦æ”¹å˜äº†è¿‡ç¨‹å¯¹è±¡æœ¬èº«ã€‚
 	 */
 	protected boolean setThrowable(Throwable throwable){
 		lock.writeLock().lock();
@@ -394,7 +394,7 @@ public abstract class AbstractFlow implements Flow{
 	}
 	
 	/**
-	 * ¸Ã¹ı³Ì¶ÔÏóµÄ¹ı³Ì·½·¨¡£
+	 * è¯¥è¿‡ç¨‹å¯¹è±¡çš„è¿‡ç¨‹æ–¹æ³•ã€‚
 	 */
 	protected abstract void process();
 

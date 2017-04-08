@@ -9,17 +9,17 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.dwarfeng.tp.core.model.obv.LibraryObverser;
 
 /**
- * ³éÏó¿âÄ£ĞÍ¡£
- * <p> ¿âÄ£ĞÍ½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * æŠ½è±¡åº“æ¨¡å‹ã€‚
+ * <p> åº“æ¨¡å‹æ¥å£çš„é»˜è®¤å®ç°ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public abstract class AbstractLibraryModel implements LibraryModel {
 	
-	/**Ä£ĞÍµÄÕìÌıÆ÷¼¯ºÏ¡£*/
+	/**æ¨¡å‹çš„ä¾¦å¬å™¨é›†åˆã€‚*/
 	protected final Set<LibraryObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
-	/**Ä£ĞÍµÄÍ¬²½¶ÁĞ´Ëø¡£*/
+	/**æ¨¡å‹çš„åŒæ­¥è¯»å†™é”ã€‚*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 	

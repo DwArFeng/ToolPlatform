@@ -3,7 +3,7 @@ package com.dwarfeng.tp.core.model.obv;
 import com.dwarfeng.tp.core.model.struct.Flow;
 
 /**
- * ºóÌ¨Ä£ĞÍ¹Û²ìÆ÷ÊÊÅäÆ÷¡£
+ * åå°æ¨¡å‹è§‚å¯Ÿå™¨é€‚é…å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

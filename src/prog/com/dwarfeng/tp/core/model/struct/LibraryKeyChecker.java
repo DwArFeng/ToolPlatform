@@ -11,8 +11,8 @@ import org.dom4j.io.SAXReader;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 
 /**
- *  ¿âÖµ¼ì²éÆ÷¡£
- * <p> Ê¹ÓÃxml¼ì²é¿âÄ£ĞÍ¡£
+ *  åº“å€¼æ£€æŸ¥å™¨ã€‚
+ * <p> ä½¿ç”¨xmlæ£€æŸ¥åº“æ¨¡å‹ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -21,13 +21,13 @@ public final class LibraryKeyChecker implements Checker<Library>{
 	private final File dir;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param in Ö¸¶¨µÄÊäÈëÁ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
-	 * @throws ProcessException ¹ı³ÌÒì³£¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param in æŒ‡å®šçš„è¾“å…¥æµã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
+	 * @throws ProcessException è¿‡ç¨‹å¼‚å¸¸ã€‚
 	 */
 	public LibraryKeyChecker(InputStream in) throws ProcessException{
-		Objects.requireNonNull(in, "Èë¿Ú²ÎÊı in ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(in, "å…¥å£å‚æ•° in ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -35,13 +35,13 @@ public final class LibraryKeyChecker implements Checker<Library>{
 			
 			String rootDirStr = root.attributeValue("dir");
 			if(Objects.isNull(rootDirStr)){
-				throw new LoadFailedException("¸ùÔªËØÈ±Ê§dirÊôĞÔ");
+				throw new LoadFailedException("æ ¹å…ƒç´ ç¼ºå¤±dirå±æ€§");
 			}
 			
 			File dir = new File(rootDirStr);
 			this.dir = dir;
 		}catch (DocumentException | LoadFailedException e) {
-			throw new ProcessException("½âÎöÁ÷¹ı³Ì³öÏÖÒì³£", e.getCause());
+			throw new ProcessException("è§£ææµè¿‡ç¨‹å‡ºç°å¼‚å¸¸", e.getCause());
 		}
 		
 	}

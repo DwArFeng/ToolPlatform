@@ -7,7 +7,7 @@ import java.util.Objects;
 import javax.swing.JList;
 
 /**
- * ÓëÑ¡ÇøÓĞ¹ØµÄÁĞ±íÊó±êÕìÌı¡£
+ * ä¸é€‰åŒºæœ‰å…³çš„åˆ—è¡¨é¼ æ ‡ä¾¦å¬ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -16,12 +16,12 @@ public final class JListMouseListener4Selection implements MouseListener{
 	private final JList<?> list;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param list Ö¸¶¨µÄÁĞ±í¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param list æŒ‡å®šçš„åˆ—è¡¨ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public JListMouseListener4Selection(JList<?> list) {
-		Objects.requireNonNull(list, "Èë¿Ú²ÎÊı list ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(list, "å…¥å£å‚æ•° list ä¸èƒ½ä¸º nullã€‚");
 		this.list = list;
 	}
 

@@ -4,26 +4,26 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.Library;
 
 /**
- * ¿â¹Û²ìÆ÷¡£
+ * åº“è§‚å¯Ÿå™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface LibraryObverser extends Obverser {
 
 	/**
-	 * Í¨ÖªÄ£ÐÍÖÐÌí¼ÓÁËÖ¸¶¨µÄ¿â¡£
-	 * @param library Ö¸¶¨µÄ¿â¡£
+	 * é€šçŸ¥æ¨¡åž‹ä¸­æ·»åŠ äº†æŒ‡å®šçš„åº“ã€‚
+	 * @param library æŒ‡å®šçš„åº“ã€‚
 	 */
 	public void fireLibraryAdded(Library library);
 	
 	/**
-	 * Í¨ÖªÄ£ÐÍÖÐÒÆ³ýÁËÖ¸¶¨µÄ¿â¡£
-	 * @param library Ö¸¶¨µÄ¿â¡£
+	 * é€šçŸ¥æ¨¡åž‹ä¸­ç§»é™¤äº†æŒ‡å®šçš„åº“ã€‚
+	 * @param library æŒ‡å®šçš„åº“ã€‚
 	 */
 	public void fireLibraryRemoved(Library library);
 	
 	/**
-	 * Í¨ÖªÄ£ÐÍ±»Çå³ý¡£
+	 * é€šçŸ¥æ¨¡åž‹è¢«æ¸…é™¤ã€‚
 	 */
 	public void fireCleared();
 	

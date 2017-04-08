@@ -16,23 +16,23 @@ import com.dwarfeng.tp.core.control.ToolPlatform;
 import com.dwarfeng.tp.core.model.struct.Logger;
 
 /**
- * ¹ØÓÚ¹¤¾ßÆ½Ì¨µÄ¹¤³§Àà¡£
+ * å…³äºå·¥å…·å¹³å°çš„å·¥å‚ç±»ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public final class ToolPlatformUtil {
 	
 	/**
-	 * »ñÈ¡Ò»¸öĞÂµÄ×èµ²×ÖµäÖ¸Ê¾µÄÊäÈëÁ÷¡£
-	 * @return ĞÂµÄ×èµ²×ÖµäÖ¸Ê¾µÄÊäÈëÁ÷¡£
+	 * è·å–ä¸€ä¸ªæ–°çš„é˜»æŒ¡å­—å…¸æŒ‡ç¤ºçš„è¾“å…¥æµã€‚
+	 * @return æ–°çš„é˜»æŒ¡å­—å…¸æŒ‡ç¤ºçš„è¾“å…¥æµã€‚
 	 */
 	public final static InputStream newBlockDictionary(){
 		return ToolPlatform.class.getResourceAsStream("/com/dwarfeng/tp/resource/block_dictionary.xml");
 	}
 	
 	/**
-	 * »ñÈ¡Ä¬ÈÏµÄ¼ÇÂ¼Æ÷ÉÏÏÂÎÄ¡£
-	 * @return Ä¬ÈÏµÄ¼ÇÂ¼Æ÷ÉÏÏÂÎÄ¡£
+	 * è·å–é»˜è®¤çš„è®°å½•å™¨ä¸Šä¸‹æ–‡ã€‚
+	 * @return é»˜è®¤çš„è®°å½•å™¨ä¸Šä¸‹æ–‡ã€‚
 	 */
 	public final static LoggerContext newDefaultLoggerContext(){
 		try {
@@ -45,21 +45,21 @@ public final class ToolPlatformUtil {
 	}
 	
 	/**
-	 * »ñÈ¡Ä¬ÈÏ¼ÇÂ¼Æ÷½Ó¿Ú¡£
-	 * <p> ¸Ã¼ÇÂ¼Æ÷²»½øĞĞÈÎºÎ²Ù×÷¡£
-	 * @return ĞÂµÄ³õÊ¼»¯¼ÇÂ¼Æ÷½Ó¿Ú¡£
+	 * è·å–é»˜è®¤è®°å½•å™¨æ¥å£ã€‚
+	 * <p> è¯¥è®°å½•å™¨ä¸è¿›è¡Œä»»ä½•æ“ä½œã€‚
+	 * @return æ–°çš„åˆå§‹åŒ–è®°å½•å™¨æ¥å£ã€‚
 	 */
 	public final static Logger newDefaultLogger(){
 		return new InitialLogger();
 	}
 	
 	/**
-	 * ÏòÊÂ¼ş¶ÓÁĞÖĞÌí¼ÓÒ»¸öÖ¸¶¨µÄ¿ÉÔËĞĞ¶ÔÏó¡£
-	 * @param runnable Ö¸¶¨µÄ¿ÉÔËĞĞ¶ÔÏó¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * å‘äº‹ä»¶é˜Ÿåˆ—ä¸­æ·»åŠ ä¸€ä¸ªæŒ‡å®šçš„å¯è¿è¡Œå¯¹è±¡ã€‚
+	 * @param runnable æŒ‡å®šçš„å¯è¿è¡Œå¯¹è±¡ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public final static void invokeInEventQueue(Runnable runnable){
-		Objects.requireNonNull(runnable, "Èë¿Ú²ÎÊı runnable ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(runnable, "å…¥å£å‚æ•° runnable ä¸èƒ½ä¸º nullã€‚");
 		
 		if(SwingUtilities.isEventDispatchThread()){
 			runnable.run();
@@ -69,15 +69,15 @@ public final class ToolPlatformUtil {
 	}
 	
 	/**
-	 * ÏòÊµ¼ù¶ÓÁĞÖĞÌí¼ÓÒ»¸öÖ¸¶¨µÄ¿ÉÔËĞĞ¶ÔÏó¡£
-	 * <p> ÔÚÖ¸¶¨µÄ¿ÉÔËĞĞ¶ÔÏóÔËĞĞ½áÊøÖ®Ç°£¬µ±Ç°Ïß³Ì½«´¦ÓÚ×èÈû×´Ì¬¡£
-	 * @param runnable Ö¸¶¨µÄ¿ÉÔËĞĞ¶ÔÏó¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
-	 * @throws InvocationTargetException <code>runnable</code>	ÔËĞĞÊ±Å×³öÒì³£¡£
-	 * @throws InterruptedException Èç¹ûµÈ´ıÊÂ¼şÖ¸ÅÉÏß³ÌÖ´Íê³ÉÖ´ĞĞ <code>runnable.run()</code>Ê±±»ÖĞ¶Ï 
+	 * å‘å®è·µé˜Ÿåˆ—ä¸­æ·»åŠ ä¸€ä¸ªæŒ‡å®šçš„å¯è¿è¡Œå¯¹è±¡ã€‚
+	 * <p> åœ¨æŒ‡å®šçš„å¯è¿è¡Œå¯¹è±¡è¿è¡Œç»“æŸä¹‹å‰ï¼Œå½“å‰çº¿ç¨‹å°†å¤„äºé˜»å¡çŠ¶æ€ã€‚
+	 * @param runnable æŒ‡å®šçš„å¯è¿è¡Œå¯¹è±¡ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
+	 * @throws InvocationTargetException <code>runnable</code>	è¿è¡Œæ—¶æŠ›å‡ºå¼‚å¸¸ã€‚
+	 * @throws InterruptedException å¦‚æœç­‰å¾…äº‹ä»¶æŒ‡æ´¾çº¿ç¨‹æ‰§å®Œæˆæ‰§è¡Œ <code>runnable.run()</code>æ—¶è¢«ä¸­æ–­ 
 	 */
 	public final static void invokeAndWaitInEventQueue(Runnable runnable) throws InvocationTargetException, InterruptedException{
-		Objects.requireNonNull(runnable, "Èë¿Ú²ÎÊı runnable ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(runnable, "å…¥å£å‚æ•° runnable ä¸èƒ½ä¸º nullã€‚");
 		
 		if(SwingUtilities.isEventDispatchThread()){
 			runnable.run();
@@ -92,8 +92,8 @@ public final class ToolPlatformUtil {
 	
 	
 	/**
-	 * Ä¬ÈÏ¼ÇÂ¼Æ÷½Ó¿Ú¡£
-	 * <p> ¸Ã¼ÇÂ¼Æ÷²»½øĞĞÈÎºÎ²Ù×÷¡£
+	 * é»˜è®¤è®°å½•å™¨æ¥å£ã€‚
+	 * <p> è¯¥è®°å½•å™¨ä¸è¿›è¡Œä»»ä½•æ“ä½œã€‚
 	 * @author  DwArFeng
 	 * @since 0.0.0-alpha
 	 */
@@ -116,7 +116,7 @@ public final class ToolPlatformUtil {
 		
 	}
 
-	//½ûÖ¹Íâ²¿ÊµÀı»¯
+	//ç¦æ­¢å¤–éƒ¨å®ä¾‹åŒ–
 	private ToolPlatformUtil(){}
 
 }

@@ -5,27 +5,27 @@ import java.util.Date;
 import com.dwarfeng.dutil.basic.str.Name;
 
 /**
- * ¹¤¾ßÀúÊ·¡£
+ * å·¥å…·å†å²ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolHistory extends Name{
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÔËĞĞÈÕÆÚ¡£
-	 * @return ¹¤¾ßµÄÔËĞĞÈÕÆÚ¡£
+	 * è·å–å·¥å…·çš„è¿è¡Œæ—¥æœŸã€‚
+	 * @return å·¥å…·çš„è¿è¡Œæ—¥æœŸã€‚
 	 */
 	public Date getRanDate();
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄ½áÊøÈÕÆÚ¡£
-	 * @return ¹¤¾ßµÄ½áÊøÈÕÆÚ¡£
+	 * è·å–å·¥å…·çš„ç»“æŸæ—¥æœŸã€‚
+	 * @return å·¥å…·çš„ç»“æŸæ—¥æœŸã€‚
 	 */
 	public Date getExitedDate();
 	
 	/**
-	 * »ñÈ¡¹¤¾ßµÄÍË³ö´úÂë¡£
-	 * @return ¹¤¾ßµÄÍË³ö´úÂë¡£
+	 * è·å–å·¥å…·çš„é€€å‡ºä»£ç ã€‚
+	 * @return å·¥å…·çš„é€€å‡ºä»£ç ã€‚
 	 */
 	public int getExitedCode();
 	

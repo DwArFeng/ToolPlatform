@@ -14,9 +14,9 @@ import com.dwarfeng.dutil.develop.cfg.ConfigObverser;
 import com.dwarfeng.dutil.develop.cfg.DefaultConfigModel;
 
 /**
- * Ä¬ÈÏÍ¬²½ÅäÖÃÄ£ĞÍ¡£
- * <p> ÅäÖÃÄ£ĞÍµÄÏß³Ì°²È«µÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤åŒæ­¥é…ç½®æ¨¡å‹ã€‚
+ * <p> é…ç½®æ¨¡å‹çš„çº¿ç¨‹å®‰å…¨çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -25,20 +25,20 @@ public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 	private final ConfigModel delegate = new DefaultConfigModel();
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultSyncConfigModel() {
 		this(new ConfigEntry[0]);
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param configEntries Ö¸¶¨µÄÅäÖÃÈë¿Ú¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
-	 * @throws IllegalArgumentException ÅäÖÃÈë¿Ú¼¯ºÏÖĞÖÁÉÙÒ»¸öÈë¿ÚÎŞĞ§¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param configEntries æŒ‡å®šçš„é…ç½®å…¥å£ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
+	 * @throws IllegalArgumentException é…ç½®å…¥å£é›†åˆä¸­è‡³å°‘ä¸€ä¸ªå…¥å£æ— æ•ˆã€‚
 	 */
 	public DefaultSyncConfigModel(ConfigEntry[] configEntries) {
-		Objects.requireNonNull(configEntries, "Èë¿Ú²ÎÊı configEntries ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(configEntries, "å…¥å£å‚æ•° configEntries ä¸èƒ½ä¸º nullã€‚");
 		delegate.addAll(Arrays.asList(configEntries));
 	}
 	
@@ -99,10 +99,10 @@ public class DefaultSyncConfigModel extends AbstractSyncConfigModel {
 	}
 
 	/**
-	 * ·µ»Ø¸ÃÄ£ĞÍµÄ¼ü¼¯ºÏ¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return Ä£ĞÍµÄ¼ü¼¯ºÏ¡£
+	 * è¿”å›è¯¥æ¨¡å‹çš„é”®é›†åˆã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return æ¨¡å‹çš„é”®é›†åˆã€‚
 	 */
 	@Override
 	public Set<ConfigKey> keySet() {

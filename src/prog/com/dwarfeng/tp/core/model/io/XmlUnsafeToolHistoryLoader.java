@@ -13,17 +13,17 @@ import com.dwarfeng.tp.core.model.struct.DefaultUnsafeToolHistory;
 import com.dwarfeng.tp.core.model.struct.UnsafeToolHistory;
 
 /**
- * xml ²»°²È«¹¤¾ßÀúÊ·¶ÁÈ¡Æ÷¡£
- * Ê¹ÓÃ xml ¶ÁÈ¡²»°²È«¹¤¾ßÀúÊ·¡£
+ * xml ä¸å®‰å…¨å·¥å…·å†å²è¯»å–å™¨ã€‚
+ * ä½¿ç”¨ xml è¯»å–ä¸å®‰å…¨å·¥å…·å†å²ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public class XmlUnsafeToolHistoryLoader extends StreamLoader<List<UnsafeToolHistory>>{
 
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param in Ö¸¶¨µÄÊäÈëÁ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param in æŒ‡å®šçš„è¾“å…¥æµã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public XmlUnsafeToolHistoryLoader(InputStream in) {
 		super(in);
@@ -35,7 +35,7 @@ public class XmlUnsafeToolHistoryLoader extends StreamLoader<List<UnsafeToolHist
 	 */
 	@Override
 	public void load(List<UnsafeToolHistory> unsafeToolHistories) throws LoadFailedException {
-		Objects.requireNonNull(unsafeToolHistories, "Èë¿Ú²ÎÊı unsafeToolHistories ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(unsafeToolHistories, "å…¥å£å‚æ•° unsafeToolHistories ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -48,7 +48,7 @@ public class XmlUnsafeToolHistoryLoader extends StreamLoader<List<UnsafeToolHist
 			}
 			
 			/*
-			 * ¸ù¾İ dom4j µÄÏà¹ØËµÃ÷£¬´Ë´¦×ª»»ÊÇ°²È«µÄ¡£
+			 * æ ¹æ® dom4j çš„ç›¸å…³è¯´æ˜ï¼Œæ­¤å¤„è½¬æ¢æ˜¯å®‰å…¨çš„ã€‚
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> histories = (List<Element>)root.elements("history");
@@ -67,7 +67,7 @@ public class XmlUnsafeToolHistoryLoader extends StreamLoader<List<UnsafeToolHist
 			}
 			
 		}catch (Exception e) {
-			throw new LoadFailedException("²»°²È«¹¤¾ßÀúÊ·¶ÁÈ¡Æ÷-ÎŞ·¨ÏòÖ¸¶¨µÄ²»°²È«¹¤¾ßÀúÊ·ÁĞ±íÖĞ¶ÁÈ¡Á÷ÖĞµÄÊı¾İ", e);
+			throw new LoadFailedException("ä¸å®‰å…¨å·¥å…·å†å²è¯»å–å™¨-æ— æ³•å‘æŒ‡å®šçš„ä¸å®‰å…¨å·¥å…·å†å²åˆ—è¡¨ä¸­è¯»å–æµä¸­çš„æ•°æ®", e);
 		}
 
 	}

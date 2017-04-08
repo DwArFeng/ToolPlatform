@@ -15,17 +15,17 @@ import com.dwarfeng.tp.core.model.struct.DefaultMutilangInfo;
 import com.dwarfeng.tp.core.util.LocaleUtil;
 
 /**
- * xml¶àÓïÑÔÄ£ĞÍ¶ÁÈ¡Æ÷¡£
- * <p> Ê¹ÓÃxml¶ÁÈ¡¶àÓïÑÔÄ£ĞÍ¡£
+ * xmlå¤šè¯­è¨€æ¨¡å‹è¯»å–å™¨ã€‚
+ * <p> ä½¿ç”¨xmlè¯»å–å¤šè¯­è¨€æ¨¡å‹ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public final class XmlMutilangLoader extends StreamLoader<MutilangModel> {
 
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param in Ö¸¶¨µÄÊäÈëÁ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param in æŒ‡å®šçš„è¾“å…¥æµã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public XmlMutilangLoader(InputStream in) {
 		super(in);
@@ -37,7 +37,7 @@ public final class XmlMutilangLoader extends StreamLoader<MutilangModel> {
 	 */
 	@Override
 	public void load(MutilangModel mutilangModel) throws LoadFailedException {
-		Objects.requireNonNull(mutilangModel, "Èë¿Ú²ÎÊı mutilangModel ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilangModel, "å…¥å£å‚æ•° mutilangModel ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -51,14 +51,14 @@ public final class XmlMutilangLoader extends StreamLoader<MutilangModel> {
 			
 			String rootDirStr = root.attributeValue("dir");
 			if(Objects.isNull(rootDirStr)){
-				throw new LoadFailedException("¸ùÔªËØÈ±Ê§dirÊôĞÔ");
+				throw new LoadFailedException("æ ¹å…ƒç´ ç¼ºå¤±dirå±æ€§");
 			}
 			
 			File dir = new File(rootDirStr);
 			
 			/*
-			 * ¸ù¾İ dom4j µÄÏà¹ØËµÃ÷£¬´Ë´¦×ª»»ÊÇ°²È«µÄ¡£
-			 * 	<!--Ê¹ÓÃÈçÏÂµÄ¸ñÊ½£º<info language="zh" country="CN" variant="" label="¼òÌåÖĞÎÄ" file="zh_CN.properties"></info>-->
+			 * æ ¹æ® dom4j çš„ç›¸å…³è¯´æ˜ï¼Œæ­¤å¤„è½¬æ¢æ˜¯å®‰å…¨çš„ã€‚
+			 * 	<!--ä½¿ç”¨å¦‚ä¸‹çš„æ ¼å¼ï¼š<info language="zh" country="CN" variant="" label="ç®€ä½“ä¸­æ–‡" file="zh_CN.properties"></info>-->
 			 */
 			@SuppressWarnings("unchecked")
 			List<Element> mutilangInfos = (List<Element>)root.elements("info");
@@ -79,7 +79,7 @@ public final class XmlMutilangLoader extends StreamLoader<MutilangModel> {
 			}
 			
 		}catch (Exception e) {
-			throw new LoadFailedException("ÎŞ·¨ÏòÖ¸¶¨µÄ¶àÓïÑÔÄ£ĞÍÖĞ¶ÁÈ¡Á÷ÖĞµÄÊı¾İ", e);
+			throw new LoadFailedException("æ— æ³•å‘æŒ‡å®šçš„å¤šè¯­è¨€æ¨¡å‹ä¸­è¯»å–æµä¸­çš„æ•°æ®", e);
 		}
 
 	}

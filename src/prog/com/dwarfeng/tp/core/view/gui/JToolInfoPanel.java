@@ -30,7 +30,7 @@ import com.dwarfeng.tp.core.view.struct.JListMouseMotionListener4Selection;
 
 public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelObverser>{
 	
-	/**¹Û²ìÆ÷¼¯ºÏ*/
+	/**è§‚å¯Ÿå™¨é›†åˆ*/
 	private final Set<ToolInfoPanelObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	private final JList<ToolInfo> list;
 	
@@ -150,16 +150,16 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 	}
 
 	/**
-	 * »ñÈ¡¸ÃÃæ°åµÄ¹¤¾ßĞÅÏ¢Ä£ĞÍ¡£
-	 * @return ¸ÃÃæ°åµÄ¹¤¾ßĞÅÏ¢Ä£ĞÍ¡£
+	 * è·å–è¯¥é¢æ¿çš„å·¥å…·ä¿¡æ¯æ¨¡å‹ã€‚
+	 * @return è¯¥é¢æ¿çš„å·¥å…·ä¿¡æ¯æ¨¡å‹ã€‚
 	 */
 	public ToolInfoModel getToolInfoModel() {
 		return toolInfoModel;
 	}
 
 	/**
-	 * ÉèÖÃ¹¤¾ßĞÅÏ¢Ä£ĞÍÎªÖ¸¶¨µÄÄ£ĞÍ¡£
-	 * @param toolInfoModel Ö¸¶¨µÄ¹¤¾ßĞÅÏ¢Ä£ĞÍ¡£
+	 * è®¾ç½®å·¥å…·ä¿¡æ¯æ¨¡å‹ä¸ºæŒ‡å®šçš„æ¨¡å‹ã€‚
+	 * @param toolInfoModel æŒ‡å®šçš„å·¥å…·ä¿¡æ¯æ¨¡å‹ã€‚
 	 */
 	public void setToolInfoModel(ToolInfoModel toolInfoModel) {
 		if(Objects.nonNull(this.toolInfoModel)){
@@ -180,16 +180,16 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 	}
 	
 	/**
-	 * »ñÈ¡¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
-	 * @return ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
+	 * è·å–å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
+	 * @return å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public ImageSize getToolInfoIconSize() {
 		return toolInfoIconSize;
 	}
 
 	/**
-	 * ÉèÖÃ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
-	 * @param toolInfoIconSize ¹¤¾ßÍ¼±êµÄ´óĞ¡¡£
+	 * è®¾ç½®å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
+	 * @param toolInfoIconSize å·¥å…·å›¾æ ‡çš„å¤§å°ã€‚
 	 */
 	public void setToolInfoIconSize(ImageSize toolInfoIconSize) {
 		this.toolInfoIconSize = toolInfoIconSize;
@@ -197,7 +197,7 @@ public class JToolInfoPanel extends JPanel implements ObverserSet<ToolInfoPanelO
 	}
 
 	/**
-	 * ÊÍ·Å×ÊÔ´¡£
+	 * é‡Šæ”¾èµ„æºã€‚
 	 */
 	public void dispose(){
 		listModel.clear();

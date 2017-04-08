@@ -6,7 +6,7 @@ import java.util.Set;
 import com.dwarfeng.tp.core.model.struct.MutilangInfo;
 
 /**
- * ¶àÓïÑÔÄ£ĞÍ¹Û²ìÆ÷ÊÊÅäÆ÷¡£
+ * å¤šè¯­è¨€æ¨¡å‹è§‚å¯Ÿå™¨é€‚é…å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

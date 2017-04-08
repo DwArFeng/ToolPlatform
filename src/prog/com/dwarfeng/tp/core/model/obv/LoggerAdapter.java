@@ -5,7 +5,7 @@ import org.apache.logging.log4j.core.LoggerContext;
 import com.dwarfeng.tp.core.model.struct.LoggerInfo;
 
 /**
- * ¼ÇÂ¼Æ÷Ä£ĞÍ¹Û²ìÆ÷ÊÊÅäÆ÷¡£
+ * è®°å½•å™¨æ¨¡å‹è§‚å¯Ÿå™¨é€‚é…å™¨ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */

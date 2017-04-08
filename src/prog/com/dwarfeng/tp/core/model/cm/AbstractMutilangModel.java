@@ -9,17 +9,17 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.dwarfeng.tp.core.model.obv.MutilangObverser;
 
 /**
- * ³éÏó¶àÓïÑÔÄ£ĞÍ¡£
- * <p> ¶àÓïÑÔÄ£ĞÍµÄ³éÏóÊµÏÖ¡£
- * <p> Ä£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇ°²È«µÄ¡£
+ * æŠ½è±¡å¤šè¯­è¨€æ¨¡å‹ã€‚
+ * <p> å¤šè¯­è¨€æ¨¡å‹çš„æŠ½è±¡å®ç°ã€‚
+ * <p> æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public abstract class AbstractMutilangModel implements MutilangModel {
 
-	/**ËùÓĞ¹Û²ìÆ÷µÄ¼¯ºÏ*/
+	/**æ‰€æœ‰è§‚å¯Ÿå™¨çš„é›†åˆ*/
 	protected final Set<MutilangObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
-	/**Ä£ĞÍµÄÍ¬²½¶ÁĞ´Ëø*/
+	/**æ¨¡å‹çš„åŒæ­¥è¯»å†™é”*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 	/*

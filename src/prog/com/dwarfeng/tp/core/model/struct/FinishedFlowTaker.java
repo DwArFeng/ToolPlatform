@@ -4,36 +4,36 @@ import com.dwarfeng.dutil.basic.threads.ExternalReadWriteThreadSafe;
 import com.dwarfeng.tp.core.model.cm.BackgroundModel;
 
 /**
- * Íê³É¹ı³ÌÈ¡³öÆ÷¡£
- * <p> ÓÃÓÚÔÚºóÌ¨Ä£ĞÍÖĞÈ¡³öÍê³ÉµÄ¹ı³Ì£¬²¢ÇÒ¼ÇÂ¼ÔÚÖ¸¶¨µÄ Logger Ö®ÖĞ¡£
+ * å®Œæˆè¿‡ç¨‹å–å‡ºå™¨ã€‚
+ * <p> ç”¨äºåœ¨åå°æ¨¡å‹ä¸­å–å‡ºå®Œæˆçš„è¿‡ç¨‹ï¼Œå¹¶ä¸”è®°å½•åœ¨æŒ‡å®šçš„ Logger ä¹‹ä¸­ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public interface FinishedFlowTaker extends ExternalReadWriteThreadSafe, MutilangSupported{
 
 	/**
-	 * »ñÈ¡¸ÃÍê³É¹ı³ÌÈ¡³öÆ÷³ÖÓĞµÄ¼ÇÂ¼Æ÷¡£
-	 * @return Íê³É¹ı³ÌÈ¡³öÆ÷³ÖÓĞµÄ¼ÇÂ¼Æ÷¡£
+	 * è·å–è¯¥å®Œæˆè¿‡ç¨‹å–å‡ºå™¨æŒæœ‰çš„è®°å½•å™¨ã€‚
+	 * @return å®Œæˆè¿‡ç¨‹å–å‡ºå™¨æŒæœ‰çš„è®°å½•å™¨ã€‚
 	 */
 	public Logger getLogger();
 	
 	/**
-	 * ÉèÖÃ¸ÃÍê³É¹ı³ÌÈ¡³öÆ÷ÖĞµÄ¼ÇÂ¼Æ÷¡£
-	 * @param logger Ö¸¶¨µÄ¼ÇÂ¼Æ÷¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¶Ô¸Ã¼ÇÂ¼Æ÷Ôì³ÉÁË¸Ä±ä¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * è®¾ç½®è¯¥å®Œæˆè¿‡ç¨‹å–å‡ºå™¨ä¸­çš„è®°å½•å™¨ã€‚
+	 * @param logger æŒ‡å®šçš„è®°å½•å™¨ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦å¯¹è¯¥è®°å½•å™¨é€ æˆäº†æ”¹å˜ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public boolean setLogger(Logger logger);
 	
 	/**
-	 * »ñÈ¡¸Ã¹ı³ÌÈ¡³öÆ÷ÖĞµÄºóÌ¨Ä£ĞÍ¡£
-	 * @return ¸Ã¹ı³ÌÈ¡³öÆ÷ÖĞµÄºóÌ¨Ä£ĞÍ¡£
+	 * è·å–è¯¥è¿‡ç¨‹å–å‡ºå™¨ä¸­çš„åå°æ¨¡å‹ã€‚
+	 * @return è¯¥è¿‡ç¨‹å–å‡ºå™¨ä¸­çš„åå°æ¨¡å‹ã€‚
 	 */
 	public BackgroundModel getBackgroundModel();
 	
 	/**
-	 * ¹Ø±Õ¸ÃÍê³É¹ı³ÌÈ¡³öÆ÷¡£
-	 * <p> µ÷ÓÃ´Ë·½·¨ºó£¬È¡³öÆ÷½«Í£Ö¹´ÓÖ¸¶¨µÄºóÌ¨Ä£ĞÍÖĞÈ¡³öÍê³ÉµÄ¹ı³Ì¡£
+	 * å…³é—­è¯¥å®Œæˆè¿‡ç¨‹å–å‡ºå™¨ã€‚
+	 * <p> è°ƒç”¨æ­¤æ–¹æ³•åï¼Œå–å‡ºå™¨å°†åœæ­¢ä»æŒ‡å®šçš„åå°æ¨¡å‹ä¸­å–å‡ºå®Œæˆçš„è¿‡ç¨‹ã€‚
 	 */
 	public void shutdown();
 	

@@ -19,7 +19,7 @@ import com.dwarfeng.tp.core.model.struct.DefaultLibrary;
 import com.dwarfeng.tp.core.model.struct.ProcessException;
 
 /**
- * ¿â°²×°Æ÷¡£
+ * åº“å®‰è£…å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -30,16 +30,16 @@ public class LibraryInstaller implements Installer<LibraryModel>, Closeable {
 	private final String name;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param config ÅäÖÃÎÄ¼şµÄÊäÈëÁ÷¡£
-	 * @param in ¿âÎÄ¼şµÄÊäÈëÁ÷¡£
-	 * @param name ¿âµÄÃû³Æ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param config é…ç½®æ–‡ä»¶çš„è¾“å…¥æµã€‚
+	 * @param in åº“æ–‡ä»¶çš„è¾“å…¥æµã€‚
+	 * @param name åº“çš„åç§°ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public LibraryInstaller(InputStream config, InputStream in, String name) {
-		Objects.requireNonNull(config, "Èë¿Ú²ÎÊı config ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(in, "Èë¿Ú²ÎÊı in ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(name, "Èë¿Ú²ÎÊı name ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(config, "å…¥å£å‚æ•° config ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(in, "å…¥å£å‚æ•° in ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(name, "å…¥å£å‚æ•° name ä¸èƒ½ä¸º nullã€‚");
 
 		this.config = config;
 		this.in = in;
@@ -52,7 +52,7 @@ public class LibraryInstaller implements Installer<LibraryModel>, Closeable {
 	 */
 	@Override
 	public void install(LibraryModel libraryModel) throws ProcessException {
-		Objects.requireNonNull(libraryModel, "Èë¿Ú²ÎÊı libraryModel ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(libraryModel, "å…¥å£å‚æ•° libraryModel ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			SAXReader reader = new SAXReader();
@@ -66,7 +66,7 @@ public class LibraryInstaller implements Installer<LibraryModel>, Closeable {
 			
 			String rootDirStr = root.attributeValue("dir");
 			if(Objects.isNull(rootDirStr)){
-				throw new LoadFailedException("¸ùÔªËØÈ±Ê§dirÊôĞÔ");
+				throw new LoadFailedException("æ ¹å…ƒç´ ç¼ºå¤±dirå±æ€§");
 			}
 			
 			File dir = new File(rootDirStr);
@@ -85,7 +85,7 @@ public class LibraryInstaller implements Installer<LibraryModel>, Closeable {
 			
 			libraryModel.add(new DefaultLibrary(name));
 		}catch (Exception e) {
-			throw new ProcessException("ÎŞ·¨°²×°Ö¸¶¨µÄ¿â£º" + name);
+			throw new ProcessException("æ— æ³•å®‰è£…æŒ‡å®šçš„åº“ï¼š" + name);
 		}
 	}
 

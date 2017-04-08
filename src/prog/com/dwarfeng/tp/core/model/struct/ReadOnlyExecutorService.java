@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Ö»¶ÁÖ´ĞĞÆ÷·şÎñÆ÷¡£
- * <p> ¸ÃÀà´úÀíÒ»¸öÖ´ĞĞÆ÷·şÎñÆ÷£¬ÓÃÓÚ»ñÈ¡Ö´ĞĞÆ÷·şÎñÆ÷µÄ×´Ì¬¡£
- * <p> ¸ÃÖ´ĞĞÆ÷·şÎñÆ÷½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬£¬µ÷ÓÃÆäËüµÄÈÎºÎ·½·¨¶¼½«Å×³öÒì³£¡£
+ * åªè¯»æ‰§è¡Œå™¨æœåŠ¡å™¨ã€‚
+ * <p> è¯¥ç±»ä»£ç†ä¸€ä¸ªæ‰§è¡Œå™¨æœåŠ¡å™¨ï¼Œç”¨äºè·å–æ‰§è¡Œå™¨æœåŠ¡å™¨çš„çŠ¶æ€ã€‚
+ * <p> è¯¥æ‰§è¡Œå™¨æœåŠ¡å™¨ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ï¼Œè°ƒç”¨å…¶å®ƒçš„ä»»ä½•æ–¹æ³•éƒ½å°†æŠ›å‡ºå¼‚å¸¸ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
@@ -22,12 +22,12 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	private final ExecutorService es;
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param es Ö¸¶¨µÄ´úÀíÖ´ĞĞÆ÷·şÎñÆ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param es æŒ‡å®šçš„ä»£ç†æ‰§è¡Œå™¨æœåŠ¡å™¨ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public ReadOnlyExecutorService(ExecutorService es) {
-		Objects.requireNonNull(es, "Èë¿Ú²ÎÊı es ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(es, "å…¥å£å‚æ•° es ä¸èƒ½ä¸º nullã€‚");
 		this.es = es;
 	}
 
@@ -37,7 +37,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	 */
 	@Override
 	public void execute(Runnable command) {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -46,7 +46,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	 */
 	@Override
 	public void shutdown() {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -55,7 +55,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	 */
 	@Override
 	public List<Runnable> shutdownNow() {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -82,7 +82,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	 */
 	@Override
 	public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -91,7 +91,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	 */
 	@Override
 	public <T> Future<T> submit(Callable<T> task) {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -100,7 +100,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	 */
 	@Override
 	public <T> Future<T> submit(Runnable task, T result) {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -109,7 +109,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	 */
 	@Override
 	public Future<?> submit(Runnable task) {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -118,7 +118,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	 */
 	@Override
 	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -128,7 +128,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	@Override
 	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
 			throws InterruptedException {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -138,7 +138,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	@Override
 	public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
 			throws InterruptedException, ExecutionException {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 
 	/*
@@ -148,7 +148,7 @@ public final class ReadOnlyExecutorService implements ExecutorService{
 	@Override
 	public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
 			throws InterruptedException, ExecutionException, TimeoutException {
-		throw new UnsupportedOperationException("¸Ã ExecutorService ½ö¿ÉÓÃÓÚ²éÑ¯×´Ì¬¡£");
+		throw new UnsupportedOperationException("è¯¥ ExecutorService ä»…å¯ç”¨äºæŸ¥è¯¢çŠ¶æ€ã€‚");
 	}
 	
 }

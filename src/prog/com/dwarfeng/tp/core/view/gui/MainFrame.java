@@ -53,17 +53,17 @@ import com.dwarfeng.tp.core.view.obv.ToolInfoPanelObverser;
 import com.dwarfeng.tp.core.view.obv.ToolRuntimePanelObverser;
 
 /**
- * ³ÌĞòµÄÖ÷½çÃæ¡£
+ * ç¨‹åºçš„ä¸»ç•Œé¢ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public final class MainFrame extends JFrame implements MutilangSupported, ObverserSet<MainFrameObverser>{
 	
-	/**¹Û²ìÆ÷¼¯ºÏ*/
+	/**è§‚å¯Ÿå™¨é›†åˆ*/
 	private final Set<MainFrameObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
 	
 	/*
-	 * ËùÓĞÓë¶àÓïÑÔÓĞ¹ØµÄ¶ÔÏó
+	 * æ‰€æœ‰ä¸å¤šè¯­è¨€æœ‰å…³çš„å¯¹è±¡
 	 */
 	private final TitledBorder north_border;
 	private final JTabbedPane southTabbedPane;
@@ -76,7 +76,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private final JToolHistoryPanel toolHistoryPanel;
 
 	/*
-	 * ÆäËüfinalÓò
+	 * å…¶å®ƒfinalåŸŸ
 	 */
 	private final InputStream sysIn = System.in;
 	private final PrintStream sysOut = System.out;
@@ -84,10 +84,10 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private final JAdjustableBorderPanel mainAdjPanel;
 	private final JAdjustableBorderPanel centerAdjPanel;
 
-	/**¶àÓïÑÔ½Ó¿Ú*/
+	/**å¤šè¯­è¨€æ¥å£*/
 	private Mutilang mutilang;
 
-	/**ÆäËüÃæ°åµÄ¹Û²ìÆ÷*/
+	/**å…¶å®ƒé¢æ¿çš„è§‚å¯Ÿå™¨*/
 	private final ToolInfoPanelObverser toolInfoPanelObverser = new ToolInfoPanelObverser() {
 		
 		/*
@@ -121,7 +121,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	};
 	
 	/*
-	 * ÆäËü·ÇfinalÓò
+	 * å…¶å®ƒéfinalåŸŸ
 	 */
 	private int lastNormalHeight;
 	private int lastNormalWidth;
@@ -138,15 +138,15 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	private JMenuItem menuItem_6;
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public MainFrame() {
 		this(Constants.getDefaultLabelMutilang(), null, null, null, null, null);
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param mutilang Ö¸¶¨µÄ¶àÓïÑÔ½Ó¿Ú¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param mutilang æŒ‡å®šçš„å¤šè¯­è¨€æ¥å£ã€‚
 	 */
 	public MainFrame(Mutilang mutilang, 
 			BackgroundModel backgroundModel, 
@@ -155,7 +155,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 			ToolRuntimeModel toolRuntimeModel,
 			ToolHistoryModel toolHistoryModel
 			) {
-		Objects.requireNonNull(mutilang, "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang, "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 
 		this.mutilang = mutilang;
 		
@@ -355,7 +355,7 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	 */
 	@Override
 	public boolean setMutilang(Mutilang mutilang) {
-		Objects.requireNonNull(mutilang , "Èë¿Ú²ÎÊı mutilang ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(mutilang , "å…¥å£å‚æ•° mutilang ä¸èƒ½ä¸º nullã€‚");
 		
 		if(Objects.equals(mutilang, this.mutilang)) return false;
 		this.mutilang = mutilang;
@@ -405,10 +405,10 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	}
 	
 	/**
-	 * ÎªÖ¸¶¨µÄÔËĞĞÖĞ¹¤¾ßÖ¸¶¨ÊäÈëÁ÷ºÍÊä³öÁ÷¡£
-	 * <p> µ±ÇÒ½öµ±Èë¿Ú²ÎÊı²»Îª <code>null</code>£¬ÇÒÊäÈëµ±Ç°µÄ toolRuntimeModelµÄÊ±ºò£¬²ÅÄÜ¹»Ö¸ÅÉ³É¹¦¡£
-	 * @param runningTool Ö¸¶¨µÄÔËĞĞÖĞ¹¤¾ß¡£
-	 * @return ÊÇ·ñ½ÓÊÜ¸ÃÖ¸ÅÉ¡£
+	 * ä¸ºæŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·æŒ‡å®šè¾“å…¥æµå’Œè¾“å‡ºæµã€‚
+	 * <p> å½“ä¸”ä»…å½“å…¥å£å‚æ•°ä¸ä¸º <code>null</code>ï¼Œä¸”è¾“å…¥å½“å‰çš„ toolRuntimeModelçš„æ—¶å€™ï¼Œæ‰èƒ½å¤ŸæŒ‡æ´¾æˆåŠŸã€‚
+	 * @param runningTool æŒ‡å®šçš„è¿è¡Œä¸­å·¥å…·ã€‚
+	 * @return æ˜¯å¦æ¥å—è¯¥æŒ‡æ´¾ã€‚
 	 */
 	public boolean assignStream(RunningTool runningTool) {
 		return toolRuntimePanel.assignStream(runningTool);
@@ -436,17 +436,17 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	}
 
 	/**
-	 * »ñÈ¡ÄÏ·½Ãæ°åµÄ¸ß¶È¡£
-	 * @return ÄÏ·½Ãæ°åµÄ¸ß¶È¡£
+	 * è·å–å—æ–¹é¢æ¿çš„é«˜åº¦ã€‚
+	 * @return å—æ–¹é¢æ¿çš„é«˜åº¦ã€‚
 	 */
 	public int getSouthHeight() {
 		return centerAdjPanel.getSouthPreferredValue();
 	}
 
 	/**
-	 * ÉèÖÃÄÏ·½Ãæ°åµÄ¸ß¶È¡£
-	 * @param height Ö¸¶¨µÄ¸ß¶È¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¸Ä±äÁË¿ØÖÆÆ÷ÖĞµÄ×é¼ş¡£
+	 * è®¾ç½®å—æ–¹é¢æ¿çš„é«˜åº¦ã€‚
+	 * @param height æŒ‡å®šçš„é«˜åº¦ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦æ”¹å˜äº†æ§åˆ¶å™¨ä¸­çš„ç»„ä»¶ã€‚
 	 */
 	public boolean setSouthHeight(int height) {
 		centerAdjPanel.setSouthPreferredValue(height);
@@ -454,18 +454,18 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	}
 	
 	/**
-	 * »ñÈ¡Ö÷½çÃæµÄ×îºóµÄÕı³£×´Ì¬µÄ¿í¶È¡£
-	 * <p> Èç¹ûÖ÷½çÃæ»¹Î´³õÊ¼»¯£¬Ôò·µ»Ø <code>-1</code>¡£
-	 * @return Ö÷½çÃæµÄ×îºóµÄÕı³£×´Ì¬µÄ¿í¶È¡£
+	 * è·å–ä¸»ç•Œé¢çš„æœ€åçš„æ­£å¸¸çŠ¶æ€çš„å®½åº¦ã€‚
+	 * <p> å¦‚æœä¸»ç•Œé¢è¿˜æœªåˆå§‹åŒ–ï¼Œåˆ™è¿”å› <code>-1</code>ã€‚
+	 * @return ä¸»ç•Œé¢çš„æœ€åçš„æ­£å¸¸çŠ¶æ€çš„å®½åº¦ã€‚
 	 */
 	public int getLastNormalWidth() {
 		return lastNormalWidth;
 	}
 
 	/**
-	 * ÉèÖÃÖ÷½çÃæµÄ×îºóµÄÕı³£×´Ì¬µÄ¿í¶È¡£
-	 * @param width Ö÷½çÃæµÄ×îºóµÄÕı³£×´Ì¬µÄ¿í¶È¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¶ÔÖ÷½çÃæÔì³ÉÁË¸Ä±ä¡£
+	 * è®¾ç½®ä¸»ç•Œé¢çš„æœ€åçš„æ­£å¸¸çŠ¶æ€çš„å®½åº¦ã€‚
+	 * @param width ä¸»ç•Œé¢çš„æœ€åçš„æ­£å¸¸çŠ¶æ€çš„å®½åº¦ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦å¯¹ä¸»ç•Œé¢é€ æˆäº†æ”¹å˜ã€‚
 	 */
 	public boolean setLastNormalWidth(int width) {
 		if((getExtendedState() & MAXIMIZED_HORIZ) == 0){
@@ -476,18 +476,18 @@ public final class MainFrame extends JFrame implements MutilangSupported, Obvers
 	}
 
 	/**
-	 * »ñÈ¡Ö÷½çÃæ×îºóµÄÕı³£×´Ì¬µÄ¸ß¶È¡£
-	 * <p> Èç¹ûÖ÷½çÃæ»¹Î´³õÊ¼»¯£¬Ôò·µ»Ø <code>-1</code>
-	 * @return Ö÷½çÃæ×îºóµÄÕı³£×´Ì¬µÄ¸ß¶È¡£
+	 * è·å–ä¸»ç•Œé¢æœ€åçš„æ­£å¸¸çŠ¶æ€çš„é«˜åº¦ã€‚
+	 * <p> å¦‚æœä¸»ç•Œé¢è¿˜æœªåˆå§‹åŒ–ï¼Œåˆ™è¿”å› <code>-1</code>
+	 * @return ä¸»ç•Œé¢æœ€åçš„æ­£å¸¸çŠ¶æ€çš„é«˜åº¦ã€‚
 	 */
 	public int getLastNormalHeight() {
 		return lastNormalHeight;
 	}
 
 	/**
-	 * ÉèÖÃÖ÷½çÃæµÄ×îºóµÄÕı³£×´Ì¬µÄ¸ß¶È¡£
-	 * @param height Ö÷½çÃæµÄ×îºóµÄÕı³£×´Ì¬µÄ¸ß¶È¡£
-	 * @return ¸Ã²Ù×÷ÊÇ·ñ¶ÔÖ÷½çÃæÔì³ÉÁË¸Ä±ä¡£
+	 * è®¾ç½®ä¸»ç•Œé¢çš„æœ€åçš„æ­£å¸¸çŠ¶æ€çš„é«˜åº¦ã€‚
+	 * @param height ä¸»ç•Œé¢çš„æœ€åçš„æ­£å¸¸çŠ¶æ€çš„é«˜åº¦ã€‚
+	 * @return è¯¥æ“ä½œæ˜¯å¦å¯¹ä¸»ç•Œé¢é€ æˆäº†æ”¹å˜ã€‚
 	 */
 	public boolean setLastNormalHeight(int height) {
 		if((getExtendedState() & MAXIMIZED_VERT) == 0){

@@ -52,30 +52,30 @@ import com.dwarfeng.dutil.basic.num.NumberUtil;
 import com.dwarfeng.dutil.basic.threads.NumberedThreadFactory;
 
 /**
- * Swing ¿ØÖÆÌ¨¡£
- * <p> ¸Ã¿ØÖÆÌ¨ÊÇ {@link JConsole} µÄÉı¼¶°æ£¬ÎŞÂÛÊÇ¶¨ÒåµÄÁ¼ºÃĞÔ»¹ÊÇÊäÈëÊä³öµÄĞ§ÂÊ¶¼Ô¶Ô¶ºÃÓÚÇ°Õß¡£
- * <br> ¸Ã¿ØÖÆÌ¨¼Ì³ĞÖ®Ç°µÄÌØĞÔ£ºÌá¹©´óÖÂµÄĞĞÊı±£Ö¤£¬ËüÔÊĞíÎÄ±¾´ïµ½Ò»¸ö×î´óµÄĞĞÊı£¬µ±ÎÄ±¾³¬¹ı×î´óµÄĞĞÊıÊ±£¬¿ØÖÆÌ¨»á°´ÕÕÒ»¶¨µÄ±ÈÀıÉ¾µô
- * ×îÔçÊä³öµÄÒ»²¿·ÖĞĞÊı£¬ÒÔ¿ØÖÆĞĞÊı²»³¬¹ı×î´óÖµ¡£
- * <br> ¿ØÖÆÌ¨Ìá¹©Á½¸öÁ÷£ºÊäÈëÁ÷ºÍÊä³öÁ÷£¬Óë {@link JConsole}²»Í¬µÄÊÇ£¬ÊäÈëÁ÷±äÎª×èÈûÊ½µÄ£¬µ±ÊäÈëÁ÷Ã»ÓĞÊı¾İÊ±£¬²»»áÁ¢¼´·µ»Ø <code>-1</code>£¬
- * ¶øÊÇÏÔÊ¾ÊäÈëÀ¸£¬µÈ´ıÓÃÓÚµÄÊäÈë¡ª¡ªÕâ¸öÌØĞÔÓëÏµÍ³ÊäÈëÁ÷ÍêÈ«Ò»ÖÂ¡£¸Ã¿ØÖÆÌ¨µÄÊäÈëÔÙÒ²²»ĞèÒªÒÀÀµÓÚÊÂ¼ş£¬Äú¿ÉÒÔÍêÈ«°´ÕÕÍ¬ÏµÍ³¿ØÖÆÌ¨Í¨ĞÅµÄ¸ñÊ½
- * À´±àĞ´¸Ã¿ØÖÆÌ¨µÄÍ¨ĞÅ£¬Í¬Ê±²»±Øµ£ĞÄÎŞÒâÊ¶µÄµ÷ÓÃÁ÷ÖĞµÄ <code>close()</code> ·½·¨¡ª¡ªÒòÎª¸Ã¿ØÖÆÌ¨µÄÊäÈëÁ÷ºÍÊä³öÁ÷µÄ¹Ø±Õ²»ÊÇÍ¨¹ı <code>close()</code> ·½·¨£¬
- * ¶øÊÇÍ¨¹ı {@link #dispose()}·½·¨¡£
- * <br> ÒÔÏÂµÄÀı×ÓÍêÕûµÄÌåÏÖÁËÉÏÊöµÄÌØĞÔ¡£
+ * Swing æ§åˆ¶å°ã€‚
+ * <p> è¯¥æ§åˆ¶å°æ˜¯ {@link JConsole} çš„å‡çº§ç‰ˆï¼Œæ— è®ºæ˜¯å®šä¹‰çš„è‰¯å¥½æ€§è¿˜æ˜¯è¾“å…¥è¾“å‡ºçš„æ•ˆç‡éƒ½è¿œè¿œå¥½äºå‰è€…ã€‚
+ * <br> è¯¥æ§åˆ¶å°ç»§æ‰¿ä¹‹å‰çš„ç‰¹æ€§ï¼šæä¾›å¤§è‡´çš„è¡Œæ•°ä¿è¯ï¼Œå®ƒå…è®¸æ–‡æœ¬è¾¾åˆ°ä¸€ä¸ªæœ€å¤§çš„è¡Œæ•°ï¼Œå½“æ–‡æœ¬è¶…è¿‡æœ€å¤§çš„è¡Œæ•°æ—¶ï¼Œæ§åˆ¶å°ä¼šæŒ‰ç…§ä¸€å®šçš„æ¯”ä¾‹åˆ æ‰
+ * æœ€æ—©è¾“å‡ºçš„ä¸€éƒ¨åˆ†è¡Œæ•°ï¼Œä»¥æ§åˆ¶è¡Œæ•°ä¸è¶…è¿‡æœ€å¤§å€¼ã€‚
+ * <br> æ§åˆ¶å°æä¾›ä¸¤ä¸ªæµï¼šè¾“å…¥æµå’Œè¾“å‡ºæµï¼Œä¸ {@link JConsole}ä¸åŒçš„æ˜¯ï¼Œè¾“å…¥æµå˜ä¸ºé˜»å¡å¼çš„ï¼Œå½“è¾“å…¥æµæ²¡æœ‰æ•°æ®æ—¶ï¼Œä¸ä¼šç«‹å³è¿”å› <code>-1</code>ï¼Œ
+ * è€Œæ˜¯æ˜¾ç¤ºè¾“å…¥æ ï¼Œç­‰å¾…ç”¨äºçš„è¾“å…¥â€”â€”è¿™ä¸ªç‰¹æ€§ä¸ç³»ç»Ÿè¾“å…¥æµå®Œå…¨ä¸€è‡´ã€‚è¯¥æ§åˆ¶å°çš„è¾“å…¥å†ä¹Ÿä¸éœ€è¦ä¾èµ–äºäº‹ä»¶ï¼Œæ‚¨å¯ä»¥å®Œå…¨æŒ‰ç…§åŒç³»ç»Ÿæ§åˆ¶å°é€šä¿¡çš„æ ¼å¼
+ * æ¥ç¼–å†™è¯¥æ§åˆ¶å°çš„é€šä¿¡ï¼ŒåŒæ—¶ä¸å¿…æ‹…å¿ƒæ— æ„è¯†çš„è°ƒç”¨æµä¸­çš„ <code>close()</code> æ–¹æ³•â€”â€”å› ä¸ºè¯¥æ§åˆ¶å°çš„è¾“å…¥æµå’Œè¾“å‡ºæµçš„å…³é—­ä¸æ˜¯é€šè¿‡ <code>close()</code> æ–¹æ³•ï¼Œ
+ * è€Œæ˜¯é€šè¿‡ {@link #dispose()}æ–¹æ³•ã€‚
+ * <br> ä»¥ä¸‹çš„ä¾‹å­å®Œæ•´çš„ä½“ç°äº†ä¸Šè¿°çš„ç‰¹æ€§ã€‚
  * <pre>
  * JExconsole console = new JExconsole();
  * 
- * console.out.println("hello world"); //¾ÍÏñSystem.out.prinln(...)Ò»Ñù
+ * console.out.println("hello world"); //å°±åƒSystem.out.prinln(...)ä¸€æ ·
  * 
  * Scanner scanner = new Scanner(console.in);
  * try{
  * 	console.out.println(scanner.nextLine());
  * }finally{
- * 	scanner.close(); //²»ÓÃµ£ĞÄ Scanner µÄ close()·½·¨µ÷ÓÃconsole.in.close()·½·¨£¬ÒòÎª¿ØÖÆÌ¨µÄÊäÈëÁ÷²»ÏìÓ¦¸Ã·½·¨¡£
+ * 	scanner.close(); //ä¸ç”¨æ‹…å¿ƒ Scanner çš„ close()æ–¹æ³•è°ƒç”¨console.in.close()æ–¹æ³•ï¼Œå› ä¸ºæ§åˆ¶å°çš„è¾“å…¥æµä¸å“åº”è¯¥æ–¹æ³•ã€‚
  * }
  * 
- * console.dispose(); //¸Ã·½·¨²Å»áÕæÕıµÄ¹Ø±Õ¿ØÖÆÌ¨µÄÊäÈëÊä³öÁ÷¡£
+ * console.dispose(); //è¯¥æ–¹æ³•æ‰ä¼šçœŸæ­£çš„å…³é—­æ§åˆ¶å°çš„è¾“å…¥è¾“å‡ºæµã€‚
  * </pre>
- * ¾­ÓÅ»¯ºó£¬¸Ã¿ØÖÆÌ¨µÄĞ§ÂÊ¿ÉÒÔ´ïµ½ cmd ¿ØÖÆÌ¨µÄ 6900%£¬ÊÇÒ»¸ö»õÕæ¼ÛÊµµÄ¸ßĞ§¿ØÖÆÌ¨¡£
+ * ç»ä¼˜åŒ–åï¼Œè¯¥æ§åˆ¶å°çš„æ•ˆç‡å¯ä»¥è¾¾åˆ° cmd æ§åˆ¶å°çš„ 6900%ï¼Œæ˜¯ä¸€ä¸ªè´§çœŸä»·å®çš„é«˜æ•ˆæ§åˆ¶å°ã€‚
  * @author  DwArFeng
  * @since 0.0.3-beta
  */
@@ -85,9 +85,9 @@ public class JExconsole extends JPanel {
 
 	private final static ThreadFactory THREAD_FACTORY = new NumberedThreadFactory("jexconsole_cleaner");
 	
-	/**¿ØÖÆÌ¨µÄÊäÈëÁ÷*/
+	/**æ§åˆ¶å°çš„è¾“å…¥æµ*/
 	public final InputStream in = new InnerInputStream();
-	/**¿ØÖÆÌ¨µÄÊä³öÁ÷*/
+	/**æ§åˆ¶å°çš„è¾“å‡ºæµ*/
 	public final PrintStream out = new PrintStream(new InnerOutputStream(), true);
 	
 	private final Lock renderLock = new ReentrantLock();
@@ -116,7 +116,7 @@ public class JExconsole extends JPanel {
 						try {
 							renderCondition.await();
 						} catch (InterruptedException e) {
-							//¼ì²éÍË³öÌõ¼ş
+							//æ£€æŸ¥é€€å‡ºæ¡ä»¶
 						}
 					}
 					
@@ -154,7 +154,7 @@ public class JExconsole extends JPanel {
 					}catch (InterruptedException e) {
 						continue checkAppend;
 					} catch (InvocationTargetException ignore) {
-						// ¸Ã¹ı³Ì²»¿ÉÄÜ·¢ÉúÒì³£¡£
+						// è¯¥è¿‡ç¨‹ä¸å¯èƒ½å‘ç”Ÿå¼‚å¸¸ã€‚
 					}
 				}
 
@@ -185,7 +185,7 @@ public class JExconsole extends JPanel {
 			try {
 				return textArea.getLineEndOffset((int) (textArea.getLineCount() + maxLine * cleanRatio - maxLine));
 			} catch (BadLocationException ignore) {
-				//²»¿ÉÄÜÅ×³ö´ËÒì³£
+				//ä¸å¯èƒ½æŠ›å‡ºæ­¤å¼‚å¸¸
 				return 0;
 			}
 		}
@@ -199,28 +199,28 @@ public class JExconsole extends JPanel {
 	private double cleanRatio;
 	private int maxRollback;
 	
-	/**¿ØÖÆÌ¨µÄÊäÈë¿ò*/
+	/**æ§åˆ¶å°çš„è¾“å…¥æ¡†*/
 	protected final JTextField textField;
-	/**¿ØÖÆÌ¨µÄÏÔÊ¾¿ò*/
+	/**æ§åˆ¶å°çš„æ˜¾ç¤ºæ¡†*/
 	protected final JTextArea textArea;
-	/**¿ØÖÆÌ¨µÄÓÒ¼ü²Ëµ¥*/
+	/**æ§åˆ¶å°çš„å³é”®èœå•*/
 	protected final JPopupMenu popup;
 
 	/**
-	 * Éú³ÉÒ»¸öÄ¬ÈÏµÄ¿ØÖÆÌ¨¡£
-	 * <p> ¿ØÖÆÌ¨µÄ×î´óĞĞÊıÎª <code>3000</code> ĞĞ£¬Çå³ıÏµÊıÎª <code>0.1</code>£¬
-	 * ×î´ó»Ø¹öÊıÁ¿Îª <code>10</code>¡£
+	 * ç”Ÿæˆä¸€ä¸ªé»˜è®¤çš„æ§åˆ¶å°ã€‚
+	 * <p> æ§åˆ¶å°çš„æœ€å¤§è¡Œæ•°ä¸º <code>3000</code> è¡Œï¼Œæ¸…é™¤ç³»æ•°ä¸º <code>0.1</code>ï¼Œ
+	 * æœ€å¤§å›æ»šæ•°é‡ä¸º <code>10</code>ã€‚
 	 */
 	public JExconsole() {
 		this(3000, 0.1, 10);
 	}
 	
 	/**
-	 * Éú³ÉÒ»¸ö¾ßÓĞÖ¸¶¨×î´óĞĞÊı£¬Ö¸¶¨µÄÇå³ıÏµÊıµÄ¿ØÖÆÌ¨¡£
-	 * @param maxLine Ö¸¶¨µÄ×î´óĞĞÊı£¬ĞèÒª <code> 0 &lt; maxLine</code>¡£
-	 * @param cleanRatio Ö¸¶¨µÄÇå³ıÏµÊı£¬ĞèÒª<code> 0.0 &lt; cleanRatio &lt;= 1.0</code>¡£
-	 * @param maxRollback ×î´óµÄÊäÈë»Ø¹öÊıÁ¿¡£
-	 * @throws IllegalArgumentException Èë¿Ú²ÎÊı²»·ûºÏÒªÇó¡£
+	 * ç”Ÿæˆä¸€ä¸ªå…·æœ‰æŒ‡å®šæœ€å¤§è¡Œæ•°ï¼ŒæŒ‡å®šçš„æ¸…é™¤ç³»æ•°çš„æ§åˆ¶å°ã€‚
+	 * @param maxLine æŒ‡å®šçš„æœ€å¤§è¡Œæ•°ï¼Œéœ€è¦ <code> 0 &lt; maxLine</code>ã€‚
+	 * @param cleanRatio æŒ‡å®šçš„æ¸…é™¤ç³»æ•°ï¼Œéœ€è¦<code> 0.0 &lt; cleanRatio &lt;= 1.0</code>ã€‚
+	 * @param maxRollback æœ€å¤§çš„è¾“å…¥å›æ»šæ•°é‡ã€‚
+	 * @throws IllegalArgumentException å…¥å£å‚æ•°ä¸ç¬¦åˆè¦æ±‚ã€‚
 	 */
 	public JExconsole(int maxLine, double cleanRatio, Integer maxRollback) {
 		if(maxLine <=  0) throw new IllegalArgumentException(DwarfUtil.getStringField(StringFieldKey.JExconsole_1));
@@ -238,7 +238,7 @@ public class JExconsole extends JPanel {
 		add(scrollPane, BorderLayout.CENTER);
 		
 		textArea = new JTextArea();
-//		¸Ã·½·¨Óë¿ØÖÆÌ¨µÄÈ«Ñ¡³åÍ»¡£
+//		è¯¥æ–¹æ³•ä¸æ§åˆ¶å°çš„å…¨é€‰å†²çªã€‚
 //		textArea.addMouseListener(new MouseAdapter() {
 //			@Override
 //			public void mousePressed(MouseEvent e) {
@@ -362,8 +362,8 @@ public class JExconsole extends JPanel {
 	}
 	
 	/**
-	 * ÊÍ·Å¸Ã¿ØÖÆÌ¨¡£
-	 * <p>  ¸Ã·½·¨»áÒÀ´Î¹Ø±ÕÊäÈëÁ÷¡¢Êä³öÁ÷¡¢¿ØÖÆÌ¨ÇåÀíÏß³Ì¡£
+	 * é‡Šæ”¾è¯¥æ§åˆ¶å°ã€‚
+	 * <p>  è¯¥æ–¹æ³•ä¼šä¾æ¬¡å…³é—­è¾“å…¥æµã€è¾“å‡ºæµã€æ§åˆ¶å°æ¸…ç†çº¿ç¨‹ã€‚
 	 */
 	public void dispose(){
 		textArea.setEnabled(false);
@@ -389,17 +389,17 @@ public class JExconsole extends JPanel {
 	
 
 	/**
-	 * »ñÈ¡¿ØÖÆÌ¨µÄ×î´óÏÔÊ¾ĞĞÊı¡£
-	 * @return ¿ØÖÆÌ¨µÄ×î´óÏÔÊ¾ĞĞÊı¡£
+	 * è·å–æ§åˆ¶å°çš„æœ€å¤§æ˜¾ç¤ºè¡Œæ•°ã€‚
+	 * @return æ§åˆ¶å°çš„æœ€å¤§æ˜¾ç¤ºè¡Œæ•°ã€‚
 	 */
 	public int getMaxLine() {
 		return maxLine;
 	}
 
 	/**
-	 * ÉèÖÃ¿ØÖÆÌ¨µÄ×î´óÏÔÊ¾ĞĞÊı¡£
-	 * @param maxLine ¿ØÖÆÌ¨µÄ×î´óÏÔÊ¾ĞĞÊı£¬ĞèÒª <code> 0 &lt; maxLine</code>¡£
-	 * @throws IllegalArgumentException Èë¿Ú²ÎÊı²»·ûºÏÒªÇó¡£
+	 * è®¾ç½®æ§åˆ¶å°çš„æœ€å¤§æ˜¾ç¤ºè¡Œæ•°ã€‚
+	 * @param maxLine æ§åˆ¶å°çš„æœ€å¤§æ˜¾ç¤ºè¡Œæ•°ï¼Œéœ€è¦ <code> 0 &lt; maxLine</code>ã€‚
+	 * @throws IllegalArgumentException å…¥å£å‚æ•°ä¸ç¬¦åˆè¦æ±‚ã€‚
 	 */
 	public void setMaxLine(int maxLine) {
 		if(maxLine <=  0) throw new IllegalArgumentException(DwarfUtil.getStringField(StringFieldKey.JExconsole_1));
@@ -414,17 +414,17 @@ public class JExconsole extends JPanel {
 	}
 
 	/**
-	 * »ñÈ¡¿ØÖÆÌ¨µÄÉ¾³ı±ÈÂÊ¡£
-	 * @return ¿ØÖÆÌ¨µÄÉ¾³ı±ÈÂÊ¡£
+	 * è·å–æ§åˆ¶å°çš„åˆ é™¤æ¯”ç‡ã€‚
+	 * @return æ§åˆ¶å°çš„åˆ é™¤æ¯”ç‡ã€‚
 	 */
 	public double getCleanRatio() {
 		return cleanRatio;
 	}
 
 	/**
-	 * ÉèÖÃ¿ØÖÆÌ¨µÄÉ¾³ı±ÈÂÊ¡£
-	 * @param cleanRatio ¿ØÖÆÌ¨µÄÉ¾³ı±ÈÂÊ£¬ĞèÒª<code> 0.0 &lt; cleanRatio &lt;= 1.0</code>¡£
-	 * @throws IllegalArgumentException Èë¿Ú²ÎÊı²»·ûºÏÒªÇó¡£
+	 * è®¾ç½®æ§åˆ¶å°çš„åˆ é™¤æ¯”ç‡ã€‚
+	 * @param cleanRatio æ§åˆ¶å°çš„åˆ é™¤æ¯”ç‡ï¼Œéœ€è¦<code> 0.0 &lt; cleanRatio &lt;= 1.0</code>ã€‚
+	 * @throws IllegalArgumentException å…¥å£å‚æ•°ä¸ç¬¦åˆè¦æ±‚ã€‚
 	 */
 	public void setCleanRatio(double cleanRatio) {
 		if(cleanRatio <= 0 || cleanRatio > 1) throw new IllegalArgumentException(DwarfUtil.getStringField(StringFieldKey.JExconsole_2));
@@ -439,17 +439,17 @@ public class JExconsole extends JPanel {
 	}
 
 	/**
-	 * »ñÈ¡¿ØÖÆÌ¨ÖĞµÄ×î´ó»Ø¹öÊıÁ¿¡£
-	 * @return ¿ØÖÆÌ¨µÄ×î´ó»Ø¹öÊıÁ¿¡£
+	 * è·å–æ§åˆ¶å°ä¸­çš„æœ€å¤§å›æ»šæ•°é‡ã€‚
+	 * @return æ§åˆ¶å°çš„æœ€å¤§å›æ»šæ•°é‡ã€‚
 	 */
 	public int getMaxRollback() {
 		return maxRollback;
 	}
 
 	/**
-	 * ÉèÖÃ¿ØÖÆÌ¨µÄ×î´ó»Ø¹öÊıÁ¿£¬ĞèÒª <code> 0 &lt;= maxRollback</code>
-	 * @param maxRollback Ö¸¶¨µÄ×î´ó»Ø¹öÊıÁ¿¡£
-	 * @throws IllegalArgumentException Èë¿Ú²ÎÊı²»·ûºÏÒªÇó¡£
+	 * è®¾ç½®æ§åˆ¶å°çš„æœ€å¤§å›æ»šæ•°é‡ï¼Œéœ€è¦ <code> 0 &lt;= maxRollback</code>
+	 * @param maxRollback æŒ‡å®šçš„æœ€å¤§å›æ»šæ•°é‡ã€‚
+	 * @throws IllegalArgumentException å…¥å£å‚æ•°ä¸ç¬¦åˆè¦æ±‚ã€‚
 	 */
 	public void setMaxRollback(int maxRollback) {
 		if(maxLine <=  0) throw new IllegalArgumentException(DwarfUtil.getStringField(StringFieldKey.JExconsole_1));
@@ -472,10 +472,10 @@ public class JExconsole extends JPanel {
 	}
 	
 	/**
-	 * Á¢¼´Ïò¸Ã¿ØÖÆÌ¨µÄÊäÈëÁ÷ÖĞÊäÈëÖ¸¶¨µÄ×Ö·û´®¡£
-	 * <p> Èç¹ûÔÚµ÷ÓÃ´Ë·½·¨Ê±£¬ÊäÈëÀ¸´¦ÓÚ´ò¿ª×´Ì¬£¬Ôò»áÇå¿ÕÊäÈëÀ¸ÖĞµÄ×Ö·û£¬²¢ÇÒ½«ÆäÒş²Ø¡£
-	 * Ê¹ÓÃ¸Ã·½·¨ÊäÈëµÄ×Ö·û´®²»»á±»¼ÇÂ¼µ½»Ø¹ö¶ÓÁĞÖĞ¡£
-	 * @param string Ö¸¶¨µÄ×Ö·û´®¡£
+	 * ç«‹å³å‘è¯¥æ§åˆ¶å°çš„è¾“å…¥æµä¸­è¾“å…¥æŒ‡å®šçš„å­—ç¬¦ä¸²ã€‚
+	 * <p> å¦‚æœåœ¨è°ƒç”¨æ­¤æ–¹æ³•æ—¶ï¼Œè¾“å…¥æ å¤„äºæ‰“å¼€çŠ¶æ€ï¼Œåˆ™ä¼šæ¸…ç©ºè¾“å…¥æ ä¸­çš„å­—ç¬¦ï¼Œå¹¶ä¸”å°†å…¶éšè—ã€‚
+	 * ä½¿ç”¨è¯¥æ–¹æ³•è¾“å…¥çš„å­—ç¬¦ä¸²ä¸ä¼šè¢«è®°å½•åˆ°å›æ»šé˜Ÿåˆ—ä¸­ã€‚
+	 * @param string æŒ‡å®šçš„å­—ç¬¦ä¸²ã€‚
 	 */
 	public void input(String string){
 		inputLock.lock();
@@ -498,9 +498,9 @@ public class JExconsole extends JPanel {
 	}
 
 	/**
-	 * ´´½¨¿ØÖÆÌ¨µÄÓÒ¼ü²Ëµ¥¡£
-	 * <p> ¸Ã·½·¨»áÔÚ³õÊ¼»¯µÄÊ±ºòµ÷ÓÃ£¬ÓÃÓÚ¿ØÖÆÌ¨ÓÃµÄ²Ëµ¥¡£
-	 * @return ¿ØÖÆÌ¨µÄÓÒ¼ü²Ëµ¥¡£
+	 * åˆ›å»ºæ§åˆ¶å°çš„å³é”®èœå•ã€‚
+	 * <p> è¯¥æ–¹æ³•ä¼šåœ¨åˆå§‹åŒ–çš„æ—¶å€™è°ƒç”¨ï¼Œç”¨äºæ§åˆ¶å°ç”¨çš„èœå•ã€‚
+	 * @return æ§åˆ¶å°çš„å³é”®èœå•ã€‚
 	 */
 	protected JPopupMenu createPopup(){
 		return new InnerPopupMenu();
@@ -539,7 +539,7 @@ public class JExconsole extends JPanel {
 						});
 						inputCondition.await();
 					} catch (InterruptedException ignore) {
-						//ÖØĞÂ¼ì²â
+						//é‡æ–°æ£€æµ‹
 					}
 				}
 				

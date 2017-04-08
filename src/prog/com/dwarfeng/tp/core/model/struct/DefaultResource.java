@@ -13,8 +13,8 @@ import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.basic.io.IoUtil;
 
 /**
- * Ä¬ÈÏ×ÊÔ´½Ó¿Ú¡£
- * <p> ×ÊÔ´½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
+ * é»˜è®¤èµ„æºæ¥å£ã€‚
+ * <p> èµ„æºæ¥å£çš„é»˜è®¤å®ç°ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -24,14 +24,14 @@ public class DefaultResource implements Resource{
 	private final File res;
 	
 	/**
-	 * Éú³ÉÊµÀı¡£
-	 * @param def Ö¸¶¨µÄÄ¬ÈÏURL¡£
-	 * @param res Ö¸¶¨µÄ×ÊÔ´ÎÄ¼ş¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª null¡£
+	 * ç”Ÿæˆå®ä¾‹ã€‚
+	 * @param def æŒ‡å®šçš„é»˜è®¤URLã€‚
+	 * @param res æŒ‡å®šçš„èµ„æºæ–‡ä»¶ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º nullã€‚
 	 */
 	public DefaultResource(URL def, File res) {
-		Objects.requireNonNull(def, "Èë¿Ú²ÎÊı def ²»ÄÜÎª null");
-		Objects.requireNonNull(res, "Èë¿Ú²ÎÊı res ²»ÄÜÎª null");
+		Objects.requireNonNull(def, "å…¥å£å‚æ•° def ä¸èƒ½ä¸º null");
+		Objects.requireNonNull(res, "å…¥å£å‚æ•° res ä¸èƒ½ä¸º null");
 		
 		this.def = def;
 		this.res = res;

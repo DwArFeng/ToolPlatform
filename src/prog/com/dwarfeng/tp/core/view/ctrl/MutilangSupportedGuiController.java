@@ -4,8 +4,8 @@ import java.awt.Component;
 import com.dwarfeng.tp.core.model.struct.MutilangSupported;
 
 /**
- * ¶àÓïÑÔÖ§³ÖÍ¼ĞÎ½»»¥½çÃæ¿ØÖÆÆ÷¡£
- * <p>Ö§³Ö¶àÓïÑÔµÄÍ¼ĞÎ½»»¥½çÃæ¿ØÖÆÆ÷¡£
+ * å¤šè¯­è¨€æ”¯æŒå›¾å½¢äº¤äº’ç•Œé¢æ§åˆ¶å™¨ã€‚
+ * <p>æ”¯æŒå¤šè¯­è¨€çš„å›¾å½¢äº¤äº’ç•Œé¢æ§åˆ¶å™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */

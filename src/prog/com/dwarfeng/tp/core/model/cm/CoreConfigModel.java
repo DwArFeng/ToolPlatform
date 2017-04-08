@@ -3,46 +3,46 @@ package com.dwarfeng.tp.core.model.cm;
 import java.util.Locale;
 
 /**
- * ��������ģ�͡�
- * <p> ģ�������ݵĶ�д��Ӧ�����̰߳�ȫ�ġ�
+ * 核心配置模型。
+ * <p> 模型中数据的读写均应该是线程安全的。
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface CoreConfigModel extends SyncConfigModel {
 	
 	/**
-	 * ��ȡ��¼�������Խӿڵĵ�ǰ���ԡ�
-	 * @return ��¼�������Խӿڵ�ǰ�����ԡ�
+	 * 获取记录器多语言接口的当前语言。
+	 * @return 记录器多语言接口当前的语言。
 	 */
 	public Locale getLoggerMutilangLocale();
 	
 	/**
-	 * ��ȡ��ǩ�����Խӿڵĵ�ǰ���ԡ�
-	 * @return ��ǩ�����Խӿڵĵ�ǰ���ԡ�
+	 * 获取标签多语言接口的当前语言。
+	 * @return 标签多语言接口的当前语言。
 	 */
 	public Locale getLabelMutilangLocale();
 	
 	/**
-	 * ��ȡ��������ʱ�Ƿ���Ҫ��ʾ�������档
-	 * @return �Ƿ���Ҫ������ʱ��ʾ�������档
+	 * 获取程序启动时是否需要显示启动画面。
+	 * @return 是否需要在启动时显示启动画面。
 	 */
 	public boolean isShowSplashScreen();
 	
 	/**
-	 * ��ȡ��������ʱ�������ڵ������ʾʱ�䡣
-	 * @return ��������ʱ�������ڵ������ʾʱ�䡣
+	 * 获取程序启动时启动窗口的最短显示时间。
+	 * @return 程序启动时启动窗口的最短显示时间。
 	 */
 	public int getStartupSplashDuration();
 	
 	/**
-	 * ��ȡ�����Ƿ��Զ�ȡ����ɵ������й��ߡ�
-	 * @return �����Ƿ��Զ�ȡ����ɵ������й��ߡ�
+	 * 获取程序是否自动取出完成的运行中工具。
+	 * @return 程序是否自动取出完成的运行中工具。
 	 */
 	public boolean isRunningToolAutoTake();
 	
 	/**
-	 * ��ȡ������ʷģ�͵�����¼������
-	 * @return ������ʷģ�͵�����¼������
+	 * 获取工具历史模型的最大记录数量。
+	 * @return 工具历史模型的最大记录数量。
 	 */
 	public int getToolHistoryMaxSize();
 

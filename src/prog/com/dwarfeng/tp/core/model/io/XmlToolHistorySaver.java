@@ -15,17 +15,17 @@ import com.dwarfeng.tp.core.model.cm.ToolHistoryModel;
 import com.dwarfeng.tp.core.model.struct.ToolHistory;
 
 /**
- * Xml ¹¤¾ßÀúÊ·±£´æÆ÷¡£
- * Ê¹ÓÃ xml ±£´æ¹¤¾ßÀúÊ·¡£
+ * Xml å·¥å…·å†å²ä¿å­˜å™¨ã€‚
+ * ä½¿ç”¨ xml ä¿å­˜å·¥å…·å†å²ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public class XmlToolHistorySaver extends StreamSaver<ToolHistoryModel> {
 
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param out Ö¸¶¨µÄÊä³öÁ÷¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param out æŒ‡å®šçš„è¾“å‡ºæµã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public XmlToolHistorySaver(OutputStream out) {
 		super(out);
@@ -37,7 +37,7 @@ public class XmlToolHistorySaver extends StreamSaver<ToolHistoryModel> {
 	 */
 	@Override
 	public void save(ToolHistoryModel toolHistoryModel) throws SaveFailedException {
-		Objects.requireNonNull(toolHistoryModel, "Èë¿Ú²ÎÊı toolHistoryModel ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(toolHistoryModel, "å…¥å£å‚æ•° toolHistoryModel ä¸èƒ½ä¸º nullã€‚");
 		
 		try{
 			Element root = DocumentHelper.createElement("root");
@@ -64,7 +64,7 @@ public class XmlToolHistorySaver extends StreamSaver<ToolHistoryModel> {
 			}
 			
 		}catch (Exception e) {
-			throw new SaveFailedException("¹¤¾ßÀúÊ·±£´æÆ÷-ÎŞ·¨ÏòÖ¸¶¨µÄÁ÷ÖĞ±£´æ¹¤¾ßÀúÊ·Ä£ĞÍµÄÊı¾İ", e);
+			throw new SaveFailedException("å·¥å…·å†å²ä¿å­˜å™¨-æ— æ³•å‘æŒ‡å®šçš„æµä¸­ä¿å­˜å·¥å…·å†å²æ¨¡å‹çš„æ•°æ®", e);
 		}
 
 	}

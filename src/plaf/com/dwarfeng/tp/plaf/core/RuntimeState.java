@@ -1,10 +1,10 @@
 package com.dwarfeng.tp.plaf.core;
 
 public enum RuntimeState {
-	/**程序还未启动*/
+	/**绋嬪簭杩樻湭鍚姩*/
 	NOT_START,
-	/**程序正在运行*/
+	/**绋嬪簭姝ｅ湪杩愯*/
 	RUNNING,
-	/**程序已经结束*/
+	/**绋嬪簭宸茬粡缁撴潫*/
 	ENDED,
 }

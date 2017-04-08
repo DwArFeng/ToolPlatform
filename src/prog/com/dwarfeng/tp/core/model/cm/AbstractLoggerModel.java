@@ -9,17 +9,17 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.dwarfeng.tp.core.model.obv.LoggerObverser;
 
 /**
- * ³éÏó¼ÇÂ¼Æ÷Ä£ĞÍ¡£
- * <p> ¼ÇÂ¼Æ÷Ä£ĞÍµÄ³éÏóÊµÏÖ¡£
- * <p> Ä£ĞÍÖĞÊı¾İµÄ¶ÁĞ´¾ùÓ¦¸ÃÊÇÏß³Ì°²È«µÄ¡£
+ * æŠ½è±¡è®°å½•å™¨æ¨¡å‹ã€‚
+ * <p> è®°å½•å™¨æ¨¡å‹çš„æŠ½è±¡å®ç°ã€‚
+ * <p> æ¨¡å‹ä¸­æ•°æ®çš„è¯»å†™å‡åº”è¯¥æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public abstract class AbstractLoggerModel implements LoggerModel {
 
-	/**Ä£ĞÍµÄÕìÌıÆ÷¼¯ºÏ¡£*/
+	/**æ¨¡å‹çš„ä¾¦å¬å™¨é›†åˆã€‚*/
 	protected final Set<LoggerObverser> obversers = Collections.newSetFromMap(new WeakHashMap<>());
-	/**Ä£ĞÍµÄÍ¬²½¶ÁĞ´Ëø¡£*/
+	/**æ¨¡å‹çš„åŒæ­¥è¯»å†™é”ã€‚*/
 	protected final ReadWriteLock lock = new ReentrantReadWriteLock();
 
 	/*

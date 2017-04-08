@@ -8,7 +8,7 @@ import com.dwarfeng.dutil.develop.cfg.ConfigFirmProps;
 import com.dwarfeng.dutil.develop.cfg.ConfigKey;
 
 /**
- * Ä¬ÈÏÅäÖÃÈë¿Ú¡£
+ * é»˜è®¤é…ç½®å…¥å£ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -39,18 +39,18 @@ public final class DefaultConfigEntry implements ConfigEntry{
 	};
 	
 	/**
-	 * Éú³ÉÒ»¸öĞÂµÄÄ¬ÈÏÅäÖÃÈë¿Ú¡£
-	 * @param keyName ÅäÖÃ¼üÃû³Æ¡£
-	 * @param defaultValue Ä¬ÈÏÖµ¡£
-	 * @param checker Öµ¼ì²éÆ÷¡£
-	 * @throws NullPointerException ÅäÖÃ¼üÃû³Æ»òÕßÖµ¼ì²éÆ÷Îª <code>null</code>¡£
-	 * @throws IllegalArgumentException Ö¸¶¨µÄÄ¬ÈÏÖµ²»ÄÜÍ¨¹ıÖ¸¶¨µÄÖµ¼ì²éÆ÷µÄ¼ì²é¡£
+	 * ç”Ÿæˆä¸€ä¸ªæ–°çš„é»˜è®¤é…ç½®å…¥å£ã€‚
+	 * @param keyName é…ç½®é”®åç§°ã€‚
+	 * @param defaultValue é»˜è®¤å€¼ã€‚
+	 * @param checker å€¼æ£€æŸ¥å™¨ã€‚
+	 * @throws NullPointerException é…ç½®é”®åç§°æˆ–è€…å€¼æ£€æŸ¥å™¨ä¸º <code>null</code>ã€‚
+	 * @throws IllegalArgumentException æŒ‡å®šçš„é»˜è®¤å€¼ä¸èƒ½é€šè¿‡æŒ‡å®šçš„å€¼æ£€æŸ¥å™¨çš„æ£€æŸ¥ã€‚
 	 */
 	public DefaultConfigEntry(String keyName, String defaultValue, ConfigChecker checker) {
-		Objects.requireNonNull(keyName, "Èë¿Ú²ÎÊı keyName ²»ÄÜÎª null¡£");
-		Objects.requireNonNull(checker, "Èë¿Ú²ÎÊı checker ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(keyName, "å…¥å£å‚æ•° keyName ä¸èƒ½ä¸º nullã€‚");
+		Objects.requireNonNull(checker, "å…¥å£å‚æ•° checker ä¸èƒ½ä¸º nullã€‚");
 		
-		if(checker.nonValid(defaultValue)) throw new IllegalArgumentException("Ö¸¶¨µÄÄ¬ÈÏÖµ²»ÄÜÍ¨¹ıÖµ¼ì²éÆ÷");
+		if(checker.nonValid(defaultValue)) throw new IllegalArgumentException("æŒ‡å®šçš„é»˜è®¤å€¼ä¸èƒ½é€šè¿‡å€¼æ£€æŸ¥å™¨");
 		
 		this.keyName = keyName;
 		this.defaultValue = defaultValue;

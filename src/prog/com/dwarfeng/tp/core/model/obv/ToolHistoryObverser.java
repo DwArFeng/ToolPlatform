@@ -4,35 +4,35 @@ import com.dwarfeng.dutil.basic.prog.Obverser;
 import com.dwarfeng.tp.core.model.struct.ToolHistory;
 
 /**
- * ¹¤¾ßÀúÊ·Ä£ĞÍ¹Û²ìÆ÷¡£
+ * å·¥å…·å†å²æ¨¡å‹è§‚å¯Ÿå™¨ã€‚
  * @author DwArFeng
  * @since 0.0.0-alpha
  */
 public interface ToolHistoryObverser extends Obverser {
 
 	/**
-	 * Í¨ÖªÄ£ĞÍÔÚÖ¸¶¨Î»ÖÃÌí¼ÓÁËÖ¸¶¨µÄ¹¤¾ßÀúÊ·¡£
-	 * @param index Ö¸¶¨µÄÎ»ÖÃ¡£
-	 * @param toolHistory Ö¸¶¨µÄ¹¤¾ßÀúÊ·¡£
+	 * é€šçŸ¥æ¨¡å‹åœ¨æŒ‡å®šä½ç½®æ·»åŠ äº†æŒ‡å®šçš„å·¥å…·å†å²ã€‚
+	 * @param index æŒ‡å®šçš„ä½ç½®ã€‚
+	 * @param toolHistory æŒ‡å®šçš„å·¥å…·å†å²ã€‚
 	 */
 	public void fireToolHistoryAdded(int index, ToolHistory toolHistory);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍÔÚÖ¸¶¨µÄÎ»ÖÃÒÆ³ıÁË¹¤¾ßÀúÊ·¡£
-	 * @param index Ö¸¶¨µÄÎ»ÖÃ¡£
-	 * @param toolHistory Ö¸¶¨µÄ¹¤¾ßÀúÊ·¡£
+	 * é€šçŸ¥æ¨¡å‹åœ¨æŒ‡å®šçš„ä½ç½®ç§»é™¤äº†å·¥å…·å†å²ã€‚
+	 * @param index æŒ‡å®šçš„ä½ç½®ã€‚
+	 * @param toolHistory æŒ‡å®šçš„å·¥å…·å†å²ã€‚
 	 */
 	public void fireToolHistoryRemoved(int index, ToolHistory toolHistory);
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍ±»Çå¿Õ¡£
+	 * é€šçŸ¥æ¨¡å‹è¢«æ¸…ç©ºã€‚
 	 */
 	public void fireCleared();
 	
 	/**
-	 * Í¨ÖªÄ£ĞÍµÄ×î´óÈİÁ¿¸Ä±ä¡£
-	 * @param oldValue ¾ÉµÄ×î´óÈİÁ¿¡£
-	 * @param newValue ĞÂµÄ×î´óÈİÁ¿¡£
+	 * é€šçŸ¥æ¨¡å‹çš„æœ€å¤§å®¹é‡æ”¹å˜ã€‚
+	 * @param oldValue æ—§çš„æœ€å¤§å®¹é‡ã€‚
+	 * @param newValue æ–°çš„æœ€å¤§å®¹é‡ã€‚
 	 */
 	public void fireMaxSizeChanged(int oldValue, int newValue);
 	

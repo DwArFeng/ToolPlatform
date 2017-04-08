@@ -7,21 +7,21 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
- * ResourceBundleÖĞµÄ³£ÓÃ¹¤¾ß¡£
+ * ResourceBundleä¸­çš„å¸¸ç”¨å·¥å…·ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
 public final class ResourceBundleUtil {
 	
 	/**
-	 * ÒÔÓ³ÉäµÄĞÎÊ½·µ»ØÖ¸¶¨µÄResourceBundle¡£
-	 * <p> ·µ»ØµÄÓ³ÉäÊ±²»¿É¸ü¸ÄµÄ£¬³¢ÊÔµ÷ÓÃÆä±à¼­·½·¨»áÅ×³ö {@link UnsupportedOperationException}¡£
-	 * @param resourceBundle Ö¸¶¨µÄResourceBundle¡£
-	 * @return ResourceBundleµÄÓ³ÉäĞÎÊ½¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * ä»¥æ˜ å°„çš„å½¢å¼è¿”å›æŒ‡å®šçš„ResourceBundleã€‚
+	 * <p> è¿”å›çš„æ˜ å°„æ—¶ä¸å¯æ›´æ”¹çš„ï¼Œå°è¯•è°ƒç”¨å…¶ç¼–è¾‘æ–¹æ³•ä¼šæŠ›å‡º {@link UnsupportedOperationException}ã€‚
+	 * @param resourceBundle æŒ‡å®šçš„ResourceBundleã€‚
+	 * @return ResourceBundleçš„æ˜ å°„å½¢å¼ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public final static Map<String, String> toMap(ResourceBundle resourceBundle){
-		Objects.requireNonNull(resourceBundle, "Èë¿Ú²ÎÊı resourceBundle ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(resourceBundle, "å…¥å£å‚æ•° resourceBundle ä¸èƒ½ä¸º nullã€‚");
 		Map<String, String> map = new HashMap<>();
 		for(String key : resourceBundle.keySet()){
 			map.put(key, resourceBundle.getString(key));
@@ -29,7 +29,7 @@ public final class ResourceBundleUtil {
 		return Collections.unmodifiableMap(map);
 	}
 	
-	//½ûÖ¹Íâ²¿ÊµÀı»¯¡£
+	//ç¦æ­¢å¤–éƒ¨å®ä¾‹åŒ–ã€‚
 	private ResourceBundleUtil() {}
 
 }

@@ -11,9 +11,9 @@ import com.dwarfeng.tp.core.model.obv.LibraryObverser;
 import com.dwarfeng.tp.core.model.struct.Library;
 
 /**
- * Ä¬ÈÏ¿âÄ£ĞÍ¡£
- * <p> ¿âÄ£ĞÍ½Ó¿ÚµÄÄ¬ÈÏÊµÏÖ¡£
- * <p> ¸ÃÄ£ĞÍÖĞµÄÊı¾İµÄ¶ÁĞ´¾ùÊÇÏß³Ì°²È«µÄ¡£
+ * é»˜è®¤åº“æ¨¡å‹ã€‚
+ * <p> åº“æ¨¡å‹æ¥å£çš„é»˜è®¤å®ç°ã€‚
+ * <p> è¯¥æ¨¡å‹ä¸­çš„æ•°æ®çš„è¯»å†™å‡æ˜¯çº¿ç¨‹å®‰å…¨çš„ã€‚
  * @author  DwArFeng
  * @since 0.0.0-alpha
  */
@@ -22,27 +22,27 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	private final Map<String, Library> libraryMap = new HashMap<>();
 	
 	/**
-	 * ĞÂÊµÀı¡£
+	 * æ–°å®ä¾‹ã€‚
 	 */
 	public DefaultLibraryModel() {
 		this(new HashSet<>());
 	}
 	
 	/**
-	 * ĞÂÊµÀı¡£
-	 * @param c Ö¸¶¨µÄ³õÊ¼Öµ¡£
-	 * @throws NullPointerException Èë¿Ú²ÎÊıÎª <code>null</code>¡£
+	 * æ–°å®ä¾‹ã€‚
+	 * @param c æŒ‡å®šçš„åˆå§‹å€¼ã€‚
+	 * @throws NullPointerException å…¥å£å‚æ•°ä¸º <code>null</code>ã€‚
 	 */
 	public DefaultLibraryModel(Set<Library> c){
-		Objects.requireNonNull(c, "Èë¿Ú²ÎÊı c ²»ÄÜÎª null¡£");
+		Objects.requireNonNull(c, "å…¥å£å‚æ•° c ä¸èƒ½ä¸º nullã€‚");
 		for(Library library : c){
 			notFireAdd(library);
 		}
 	}
 	
 	/**
-	 * Ìí¼ÓÖ¸¶¨µÄ¿â£¬µ«²»Í¨Öª£¬Ò²²»Ïß³Ì°²È«¡£
-	 * @param library Ö¸¶¨µÄ¿â¡£
+	 * æ·»åŠ æŒ‡å®šçš„åº“ï¼Œä½†ä¸é€šçŸ¥ï¼Œä¹Ÿä¸çº¿ç¨‹å®‰å…¨ã€‚
+	 * @param library æŒ‡å®šçš„åº“ã€‚
 	 */
 	private void notFireAdd(Library library){
 		if(Objects.isNull(library)) return;
@@ -180,10 +180,10 @@ public final class DefaultLibraryModel extends AbstractLibraryModel {
 	}
 
 	/**
-	 * ·µ»Ø¸Ã¿âÄ£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
-	 * <p> ×¢Òâ£¬¸Ãµü´úÆ÷²»ÊÇÏß³Ì°²È«µÄ£¬Èç¹ûÒªÊµÏÖÏß³Ì°²È«£¬ÇëÊ¹Ä£ĞÍÖĞÌá¹©µÄ¶ÁĞ´Ëø
-	 * {@link #getLock()}½øĞĞÍâ²¿Í¬²½¡£
-	 * @return ¸Ã¿âÄ£ĞÍµÄ¹ı³Ìµü´úÆ÷¡£
+	 * è¿”å›è¯¥åº“æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
+	 * <p> æ³¨æ„ï¼Œè¯¥è¿­ä»£å™¨ä¸æ˜¯çº¿ç¨‹å®‰å…¨çš„ï¼Œå¦‚æœè¦å®ç°çº¿ç¨‹å®‰å…¨ï¼Œè¯·ä½¿æ¨¡å‹ä¸­æä¾›çš„è¯»å†™é”
+	 * {@link #getLock()}è¿›è¡Œå¤–éƒ¨åŒæ­¥ã€‚
+	 * @return è¯¥åº“æ¨¡å‹çš„è¿‡ç¨‹è¿­ä»£å™¨ã€‚
 	 */
 	@Override
 	public Iterator<Library> iterator() {
